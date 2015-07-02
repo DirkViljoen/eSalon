@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>{+title /}</title>
+    <link rel="stylesheet" href="/css/Markup.css" />
+    <link rel="stylesheet" href="/css/app.css" />
+</head>
+<body>
+	<div class="header">
+		{+header /}
+	</div>
+
+	<div class="container">
+		<div class="nav">
+			<div class="nav-item">Bookings</div>
+			<div class="nav-item">Clients</div>
+			<div class="nav-item">Services</div>
+			<div class="nav-item">Employees</div>
+			<div class="nav-item">Sub-letters</div>
+			<div class="nav-item">Administration</div>
+		</div>
+
+		<div id="wrapper">
+		    {+body /}
+		</div>
+	</div>
+
+	<div class="footer">
+		{+footer /}
+	</div>
+
+<script src="/js/app.js"></script>
+</body>
+</html>

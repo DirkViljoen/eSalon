@@ -1,0 +1,7 @@
+{>"layouts/master" /}
+
+{<nav}
+	<div class="nav-item">Main</div>
+	<div class="nav-item">Page2</div>
+	<div class="nav-item">etc.</div>
+{/nav}
