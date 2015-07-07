@@ -5,6 +5,7 @@
     <title>{+title /}</title>
     <link rel="stylesheet" href="/css/Markup.css" />
     <link rel="stylesheet" href="/css/app.css" />
+    <link rel="stylesheet" href="/css/MainMenu.css" />
 </head>
 <body>
 	<div class="header">
@@ -15,10 +16,65 @@
 		<div class="nav">
 			<div class="nav-item">Bookings</div>
 			<div class="nav-item">Clients</div>
-			<div class="nav-item">Services</div>
-			<div class="nav-item">Employees</div>
-			<div class="nav-item">Sub-letters</div>
-			<div class="nav-item">Administration</div>
+
+			<ul id="MainMenu">
+			    <li>
+			    	<a class="nav-item" href="#" onmouseover="mopen('mm1')" onmouseout="mclosetime()">
+			    		Clients
+			    	</a>
+			        <div id="mm1" onmouseover="mcancelclosetime()" onmouseout="mclosetime()">
+			        	<a class="nav-item" href="#">Add</a>
+			        	<a class="nav-item" href="#">Maintain</a>
+			        </div>
+			    </li>
+			    <li>
+			    	<a href="#" onmouseover="mopen('mm2')" onmouseout="mclosetime()">
+			    		Bookings
+			    	</a>
+			        <div id="mm2" onmouseover="mcancelclosetime()" onmouseout="mclosetime()">
+			        <a href="#">Add</a>
+			        <a href="#">Maintain</a>
+			        </div>
+			    </li>
+			    <li>
+			    	<a href="#" onmouseover="mopen('mm3')" onmouseout="mclosetime()">
+			    		Services
+			    	</a>
+			        <div id="mm3" onmouseover="mcancelclosetime()" onmouseout="mclosetime()">
+			        <a href="#">Add</a>
+			        <a href="#">Maintain</a>
+			        </div>
+			    </li>
+			    <li>
+			    	<a href="#" onmouseover="mopen('mm4')" onmouseout="mclosetime()">
+			    		Employees
+			    	</a>
+			        <div id="mm4" onmouseover="mcancelclosetime()" onmouseout="mclosetime()">
+			        <a href="#">Add</a>
+			        <a href="#">Maintain</a>
+			        </div>
+			    </li>
+			    <li>
+			    	<a href="#" onmouseover="mopen('mm5')" onmouseout="mclosetime()">
+			    		Sub-letters
+			    	</a>
+			        <div id="mm5" onmouseover="mcancelclosetime()" onmouseout="mclosetime()">
+			        <a href="/sub-letters/add">Add</a>
+			        <a href="/sub-letters">Maintain</a>
+			        </div>
+			    </li>
+			    <li>
+			    	<a href="#" onmouseover="mopen('mm6')" onmouseout="mclosetime()">
+			    		Administration
+			    	</a>
+			        <div id="mm6" onmouseover="mcancelclosetime()" onmouseout="mclosetime()">
+			        <a href="#">Add</a>
+			        <a href="#">Maintain</a>
+			        </div>
+			    </li>
+			</ul>
+			<div style="clear:both"></div>
+
 		</div>
 
 		<div id="wrapper">
