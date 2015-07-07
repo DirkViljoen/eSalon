@@ -3,59 +3,100 @@ html(lang="en")
   head
     title eSalon
     link(rel="stylesheet", href="/bower_components/bootstrap/dist/css/bootstrap.min.css")
-    link(rel="stylesheet", href="/css/Markup.css")
-    link(rel="stylesheet", href="/css/app.css")
-    link(rel="stylesheet", href="/css/MainMenu.css")
+    //link(rel="stylesheet", href="/css/Markup.css")
 body
-  p(class="navbar-text navbar-right")
-    | Signed in as
-    a(href="#", class="navbar-link") Mark Otto
-  .header
-    block header
-  .container
-    .nav
-      .nav-item Bookings
-      .nav-item Clients
-      ul#MainMenu
-        li
-          a.nav-item(href='#', onmouseover="mopen('mm1')", onmouseout='mclosetime()')
+  nav.navbar.navbar-default
+    .container-fluid
+      .navbar-header
+        .navbar-brand
+          block header
+      #bs-example-navbar-collapse-1.collapse.navbar-collapse.pull-right
+        ul.nav.navbar-nav
+          li.active
+            block loggedIn
+              a(href="#") Log in
+          li
+            a(href="#") Log out
+
+  .row
+    .col-sm-2(style="background-color:#987987")
+      ul(class='nav nav-pills nav-stacked')
+        li.dropdown
+          a.dropdown-toggle(href='#', data-toggle='dropdown')
             | Clients
-          #mm1(onmouseover='mcancelclosetime()', onmouseout='mclosetime()')
-            a.nav-item(href='#') Add
-            a.nav-item(href='#') Maintain
-        li
-          a(href='#', onmouseover="mopen('mm2')", onmouseout='mclosetime()')
+            b.caret
+          ul.dropdown-menu
+            li
+              a(href='#') Add new client
+            li.divider
+            li
+              a(href='#') Manage clients
+        li.dropdown
+          a.dropdown-toggle(href='#', data-toggle='dropdown')
             | Bookings
-          #mm2(onmouseover='mcancelclosetime()', onmouseout='mclosetime()')
-            a(href='#') Add
-            a(href='#') Maintain
-        li
-          a(href='#', onmouseover="mopen('mm3')", onmouseout='mclosetime()')
+            b.caret
+          ul.dropdown-menu
+            li
+              a(href='#') Add new booking
+            li.divider
+            li
+              a(href='#') Manage bookings
+        li.dropdown
+          a.dropdown-toggle(href='#', data-toggle='dropdown')
             | Services
-          #mm3(onmouseover='mcancelclosetime()', onmouseout='mclosetime()')
-            a(href='#') Add
-            a(href='#') Maintain
-        li
-          a(href='#', onmouseover="mopen('mm4')", onmouseout='mclosetime()')
+            b.caret
+          ul.dropdown-menu
+            li
+              a(href='#') Add new service
+            li.divider
+            li
+              a(href='#') Manage Services
+        li.dropdown
+          a.dropdown-toggle(href='#', data-toggle='dropdown')
             | Employees
-          #mm4(onmouseover='mcancelclosetime()', onmouseout='mclosetime()')
-            a(href='#') Add
-            a(href='#') Maintain
-        li
-          a(href='#', onmouseover="mopen('mm5')", onmouseout='mclosetime()')
+            b.caret
+          ul.dropdown-menu
+            li
+              a(href='#') Add new employee
+            li.divider
+            li
+              a(href='#') Manage employees
+        li.dropdown
+          a.dropdown-toggle(href='#', data-toggle='dropdown')
             | Sub-letters
-          #mm5(onmouseover='mcancelclosetime()', onmouseout='mclosetime()')
-            a(href='/sub-letters/add') Add
-            a(href='/sub-letters') Maintain
-        li
-          a(href='#', onmouseover="mopen('mm6')", onmouseout='mclosetime()')
+            b.caret
+          ul.dropdown-menu
+            li
+              a(href='#') Add new sub-letter
+            li.divider
+            li
+              a(href='#') Manage sub-letters
+        li.dropdown
+          a.dropdown-toggle(href='#', data-toggle='dropdown')
             | Administration
-          #mm6(onmouseover='mcancelclosetime()', onmouseout='mclosetime()')
-            a(href='#') Add
-            a(href='#') Maintain
-      div(style='clear:both')
-    #wrapper
+            b.caret
+          ul.dropdown-menu
+            li
+              a(href='#') Manage Roles
+            li.divider
+            li
+              a(href='#') Manage Something else
+        li.dropdown
+          a.dropdown-toggle(href='#', data-toggle='dropdown')
+            | Reports
+            b.caret
+          ul.dropdown-menu
+            li
+              a(href='#') Income Report
+            li.divider
+            li
+              a(href='#') Expense Report
+    .col-sm-10(style="background-color:#987912")
+      .container
       block content
+
   .footer
     block footer
-  script(src='/js/app.js')
+
+    script(src="/bower_components/jquery/dist/jquery.min.js")
+    script(src="/bower_components/bootstrap/dist/js/bootstrap.min.js")

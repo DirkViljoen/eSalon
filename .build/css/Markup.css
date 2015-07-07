@@ -1,8 +1,7 @@
-* {
-  -webkit-box-sizing: border-box;
-     -moz-box-sizing: border-box;
-          box-sizing: border-box;
+.navigation {
+	max-width: 150px;
 }
+
 
 .header {
 	position: fixed;
@@ -26,7 +25,7 @@
 	border-style: solid;
 	border-color: red;
 	background-color: 	#DB4DB8;
-	
+
 }
 
 .container {
@@ -69,7 +68,7 @@
 
 	border-width: 1px;
 	border-style: solid;
-	border-color: orange;	
+	border-color: orange;
 }
 
 .footer {
