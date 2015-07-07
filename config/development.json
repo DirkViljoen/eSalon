@@ -1,26 +1,15 @@
 {
-    
+
     "express": {
         "view cache": false,
-        "view engine": "dust",
-        "views": "path:./public/templates"
+        "view engine": "jade",
+        "views": "path:./public/templates/"
     },
 
     "view engines": {
-        "dust": {
-            "module": "engine-munger",
-            "renderer": {
-                "method": "dust",
-                "arguments": [
-                    { "cache": false },
-                    {
-                        "views": "config:express.views",
-                        "view engine": "config:express.view engine",
-                        "specialization": "config:specialization",
-                        "i18n": "config:i18n"
-                    }
-                ]
-            }
+        "jade": {
+            "module": "jade",
+            "renderer": "__express"
         }
     },
 
@@ -34,7 +23,7 @@
                 "arguments": [
                     "path:./public",
                     "path:./.build",
-                    {   
+                    {
                         "template": {
                             "module": "kraken-devtools/plugins/dustjs",
                             "files": "/templates/**/*.js",
