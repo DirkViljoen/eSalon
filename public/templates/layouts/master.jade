@@ -1,0 +1,61 @@
+doctype html
+html(lang="en")
+  head
+    title eSalon
+    link(rel="stylesheet", href="/bower_components/bootstrap/dist/css/bootstrap.min.css")
+    link(rel="stylesheet", href="/css/Markup.css")
+    link(rel="stylesheet", href="/css/app.css")
+    link(rel="stylesheet", href="/css/MainMenu.css")
+body
+  p(class="navbar-text navbar-right")
+    | Signed in as
+    a(href="#", class="navbar-link") Mark Otto
+  .header
+    block header
+  .container
+    .nav
+      .nav-item Bookings
+      .nav-item Clients
+      ul#MainMenu
+        li
+          a.nav-item(href='#', onmouseover="mopen('mm1')", onmouseout='mclosetime()')
+            | Clients
+          #mm1(onmouseover='mcancelclosetime()', onmouseout='mclosetime()')
+            a.nav-item(href='#') Add
+            a.nav-item(href='#') Maintain
+        li
+          a(href='#', onmouseover="mopen('mm2')", onmouseout='mclosetime()')
+            | Bookings
+          #mm2(onmouseover='mcancelclosetime()', onmouseout='mclosetime()')
+            a(href='#') Add
+            a(href='#') Maintain
+        li
+          a(href='#', onmouseover="mopen('mm3')", onmouseout='mclosetime()')
+            | Services
+          #mm3(onmouseover='mcancelclosetime()', onmouseout='mclosetime()')
+            a(href='#') Add
+            a(href='#') Maintain
+        li
+          a(href='#', onmouseover="mopen('mm4')", onmouseout='mclosetime()')
+            | Employees
+          #mm4(onmouseover='mcancelclosetime()', onmouseout='mclosetime()')
+            a(href='#') Add
+            a(href='#') Maintain
+        li
+          a(href='#', onmouseover="mopen('mm5')", onmouseout='mclosetime()')
+            | Sub-letters
+          #mm5(onmouseover='mcancelclosetime()', onmouseout='mclosetime()')
+            a(href='/sub-letters/add') Add
+            a(href='/sub-letters') Maintain
+        li
+          a(href='#', onmouseover="mopen('mm6')", onmouseout='mclosetime()')
+            | Administration
+          #mm6(onmouseover='mcancelclosetime()', onmouseout='mclosetime()')
+            a(href='#') Add
+            a(href='#') Maintain
+      div(style='clear:both')
+    #wrapper
+      block content
+  .footer
+    block footer
+  script(src='/js/app.js')
