@@ -1,0 +1,70 @@
+extends layouts/master
+include ../mixins/mixins
+
+block header
+  label Services
+
+block loggedIn
+  a(href="#", class="navbar-link") Signed in as Mark Otto
+
+block content
+
+  .row
+    .col-sm-1
+    .col-sm-10.workarea
+      h3 Employee Search
+      form.form-horizontal(role="form")
+        +form-group("Search Criteria")
+        +form-inputbox("text", "empFName", "Name:", "Employee name", empFName)
+        +form-inputbox("text", "empLName", "Surname:", "Employee surname", empLName)
+        .form-group
+          label.col-sm-2.control-label Size
+          .col-sm-10.selectContainer
+            select.form-control(name="size")
+              option(value="") Choose a role
+              option(value="1") Manager
+              option(value="2") Stylist
+  +workbreak
+  .row
+    .col-sm-1
+    .col-sm-10.workarea
+      table.table.table-hover
+        thead
+          tr
+            th Name
+            th Additional Information
+            th Duration
+            th Price
+            th Hair length
+            th Category
+        tbody
+          tr
+            td= serName
+            td= serAddInfo
+            td= serDuration
+            td= serPrice
+            td= serCategory
+            td= serHairLength
+          tr
+            td Colour
+            td None
+            td 90 minutes
+            td 260
+            td colouring
+            td short
+  +workbreak()
+  .row
+    .col-sm-1
+    .col-sm-10.form-group.workarea
+      ul.nav.nav-pills.pull-right
+        li(role="presentation")
+          a.btn-primary(href="/service/view") View
+        li(role="presentation")
+          a.btn-primary(href="/service/Update") Update
+        li(role="presentation")
+          a.btn-primary(href="/") Cancel
+        li(role="presentation")
+          a.btn-primary(href="#") Delete
+          br
+  //+workbreak()
+
