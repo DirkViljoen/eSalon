@@ -1,0 +1,57 @@
+{>"layouts/master" /}
+
+{<header}
+	<div class="header-content">
+		<h1>{@pre type="content" key="name"/}</h1>
+	</div>
+{/header}
+
+{<body}
+    <form class="content">
+        <table class="input-form">
+            <tr>
+                <td>Business Name</td>
+                <td><input type="text" name="bName" value="Cat's Nails"></td>
+            </tr>
+            <tr>
+                <td>Contact Name</td>
+                <td><input type="text" name="cName" value="Catherine"></td>
+            </tr>
+            <tr>
+                <td>Contact Surname</td>
+                <td><input type="text" name="cSurname" Value="Sharp"></td>
+            </tr>
+            <tr>
+                <td>Contact Number</td>
+                <td><input type="text" name="cNumber" Value="082 123 1234"></td>
+            </tr>
+            <tr>
+                <td>Contact eMail</td>
+                <td><input type="text" name="cEmail" Value="cat@catsnails.co.za"></td>
+            </tr>
+            <tr>
+                <td>Rent</td>
+                <td><input type="text" name="rent" Value="R 2 000.00"></td>
+            </tr>
+            <tr>
+                <td>Agreement start</td>
+                <td><input type="date" name="bName"></td>
+            </tr>
+        </table>
+        <div class="formNavigation">
+            <div class="formNavLeft">
+                <a class="myButton" href="/index">Cancel</a>
+            </div>
+            <div class="formNavMiddle">
+            </div>
+            <div class="formNavRight">
+                <input type="submit" value="Save">
+            </div>
+        </div>
+    </form> 
+{/body}
+
+{<footer}
+	<div class="footer-content">
+	</div>
+{/footer}

@@ -1,0 +1,80 @@
+extends layouts/master
+include ../mixins/mixins
+
+block header
+  label Employees
+
+block loggedIn
+  a(href="#", class="navbar-link") Signed in as Mark Otto
+
+block content
+
+  .row
+    .col-sm-1
+    .col-sm-10.workarea
+      h3 Employee Search
+      form.form-horizontal(role="form")
+        +form-group("Search Criteria")
+        +form-inputbox("text", "empFName", "Name:", "Employee name", empFName)
+        +form-inputbox("text", "empLName", "Surname:", "Employee surname", empLName)
+        .form-group
+          label.col-sm-2.control-label Size
+          .col-sm-10.selectContainer
+            select.form-control(name="size")
+              option(value="") Choose a role
+              option(value="1") Manager
+              option(value="2") Stylist
+  +workbreak
+  .row
+    .col-sm-1
+    .col-sm-10.workarea
+      table.table.table-hover
+        thead
+          tr
+            th Name
+            th Surname
+            th Role
+            th Contact Number
+            th Email
+            th Salary
+            th Address
+            th Image
+        tbody
+          tr
+            td= empFName
+            td= empLName
+            td= empRole
+            td= empCNumber
+            td= empEmail
+            td= empSalary
+            td= empALine1
+            td
+              a.thumbnail(href="#")
+                img(src=empImage alt="other" width="40")
+          tr
+            td Suzan
+            td Nolte
+            td Manager
+            td 076 465 4321
+            td snolte@gmail.com
+            td 5 000
+            td 27 Springfield road
+            td
+              a.thumbnail(href="#")
+                img(src='' alt="no image" width="40")
+  +workbreak()
+  .row
+    .col-sm-1
+    .col-sm-10.form-group.workarea
+      ul.nav.nav-pills.pull-right
+        li(role="presentation")
+          a.btn-primary(href="/employee/view") View
+        li(role="presentation")
+          a.btn-primary(href="/employee/Update") Update
+        li(role="presentation")
+          a.btn-primary(href="/") Cancel
+        li(role="presentation")
+          a.btn-primary(href="#") Delete
+          br
+  //+workbreak()
+

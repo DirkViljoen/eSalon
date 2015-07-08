@@ -1,0 +1,78 @@
+extends layouts/master
+include ../mixins/mixins
+
+block header
+  label Update !{empFName} !{empLName}
+
+block loggedIn
+  a(href="#", class="navbar-link") Signed in as Mark Otto
+
+block content
+
+  .row
+    .col-sm-1
+    .col-sm-10
+      ul.nav.nav-tabs
+        li.active
+          a(href="#") Personal
+        li
+          a(href="/employee/update-image") Image
+  .row
+    .col-sm-1
+    .col-sm-10(style="background-color:#987987")
+      h3 Details for !{empFName} !{empLName}
+      form.form-horizontal(role="form")
+        +form-group("Personal information")
+        +form-inputbox("text", "empFName", "Name:", "Employee name", empFName)
+        +form-inputbox("text", "empLName", "Surname:", "Employee surname", empLName)
+        +form-inputbox("text", "empCNumber", "Contact Number:", "082 000 0000", empCNumber)
+        +form-inputbox("text", "empSalary", "Salary:", "0 000.00", empSalary)
+        br
+        +form-inputbox("text", "empUsername", "Username:", "Employee username", empUsername)
+        +form-inputbox("password", "empPassword", "Password:", "Employee password", empPassword)
+        +form-button("Change password")
+        br
+        +form-inputbox("email", "empEmail", "Email:", "employee@domain.com", empEmail)
+        .form-group
+          label.col-sm-2.control-label Size
+          .col-sm-10.selectContainer
+            select.form-control(name="size")
+              option(value="") Choose a role
+              option(value="1") Manager
+              option(value="2") Stylist
+        br
+        +form-group("Address information")
+        +form-inputbox("text", "empALine1", "Line 1:", "43 Some Complex", empALine1)
+        +form-inputbox("text", "empALine2", "Line 2:", "12 Some street", empALine2)
+        .form-group
+          label.col-sm-2.control-label Suburb
+          .col-sm-10.selectContainer
+            select.form-control(name="suburb")
+              option(value="") Choose a suburb
+              option(value="1") Brooklynn
+              option(value="2") Hatfield
+        .form-group
+          label.col-sm-2.control-label City
+          .col-sm-10.selectContainer
+            select.form-control(name="city")
+              option(value="") Choose a city
+              option(value="1") Johannesburg
+              option(value="2") Pretoria
+        .form-group
+          label.col-sm-2.control-label Province
+          .col-sm-10.selectContainer
+            select.form-control(name="province")
+              option(value="") Choose a province
+              option(value="1") Gauteng
+              option(value="2") Mpumalanga
+  +workbreak()
+  .row
+    .col-sm-1
+    .col-sm-10.form-group.workarea
+      ul.nav.nav-pills.pull-right
+        li(role="presentation")
+          a.btn-primary(href="/employee") Save
+        li(role="presentation")
+          a.btn-primary(href="/employee") Cancel
+          br
+
