@@ -1,0 +1,17 @@
+//text, password, email
+mixin form-inputbox(type, id, label, placeholder)
+  .form-group
+    label.control-label.col-sm-2(for=id)= label
+    .col-sm-10
+      input.form-control(type=type id=id placeholder=placeholder)
+
+mixin form-button(label)
+  .form-group
+    .col-sm-offset-2.col-sm-10
+      button.btn.btn-default(type="submit")= label
+
+mixin form-group(label)
+  .form-group
+    .col-sm-2
+    .col-sm-10
+      h5= label

@@ -19,7 +19,7 @@ body
             a(href="#") Log out
 
   .row
-    .col-sm-2(style="background-color:#987987")
+    .col-sm-2(style="background-color:#f8f9f7")
       ul(class='nav nav-pills nav-stacked')
         li.dropdown
           a.dropdown-toggle(href='#', data-toggle='dropdown')
@@ -57,7 +57,7 @@ body
             b.caret
           ul.dropdown-menu
             li
-              a(href='#') Add new employee
+              a(href='/employee/add') Add new employee
             li.divider
             li
               a(href='#') Manage employees
@@ -67,7 +67,7 @@ body
             b.caret
           ul.dropdown-menu
             li
-              a(href='#') Add new sub-letter
+              a(href='/sub-letters/add') Add new sub-letter
             li.divider
             li
               a(href='#') Manage sub-letters
@@ -91,9 +91,11 @@ body
             li.divider
             li
               a(href='#') Expense Report
-    .col-sm-10(style="background-color:#987912")
-      .container
+    .col-sm-10(style="background-color:#a8a9a2")
+      .row
+        p
       block content
+      .col-xs-12(style="height:50px")
 
   .footer
     block footer
