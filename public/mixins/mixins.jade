@@ -1,9 +1,16 @@
 //text, password, email
-mixin form-inputbox(type, id, label, placeholder)
+mixin form-inputbox(type, id, label, placeholder, myValue)
   .form-group
     label.control-label.col-sm-2(for=id)= label
     .col-sm-10
-      input.form-control(type=type id=id placeholder=placeholder)
+      input.form-control(type=type id=id placeholder=placeholder value=myValue)
+
+//text, password, email
+mixin form-inputbox-readonly(type, id, label, placeholder, myValue)
+  .form-group
+    label.control-label.col-sm-2(for=id)= label
+    .col-sm-10
+      input.form-control(type=type id=id placeholder=placeholder value=myValue readonly)
 
 mixin form-button(label)
   .form-group
@@ -15,3 +22,9 @@ mixin form-group(label)
     .col-sm-2
     .col-sm-10
       h5= label
+
+mixin workbreak()
+  .row
+    .col-sm-1
+    .col-sm-10.workarea
+      br

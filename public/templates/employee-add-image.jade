@@ -27,7 +27,7 @@ block content
           .col-sm-2
           .col-xs-6.col-md-3
             a.thumbnail(href="#")
-              img(src="https://www.google.co.za/images/nav_logo195.png" alt="other")
+              img(src=empImage alt="other")
         .form-group
           .col-sm-2
           .col-xs-6.col-md-3
@@ -35,5 +35,14 @@ block content
               button.btn.btn-default(type="button") Add
               button.btn.btn-default(type="button") Cancel
               button.btn.btn-default(type="button") Upload
-    //.col-sm-1(style="background-color:#987987")
+  +workbreak()
+  .row
+    .col-sm-1
+    .col-sm-10.form-group.workarea
+      ul.nav.nav-pills.pull-right
+        li(role="presentation")
+          a.btn-primary(href="/employee") Save
+        li(role="presentation")
+          a.btn-primary(href="/employee") Cancel
+          br
 

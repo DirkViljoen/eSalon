@@ -11,7 +11,7 @@ block content
 
   .row
     .col-sm-1
-    .col-sm-10
+    .col-sm-10.workarea
       ul.nav.nav-tabs
         li.active
           a(href="#") Personal
@@ -19,20 +19,20 @@ block content
           a(href="/employee/add-image") Image
   .row
     .col-sm-1
-    .col-sm-10(style="background-color:#987987")
+    .col-sm-10.workarea
       h3 New employee details
       form.form-horizontal(role="form")
         +form-group("Personal information")
-        +form-inputbox("text", "empFName", "Name:", "Employee name")
-        +form-inputbox("text", "empLName", "Surname:", "Employee surname")
-        +form-inputbox("text", "empCNumber", "Contact Number:", "082 000 0000")
-        +form-inputbox("text", "empSalary", "Salary:", "0 000.00")
+        +form-inputbox("text", "empFName", "Name:", "Employee name", empFName)
+        +form-inputbox("text", "empLName", "Surname:", "Employee surname", empLName)
+        +form-inputbox("text", "empCNumber", "Contact Number:", "082 000 0000", empCNumber)
+        +form-inputbox("text", "empSalary", "Salary:", "0 000.00", empSalary)
         br
-        +form-inputbox("text", "empUsername", "Username:", "Employee username")
-        +form-inputbox("password", "empPassword", "Password:", "Employee password")
+        +form-inputbox("text", "empUsername", "Username:", "Employee username", empUsername)
+        +form-inputbox("password", "empPassword", "Password:", "Employee password", empPassword)
         +form-button("Change password")
         br
-        +form-inputbox("email", "empEmail", "Email:", "employee@domain.com")
+        +form-inputbox("email", "empEmail", "Email:", "employee@domain.com", empEmail)
         .form-group
           label.col-sm-2.control-label Size
           .col-sm-10.selectContainer
@@ -42,8 +42,8 @@ block content
               option(value="2") Stylist
         br
         +form-group("Address information")
-        +form-inputbox("text", "empALine1", "Line 1:", "43 Some Complex")
-        +form-inputbox("text", "empALine2", "Line 2:", "12 Some street")
+        +form-inputbox("text", "empALine1", "Line 1:", "43 Some Complex", empALine1)
+        +form-inputbox("text", "empALine2", "Line 2:", "12 Some street", empALine2)
         .form-group
           label.col-sm-2.control-label Suburb
           .col-sm-10.selectContainer
@@ -65,5 +65,14 @@ block content
               option(value="") Choose a province
               option(value="1") Gauteng
               option(value="2") Mpumalanga
-    //.col-sm-1(style="background-color:#987987")
+  +workbreak()
+  .row
+    .col-sm-1
+    .col-sm-10.form-group.workarea
+      ul.nav.nav-pills.pull-right
+        li(role="presentation")
+          a.btn-primary(href="/employee") Save
+        li(role="presentation")
+          a.btn-primary(href="/employee") Cancel
+          br
 
