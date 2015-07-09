@@ -1,7 +1,0 @@
-{>"layouts/master_login" /}
-
-{<login} 
-	<div id="login" class="form-login">
-		
-    </div>
-{/body}
