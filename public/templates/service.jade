@@ -5,7 +5,7 @@ block header
   label Services
 
 block loggedIn
-  a(href="#", class="navbar-link") Signed in as Mark Otto
+  a(href='#', class='navbar-link') Signed in as Mark Otto
 
 block content
 
@@ -13,9 +13,9 @@ block content
     .col-sm-1
     .col-sm-10.workarea
       h3 Service Search
-      form.form-horizontal(role="form")
-        +form-group("Search Criteria")
-        +form-inputbox("text", "empFName", "Name:", "Employee name", serName)
+      form.form-horizontal(role='form')
+        +form-group('Search Criteria')
+        +form-inputbox('text', 'empFName', 'Name:', 'Employee name', serName)
   +workbreak
   .row
     .col-sm-1
@@ -49,14 +49,14 @@ block content
     .col-sm-1
     .col-sm-10.form-group.workarea
       ul.nav.nav-pills.pull-right
-        li(role="presentation")
-          a.btn-primary(href="/service/Update") Update
-        li(role="presentation")
-          a.btn-primary(href="/service/view") View
-        li(role="presentation")
-          a.btn-primary(href="#") Delete
-        li(role="presentation")
-          a.btn-primary(href="#") Export Service List
+        li(role='presentation')
+          a.btn-primary(href='/service/Update') Update
+        li(role='presentation')
+          a.btn-primary(href='/service/view') View
+        li(role='presentation')
+          a.btn-primary(href='#') Delete
+        li(role='presentation')
+          a.btn-primary(href='#') Export Service List
           br
   //+workbreak()
 

@@ -42,7 +42,7 @@ mixin form-combobox(id, name, values, selected)
 
 mixin form-combobox-readonly(id, name, values, selected)
   .form-group
-    label.control-label.col-sm-2(for=id)= label
+    label.control-label.col-sm-2(for=id)= name
     .col-sm-10
       each item in values
         if item.id == selected
