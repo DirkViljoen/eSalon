@@ -28,3 +28,22 @@ mixin workbreak()
     .col-sm-1
     .col-sm-10.workarea
       br
+
+mixin form-combobox(id, name, values, selected)
+  .form-group
+    label.col-sm-2.control-label= name
+    .col-sm-10.selectContainer
+      select.form-control(id=id name=name)
+        each item in values
+          if item.id == selected
+            option(value=item.id selected)= item.value
+          else
+            option(value=item.id)= item.value
+
+mixin form-combobox-readonly(id, name, values, selected)
+  .form-group
+    label.control-label.col-sm-2(for=id)= label
+    .col-sm-10
+      each item in values
+        if item.id == selected
+          input.form-control(type='text' id=id value=item.value readonly)

@@ -1,0 +1,41 @@
+extends layouts/master
+include ../mixins/mixins
+
+block header
+  label Add new service
+
+block loggedIn
+  a(href="#", class="navbar-link") Signed in as Mark Otto
+
+block content
+
+  .row
+    .col-sm-1
+    .col-sm-10.workarea
+      h3 New service details
+      form.form-horizontal(role="form")
+        +form-group("Service information")
+        +form-inputbox("text", "serName", "Name:", "Service name", serName)
+        +form-inputbox("text", "serAddInfo", "Additional information:", "Any additional information about the service", serAddInfo)
+        +form-inputbox("text", "serDuration", "Duration:", "20 minutes", serDuration)
+        +form-inputbox("text", "empSalary", "Price:", "100", serPrice)
+        .form-group
+          label.col-sm-2.control-label Hair length
+          .col-sm-10.selectContainer
+            select.form-control(name="size")
+              option(value="") Choose a hair length
+              option(value="1") Short
+              option(value="2") Medium
+              option(value="2") Long
+        +form-inputbox("text", "serCategory", "category:", "Colouring", serCategory)
+  +workbreak()
+  .row
+    .col-sm-1
+    .col-sm-10.form-group.workarea
+      ul.nav.nav-pills.pull-right
+        li(role="presentation")
+          a.btn-primary(href="/service") Save
+        li(role="presentation")
+          a.btn-primary(href="/service") Cancel
+          br
+

@@ -9,7 +9,7 @@ block loggedIn
 
 block content
 
-  .row
+  .row.workarea
     .col-sm-1
     .col-sm-10.workarea
       h3 Service Search
@@ -50,13 +50,13 @@ block content
     .col-sm-10.form-group.workarea
       ul.nav.nav-pills.pull-right
         li(role="presentation")
-          a.btn-primary(href="/service/Update") Update
-        li(role="presentation")
           a.btn-primary(href="/service/view") View
         li(role="presentation")
-          a.btn-primary(href="#") Delete
+          a.btn-primary(href="/service/Update") Update
         li(role="presentation")
-          a.btn-primary(href="#") Export Service List
+          a.btn-primary(href="/") Cancel
+        li(role="presentation")
+          a.btn-primary(href="#") Delete
           br
   //+workbreak()
 

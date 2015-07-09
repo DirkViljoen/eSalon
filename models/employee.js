@@ -14,12 +14,70 @@ module.exports = function EmployeeModel() {
         empEmail: 'johdoe@esalon.co.za',
         empALine1: '43 Oaktree Avenue',
         empALine2: '',
-        empSuburb: '',
-        empCity: '',
-        empProvince: '',
+        empSuburb: '1',
+        empCity: '2',
+        empProvince: '1',
 
-        empRole: 'Stylist',
+        empRole: '1',
 
-        empImage: 'https://www.google.co.za/images/nav_logo195.png'
+        empImage: 'https://www.google.co.za/images/nav_logo195.png',
+
+        addressSuburbs:  [
+                        {
+                            'id': '',
+                            'value': 'Choose a suburb'
+                        },
+                        {
+                            'id': '1',
+                            'value': 'Brooklynn'
+                        },
+                        {
+                            'id': '2',
+                            'value': 'Hatfield'
+                        }
+                    ],
+
+        addressCitys:  [
+                        {
+                            'id': '',
+                            'value': 'Choose a city'
+                        },
+                        {
+                            'id': '1',
+                            'value': 'Johannesburg'
+                        },
+                        {
+                            'id': '2',
+                            'value': 'Pretoria'
+                        }
+                    ],
+        addressProvinces:  [
+                        {
+                            'id': '',
+                            'value': 'Choose a province'
+                        },
+                        {
+                            'id': '1',
+                            'value': 'Gauteng'
+                        },
+                        {
+                            'id': '2',
+                            'value': 'Western Cape'
+                        }
+                    ],
+        userRoles:  [
+                        {
+                            'id': '',
+                            'value': 'Choose a role'
+                        },
+                        {
+                            'id': '1',
+                            'value': 'Manager'
+                        },
+                        {
+                            'id': '2',
+                            'value': 'Stylist'
+                        }
+                    ]
     };
 };
