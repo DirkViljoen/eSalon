@@ -5,52 +5,52 @@ block header
   label Update !{empFName} !{empLName}
 
 block loggedIn
-  a(href="#", class="navbar-link") Signed in as Mark Otto
+  a(href='#', class='navbar-link') Signed in as Mark Otto
 
 block content
   .row
     .col-sm-1
-    .col-sm-10(style="background-color:#987987")
+    .col-sm-10(style='background-color:#987987')
       h3 Details for !{empFName} !{empLName}
-      form.form-horizontal(role="form")
-        +form-group("Personal information")
-        +form-inputbox("text", "empFName", "Name:", "Employee name", empFName)
-        +form-inputbox("text", "empLName", "Surname:", "Employee surname", empLName)
-        +form-inputbox("text", "empCNumber", "Contact Number:", "082 000 0000", empCNumber)
-        +form-inputbox("email", "empEmail", "Email:", "employee@domain.com", empEmail)
-        +form-inputbox("text", "empSalary", "Salary:", "0 000.00", empSalary)
+      form.form-horizontal(role='form')
+        +form-group('Personal information')
+        +form-inputbox('text', 'empFName', 'Name:', 'Employee name', empFName)
+        +form-inputbox('text', 'empLName', 'Surname:', 'Employee surname', empLName)
+        +form-inputbox('text', 'empCNumber', 'Contact Number:', '082 000 0000', empCNumber)
+        +form-inputbox('email', 'empEmail', 'Email:', 'employee@domain.com', empEmail)
+        +form-inputbox('text', 'empSalary', 'Salary:', '0 000.00', empSalary)
         br
-        +form-group("Take a picture")
+        +form-group('Take a picture')
         .row
           .col-sm-2
           .col-xs-6.col-md-3
-            a.thumbnail(href="#")
-              img(src=empImage alt="No image")
+            a.thumbnail(href='#')
+              img(src=empImage alt='No image')
         .form-group
           .col-sm-2
           .col-xs-6.col-md-3
-            .btn-group(role="group" aria-label="...")
-              button.btn.btn-default(type="button") Upload
+            .btn-group(role='group' aria-label='...')
+              button.btn.btn-default(type='button') Upload
         br
-        +form-group("Credentials")
-        +form-inputbox("text", "empUsername", "Username:", "Employee username", empUsername)
-        +form-combobox("empRole", "Role", userRoles, empRole)
-        +form-inputbox("password", "empPassword", "Password:", "Employee password", empPassword)
-        +form-button("Change password")
+        +form-group('Credentials')
+        +form-inputbox('text', 'empUsername', 'Username:', 'Employee username', empUsername)
+        +form-combobox('empRole', 'Role', userRoles, empRole)
+        +form-inputbox('password', 'empPassword', 'Password:', 'Employee password', empPassword)
+        +form-button('Change password')
         br
-        +form-group("Address information")
-        +form-inputbox("text", "empALine1", "Line 1:", "43 Some Complex", empALine1)
-        +form-inputbox("text", "empALine2", "Line 2:", "12 Some street", empALine2)
-        +form-combobox("empSuburb", "Suburb", addressSuburbs, empSuburb)
-        +form-combobox("empCity", "City", addressCitys, empCity)
-        +form-combobox("empProvince", "Province", addressProvinces, empProvince)
+        +form-group('Address information')
+        +form-inputbox('text', 'empALine1', 'Line 1:', '43 Some Complex', empALine1)
+        +form-inputbox('text', 'empALine2', 'Line 2:', '12 Some street', empALine2)
+        +form-combobox('empSuburb', 'Suburb', addressSuburbs, empSuburb)
+        +form-combobox('empCity', 'City', addressCitys, empCity)
+        +form-combobox('empProvince', 'Province', addressProvinces, empProvince)
   +workbreak()
   .row
     .col-sm-1
     .col-sm-10.form-group.workarea
       ul.nav.nav-pills.pull-right
-        li(role="presentation")
-          a.btn-primary(href="/employee") Save
-        li(role="presentation")
-          a.btn-primary(href="/employee") Cancel
+        li(role='presentation')
+          a.btn-primary(href='/employee') Save
+        li(role='presentation')
+          a.btn-primary(href='/employee') Cancel
           br
