@@ -1,0 +1,60 @@
+extends layouts/master
+include ../mixins/mixins
+
+block header
+  label View supplier: !{supName}
+
+block loggedIn
+  a(href='#', class='navbar-link') Signed in as Mark Otto
+
+block content
+
+  .row
+    .col-sm-1
+    .col-sm-10.workarea
+      h3 Details for !{supName}
+      form.form-horizontal(role='form')
+        +form-group('Supplier information')
+        +form-inputbox-readonly('text', 'supName', 'Name:', 'Supplier name', supName)
+        +form-inputbox-readonly('text', 'supContactNum', 'Contact No:', 'Supplier contact number', supContactNum)
+        +form-inputbox-readonly('email', 'supEmail', 'Email address:', 'sup@company.co.za', supEmail)
+        br
+        +form-group('Supplier orders')
+        .row
+          .col-xs-4
+            table.table.table-hover
+              thead
+                tr
+                  th Dates
+              tbody
+                each order in supOrders
+                  tr
+                    td= order.date
+          .col-xs-8
+            table.table.table-hover
+              thead
+                tr
+                  th Product
+                  th Quantity
+                  th Price
+              tbody
+                each order in supOrders
+                  tr
+                    td= order.product
+                    td= order.quantity
+                    td= order.price
+  +workbreak()
+  .row
+    .col-sm-1
+    .col-sm-10.form-group.workarea
+      ul.nav.nav-pills.pull-right
+        li(role='presentation')
+          a.btn-primary(href='/supplier/update') Update
+        li(role='presentation')
+          a.btn-primary(href='/supplier') Delete
+        li(role='presentation')
+          a.btn-primary(href='/supplier') Order
+        li(role='presentation')
+          a.btn-primary(href='/supplier') Back
+          br
+
