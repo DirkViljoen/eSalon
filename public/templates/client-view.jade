@@ -1,0 +1,70 @@
+extends layouts/master
+include ../mixins/mixins
+
+block header
+  label Update client: !{cliFName} !{cliLName}
+
+block loggedIn
+  a(href='#', class='navbar-link') Signed in as Mark Otto
+
+block content
+  .row
+    .col-sm-1
+    .col-sm-10.workarea
+      h3 Details for !{cliFName} !{cliLName}
+      form.form-horizontal(role='form')
+        +form-group('Personal information')
+        +form-inputbox('text', 'clititle', 'Title:', 'Client Titel', cliTitle)
+        +form-inputbox('text', 'cliFName', 'Name:', 'Cliient name', cliFName)
+        +form-inputbox('text', 'cliLName', 'Surname:', 'Client surname', cliLName)
+        +form-inputbox('text', 'cliCNumber', 'Contact Number:', '082 000 0000', cliCNumber)
+        +form-inputbox('email', 'cliEmail', 'Email:', 'employee@domain.com', cliEmailAddress)
+        +form-input-calendar('cliDOB', 'Date of birth:', 'Client day of birth', cliDOB)
+        br
+        +form-group('Address information')
+        +form-inputbox('text', 'cliALine1', 'Line 1:', '43 Some Complex', cliALine1)
+        +form-inputbox('text', 'cliALine2', 'Line 2:', '12 Some street', cliALine2)
+        +form-combobox('cliSuburb', 'Suburb', addressSuburbs, cliASuburb)
+        +form-combobox('cliCity', 'City', addressCitys, cliACity)
+        +form-combobox('cliProvince', 'Province', addressProvinces, cliAProvince)
+        br
+        +form-group('Client history')
+      .row
+        .col-sm-2
+        .col-sm-8
+          .row
+            table.table.table-hover
+              thead
+                tr
+                  th.col-md-3.col-sm-3 Date
+                  th.col-md-6.col-sm-6 Service
+                  th.col-md-3.col-sm-3 Stylist
+              tbody
+                each Service in cliServiceHistory
+                  tr
+                    td.col-md-3.col-sm-3= Service.date
+                    td.col-md-6.col-sm-6= Service.service
+                    td.col-md-3.col-sm-3= Service.stylist
+          .row
+            table.table.table-hover
+              thead
+                tr
+                  th.col-md-3.col-sm-3 Date
+                  th.col-md-6.col-sm-6 Product
+                  th.col-md-3.col-sm-3 Stylist
+              tbody
+                each Product in cliProductHistory
+                  tr
+                    td.col-md-3.col-sm-3= Product.date
+                    td.col-md-6.col-sm-6= Product.product
+                    td.col-md-3.col-sm-3= Product.stylist
+  +workbreak()
+  .row
+    .col-sm-1
+    .col-sm-10.form-group.workarea
+      ul.nav.nav-pills.pull-right
+        li(role='presentation')
+          a.btn-primary(href='/client') Save
+        li(role='presentation')
+          a.btn-primary(href='/client') Cancel
+          br

@@ -12,6 +12,15 @@ mixin form-inputbox-readonly(type, id, label, placeholder, myValue)
     .col-sm-10
       input.form-control(type=type id=id placeholder=placeholder value=myValue readonly)
 
+mixin form-input-calendar(id, label, placeholder, myValue)
+  .form-group
+    label.control-label.col-sm-2(for=id)= label
+    .col-sm-10
+      .input-group
+        input.form-control(type='text' id=id placeholder=placeholder value=myValue)
+        span.input-group-addon
+          span.glyphicon.glyphicon-calendar
+
 mixin form-button(label)
   .form-group
     .col-sm-offset-2.col-sm-10
