@@ -10,9 +10,18 @@ module.exports = function (router) {
 
 
     router.get('/', function (req, res) {
-
-        res.send('<code><pre>' + JSON.stringify(model, null, 2) + '</pre></code>');
-
+        res.render('supplier', model)
     });
 
+    router.get('/view', function (req, res) {
+        res.render('supplier-view', model)
+    });
+
+    router.get('/add', function (req, res) {
+        res.render('supplier-add', model)
+    });
+
+    router.get('/update', function (req, res) {
+        res.render('supplier-update', model)
+    });
 };
