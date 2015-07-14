@@ -4,6 +4,7 @@ html(lang="en")
     title eSalon
     link(rel="stylesheet", href="/bower_components/bootstrap/dist/css/bootstrap.min.css")
     link(rel="stylesheet", href="/css/Markup.css")
+    link(rel='stylesheet', href='/css/PickaDay.css')
     block links
 
   body.container-fluid
@@ -121,4 +122,8 @@ html(lang="en")
     - console.log('testMaster')
     script(src="/js/app.js")
     - console.log('testmaster2')
+    script.
+      var picker = new Pikaday({ field: document.getElementById('spcStart') });
+      var picker2 = new Pikaday({ field: document.getElementById('spcEnd') });
+
 
