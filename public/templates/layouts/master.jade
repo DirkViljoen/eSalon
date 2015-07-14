@@ -6,113 +6,119 @@ html(lang="en")
     link(rel="stylesheet", href="/css/Markup.css")
     block links
 
-body.container-fluid
-  nav.navbar.navbar-default
-    .container-fluid
-      .navbar-header
-        .navbar-brand
-          block header
-      .collapse.navbar-collapse.pull-right
-        ul.nav.navbar-nav
-          li.active
-            block loggedIn
-              a(href="#") Log in
-          li
-            a(href="#") Log out
+  body.container-fluid
+    nav.navbar.navbar-default
+      .container-fluid
+        .navbar-header
+          .navbar-brand
+            block header
+        .collapse.navbar-collapse.pull-right
+          ul.nav.navbar-nav
+            li.active
+              block loggedIn
+                a(href="#") Log in
+            li
+              a(href="#") Log out
 
-  .row
-    .col-sm-2(style="background-color:#f8f9f7")
-      ul(class='nav nav-pills nav-stacked')
-        li.dropdown
-          a.dropdown-toggle(href='#', data-toggle='dropdown')
-            | Clients
-            b.caret
-          ul.dropdown-menu
-            li
-              a(href='/client/add') Add new client
-            li.divider
-            li
-              a(href='/client') Manage clients
-        li.dropdown
-          a.dropdown-toggle(href='#', data-toggle='dropdown')
-            | Bookings
-            b.caret
-          ul.dropdown-menu
-            li
-              a(href='#') Add new booking
-            li.divider
-            li
-              a(href='#') Manage bookings
-        li.dropdown
-          a.dropdown-toggle(href='#', data-toggle='dropdown')
-            | Services
-            b.caret
-          ul.dropdown-menu
-            li
-              a(href='/service/add') Add new service
-            li.divider
-            li
-              a(href='/service') Manage services
-        li.dropdown
-          a.dropdown-toggle(href='#', data-toggle='dropdown')
-            | Suppliers
-            b.caret
-          ul.dropdown-menu
-            li
-              a(href='/supplier/add') Add new supplier
-            li.divider
-            li
-              a(href='/supplier') Manage suuppliers
-        li.dropdown
-          a.dropdown-toggle(href='#', data-toggle='dropdown')
-            | Employees
-            b.caret
-          ul.dropdown-menu
-            li
-              a(href='/employee/add') Add new employee
-            li.divider
-            li
-              a(href='/employee') Manage employees
-        li.dropdown
-          a.dropdown-toggle(href='#', data-toggle='dropdown')
-            | Sub-letters
-            b.caret
-          ul.dropdown-menu
-            li
-              a(href='/sub-letters/add') Add new sub-letter
-            li.divider
-            li
-              a(href='#') Manage sub-letters
-        li.dropdown
-          a.dropdown-toggle(href='#', data-toggle='dropdown')
-            | Administration
-            b.caret
-          ul.dropdown-menu
-            li
-              a(href='#') Manage Roles
-            li.divider
-            li
-              a(href='#') Manage Something else
-        li.dropdown
-          a.dropdown-toggle(href='#', data-toggle='dropdown')
-            | Reports
-            b.caret
-          ul.dropdown-menu
-            li
-              a(href='#') Income Report
-            li.divider
-            li
-              a(href='#') Expense Report
-    .col-sm-10(style="background-color:#a8a9a2")
-      .row
-        p
-      block content
-      .col-xs-12(style="height:50px")
+    .row
+      .col-sm-2(style="background-color:#f8f9f7")
+        ul(class='nav nav-pills nav-stacked')
+          li.dropdown
+            a.dropdown-toggle(href='#', data-toggle='dropdown')
+              | Clients
+              b.caret
+            ul.dropdown-menu
+              li
+                a(href='/client/add') Add new client
+              li.divider
+              li
+                a(href='/client') Manage clients
+          li.dropdown
+            a.dropdown-toggle(href='#', data-toggle='dropdown')
+              | Bookings
+              b.caret
+            ul.dropdown-menu
+              li
+                a(href='/booking') Add new booking
+              li.divider
+              li
+                a(href='#') Manage bookings
+          li.dropdown
+            a.dropdown-toggle(href='#', data-toggle='dropdown')
+              | Services
+              b.caret
+            ul.dropdown-menu
+              li
+                a(href='/service/add') Add new service
+              li.divider
+              li
+                a(href='/service') Manage services
+              li.divider
+              li
+                a(href='/special/add') Add special
+          li.dropdown
+            a.dropdown-toggle(href='#', data-toggle='dropdown')
+              | Suppliers
+              b.caret
+            ul.dropdown-menu
+              li
+                a(href='/supplier/add') Add new supplier
+              li.divider
+              li
+                a(href='/supplier') Manage suuppliers
+          li.dropdown
+            a.dropdown-toggle(href='#', data-toggle='dropdown')
+              | Employees
+              b.caret
+            ul.dropdown-menu
+              li
+                a(href='/employee/add') Add new employee
+              li.divider
+              li
+                a(href='/employee') Manage employees
+          li.dropdown
+            a.dropdown-toggle(href='#', data-toggle='dropdown')
+              | Sub-letters
+              b.caret
+            ul.dropdown-menu
+              li
+                a(href='/sub-letters/add') Add new sub-letter
+              li.divider
+              li
+                a(href='#') Manage sub-letters
+          li.dropdown
+            a.dropdown-toggle(href='#', data-toggle='dropdown')
+              | Administration
+              b.caret
+            ul.dropdown-menu
+              li
+                a(href='#') Manage Roles
+              li.divider
+              li
+                a(href='#') Manage Something else
+          li.dropdown
+            a.dropdown-toggle(href='#', data-toggle='dropdown')
+              | Reports
+              b.caret
+            ul.dropdown-menu
+              li
+                a(href='#') Income Report
+              li.divider
+              li
+                a(href='#') Expense Report
+      .col-sm-10(style="background-color:#a8a9a2")
+        .row
+          p
+        block content
+        .col-xs-12(style="height:50px")
 
-  .footer
-    block footer
+    .footer
+      block footer
 
     script(src="/bower_components/jquery/dist/jquery.min.js")
     script(src="/bower_components/bootstrap/dist/js/bootstrap.min.js")
-    script(src="/js/app.js")
     script(src="/js/pickaday.js")
+    - console.log('testMaster')
+    script(src="/js/app.js")
+    - console.log('testmaster2')
+

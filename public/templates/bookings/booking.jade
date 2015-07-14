@@ -1,0 +1,56 @@
+extends ../layouts/master
+include ../../mixins/mixins
+
+block links
+  link(rel="stylesheet" href="/bower_components/carousel-3d/dist/styles/jquery.carousel-3d.default.css")
+  script(src="/bower_components/jquery/dist/jquery.js")
+  script(src="../bower_components/javascript-detect-element-resize/jquery.resize.js")
+  script(src="../bower_components/waitForImages/dist/jquery.waitforimages.js")
+  script(src="../bower_components/modernizr/modernizr.js")
+  script(src="/bower_components/carousel-3d/dist/jquery.carousel-3d.js")
+
+block header
+  label Services
+
+block loggedIn
+  a(href="#", class="navbar-link") Signed in as Mark Otto
+
+block content
+
+  .row.workarea
+    .col-sm-1
+    .col-sm-10.workarea
+      h3 Service Search
+      form.form-horizontal(role="form")
+        +form-group("Search Criteria")
+        +form-inputbox("text", "empFName", "Name:", "Employee name", serName)
+  +workbreak
+  .row
+    .col-sm-12
+      div(id="wrapper")
+        div(id="myCarousel" data-carousel-3d)
+          img(src="/images/AI_2.png")
+          img(src="/images/eSalon.png" selected)
+          img(src="/images/eSalon.tif")
+          div(style="min-width: 640px; min-height: 420px; max-width: 640px; max-height: 420px;")
+              p(style="background-color:black; color:white; margin:20px; padding:20px;") A simple html child
+              div(style="background-color:gray; color:white;") Html contents also works ok!!!
+              div The quick brown fox jumps over the lazy dog
+              p Make the fox
+                button(type="button" onclick="alert('Jump!!');") jump
+  +workbreak()
+  .row
+    .col-sm-1
+    .col-sm-10.form-group.workarea
+      ul.nav.nav-pills.pull-right
+        li(role="presentation")
+          a.btn-primary(href="/service/view") View
+        li(role="presentation")
+          a.btn-primary(href="/service/Update") Update
+        li(role="presentation")
+          a.btn-primary(href="/") Cancel
+        li(role="presentation")
+          a.btn-primary(href="#") Delete
+          br
+  //+workbreak()
+

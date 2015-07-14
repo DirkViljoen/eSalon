@@ -17,7 +17,7 @@ mixin form-input-calendar(id, label, placeholder, myValue)
     label.control-label.col-sm-2(for=id)= label
     .col-sm-10
       .input-group
-        input.form-control(type='text' id=id placeholder=placeholder value=myValue)
+        input.form-control.dtpicker(type='text' id=id placeholder=placeholder value=myValue onclick='createpicker('+id+')')
         span.input-group-addon
           span.glyphicon.glyphicon-calendar
 
