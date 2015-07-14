@@ -26,17 +26,16 @@ block content
           .col-xs-6.col-md-3
             a.thumbnail(href='#')
               img(src=empImage alt='No image')
-        .form-group
-          .col-sm-2
-          .col-xs-6.col-md-3
-            .btn-group(role='group' aria-label='...')
-              button.btn.btn-default(type='button') Upload
+            +form-button('Upload')
         br
         +form-group('Credentials')
         +form-inputbox('text', 'empUsername', 'Username:', 'Employee username', empUsername)
         +form-combobox('empRole', 'Role', userRoles, empRole)
         +form-inputbox('password', 'empPassword', 'Password:', 'Employee password', empPassword)
-        +form-button('Change password')
+        .row
+          .col-sm-2
+          .col-sm-10
+            +form-button('Change password', '/employee/change-password')
         br
         +form-group('Address information')
         +form-inputbox('text', 'empALine1', 'Line 1:', '43 Some Complex', empALine1)

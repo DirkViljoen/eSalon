@@ -21,6 +21,7 @@ module.exports = function EmployeeModel() {
         empRole: '1',
 
         empImage: 'https://www.google.co.za/images/nav_logo195.png',
+        lastpage: '',
 
         addressSuburbs:  [
                         {

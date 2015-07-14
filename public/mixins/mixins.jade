@@ -21,10 +21,10 @@ mixin form-input-calendar(id, label, placeholder, myValue)
         span.input-group-addon
           span.glyphicon.glyphicon-calendar
 
-mixin form-button(label)
-  .form-group
-    .col-sm-offset-2.col-sm-10
-      button.btn.btn-default(type="submit")= label
+mixin form-button(label, path)
+  ul.nav.nav-pills
+    li(role='presentation')
+      a.btn-primary(href=path)= label
 
 mixin form-group(label)
   .form-group
