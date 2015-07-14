@@ -6,6 +6,7 @@ html(lang="en")
     link(rel="stylesheet", href="/bower_components/pickadate/lib/themes/default.css")
     link(rel="stylesheet", href="/bower_components/pickadate/lib/themes/default.date.css")
     link(rel="stylesheet", href="/bower_components/pickadate/lib/themes/default.time.css")
+    link(rel="stylesheet", href="/bower_components/jqueryui/themes/smoothness/jquery-ui.min.css")
     link(rel="stylesheet", href="/css/Markup.css")
     link(rel='stylesheet', href='/css/PickaDay.css')
     block links
@@ -126,14 +127,26 @@ html(lang="en")
     script(src='/bower_components/pickadate/lib/picker.js')
     script(src='/bower_components/pickadate/lib/picker.date.js')
     script(src='/bower_components/pickadate/lib/picker.time.js')
-    //script(src="/js/pickaday.js")
-    //script(src="/js/app.js")
+    script(src='/bower_components/jqueryui/jquery-ui.min.js')
+
     script.
       $('.dtpicker').pickadate()
       $('.tmpicker').pickatime({
         min: [7,30],
         max: [18,0]
         })
+      $(function() {
+        $( "#slider" ).slider({
+          value:15,
+          min: 15,
+          max: 180,
+          step: 15,
+          slide: function( event, ui ) {
+            $( "#amount" ).val( ui.value + ' minutes');
+          }
+        });
+        $( '#amount' ).val( $( "#slider" ).slider( "value" ) + ' minutes' );
+      });
 
 
 

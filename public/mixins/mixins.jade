@@ -30,6 +30,13 @@ mixin form-input-time(id, label, placeholder, timeBookingStart)
         span.input-group-addon
           span.glyphicon.glyphicon-time
 
+mixin form-input-slider(id, label, placeholder, myValue)
+  .form-group
+    label.control-label.col-sm-2(for=id)= label
+    .col-sm-10
+      input.form-control(type='text' id=id placeholder=placeholder value=myValue readonly)
+      div(id='slider')
+
 mixin form-button(label, path)
   ul.nav.nav-pills
     li(role='presentation')
@@ -67,6 +74,14 @@ mixin form-combobox(id, name, values, selected)
             option(value=item.id selected)= item.value
           else
             option(value=item.id)= item.value
+
+mixin form-combobox-minimal(id, name, values, selected)
+  select.form-control(id=id name=name)
+    each item in values
+      if item.id == selected
+        option(value=item.id selected)= item.value
+      else
+        option(value=item.id)= item.value
 
 mixin form-combobox-readonly(id, name, values, selected)
   .form-group

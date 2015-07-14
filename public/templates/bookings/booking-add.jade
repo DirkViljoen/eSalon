@@ -18,10 +18,37 @@ block content
         +form-group("Booking details")
         +form-combobox('bookingClient', 'Client:', arrClients, bkgClient)
         //+form-combobox(id, name, values, selected)
-        +form-inputbox('text', 'bookingStylist', 'Stylist', '', bkgStylist)
+        +form-inputbox('text', 'bookingStylist', 'Stylist:', '', bkgStylist)
         +form-input-calendar('bookingDate', 'Booking date:', 'dd/mm/yyyy', dateBookingStart)
         +form-input-time('bookingTime', 'Booking time:', 'hh:mm', timeBookingStart)
-
+        .form-group
+          label.control-label.col-sm-2(for='frmServ') Services:
+          .col-sm-10
+            form.form-horizontal(role="form" id="frmServ")
+              table.table.table-hover
+                thead
+                  tr
+                    th Service
+                    th Length
+                    th Duration
+                    th
+                tbody
+                  tr
+                    td
+                      +form-combobox-minimal('bkgService', 'Service', arrServices, bkgService)
+                    td
+                      +form-combobox-minimal('bkgService', 'Service', arrHairLength, bkgHairLength)
+                    td
+                      input.form-control(type='text' id='dur_1' placeholder='Duration' value=bkgSerLen)
+                    td
+                      +form-button-small-remove()
+                  tr
+                    td
+                    td
+                    td
+                    td
+                      +form-button-small-add()
+        +form-input-slider('amount', 'Duration:', 'mm', '15')
 
   +workbreak()
   .row
@@ -29,12 +56,8 @@ block content
     .col-sm-10.form-group.workarea
       ul.nav.nav-pills.pull-right
         li(role="presentation")
-          a.btn-primary(href="/service/view") View
+          a.btn-primary(href="/booking") Cancel
         li(role="presentation")
-          a.btn-primary(href="/service/Update") Update
-        li(role="presentation")
-          a.btn-primary(href="/") Cancel
-        li(role="presentation")
-          a.btn-primary(href="#") Delete
+          a.btn-primary(href="/booking") Save
           br
 
