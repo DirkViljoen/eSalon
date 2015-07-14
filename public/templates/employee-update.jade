@@ -20,14 +20,6 @@ block content
         +form-inputbox('email', 'empEmail', 'Email:', 'employee@domain.com', empEmail)
         +form-inputbox('text', 'empSalary', 'Salary:', '0 000.00', empSalary)
         br
-        +form-group('Take a picture')
-        .row
-          .col-sm-2
-          .col-xs-6.col-md-3
-            a.thumbnail(href='#')
-              img(src=empImage alt='No image')
-            +form-button('Upload')
-        br
         +form-group('Credentials')
         +form-inputbox('text', 'empUsername', 'Username:', 'Employee username', empUsername)
         +form-combobox('empRole', 'Role', userRoles, empRole)
@@ -43,6 +35,14 @@ block content
         +form-combobox('empSuburb', 'Suburb', addressSuburbs, empSuburb)
         +form-combobox('empCity', 'City', addressCitys, empCity)
         +form-combobox('empProvince', 'Province', addressProvinces, empProvince)
+        br
+        +form-group('Take a picture')
+        .row
+          .col-sm-2
+          .col-xs-6.col-md-3
+            a.thumbnail(href='#')
+              img(src=empImage alt='No image')
+            +form-button('Upload')
   +workbreak()
   .row
     .col-sm-1

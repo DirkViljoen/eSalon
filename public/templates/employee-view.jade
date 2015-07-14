@@ -20,18 +20,10 @@ block content
         +form-inputbox-readonly('email', 'empEmail', 'Email:', 'employee@domain.com', empEmail)
         +form-inputbox-readonly('text', 'empSalary', 'Salary:', '0 000.00', empSalary)
         br
-        +form-group('Take a picture')
-        .row
-          .col-sm-2
-          .col-xs-6.col-md-3
-            a.thumbnail(href='#')
-              img(src=empImage alt='No image')
-        br
         +form-group('Credentials')
         +form-inputbox-readonly('text', 'empUsername', 'Username:', 'Employee username', empUsername)
         +form-combobox-readonly('empRole', 'Role', userRoles, empRole)
         +form-inputbox-readonly('password', 'empPassword', 'Password:', 'Employee password', empPassword)
-        +form-button('Change password')
         br
         +form-group('Address information')
         +form-inputbox-readonly('text', 'empALine1', 'Line 1:', '43 Some Complex', empALine1)
@@ -39,6 +31,13 @@ block content
         +form-combobox-readonly('empSuburb', 'Suburb', addressSuburbs, empSuburb)
         +form-combobox-readonly('empCity', 'City', addressCitys, empCity)
         +form-combobox-readonly('empProvince', 'Province', addressProvinces, empProvince)
+        br
+        +form-group('Take a picture')
+        .row
+          .col-sm-2
+          .col-xs-6.col-md-3
+            a.thumbnail(href='#')
+              img(src=empImage alt='No image')
   +workbreak()
   .row
     .col-sm-1
