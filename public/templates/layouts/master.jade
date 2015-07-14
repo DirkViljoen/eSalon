@@ -3,6 +3,9 @@ html(lang="en")
   head
     title eSalon
     link(rel="stylesheet", href="/bower_components/bootstrap/dist/css/bootstrap.min.css")
+    link(rel="stylesheet", href="/bower_components/pickadate/lib/themes/default.css")
+    link(rel="stylesheet", href="/bower_components/pickadate/lib/themes/default.date.css")
+    link(rel="stylesheet", href="/bower_components/pickadate/lib/themes/default.time.css")
     link(rel="stylesheet", href="/css/Markup.css")
     link(rel='stylesheet', href='/css/PickaDay.css')
     block links
@@ -40,10 +43,12 @@ html(lang="en")
               b.caret
             ul.dropdown-menu
               li
-                a(href='/booking') Add new booking
+                a(href='/booking/add') Add new booking
               li.divider
               li
-                a(href='booking/invoice') Finalize booking
+                a(href='/booking') Manage bookings
+              li
+                a(href='/booking/invoice') Finalize booking
           li.dropdown
             a.dropdown-toggle(href='#', data-toggle='dropdown')
               | Services
@@ -118,12 +123,17 @@ html(lang="en")
 
     script(src="/bower_components/jquery/dist/jquery.min.js")
     script(src="/bower_components/bootstrap/dist/js/bootstrap.min.js")
-    script(src="/js/pickaday.js")
-    - console.log('testMaster')
-    script(src="/js/app.js")
-    - console.log('testmaster2')
+    script(src='/bower_components/pickadate/lib/picker.js')
+    script(src='/bower_components/pickadate/lib/picker.date.js')
+    script(src='/bower_components/pickadate/lib/picker.time.js')
+    //script(src="/js/pickaday.js")
+    //script(src="/js/app.js")
     script.
-      var picker = new Pikaday({ field: document.getElementById('spcStart') });
-      var picker2 = new Pikaday({ field: document.getElementById('spcEnd') });
+      $('.dtpicker').pickadate()
+      $('.tmpicker').pickatime({
+        min: [7,30],
+        max: [18,0]
+        })
+
 
 

@@ -13,6 +13,10 @@ module.exports = function (router) {
         res.render('booking', model);
     });
 
+    router.get('/add', function (req, res) {
+        res.render('bookings/booking-add', model);
+    });
+
     router.get('/invoice', function (req, res) {
         res.render('invoice-add', model);
     });

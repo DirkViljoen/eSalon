@@ -44,9 +44,6 @@
             }
         }
 
-
-
-
         ,"fileNotFound": {
             "enabled": true,
             "priority": 130,
@@ -64,7 +61,5 @@
                 "arguments": [ "errors/500" ]
             }
         }
-
-
     }
 }

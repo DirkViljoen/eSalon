@@ -1,0 +1,40 @@
+extends ../layouts/master
+include ../../mixins/mixins
+
+block links
+
+block header
+  label Add booking
+
+block loggedIn
+  a(href="#", class="navbar-link") Signed in as Mark Otto
+
+block content
+  .row
+    .col-sm-1
+    .col-sm-10.workarea
+      h3 Add new booking
+      form.form-horizontal(role="form")
+        +form-group("Booking details")
+        +form-combobox('bookingClient', 'Client:', arrClients, bkgClient)
+        //+form-combobox(id, name, values, selected)
+        +form-inputbox('text', 'bookingStylist', 'Stylist', '', bkgStylist)
+        +form-input-calendar('bookingDate', 'Booking date:', 'dd/mm/yyyy', dateBookingStart)
+        +form-input-time('bookingTime', 'Booking time:', 'hh:mm', timeBookingStart)
+
+
+  +workbreak()
+  .row
+    .col-sm-1
+    .col-sm-10.form-group.workarea
+      ul.nav.nav-pills.pull-right
+        li(role="presentation")
+          a.btn-primary(href="/service/view") View
+        li(role="presentation")
+          a.btn-primary(href="/service/Update") Update
+        li(role="presentation")
+          a.btn-primary(href="/") Cancel
+        li(role="presentation")
+          a.btn-primary(href="#") Delete
+          br
+

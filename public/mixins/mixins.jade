@@ -17,9 +17,18 @@ mixin form-input-calendar(id, label, placeholder, myValue)
     label.control-label.col-sm-2(for=id)= label
     .col-sm-10
       .input-group
-        input.form-control.dtpicker(type='text' id=id placeholder=placeholder value=myValue onclick='createpicker('+id+')')
+        input.form-control.dtpicker(type='text' id=id placeholder=placeholder value=myValue)
         span.input-group-addon
           span.glyphicon.glyphicon-calendar
+
+mixin form-input-time(id, label, placeholder, timeBookingStart)
+  .form-group
+    label.control-label.col-sm-2(for=id)= label
+    .col-sm-10
+      .input-group
+        input.form-control.tmpicker(type='text' id=id placeholder=placeholder value=myValue)
+        span.input-group-addon
+          span.glyphicon.glyphicon-time
 
 mixin form-button(label, path)
   ul.nav.nav-pills
