@@ -9,6 +9,22 @@ block links
   script(src="../bower_components/modernizr/modernizr.js")
   script(src="/bower_components/carousel-3d/dist/jquery.carousel-3d.js")
 
+  //Calendar
+  link(rel='stylesheet' href='fullcalendar/fullcalendar.css')
+  script(src='bower_components/jquery/dist/jquery.min.js')
+  script(src='bower_components/moment/min/moment.min.js')
+  script(src='bower_components/fullcalendar/dist/fullcalendar.js')
+  script.
+    $(document).ready(function() {
+
+        // page is now ready, initialize the calendar...
+
+        $('#calendar').fullCalendar({
+            // put your options and callbacks here
+        })
+
+    });
+
 block header
   label Services
 
@@ -29,6 +45,7 @@ block content
     .col-sm-12
       div(id="wrapper")
         div(id="myCarousel" data-carousel-3d)
+          div(id='calendar')
           img(src="/images/AI_2.png")
           img(src="/images/eSalon.png" selected)
           img(src="/images/eSalon.tif")

@@ -26,6 +26,16 @@ mixin form-button(label, path)
     li(role='presentation')
       a.btn-primary(href=path)= label
 
+mixin form-button-small-remove()
+  ul.nav.nav-pills
+    li(role='presentation')
+      a.btn-primary.btn-danger(href='') -
+
+mixin form-button-small-add()
+  ul.nav.nav-pills
+    li(role='presentation')
+      a.btn-primary.btn-sm.btn-success(href='') +
+
 mixin form-group(label)
   .form-group
     .col-sm-2

@@ -13,29 +13,83 @@ block content
     .col-sm-1
     .col-sm-10.workarea
       h3 Invoice details
-      form.form-horizontal(role="form")
-        +form-group("Service information")
-        .row
-          .col-sm-2
-          .col-sm-2
-            input.form-control(type='text' id='name_1' placeholder='item name' value='')
-          .col-sm-1
-            input.form-control(type='text' id='quant_1' placeholder='quant' value='')
-          .col-sm-2
-            input.form-control(type='text' id='total_1' placeholder='total' value='')
-        +form-inputbox("text", "serName", "Name:", "Service name", serName)
-        +form-inputbox("text", "serAddInfo", "Additional information:", "Any additional information about the service", serAddInfo)
-        +form-inputbox("text", "serDuration", "Duration:", "20 minutes", serDuration)
-        +form-inputbox("text", "empSalary", "Price:", "100", serPrice)
-        .form-group
-          label.col-sm-2.control-label Hair length
-          .col-sm-10.selectContainer
-            select.form-control(name="size")
-              option(value="") Choose a hair length
-              option(value="1") Short
-              option(value="2") Medium
-              option(value="2") Long
-        +form-inputbox("text", "serCategory", "category:", "Colouring", serCategory)
+      +form-group("Service information")
+      .row
+        .col-sm-2
+          label Services:
+        .col-sm-10
+          form.form-horizontal(role="form")
+            table.table.table-hover
+              thead
+                tr
+                  th Service
+                  th Quantity
+                  th Price
+                  th Discount
+                  th Total
+                  th
+              tbody
+                tr
+                  td
+                    input.form-control(type='text' id='name_1' placeholder='Service name' value='')
+                  td
+                    input.form-control(type='text' id='quant_1' placeholder='Quantity' value='')
+                  td
+                    input.form-control(type='text' id='price_1' placeholder='Price' value='')
+                  td
+                    input.form-control(type='text' id='disc_1' placeholder='Discount' value='')
+                  td
+                    input.form-control(type='text' id='total_1' placeholder='Total' value='')
+                  td
+                    +form-button-small-remove()
+                tr
+                  td
+                  td
+                  td
+                  td
+                  td
+                  td
+                    +form-button-small-add()
+      +form-group("Product information")
+      .row
+        .col-sm-2
+          label Products:
+        .col-sm-10
+          form.form-horizontal(role="form")
+            table.table.table-hover
+              thead
+                tr
+                  th Product
+                  th Quantity
+                  th Price
+                  th Discount
+                  th Total
+                  th
+              tbody
+                tr
+                  td
+                    input.form-control(type='text' id='pname_1' placeholder='Product name' value='')
+                  td
+                    input.form-control(type='text' id='pquant_1' placeholder='Quantity' value='')
+                  td
+                    input.form-control(type='text' id='pprice_1' placeholder='Price' value='')
+                  td
+                    input.form-control(type='text' id='pdisc_1' placeholder='Discount' value='')
+                  td
+                    input.form-control(type='text' id='ptotal_1' placeholder='Total' value='')
+                  td
+                    +form-button-small-remove()
+                tr
+                  td
+                  td
+                  td
+                  td
+                  td
+                  td
+                    +form-button-small-add()
+
+      +form-inputbox("text", "invVoucher", "Voucher:", "Voucher number", serName)
+
   +workbreak()
   .row
     .col-sm-1
