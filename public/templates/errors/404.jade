@@ -1,5 +1,8 @@
-extend ../layouts/master
+extends ../layouts/master_login
+include ../../mixins/mixins
+
 block content
-  .content
-      h1 Whoa there! slow down!
+  form.form-signin.form-horizontal
+      h1 Keep calm, it is only a 404
       p We still need to build these pages
+      +form-button('Lets go back home', '/booking', 'btnHome')

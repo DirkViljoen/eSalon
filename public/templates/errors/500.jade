@@ -1,5 +1,8 @@
-extend ../layouts/master
+extends ../layouts/master_login
+include ../../mixins/mixins
+
 block content
-  .content
-      h1 Internal server error
-      p So sorry :(
+  form.form-signin.form-horizontal
+      h1 Well this is awkward..
+      p The server went a little belly-up
+      +form-button('Lets go back home', '/booking', 'btnHome')

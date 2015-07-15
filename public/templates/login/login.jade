@@ -1,0 +1,10 @@
+extends ../layouts/master_login
+include ../../mixins/mixins
+
+block content
+    form.form-signin.form-horizontal
+        h2 Login details
+        br
+        +form-inputbox('text', 'liUsername', 'Username:', 'Enter your username', '')
+        +form-inputbox('password', 'liPassword', 'Password:', 'Enter your password', '')
+        +form-button('Login', '/booking', 'btnLogin')

@@ -1,10 +1,15 @@
 'use strict';
 
-var IndexModel = require('../models/login');
+
+var LoginModel = require('../../models/login');
+
 
 module.exports = function (router) {
+
     var model = new LoginModel();
+
     router.get('/', function (req, res) {
-        res.render('login/login', model);
+        res.render('login/login',model)
     });
+
 };
