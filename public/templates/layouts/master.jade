@@ -148,5 +148,16 @@ html(lang="en")
         $( '#amount' ).val( $( "#slider" ).slider( "value" ) + ' minutes' );
       });
 
+      $('#frmProductsAll').hide();
+        $('#btnShowProducts').click(function(){
+                $('#frmProductsAll').show();
+                $('#frmProductsButton').hide();
+        });
+      $('#frmVouchersAll').hide();
+        $('#btnShowVouchers').click(function(){
+                $('#frmVouchersAll').show();
+                $('#frmVouchersButton').hide();
+        });
+
 
 

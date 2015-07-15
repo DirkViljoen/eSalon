@@ -2,103 +2,114 @@ extends layouts/master
 include ../mixins/mixins
 
 block header
-  label Finalize invoice
+    label Finalize invoice
 
 block loggedIn
-  a(href="#", class="navbar-link") Signed in as Mark Otto
+    a(href="#", class="navbar-link") Signed in as Mark Otto
 
 block content
 
-  .row
-    .col-sm-1
-    .col-sm-10.workarea
-      h3 Invoice details
-      +form-group("Service information")
-      .row
-        .col-sm-2
-          label Services:
-        .col-sm-10
-          form.form-horizontal(role="form")
-            table.table.table-hover
-              thead
-                tr
-                  th Service
-                  th Quantity
-                  th Price
-                  th Discount
-                  th Total
-                  th
-              tbody
-                tr
-                  td
-                    input.form-control(type='text' id='name_1' placeholder='Service name' value='')
-                  td
-                    input.form-control(type='text' id='quant_1' placeholder='Quantity' value='')
-                  td
-                    input.form-control(type='text' id='price_1' placeholder='Price' value='')
-                  td
-                    input.form-control(type='text' id='disc_1' placeholder='Discount' value='')
-                  td
-                    input.form-control(type='text' id='total_1' placeholder='Total' value='')
-                  td
-                    +form-button-small-remove()
-                tr
-                  td
-                  td
-                  td
-                  td
-                  td
-                  td
-                    +form-button-small-add()
-      +form-group("Product information")
-      .row
-        .col-sm-2
-          label Products:
-        .col-sm-10
-          form.form-horizontal(role="form")
-            table.table.table-hover
-              thead
-                tr
-                  th Product
-                  th Quantity
-                  th Price
-                  th Discount
-                  th Total
-                  th
-              tbody
-                tr
-                  td
-                    input.form-control(type='text' id='pname_1' placeholder='Product name' value='')
-                  td
-                    input.form-control(type='text' id='pquant_1' placeholder='Quantity' value='')
-                  td
-                    input.form-control(type='text' id='pprice_1' placeholder='Price' value='')
-                  td
-                    input.form-control(type='text' id='pdisc_1' placeholder='Discount' value='')
-                  td
-                    input.form-control(type='text' id='ptotal_1' placeholder='Total' value='')
-                  td
-                    +form-button-small-remove()
-                tr
-                  td
-                  td
-                  td
-                  td
-                  td
-                  td
-                    +form-button-small-add()
+    .row
+        .col-sm-1
+        .col-sm-10.workarea
+            h3 Invoice details
+            form.form-horizontal
+                +form-combobox('invoiceClient', 'Client:', arrClients, bkgClient)
+                +form-inputbox('text', 'bookingStylist', 'Stylist:', '', bkgStylist)
+                +form-group("Service information")
+                div
+                    .form-group
+                        label.control-label.col-sm-2(for='frmServices') Services:
+                        .col-sm-10
+                            div(id='frmServices')
+                                table.table.table-hover
+                                    thead
+                                        tr
+                                            th Service
+                                            th Length
+                                            th Price
+                                            th
+                                    tbody
+                                        tr
+                                            td
+                                                input.form-control(type='text' placeholder='Service name' value='')
+                                            td
+                                                input.form-control(type='text' placeholder='Length' value='')
+                                            td
+                                                input.form-control(type='text' placeholder='Price' value='')
+                                            td
+                                                +form-button-small-remove()
+                                        tr
+                                            td
+                                            td
+                                            td
+                                            td
+                                                +form-button-small-add()
+                +form-group("Product information")
+                div(id='frmProductsButton')
+                    .form-group
+                        .col-sm-2
+                        .col-sm-10
+                            button.btn.btn-primary(type='button' id='btnShowProducts') Add products
+                div(id='frmProductsAll')
+                    .form-group
+                        label.control-label.col-sm-2(for='frmProducts') Products:
+                        .col-sm-10
+                            div(id='frmProducts')
+                                table.table.table-hover
+                                    thead
+                                        tr
+                                            th Barcode
+                                            th Name
+                                            th Type
+                                            th Quantity
+                                            th Price
+                                            th
+                                    tbody
+                                        tr
+                                            td
+                                                input.form-control(type='text' placeholder='Barcode' value='')
+                                            td
+                                                input.form-control(type='text' placeholder='Product Name' value='')
+                                            td
+                                                input.form-control(type='text' placeholder='Type' value='')
+                                            td
+                                                input.form-control(type='text' placeholder='Quantity' value='')
+                                            td
+                                                input.form-control(type='text' placeholder='Price' value='')
+                                            td
+                                                +form-button-small-remove()
+                                        tr
+                                            td
+                                            td
+                                            td
+                                            td
+                                            td
+                                            td
+                                                +form-button-small-add()
+                +form-group('Vouchers')
+                div(id='frmVouchersButton')
+                    .form-group
+                        .col-sm-2
+                        .col-sm-10
+                            button.btn.btn-primary(type='button' id='btnShowVouchers') Add Vouchers
+                div(id='frmVouchersAll')
+                    +form-inputbox('text', 'buyVoucher', 'Buy voucher ID:', '', invBuyVoucher)
+                    +form-inputbox('text', 'redeemVoucher', 'Redeem voucher ID:', '', invRedVoucher)
+                    +form-inputbox('text', 'voucherleft', 'Total cash left:', '', 'R 20')
 
-      +form-inputbox("text", "invVoucher", "Voucher:", "Voucher number", serName)
-      +form-inputbox("text", "invPayment", "Payment Recieved:", "Payment Recieved", serName)
+                +workbreak
+                +form-group('Invoice Total')
+                +form-inputbox('text', 'owed', 'Total owed by Client:', '', 'R 160')
 
-  +workbreak()
-  .row
-    .col-sm-1
-    .col-sm-10.form-group.workarea
-      ul.nav.nav-pills.pull-right
-        li(role="presentation")
-          a.btn-primary(href="/service") Save
-        li(role="presentation")
-          a.btn-primary(href="/service") Cancel
-          br
+
+    .row
+        .col-sm-1
+        .col-sm-10.form-group.workarea
+            ul.nav.nav-pills.pull-right
+                li(role="presentation")
+                    a.btn-primary(href="/booking") Save
+                li(role="presentation")
+                    a.btn-primary(href="/booking") Cancel
+                    br
 

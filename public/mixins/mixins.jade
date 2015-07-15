@@ -37,20 +37,20 @@ mixin form-input-slider(id, label, placeholder, myValue)
       input.form-control(type='text' id=id placeholder=placeholder value=myValue readonly)
       div(id='slider')
 
-mixin form-button(label, path)
+mixin form-button(label, path, id)
   ul.nav.nav-pills
     li(role='presentation')
-      a.btn-primary(href=path)= label
+      a.btn-primary(href=path id=id)= label
 
 mixin form-button-small-remove()
   ul.nav.nav-pills
     li(role='presentation')
-      a.btn-primary.btn-danger(href='') -
+      a.btn-primary.btn-danger.glyphicon-minus(href='#')
 
 mixin form-button-small-add()
   ul.nav.nav-pills
     li(role='presentation')
-      a.btn-primary.btn-sm.btn-success(href='') +
+      a.btn-primary.btn-sm.btn-success.glyphicon-plus(href='#')
 
 mixin form-group(label)
   .form-group
