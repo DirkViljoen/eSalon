@@ -35,3 +35,17 @@ $('#btnShowVouchers').click(function(){
 $('.fc-time-grid-event').click(function(){
     window.location = '/booking/update';
 });
+
+$(".btnUpload").click(function() {
+  var input = $(document.createElement('input'));
+  input.attr("type", "file");
+  input.trigger('click');
+  return false;
+});
+
+$('.btnDownload').on('click', function() {
+     var a = document.createElement('a');
+     a.download = 'myImage.png';
+     a.href = '/images/eSalon.png';
+     a.click();
+});

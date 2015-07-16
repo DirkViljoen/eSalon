@@ -10,14 +10,22 @@ module.exports = function (router) {
 
 
     router.get('/', function (req, res) {
-        //You can find me at /sub-letters
-        res.send('<p>sub-letters/</p><code><pre>' + JSON.stringify(model, null, 2) + '</pre></code>');
+        res.render('subletters/subletter')
     });
 
     router.get('/add', function (req, res) {
-    	console.log('test add');
-        //You can find me at /sub-letters/add
-        //res.send('<code><pre>' + JSON.stringify(model, null, 2) + '</pre></code>');
-        res.render('subletter-add', model)
+        res.render('subletters/subletter-add', model)
+    });
+
+    router.get('/update', function (req, res) {
+        res.render('subletters/subletter-update', model)
+    });
+
+    router.get('/view', function (req, res) {
+        res.render('subletters/subletter-view', model)
+    });
+
+    router.get('/payment', function (req, res) {
+        res.render('subletters/subletter-payment', model)
     });
 };

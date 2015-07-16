@@ -42,6 +42,16 @@ mixin form-button(label, path, id)
     li(role='presentation')
       a.btn-primary(href=path id=id)= label
 
+mixin form-button-upload(label, path, id)
+  ul.nav.nav-pills
+    li(role='presentation')
+      a.btnUpload.btn-primary(href=path id=id)= label
+
+mixin form-button-download(label, path, id)
+  ul.nav.nav-pills
+    li(role='presentation')
+      a.btnDownload.btn-primary(href=path id=id)= label
+
 mixin form-button-small-remove()
   ul.nav.nav-pills
     li(role='presentation')
