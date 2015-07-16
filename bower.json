@@ -1,0 +1,29 @@
+{
+  "name": "eSalon",
+  "version": "1.0.0-alpha1",
+  "homepage": "https://github.com/DirkViljoen/eSalon",
+  "authors": [
+    "DirkViljoen <dirkcharl.viljoen@gmail.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "public/components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "~1.4.2",
+    "bootstrap": "~3.3.5",
+    "carousel-3d": "~0.2.2",
+    "fullcalendar": "~2.3.2",
+    "jquery": "~2.1.4",
+    "jqueryui": "~1.11.4",
+    "modernizr": "~2.8.3",
+    "moment": "~2.10.3",
+    "pickadate": "~3.5.6",
+    "waitForImages": "~2.1.0"
+  }
+}
