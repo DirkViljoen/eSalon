@@ -3,5 +3,4 @@ node_modules
 .DS_Store
 npm-debug.log
 esalon.sublime*
-public/components
-public/bower_components
+
