@@ -14,6 +14,8 @@ module.exports = function ClientModel() {
         cliASuburb: '1',
         cliACity: '2',
         cliAProvince: '1',
+        cliNotification: '2',
+        cliRecieveNotifications: '1',
         addressSuburbs:  [
                         {
                             'id': '',
@@ -72,8 +74,7 @@ module.exports = function ClientModel() {
                             'service': 'Hair colour - full',
                             'stylist': 'Monique'
                         }
-                    ]
-        ,
+                    ],
         cliProductHistory:  [
                         {
                             'date': '02 July 2015',
@@ -84,6 +85,20 @@ module.exports = function ClientModel() {
                             'date': '02 July 2015',
                             'product': 'Conditioner - Pantene',
                             'stylist': 'Chante'
+                        }
+                    ],
+        cliNotificationMethods:  [
+                        {
+                            'id':'',
+                            'value': 'Select a notification method'
+                        },
+                        {
+                            'id':'1',
+                            'value': 'SMS'
+                        },
+                        {
+                            'id':'2',
+                            'value': 'email'
                         }
                     ]
     };

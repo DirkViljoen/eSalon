@@ -11,6 +11,12 @@ mixin form-input-search-min(type, id, placeholder, myValue)
       span.input-group-btn
         button.btn.btn-default.glyphicon.glyphicon-search(type="button")
 
+mixin form-inputbox-multiline(id, label, placeholder, myValue)
+  .form-group
+    label.control-label.col-sm-2(for=id)= label
+    .col-sm-10
+      textarea(rows="3" id=id placeholder=placeholder)
+
 //text, password, email
 mixin form-inputbox-readonly(type, id, label, placeholder, myValue)
   .form-group

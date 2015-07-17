@@ -24,10 +24,19 @@ block content
         +form-group('Address information')
         +form-inputbox('text', 'cliALine1', 'Line 1:', '43 Some Complex', cliALine1)
         +form-inputbox('text', 'cliALine2', 'Line 2:', '12 Some street', cliALine2)
-        +form-combobox('cliSuburb', 'Suburb', addressSuburbs, cliASuburb)
-        +form-combobox('cliCity', 'City', addressCitys, cliACity)
-        +form-combobox('cliProvince', 'Province', addressProvinces, cliAProvince)
+        +form-combobox('cliSuburb', 'Suburb:', addressSuburbs, cliASuburb)
+        +form-combobox('cliCity', 'City:', addressCitys, cliACity)
+        +form-combobox('cliProvince', 'Province:', addressProvinces, cliAProvince)
+        br
+        .form-group
+          .col-sm-2
+          .col-sm-6.form-group
+              input(type="checkbox" name='type' value='test' selected)
+              label &nbsp;Recieve notifications
+        +form-combobox('cliNotification method', 'Notification method:', cliNotificationMethods, cliNotification)
+
   +workbreak()
+
   .row
     .col-sm-1
     .col-sm-10.form-group.workarea

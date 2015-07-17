@@ -1,0 +1,37 @@
+extends ../layouts/master
+include ../../mixins/mixins
+
+block header
+    label Add special
+
+block loggedIn
+    a(href="#", class="navbar-link") Signed in as Mark Otto
+
+block content
+
+    .row
+        .col-sm-1
+        .col-sm-10.workarea
+            h3 Change birthday message
+            form.form-horizontal
+                +form-group('Message')
+                +form-inputbox-multiline('mult', '', 'Happy birthday loyal customer', 'test')
+
+                +workbreak
+                .form-group
+                    .col-sm-2
+                    .col-sm-6.form-group
+                        input(type="checkbox" name='type' value='test' selected)
+                        label &nbsp;Send birthday message
+
+
+    .row
+        .col-sm-1
+        .col-sm-10.form-group.workarea
+            ul.nav.nav-pills.pull-right
+                li(role="presentation")
+                    a.btn-primary(href="/booking") Save
+                li(role="presentation")
+                    a.btn-primary(href="/booking") Cancel
+                    br
+

@@ -16,4 +16,8 @@ module.exports = function (router) {
     router.get('/add', function (req, res) {
         res.render('specials/special-add', model)
     });
+
+    router.get('/birthday', function (req, res) {
+        res.render('specials/birthday', model)
+    });
 };
