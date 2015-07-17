@@ -1,4 +1,4 @@
-doctype html
+
 html(lang="en")
     head
         title eSalon
@@ -51,7 +51,10 @@ html(lang="en")
                             li
                                 a(href='/booking') Manage bookings
                             li
-                                a(href='/booking/invoice') Finalize booking
+                                a(href='/booking/finalise') Finalize booking
+                    li.dropdown
+                        a.dropdown-toggle(href='/booking/makesale')
+                            | Make sale
                     li.dropdown
                         a.dropdown-toggle(href='#', data-toggle='dropdown')
                             | Services

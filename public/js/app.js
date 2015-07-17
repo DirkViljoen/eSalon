@@ -1,6 +1,6 @@
 'use strict';
 
-$('.dtpicker').pickadate()
+$('.dtpicker').pickadate({})
 
 $('.tmpicker').pickatime({
     min: [7,30],
@@ -37,15 +37,68 @@ $('.fc-time-grid-event').click(function(){
 });
 
 $(".btnUpload").click(function() {
-  var input = $(document.createElement('input'));
-  input.attr("type", "file");
-  input.trigger('click');
-  return false;
+    var input = $(document.createElement('input'));
+    input.attr("type", "file");
+    input.trigger('click');
+    return false;
 });
 
 $('.btnDownload').on('click', function() {
-     var a = document.createElement('a');
-     a.download = 'myImage.png';
-     a.href = '/images/eSalon.png';
-     a.click();
+   var a = document.createElement('a');
+   a.download = 'myImage.png';
+   a.href = '/images/eSalon.png';
+   a.click();
 });
+
+$('.navigation').find('.fc-view-container').each(function(i, el) {
+    $(el).hide();
+});
+
+$('.employee').find('.fc-toolbar').each(function(i, el) {
+    $(el).hide();
+});
+
+$('.times').find('.fc-toolbar').each(function(i, el) {
+    $(el).hide();
+});
+
+$('.employee').find('.fc-axis').each(function(i, el) {
+    $(el).hide();
+});
+
+$('.calendar').find('.fc-head').each(function(i, el) {
+    $(el).hide();
+});
+
+$('.calendar').find('.fc-day-grid').each(function(i, el) {
+    $(el).hide();
+});
+
+$('#btn-cal-prev').click(function() {
+    var a = new Date((new Date($('#cal-nav').val())).valueOf() - 1000*3600*24);
+    $('#cal-nav').val(a.toUTCString());
+    calchange();
+});
+
+$('#btn-cal-next').click(function() {
+    var a = new Date((new Date($('#cal-nav').val())).valueOf() + 1000*3600*24);
+    $('#cal-nav').val(a.toUTCString());
+    calchange();
+});
+
+$('#cal-nav').change(function() {
+    calchange();
+});
+
+function calchange(){
+    $('.employee').fullCalendar( 'gotoDate', $('#cal-nav').val() );
+    $('.employee').find('.fc-axis').each(function(i, el) {
+        $(el).hide();
+    });
+    $('.calendar').find('.fc-head').each(function(i, el) {
+        $(el).hide();
+    });
+    $('.calendar').find('.fc-day-grid').each(function(i, el) {
+        $(el).hide();
+    });
+}

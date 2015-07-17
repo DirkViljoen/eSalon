@@ -21,8 +21,12 @@ module.exports = function (router) {
         res.render('bookings/booking-update', model);
     });
 
-    router.get('/invoice', function (req, res) {
-        res.render('invoice-add', model);
+    router.get('/makesale', function (req, res) {
+        res.render('invoice/makesale', model);
+    });
+
+    router.get('/finalise', function (req, res) {
+        res.render('invoice/finalisebooking', model);
     });
 
 };

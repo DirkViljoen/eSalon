@@ -1,0 +1,81 @@
+extends ../layouts/master
+include ../../mixins/mixins
+
+block header
+    label Finalize invoice
+
+block loggedIn
+    a(href="#", class="navbar-link") Signed in as Mark Otto
+
+block content
+
+    .row
+        .col-sm-1
+        .col-sm-10.workarea
+            h3 Invoice details
+            form.form-horizontal
+                +form-combobox('invoiceClient', 'Client:', arrClients, bkgClient)
+                +form-inputbox('text', 'bookingStylist', 'Stylist:', '', bkgStylist)
+                +form-group("Product information")
+                div
+                    .form-group
+                        label.control-label.col-sm-2(for='frmProducts') Products:
+                        .col-sm-10
+                            div(id='frmProducts')
+                                table.table.table-hover
+                                    thead
+                                        tr
+                                            th Barcode
+                                            th Name
+                                            th Type
+                                            th Quantity
+                                            th Price
+                                            th
+                                    tbody
+                                        tr
+                                            td
+                                                input.form-control(type='text' placeholder='Barcode' value='')
+                                            td
+                                                input.form-control(type='text' placeholder='Product Name' value='')
+                                            td
+                                                input.form-control(type='text' placeholder='Type' value='')
+                                            td
+                                                input.form-control(type='text' placeholder='Quantity' value='')
+                                            td
+                                                input.form-control(type='text' placeholder='Price' value='')
+                                            td
+                                                +form-button-small-remove()
+                                        tr
+                                            td
+                                            td
+                                            td
+                                            td
+                                            td
+                                            td
+                                                +form-button-small-add()
+                +form-group('Vouchers')
+                div(id='frmVouchersButton')
+                    .form-group
+                        .col-sm-2
+                        .col-sm-10
+                            button.btn.btn-primary(type='button' id='btnShowVouchers') Add Vouchers
+                div(id='frmVouchersAll')
+                    +form-inputbox('text', 'buyVoucher', 'Buy voucher ID:', '', invBuyVoucher)
+                    +form-inputbox('text', 'redeemVoucher', 'Redeem voucher ID:', '', invRedVoucher)
+                    +form-inputbox('text', 'voucherleft', 'Total cash left:', '', 'R 20')
+
+                +workbreak
+                +form-group('Invoice Total')
+                +form-inputbox('text', 'owed', 'Total owed by Client:', '', 'R 160')
+
+
+    .row
+        .col-sm-1
+        .col-sm-10.form-group.workarea
+            ul.nav.nav-pills.pull-right
+                li(role="presentation")
+                    a.btn-primary(href="/booking") Capture
+                li(role="presentation")
+                    a.btn-primary(href="/booking") Cancel
+                    br
+

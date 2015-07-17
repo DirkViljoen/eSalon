@@ -5,6 +5,12 @@ mixin form-inputbox(type, id, label, placeholder, myValue)
     .col-sm-10
       input.form-control(type=type id=id placeholder=placeholder value=myValue)
 
+mixin form-input-search-min(type, id, placeholder, myValue)
+    .input-group
+      input.form-control(id=id type=type placeholder=placeholder)= myvalue
+      span.input-group-btn
+        button.btn.btn-default.glyphicon.glyphicon-search(type="button")
+
 //text, password, email
 mixin form-inputbox-readonly(type, id, label, placeholder, myValue)
   .form-group
@@ -100,3 +106,11 @@ mixin form-combobox-readonly(id, name, values, selected)
       each item in values
         if item.id == selected
           input.form-control(type='text' id=id value=item.value readonly)
+
+mixin table-timeslot(time)
+  tr(style="row-height: 10px;")
+    td.fc-axis.fc-time.ui-widget-content(style="width: 49px;")
+      span= time
+  tr.fc-minor
+    td.fc-axis.fc-time.ui-widget-content(style="width: 49px;")
+

@@ -8,8 +8,37 @@ block loggedIn
     a(href="#", class="navbar-link") Signed in as Mark Otto
 
 block content
-    .row.workarea
-        .col-sm-1
-        .col-sm-10
-            div(id='calendar')
+    .workarea
+        br
+        .row
+            .col-sm-3
+            .col-sm-6
+                +form-input-calendar('cal-nav', 'Goto:', 'dd/mm/yyyy', '17/07/2015')
+            .col-sm-2
+                +form-input-search-min('text', 'cliSearch', 'Search client...', '')
+        br
+        .row
+            .col-sm-1
+                .pull-right
+                    +form-button('<', '#', 'btn-cal-prev')
+            .col-sm-10
+                .row
+                    .col-sm-1
+                        h3 Time
+                        div.times.calendar(id='calendar-times')
+                    .col-sm-11
+                        .row
+                            .col-sm-4
+                                h3 Cherise
+                                div.employee.employee1.calendar(id='calendar-emp1')
+                            .col-sm-4
+                                h3 Sam
+                                div.employee.employee2.calendar(id='calendar-emp2')
+                            .col-sm-4
+                                h3 Mandy
+                                div.employee.employee3.calendar(id='calendar-emp3')
+            .col-sm-1
+                +form-button('>', '#', 'btn-cal-next')
+        br
+
 
