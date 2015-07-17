@@ -16,23 +16,23 @@ block content
         +form-group('Search Criteria')
         +form-inputbox('text', 'cliFName', 'Name:', 'Client name', '')
         +form-inputbox('text', 'cliLName', 'Surname:', 'Client surname', '')
-      .row
-        .col-sm-2
-        .col-sm-8
-          .row
-            table.table.table-hover
-              thead
-                tr
-                  th.col-md-3.col-sm-3 Title
-                  th.col-md-3.col-sm-3 Name
-                  th.col-md-3.col-sm-3 Surname
-                  th.col-md-3.col-sm-3 Date of birth
-              tbody
-                tr
-                  td.col-md-3.col-sm-3= cliTitle
-                  td.col-md-3.col-sm-3= cliFName
-                  td.col-md-3.col-sm-3= cliLName
-                  td.col-md-3.col-sm-3= cliDOB
+        .row
+          .col-sm-2
+          .col-sm-8
+            .row
+              table.table.table-hover
+                thead
+                  tr
+                    th.col-md-3.col-sm-3 Title
+                    th.col-md-3.col-sm-3 Name
+                    th.col-md-3.col-sm-3 Surname
+                    th.col-md-3.col-sm-3 Date of birth
+                tbody
+                  tr
+                    td.col-md-3.col-sm-3= cliTitle
+                    td.col-md-3.col-sm-3= cliFName
+                    td.col-md-3.col-sm-3= cliLName
+                    td.col-md-3.col-sm-3= cliDOB
   +workbreak()
   .row
     .col-sm-1
@@ -42,4 +42,6 @@ block content
           a.btn-primary(href='/client/add') Add
         li(role='presentation')
           a.btn-primary(href='/client/view') View
+        li(role='presentation')
+          a.btn-primary(href='/client') Export client list
           br
