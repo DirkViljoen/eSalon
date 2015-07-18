@@ -22,6 +22,12 @@ $('.times').fullCalendar({
 
 $('.employee1').fullCalendar({
         defaultView: 'agendaDay',
+        dayClick: function(date, jsEvent, view) {
+            window.location = '/booking/add';
+        },
+        eventClick: function(calEvent, jsEvent, view) {
+            window.location = '/booking/update';
+        },
         minTime: '07:00:00',
         maxTime: '18:00:00',
         height: 600,
@@ -30,64 +36,40 @@ $('.employee1').fullCalendar({
         theme: true,
         events: [
             {
-                title: 'All Day Event',
-                start: '2015-07-01'
+                title: 'Mandy W',
+                start: '2015-07-20T07:30:00'
             },
             {
-                title: 'Long Event',
-                start: '2015-07-07',
-                end: '2015-07-10'
+                title: 'Susan K',
+                start: '2015-07-20T10:45:00'
             },
             {
-                id: 999,
-                title: 'Repeating Event',
-                start: '2015-07-09T16:00:00'
+                title: 'Jess T',
+                start: '2015-07-21T14:00:00'
             },
             {
-                id: 999,
-                title: 'Repeating Event',
-                start: '2015-07-16T16:00:00'
+                title: 'Jack A',
+                start: '2015-07-21T08:45:00'
             },
             {
-                title: 'Conference',
-                start: '2015-07-11',
-                end: '2015-07-13'
+                title: 'Karen F',
+                start: '2015-07-22T13:00:00'
             },
             {
-                title: 'Meeting',
-                start: '2015-07-12T10:30:00',
-                end: '2015-07-12T12:30:00'
-            },
-            {
-                title: 'Lunch',
-                start: '2015-07-12T12:00:00'
-            },
-            {
-                title: 'Meeting',
-                start: '2015-07-12T14:30:00'
-            },
-            {
-                title: 'Happy Hour',
-                start: '2015-07-12T17:30:00'
-            },
-            {
-                title: 'Dinner',
-                start: '2015-07-12T20:00:00'
-            },
-            {
-                title: 'Birthday Party',
-                start: '2015-07-13T07:00:00'
-            },
-            {
-                title: 'Click for Google',
-                url: 'http://google.com/',
-                start: '2015-07-28'
+                title: 'Eveline Y',
+                start: '2015-07-22T13:30:00'
             }
         ]
     });
 
 $('.employee2').fullCalendar({
         header: {
+        },
+        dayClick: function(date, jsEvent, view) {
+            window.location = '/booking/add';
+        },
+        eventClick: function(calEvent, jsEvent, view) {
+            window.location = '/booking/update';
         },
         defaultView: 'agendaDay',
         minTime: '07:00:00',
@@ -98,69 +80,33 @@ $('.employee2').fullCalendar({
         theme: true,
         events: [
             {
-                title: 'All Day Event',
-                start: '2015-07-01',
+                title: 'Mandy W',
+                start: '2015-07-21T08:30:00',
                 backgroundColor: 'red'
             },
             {
-                title: 'Long Event',
-                start: '2015-07-07',
-                end: '2015-07-10',
+                title: 'Susan K',
+                start: '2015-07-21T9:45:00',
                 backgroundColor: 'red'
             },
             {
-                id: 999,
-                title: 'Repeating Event',
-                start: '2015-07-09T16:00:00',
+                title: 'Jess T',
+                start: '2015-07-22T14:00:00',
                 backgroundColor: 'red'
             },
             {
-                id: 999,
-                title: 'Repeating Event',
-                start: '2015-07-16T16:00:00',
+                title: 'Jack A',
+                start: '2015-07-22T08:45:00',
                 backgroundColor: 'red'
             },
             {
-                title: 'Conference',
-                start: '2015-07-11',
-                end: '2015-07-13',
+                title: 'Karen F',
+                start: '2015-07-20T13:00:00',
                 backgroundColor: 'red'
             },
             {
-                title: 'Meeting',
-                start: '2015-07-12T10:30:00',
-                end: '2015-07-12T12:30:00',
-                backgroundColor: 'red'
-            },
-            {
-                title: 'Lunch',
-                start: '2015-07-12T12:00:00',
-                backgroundColor: 'red'
-            },
-            {
-                title: 'Meeting',
-                start: '2015-07-12T14:30:00',
-                backgroundColor: 'red'
-            },
-            {
-                title: 'Happy Hour',
-                start: '2015-07-12T17:30:00',
-                backgroundColor: 'red'
-            },
-            {
-                title: 'Dinner',
-                start: '2015-07-12T20:00:00',
-                backgroundColor: 'red'
-            },
-            {
-                title: 'Birthday Party',
-                start: '2015-07-13T07:00:00',
-                backgroundColor: 'red'
-            },
-            {
-                title: 'Click for Google',
-                url: 'http://google.com/',
-                start: '2015-07-28',
+                title: 'Eveline Y',
+                start: '2015-07-20T13:30:00',
                 backgroundColor: 'red'
             }
         ]
@@ -169,6 +115,12 @@ $('.employee2').fullCalendar({
 $('.employee3').fullCalendar({
         header: {
         },
+        dayClick: function(date, jsEvent, view) {
+            window.location = '/booking/add';
+        },
+        eventClick: function(calEvent, jsEvent, view) {
+            window.location = '/booking/update';
+        },
         defaultView: 'agendaDay',
         minTime: '07:00:00',
         maxTime: '18:00:00',
@@ -178,70 +130,108 @@ $('.employee3').fullCalendar({
         theme: true,
         events: [
             {
-                title: 'All Day Event',
-                start: '2015-07-01',
+                title: 'Mandy W',
+                start: '2015-07-22T08:30:00',
                 backgroundColor: 'lime'
             },
             {
-                title: 'Long Event',
-                start: '2015-07-07',
-                end: '2015-07-10',
+                title: 'Susan K',
+                start: '2015-07-22T9:45:00',
                 backgroundColor: 'lime'
             },
             {
-                id: 999,
-                title: 'Repeating Event',
-                start: '2015-07-09T16:00:00',
+                title: 'Jess T',
+                start: '2015-07-20T14:00:00',
                 backgroundColor: 'lime'
             },
             {
-                id: 999,
-                title: 'Repeating Event',
-                start: '2015-07-16T16:00:00',
+                title: 'Jack A',
+                start: '2015-07-20T08:45:00',
                 backgroundColor: 'lime'
             },
             {
-                title: 'Conference',
-                start: '2015-07-11',
-                end: '2015-07-13',
+                title: 'Karen F',
+                start: '2015-07-21T13:00:00',
                 backgroundColor: 'lime'
             },
             {
-                title: 'Meeting',
-                start: '2015-07-12T10:30:00',
-                end: '2015-07-12T12:30:00',
-                backgroundColor: 'lime'
-            },
-            {
-                title: 'Lunch',
-                start: '2015-07-12T12:00:00',
-                backgroundColor: 'lime'
-            },
-            {
-                title: 'Meeting',
-                start: '2015-07-12T14:30:00',
-                backgroundColor: 'lime'
-            },
-            {
-                title: 'Happy Hour',
-                start: '2015-07-12T17:30:00',
-                backgroundColor: 'lime'
-            },
-            {
-                title: 'Dinner',
-                start: '2015-07-12T20:00:00',
-                backgroundColor: 'lime'
-            },
-            {
-                title: 'Birthday Party',
-                start: '2015-07-13T07:00:00',
-                backgroundColor: 'lime'
-            },
-            {
-                title: 'Click for Google',
-                url: 'http://google.com/',
-                start: '2015-07-28',
+                title: 'Eveline Y',
+                start: '2015-07-21T10:30:00',
                 backgroundColor: 'lime'
             }
         ]
     });
+
+$('#calendar-emp1').fullCalendar({
+    dayClick: function(date, jsEvent, view) {
+
+        alert('Clicked on: ' + date.format());
+        alert('Coordinates: ' + jsEvent.pageX + ',' + jsEvent.pageY);
+        alert('Current view: ' + view.name);
+
+        // change the day's background color just for fun
+        $(this).css('background-color', 'red');
+    },
+    eventClick: function(calEvent, jsEvent, view) {
+
+        alert('Event: ' + calEvent.title);
+        alert('Coordinates: ' + jsEvent.pageX + ',' + jsEvent.pageY);
+        alert('View: ' + view.name);
+
+        // change the border color just for fun
+        $(this).css('border-color', 'lime');
+    }
+});
+
+$('.navigation').find('.fc-view-container').each(function(i, el) {
+    $(el).hide();
+});
+
+$('.employee').find('.fc-toolbar').each(function(i, el) {
+    $(el).hide();
+});
+
+$('.times').find('.fc-toolbar').each(function(i, el) {
+    $(el).hide();
+});
+
+$('.employee').find('.fc-axis').each(function(i, el) {
+    $(el).hide();
+});
+
+$('.calendar').find('.fc-head').each(function(i, el) {
+    $(el).hide();
+});
+
+$('.calendar').find('.fc-day-grid').each(function(i, el) {
+    $(el).hide();
+});
+
+$('#btn-cal-prev').click(function() {
+    var a = new Date((new Date($('#cal-nav').val())).valueOf() - 1000*3600*24);
+    $('#cal-nav').val(a.toUTCString());
+    calchange();
+});
+
+$('#btn-cal-next').click(function() {
+    var a = new Date((new Date($('#cal-nav').val())).valueOf() + 1000*3600*24);
+    $('#cal-nav').val(a.toUTCString());
+    calchange();
+});
+
+$('#cal-nav').change(function() {
+    calchange();
+});
+
+function calchange(){
+    $('.employee').fullCalendar( 'gotoDate', $('#cal-nav').val() );
+    $('.employee').find('.fc-axis').each(function(i, el) {
+        $(el).hide();
+    });
+    $('.calendar').find('.fc-head').each(function(i, el) {
+        $(el).hide();
+    });
+    $('.calendar').find('.fc-day-grid').each(function(i, el) {
+        $(el).hide();
+    });
+}

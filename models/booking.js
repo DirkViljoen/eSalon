@@ -10,6 +10,7 @@ module.exports = function BookingModel() {
         bkgService: '2',
         bkgHairLength: '3',
         bkgSerLen: "00:30",
+        timeBookingStart: "2:30 PM",
         arrClients:
           [
             {

@@ -34,15 +34,15 @@ block content
                                     tbody
                                         tr
                                             td
-                                                input.form-control(type='text' placeholder='Barcode' value='')
+                                                input.form-control(type='text' placeholder='Barcode' value='4356789')
                                             td
-                                                input.form-control(type='text' placeholder='Product Name' value='')
+                                                input.form-control(type='text' placeholder='Product Name' value='Tresume - dry')
                                             td
-                                                input.form-control(type='text' placeholder='Type' value='')
+                                                input.form-control(type='text' placeholder='Type' value='Shampoo')
                                             td
-                                                input.form-control(type='text' placeholder='Quantity' value='')
+                                                input.form-control(type='text' placeholder='Quantity' value='2')
                                             td
-                                                input.form-control(type='text' placeholder='Price' value='')
+                                                input.form-control(type='text' placeholder='Price' value='R 60')
                                             td
                                                 +form-button-small-remove()
                                         tr
@@ -60,8 +60,8 @@ block content
                         .col-sm-10
                             button.btn.btn-primary(type='button' id='btnShowVouchers') Add Vouchers
                 div(id='frmVouchersAll')
-                    +form-inputbox('text', 'buyVoucher', 'Buy voucher ID:', '', invBuyVoucher)
-                    +form-inputbox('text', 'redeemVoucher', 'Redeem voucher ID:', '', invRedVoucher)
+                    +form-inputbox('text', 'buyVoucher', 'Buy voucher ID:', '', '234')
+                    +form-inputbox('text', 'redeemVoucher', 'Redeem voucher ID:', '', '1234')
                     +form-inputbox('text', 'voucherleft', 'Total cash left:', '', 'R 20')
 
                 +workbreak

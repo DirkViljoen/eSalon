@@ -97,6 +97,22 @@ mixin form-combobox(id, name, values, selected)
           else
             option(value=item.id)= item.value
 
+mixin form-combobox-button(id, name, values, selected, href)
+  .form-group
+    label.col-sm-2.control-label= name
+    .col-sm-9.selectContainer
+      select.form-control(id=id name=name)
+        each item in values
+          if item.id == selected
+            option(value=item.id selected)= item.value
+          else
+            option(value=item.id)= item.value
+    .col-sm-1
+        ul.nav.nav-pills
+          li(role='presentation')
+            a.btn-primary.btn-sm.btn-primary.glyphicon-plus(href=href)
+
+
 mixin form-combobox-minimal(id, name, values, selected)
   select.form-control(id=id name=name)
     each item in values
@@ -104,6 +120,8 @@ mixin form-combobox-minimal(id, name, values, selected)
         option(value=item.id selected)= item.value
       else
         option(value=item.id)= item.value
+
+
 
 mixin form-combobox-readonly(id, name, values, selected)
   .form-group

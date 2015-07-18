@@ -32,11 +32,11 @@ block content
                                     tbody
                                         tr
                                             td
-                                                input.form-control(type='text' placeholder='Service name' value='')
+                                                input.form-control(type='text' placeholder='Service name' value='Standard cut')
                                             td
-                                                input.form-control(type='text' placeholder='Length' value='')
+                                                input.form-control(type='text' placeholder='Length' value='Short')
                                             td
-                                                input.form-control(type='text' placeholder='Price' value='')
+                                                input.form-control(type='text' placeholder='Price' value='R 100')
                                             td
                                                 +form-button-small-remove()
                                         tr
@@ -68,15 +68,15 @@ block content
                                     tbody
                                         tr
                                             td
-                                                input.form-control(type='text' placeholder='Barcode' value='')
+                                                input.form-control(type='text' placeholder='Barcode' value='123452312')
                                             td
-                                                input.form-control(type='text' placeholder='Product Name' value='')
+                                                input.form-control(type='text' placeholder='Product Name' value='Biokenetics - dry')
                                             td
-                                                input.form-control(type='text' placeholder='Type' value='')
+                                                input.form-control(type='text' placeholder='Type' value='Shampoo')
                                             td
-                                                input.form-control(type='text' placeholder='Quantity' value='')
+                                                input.form-control(type='text' placeholder='Quantity' value='1')
                                             td
-                                                input.form-control(type='text' placeholder='Price' value='')
+                                                input.form-control(type='text' placeholder='Price' value='R 60')
                                             td
                                                 +form-button-small-remove()
                                         tr
@@ -94,8 +94,8 @@ block content
                         .col-sm-10
                             button.btn.btn-primary(type='button' id='btnShowVouchers') Add Vouchers
                 div(id='frmVouchersAll')
-                    +form-inputbox('text', 'buyVoucher', 'Buy voucher ID:', '', invBuyVoucher)
-                    +form-inputbox('text', 'redeemVoucher', 'Redeem voucher ID:', '', invRedVoucher)
+                    +form-inputbox('text', 'buyVoucher', 'Buy voucher ID:', '', '3435')
+                    +form-inputbox('text', 'redeemVoucher', 'Redeem voucher ID:', '', '4245')
                     +form-inputbox('text', 'voucherleft', 'Total cash left:', '', 'R 20')
 
                 +workbreak

@@ -16,7 +16,7 @@ block content
       h3 Add new booking
       form.form-horizontal(role="form")
         +form-group("Booking details")
-        +form-combobox('bookingClient', 'Client:', arrClients, bkgClient)
+        +form-combobox-button('bookingClient', 'Client:', arrClients, bkgClient, '/client/add')
         //+form-combobox(id, name, values, selected)
         +form-inputbox('text', 'bookingStylist', 'Stylist:', '', bkgStylist)
         +form-input-calendar('bookingDate', 'Booking date:', 'dd/mm/yyyy', dateBookingStart)
@@ -48,7 +48,7 @@ block content
                     td
                     td
                       +form-button-small-add()
-        +form-input-slider('amount', 'Duration:', 'mm', '15')
+        +form-input-slider('amount', 'Duration:', 'mm', '30')
 
   +workbreak()
   .row
