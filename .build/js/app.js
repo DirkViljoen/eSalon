@@ -40,8 +40,20 @@ $(".btnUpload").click(function() {
 });
 
 $('.btnDownload').on('click', function() {
-   var a = document.createElement('a');
-   a.download = 'myImage.png';
-   a.href = '/images/eSalon.png';
-   a.click();
+    var a = document.createElement('a');
+    a.download = 'myImage.png';
+    a.href = '/images/eSalon.png';
+    a.click();
 });
+
+$(function () { $('#roleTree').jstree({
+    "core" : {
+        "themes" : {
+            "variant" : "large"
+        }
+    },
+    "checkbox" : {
+        "keep_selected_style" : false
+    },
+    "plugins" : [ "wholerow", "checkbox" ]
+}); });
