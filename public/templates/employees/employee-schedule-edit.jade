@@ -1,0 +1,43 @@
+extends ../layouts/master
+include ../../mixins/mixins
+
+block header
+  label Manage employee schedule item
+
+block loggedIn
+  a(href='#', class='navbar-link') Signed in as Mark Otto
+
+block content
+  .row
+    .col-sm-1
+    .col-sm-10.workarea
+      h3 Edit schedule item for !{empFName} !{empLName}
+      +form-group('Title')
+      +form-inputbox('text', 'schTitle', 'Title:', 'Schedule title', 'Off day')
+
+      +workbreak
+      +form-group('From')
+      +form-input-calendar('SsDate', 'Date:', 'dd mmmm, yyyy', '24 July, 2015')
+      +form-input-time('ssTime', 'Booking time:', 'hh:mm', '')
+
+      +workbreak
+      +form-group('To')
+      +form-input-calendar('seDate', 'Date:', 'dd mmmm, yyyy', '24 July, 2015')
+      +form-input-time('seTime', 'Booking time:', 'hh:mm', '')
+
+      +workbreak
+      +form-group('Other settings')
+      +form-combobox('schedRec', 'Recurring:', recurringItems, '')
+
+  +workbreak()
+  .row
+    .col-sm-1
+    .col-sm-10.form-group.workarea
+      ul.nav.nav-pills.pull-right
+        li(role='presentation')
+          a.btn-primary(href='/employee/schedule') Save
+        li(role='presentation')
+          a.btn-primary(href='/employee/schedule') Delete
+        li(role='presentation')
+          a.btn-primary(href='/employee/schedule') Cancel
+          br

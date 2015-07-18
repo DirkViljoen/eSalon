@@ -41,7 +41,12 @@ module.exports = function (router) {
     });
 
     router.get('/schedule', function (req, res) {
-        res.render('employee/employee-schedule', model)
+        res.render('employees/employee-schedule', model)
     });
+
+    router.get('/schedule-edit', function (req, res) {
+        res.render('employees/employee-schedule-edit', model)
+    });
+
 
 };

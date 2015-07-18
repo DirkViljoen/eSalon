@@ -235,3 +235,65 @@ function calchange(){
         $(el).hide();
     });
 }
+
+$('#employeeSchedule').fullCalendar({
+    header: {
+        left: 'prev,next today',
+        center: 'title',
+        right: 'month,agendaWeek,agendaDay'
+    },
+    defaultView: 'month',
+    editable: true,
+    eventLimit: true,
+    theme: true,
+    dayClick: function(date, jsEvent, view) {
+        window.location = '/employee/schedule-edit';
+    },
+    eventClick: function(calEvent, jsEvent, view) {
+        window.location = '/employee/schedule-edit';
+    },
+    events: [
+        {
+            title: 'Off day',
+            start: '2015-07-24',
+            backgroundColor: 'gray'
+        },
+        {
+            title: 'Holiday',
+            start: '2015-06-07',
+            end: '2015-07-19',
+            backgroundColor: 'gray'
+        },
+        {
+            title: 'Mandy W',
+            start: '2015-07-22T08:30:00',
+            backgroundColor: 'red'
+        },
+        {
+            title: 'Susan K',
+            start: '2015-07-22T9:45:00',
+            backgroundColor: 'red'
+        },
+        {
+            title: 'Jess T',
+            start: '2015-07-20T14:00:00',
+            backgroundColor: 'red'
+        },
+        {
+            title: 'Jack A',
+            start: '2015-07-20T08:45:00',
+            backgroundColor: 'red'
+        },
+        {
+            title: 'Karen F',
+            start: '2015-07-21T13:00:00',
+            backgroundColor: 'red'
+        },
+        {
+            title: 'Eveline Y',
+            start: '2015-07-21T10:30:00',
+            backgroundColor: 'red'
+        }
+    ]
+
+});

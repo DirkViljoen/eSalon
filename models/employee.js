@@ -79,6 +79,28 @@ module.exports = function EmployeeModel() {
                             'id': '2',
                             'value': 'Stylist'
                         }
+                    ],
+        recurringItems:  [
+                        {
+                            'id': '',
+                            'value': 'Not recurring'
+                        },
+                        {
+                            'id': '1',
+                            'value': 'Monthly'
+                        },
+                        {
+                            'id': '2',
+                            'value': 'Every second week'
+                        },
+                        {
+                            'id': '3',
+                            'value': 'weekly'
+                        },
+                        {
+                            'id': '4',
+                            'value': 'Daily'
+                        }
                     ]
     };
 };
