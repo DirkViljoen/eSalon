@@ -10,7 +10,8 @@ module.exports = function (router) {
 
 
     router.get('/', function (req, res) {
-        res.render('subletters/subletter')
+        console.log('call subletter')
+        res.render('subletters/subletter', model)
     });
 
     router.get('/add', function (req, res) {

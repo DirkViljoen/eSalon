@@ -37,9 +37,11 @@ module.exports = function (router) {
     });
 
     router.get('/change-password', function (req, res) {
-        //You can find me at /employee/add-image
-        //res.send('<code><pre>' + JSON.stringify(model, null, 2) + '</pre></code>');
         res.render('employees/employee-change-password', model)
+    });
+
+    router.get('/schedule', function (req, res) {
+        res.render('employee/employee-schedule', model)
     });
 
 };
