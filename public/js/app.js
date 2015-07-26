@@ -10,9 +10,9 @@ $('.tmpicker').pickatime({
 $(function() {
     $( "#slider" ).slider({
         value:30,
-        min: 15,
+        min: 10,
         max: 180,
-        step: 15,
+        step: 5,
         slide: function( event, ui ) {
             $( "#amount" ).val( ui.value + ' minutes');
         }

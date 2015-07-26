@@ -1,9 +1,9 @@
 .workarea {
-	background-color: #987987
+	background-color: #FCE0FF
 }
 
-.table {
-	background-color: #f5a4f5
+.nopadding {
+   padding: 0 !important;
 }
 
 .treeview {

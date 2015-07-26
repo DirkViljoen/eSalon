@@ -48,7 +48,10 @@ block content
                     td
                     td
                       +form-button-small-add()
-        +form-input-slider('amount', 'Duration:', 'mm', '15')
+        +form-input-slider('amount', 'Duration:', 'mm', '10')
+      +workbreak()
+      form.form-horizontal(role="form")
+        +form-inputbox('text', 'bkngReference', 'Booking reference:', '', '0526-0023', 5, true)
 
   +workbreak()
   .row

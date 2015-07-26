@@ -1,9 +1,14 @@
 //text, password, email
-mixin form-inputbox(type, id, label, placeholder, myValue)
+mixin form-inputbox(type, id, label, placeholder, myValue, size, readonly)
   .form-group
     label.control-label.col-sm-2(for=id)= label
-    .col-sm-10
-      input.form-control(type=type id=id placeholder=placeholder value=myValue)
+    - var inSize
+    if size
+      - inSize = size
+    else
+      - inSize = 5
+    div(class='col-sm-#{inSize}')
+      input.form-control(type=type id=id placeholder=placeholder value=myValue readonly=readonly)
 
 mixin form-input-search-min(type, id, placeholder, myValue)
     .input-group
@@ -14,20 +19,20 @@ mixin form-input-search-min(type, id, placeholder, myValue)
 mixin form-inputbox-multiline(id, label, placeholder, myValue)
   .form-group
     label.control-label.col-sm-2(for=id)= label
-    .col-sm-10
+    .col-sm-5
       textarea(rows="3" id=id placeholder=placeholder)
 
 //text, password, email
 mixin form-inputbox-readonly(type, id, label, placeholder, myValue)
   .form-group
     label.control-label.col-sm-2(for=id)= label
-    .col-sm-10
+    .col-sm-5
       input.form-control(type=type id=id placeholder=placeholder value=myValue readonly)
 
 mixin form-input-calendar(id, label, placeholder, myValue)
   .form-group
     label.control-label.col-sm-2(for=id)= label
-    .col-sm-10
+    .col-sm-5
       .input-group
         input.form-control.dtpicker(type='text' id=id placeholder=placeholder value=myValue)
         span.input-group-addon
@@ -36,7 +41,7 @@ mixin form-input-calendar(id, label, placeholder, myValue)
 mixin form-input-time(id, label, placeholder, timeBookingStart)
   .form-group
     label.control-label.col-sm-2(for=id)= label
-    .col-sm-10
+    .col-sm-5
       .input-group
         input.form-control.tmpicker(type='text' id=id placeholder=placeholder value=myValue)
         span.input-group-addon
@@ -45,7 +50,7 @@ mixin form-input-time(id, label, placeholder, timeBookingStart)
 mixin form-input-slider(id, label, placeholder, myValue)
   .form-group
     label.control-label.col-sm-2(for=id)= label
-    .col-sm-10
+    .col-sm-5
       input.form-control(type='text' id=id placeholder=placeholder value=myValue readonly)
       div(id='slider')
 
@@ -77,7 +82,7 @@ mixin form-button-small-add()
 mixin form-group(label)
   .form-group
     .col-sm-2
-    .col-sm-10
+    .col-sm-5
       h5= label
 
 mixin workbreak()
@@ -89,7 +94,7 @@ mixin workbreak()
 mixin form-combobox(id, name, values, selected)
   .form-group
     label.col-sm-2.control-label= name
-    .col-sm-10.selectContainer
+    .col-sm-5.selectContainer
       select.form-control(id=id name=name)
         each item in values
           if item.id == selected
@@ -100,7 +105,7 @@ mixin form-combobox(id, name, values, selected)
 mixin form-combobox-button(id, name, values, selected, href)
   .form-group
     label.col-sm-2.control-label= name
-    .col-sm-9.selectContainer
+    .col-sm-5.selectContainer
       select.form-control(id=id name=name)
         each item in values
           if item.id == selected
@@ -126,7 +131,7 @@ mixin form-combobox-minimal(id, name, values, selected)
 mixin form-combobox-readonly(id, name, values, selected)
   .form-group
     label.control-label.col-sm-2(for=id)= name
-    .col-sm-10
+    .col-sm-5
       each item in values
         if item.id == selected
           input.form-control(type='text' id=id value=item.value readonly)

@@ -34,18 +34,25 @@ $('.employee1').fullCalendar({
         editable: true,
         eventLimit: true, // allow "more" link when too many events
         theme: true,
+        eventTextColor: '#000',
         events: [
             {
-                title: 'Mandy W',
-                start: '2015-07-20T07:30:00'
+                title: 'Mandy W, Root colour - Long',
+                start: '2015-07-26T07:30:00',
+                end: '2015-07-26T08:30:00',
+                backgroundColor: '#FFB0B0'
             },
             {
-                title: 'Susan K',
-                start: '2015-07-20T10:45:00'
+                title: 'Susan K, Haircut - Medium',
+                start: '2015-07-26T08:30:00',
+                end: '2015-07-26T09:00:00',
+                backgroundColor: '#B0FFB1'
             },
             {
-                title: 'Jess T',
-                start: '2015-07-21T14:00:00'
+                title: 'Jess T, Full colour - Long',
+                start: '2015-07-26T14:00:00',
+                end: '2015-07-26T07:30:00',
+                backgroundColor: '#FFFCB0'
             },
             {
                 title: 'Jack A',
@@ -78,7 +85,26 @@ $('.employee2').fullCalendar({
         editable: true,
         eventLimit: true, // allow "more" link when too many events
         theme: true,
+        eventTextColor: '#000',
         events: [
+            {
+                title: 'Karla E, Full colour - Long',
+                start: '2015-07-26T07:30:00',
+                end: '2015-07-26T09:00:00',
+                backgroundColor: '#B0FFB1'
+            },
+            {
+                title: 'Will S, Haircut - Short',
+                start: '2015-07-26T08:15:00',
+                end: '2015-07-26T08:45:00',
+                backgroundColor: '#B0FFB1'
+            },
+            {
+                title: 'Jenny T, Full colour - Long',
+                start: '2015-07-26T09:00:00',
+                end: '2015-07-26T11:30:00',
+                backgroundColor: '#B0FFB1'
+            },
             {
                 title: 'Mandy W',
                 start: '2015-07-21T08:30:00',
@@ -130,9 +156,10 @@ $('.employee3').fullCalendar({
         theme: true,
         events: [
             {
-                title: 'Mandy W',
-                start: '2015-07-22T08:30:00',
-                backgroundColor: 'lime'
+                title: 'Off day',
+                start: '2015-07-26T07:00',
+                end: '2015-07-26T18:00',
+                backgroundColor: '#3C3C3C'
             },
             {
                 title: 'Susan K',
