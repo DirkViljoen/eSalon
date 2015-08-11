@@ -59,6 +59,9 @@ mixin form-button(label, path, id)
     li(role='presentation')
       a.btn-primary(href=path id=id)= label
 
+mixin form-submit(label, path, id)
+  input.btn.btn-default(id=id type="submit" value=label)
+
 mixin form-button-upload(label, path, id)
   ul.nav.nav-pills
     li(role='presentation')

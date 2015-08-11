@@ -10,12 +10,28 @@ module.exports = function (router) {
 
 
     router.get('/', function (req, res) {
-        console.log('call subletter')
-        res.render('subletters/subletter', model)
+        console.log(req.body);
+        //model = new SubLettersModel();
+        res.render('subletters/subletter', model.index());
+        //res.send('<code><pre>' + JSON.stringify(model.index()) + '</pre></code>')
+        //res.render('subletters/subletter', model.index());
+    });
+
+    router.post('/', function (req, res) {
+        console.log(req.body);
+        //model = new SubLettersModel();
+        //res.render('subletters', model.hello());
+        res.send('<code><pre>' + JSON.stringify(model.index(req.body.id)) + '</pre></code>')
+        //res.render('subletters/subletter', model.index());
     });
 
     router.get('/add', function (req, res) {
         res.render('subletters/subletter-add', model)
+    });
+
+    router.post('/add/', function (req, res) {
+        var index = model.create(req);
+        res.render('subletters')
     });
 
     router.get('/update', function (req, res) {

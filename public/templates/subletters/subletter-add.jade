@@ -12,7 +12,7 @@ block content
         .col-sm-1
         .col-sm-10.workarea
             h3 New sub-letter details
-            form.form-horizontal
+            form.form-signin.form-horizontal(method="post" action="/sub-letters/Add/")
                 +form-inputbox('text', 'slBusinessName', 'Business name:', 'Sub-letter business name', slBName)
                 +form-inputbox('text', 'slContactFName', 'Contact name:', 'Sub-letter contact name', slCFName)
                 +form-inputbox('text', 'slContactLName', 'Contact surname:', 'Sub-letter contact surname', slCLName)
@@ -24,6 +24,10 @@ block content
     +workbreak()
     .row
         .col-sm-1
+        .col-sm-10
+            input(type="submit" value="Save")
+    .row
+        .col-sm-1
         .col-sm-10.form-group.workarea
             ul.nav.nav-pills.pull-right
                 li(role='presentation')
@@ -31,4 +35,5 @@ block content
                 li(role='presentation')
                     a.btn-primary(href='/sub-letters') Cancel
                     br
+
 

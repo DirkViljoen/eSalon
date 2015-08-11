@@ -12,4 +12,8 @@ module.exports = function (router) {
         res.render('login/login',model)
     });
 
+    router.get('/login', function (req, res) {
+        res.send('<code><pre>test</pre></code>');
+    });
+
 };

@@ -8,6 +8,7 @@
     "test": "grunt test"
   },
   "dependencies": {
+    "bower": "~1.4.0",
     "dustjs-helpers": "1.6.0",
     "dustjs-linkedin": "2.6.1",
     "engine-munger": "^0.2.0",
@@ -17,7 +18,8 @@
     "kraken-js": "^1.0.1",
     "less": "~1.7.0",
     "localizr": "^1.0.0",
-    "bower": "~1.4.0"
+    "mysql": "^2.8.0",
+    "node-mysql": "^0.4.2"
   },
   "devDependencies": {
     "mocha": "^1.18.0",

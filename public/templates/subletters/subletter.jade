@@ -13,7 +13,7 @@ block content
         .col-sm-10.workarea
             h3 Sub-letter search
             form.form-horizontal
-                +form-inputbox('text', 'slBusinessName', 'Business name:', 'Sub-letter business name', slBName)
+                +form-inputbox('text', 'slBusinessName', 'Business name:', 'Sub-letter business name', '')
 
     +workbreak()
     .row
@@ -26,13 +26,13 @@ block content
                 th Contact Person
                 th Contact Number
                 th Contact email
-            each item in slSearch
+            each item in rows
                 tbody
                     tr
-                        td= item.slBName
-                        td= item.slCFName + ' ' + item.slCLName
-                        td= item.slCNumber
-                        td= item.slCEmail
+                        td= item.sSub_Letter_id
+                        td= item.sDateTime
+                        td= item.sContactNumber
+                        td= item.sEmail
     .row
         .col-sm-1
         .col-sm-10.form-group.workarea
