@@ -2,10 +2,21 @@ USE eSalon;
 
 DELIMITER //
 CREATE PROCEDURE Sub_Letter_Search
+(IN bName VARCHAR(50))
+BEGIN
+  SELECT * FROM `Sub_Letter`
+  WHERE `sBusinessName` LIKE bName
+   AND `sActive` = true;
+END //
+DELIMITER ;
+
+DELIMITER //
+CREATE PROCEDURE Sub_Letter_view
 (IN id INT)
 BEGIN
   SELECT * FROM `Sub_Letter`
-  WHERE sSub_Letter_id = id;
+  WHERE `sSub_Letter_id` = id
+   AND `sActive` = true;
 END //
 DELIMITER ;
 
@@ -13,7 +24,9 @@ DELIMITER //
 CREATE PROCEDURE Sub_Letter_All
 ()
 BEGIN
-  SELECT * FROM `Sub_Letter`;
+  SELECT * 
+  FROM `Sub_Letter`
+  WHERE `sActive` = true;
 END //
 DELIMITER ;
 

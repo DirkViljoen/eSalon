@@ -162,18 +162,21 @@ CREATE TABLE `Expense`(
 --------
 CREATE TABLE `Sub_Letter`(
           sSub_Letter_id INT NULL AUTO_INCREMENT,
+          sBusinessName VARCHAR(50),
+          sContactFName VARCHAR(50),
+          sContactLName VARCHAR(50),
+          sContactNumber VARCHAR(15),
+          sContactEmail  VARCHAR(100),
           sDateTime DATE,
           sAmount VARCHAR(50),
-          sEmail  VARCHAR(100),
-          sContactNumber VARCHAR(15),
           sActive BOOLEAN,
 
           PRIMARY KEY(sSub_Letter_id)
 );
 
-INSERT INTO `Sub_Letter`(sSub_Letter_id,sDateTime,sAmount,sEmail,sContactNumber,sActive) VALUES(1,"2015-07-01",2500,"RoseMuller@gmail.com","0825673546",True);
-INSERT INTO `Sub_Letter`(sSub_Letter_id,sDateTime,sAmount,sEmail,sContactNumber,sActive) VALUES(2,"2015-02-01",2500,"Amelia205@gmail.com","0614587598",False);
-INSERT INTO `Sub_Letter`(sSub_Letter_id,sDateTime,sAmount,sEmail,sContactNumber,sActive) VALUES(3,"2014-01-01",2500,"Charlotte87@gmail.com","0735238967",False); 
+INSERT INTO `Sub_Letter`(sSub_Letter_id,sBusinessName,sContactFName,sContactLName,sContactNumber,sContactEmail,sDateTime,sAmount,sActive) VALUES(1,"Cat's nails","Rose", "Muller","0825673546","RoseMuller@gmail.com","2015-07-01",2500,True);
+INSERT INTO `Sub_Letter`(sSub_Letter_id,sBusinessName,sContactFName,sContactLName,sContactNumber,sContactEmail,sDateTime,sAmount,sActive) VALUES(2,"A&S waxing", "Amelia","Strydom","0614587598","Amelia205@gmail.com","2015-02-01",2500,True);
+INSERT INTO `Sub_Letter`(sSub_Letter_id,sBusinessName,sContactFName,sContactLName,sContactNumber,sContactEmail,sDateTime,sAmount,sActive) VALUES(3,"BrandNew","Charlotte", "Brand","0735238967","Charlotte87@gmail.com","2014-01-01",2500,False); 
 
 ------
 CREATE TABLE `Sub_Letter_Payment`(

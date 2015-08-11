@@ -12,7 +12,7 @@ block content
         .col-sm-1
         .col-sm-10.workarea
             h3 New sub-letter details
-            form.form-signin.form-horizontal(method="post" action="/sub-letters/Add/")
+            form.form-signin.form-horizontal(id="sub-letterAdd" method="post" action="/sub-letters/Add/")
                 +form-inputbox('text', 'slBusinessName', 'Business name:', 'Sub-letter business name', slBName)
                 +form-inputbox('text', 'slContactFName', 'Contact name:', 'Sub-letter contact name', slCFName)
                 +form-inputbox('text', 'slContactLName', 'Contact surname:', 'Sub-letter contact surname', slCLName)
@@ -20,12 +20,13 @@ block content
                 +form-inputbox('email', 'slContactEmail', 'Contact email:', 'Sub-letter contact email', slCEmail)
                 +form-inputbox('text', 'slRent', 'Rent:', 'Sub-letter rent', slRent)
                 +form-input-calendar('slStartDate', 'Start date:', '', slStartDate)
+                input(type="submit" for="sub-letterAdd" value="Save")
 
     +workbreak()
     .row
         .col-sm-1
         .col-sm-10
-            input(type="submit" value="Save")
+            input(type="submit" for="sub-letterAdd" value="Save")
     .row
         .col-sm-1
         .col-sm-10.form-group.workarea

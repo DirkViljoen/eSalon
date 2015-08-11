@@ -3,7 +3,7 @@
 module.exports = function SubLettersModel() {
     var result = {};
 
-    function show(id) {
+    function search(bName) {
         var mysql = require('mysql');
 
         var connection = mysql.createConnection({
@@ -17,37 +17,37 @@ module.exports = function SubLettersModel() {
 
         connection.query('USE eSalon');
 
-        if (id) {
-            connection.query('CALL Sub_Letter_Search(' + id + ');', function(err, rows, fields) {
+        if (bName) {
+            connection.query('CALL Sub_Letter_Search("%' + bName + '%");', function(err, rows, fields) {
                 if (!err){
-                    console.log('SL search id complete');
+                    console.log('SL search by Name complete');
+                    result = JSON.parse('{"rows": ' + JSON.stringify(rows[0]) + ',' + '"SQLstats": ' + JSON.stringify(rows[1]) + '}');
                 }
                 else{
-                    console.log('Error while performing SL search id.', err);
+                    console.log('Error while performing SL search by Name.', err);
+                    console.log(connection.query.sql);
+                    result = JSON.parse('{}');
                 }
-                result = JSON.parse('{results: ' + JSON.stringify(rows) + '}' );
+
             });
         }
         else{
             connection.query('CALL Sub_Letter_All();', function(err, rows, fields) {
                 if (!err){
                     console.log('SL search all complete');
+                    result = JSON.parse('{"rows": ' + JSON.stringify(rows[0]) + ',' + '"SQLstats": ' + JSON.stringify(rows[1]) + '}');
                 }
                 else{
                     console.log('Error while performing SL search all.', err);
+                    result = JSON.parse('{}');
                 }
                 //res.json({"Error" : false, "Message" : "Success", "Users" : rows});
-                result = JSON.parse('{"rows": ' + JSON.stringify(rows[0]) + ',' + '"SQLstats": ' + JSON.stringify(rows[1]) + '}');
 
             });
         }
         console.log(result);
         return result;
         connection.end();
-    };
-
-    function help() {
-        return "hello world";
     };
 
     function add(sub_letter) {
@@ -82,6 +82,43 @@ module.exports = function SubLettersModel() {
 
         db.closecon(connection);
     };
+
+    function view(sID) {
+        var mysql = require('mysql');
+
+        var connection = mysql.createConnection({
+            host     : 'localhost',
+            user     : 'root',
+            // password : '',
+            database : 'eSalon'
+        });
+
+        connection.connect();
+
+        connection.query('USE eSalon');
+
+        if (sID) {
+            connection.query('CALL Sub_Letter_View("' + sID + '");', function(err, rows, fields) {
+                if (!err){
+                    console.log('SL search by Name complete');
+                    result = JSON.parse('{"rows": ' + JSON.stringify(rows[0]) + ',' + '"SQLstats": ' + JSON.stringify(rows[1]) + '}');
+                }
+                else{
+                    console.log('Error while performing SL search by Name.', err);
+                    console.log(connection.query.sql);
+                    result = JSON.parse('{}');
+                }
+
+            });
+        }
+        else{
+            result = JSON.parse('{}');
+        }
+
+        console.log(result);
+        return result;
+        connection.end();
+    }
 
     function testdata() {
         return {
@@ -122,8 +159,8 @@ module.exports = function SubLettersModel() {
     }
 
     return {
-        index: show,
-        help: help,
+        find: show,
+        index: view,
         create: add,
         test: testdata
     };
