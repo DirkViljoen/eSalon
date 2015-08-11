@@ -57,3 +57,28 @@ $(function () { $('#roleTree').jstree({
     },
     "plugins" : [ "wholerow", "checkbox" ]
 }); });
+
+$(function addRowHandlers() {
+    var table = document.getElementsByClassName("table-clickable");
+    var i;
+    var j;
+    alert(table.length);
+    for (i = 0; i < table.length; i++) {
+        var rows = table[i].getElementsByTagName("tr");
+        alert(rows.length);
+        for (j = 0; j < rows.length; j++) {
+            var currentRow = table[i].rows[j];
+            var createClickHandler =
+                function(row)
+                {
+                    return function() {
+                                            var cell = row.getElementsByTagName("td")[1];
+                                            var id = cell.innerHTML;
+                                            alert("id:" + id);
+                                     };
+                };
+
+            currentRow.onclick = createClickHandler(currentRow);
+        }
+    }
+});

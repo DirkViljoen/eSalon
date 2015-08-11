@@ -1,5 +1,5 @@
 .workarea {
-	background-color: #FCE0FF
+	background-color: #FCE0FF;
 }
 
 .nopadding {
@@ -7,7 +7,9 @@
 }
 
 .treeview {
-  background-color: #f5f4f5
+  background-color: #f5f4f5;
 }
 
-
+.hide_col {
+  visibility: collapse;
+}

@@ -21,9 +21,10 @@ block content
     .row
         .col-sm-1
         .col-sm-10.workarea
-          table.table.table-hover
+          table.table.table-hover.table-clickable(id="subletter-search")
             thead
               tr
+                th.hide_col ID
                 th Business
                 th Contact Person
                 th Contact Number
@@ -31,6 +32,7 @@ block content
             each item in rows
                 tbody
                     tr
+                        td.hide_col= item.sSub_Letter_id
                         td= item.sBusinessName
                         td= item.sContactFName + ' ' + item.sContactLName
                         td= item.sContactNumber

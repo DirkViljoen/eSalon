@@ -159,7 +159,7 @@ module.exports = function SubLettersModel() {
     }
 
     return {
-        find: show,
+        find: search,
         index: view,
         create: add,
         test: testdata
