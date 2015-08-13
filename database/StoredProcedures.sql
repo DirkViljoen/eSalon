@@ -11,7 +11,7 @@ END //
 DELIMITER ;
 
 DELIMITER //
-CREATE PROCEDURE Sub_Letter_view
+CREATE PROCEDURE Sub_Letter_get
 (IN id INT)
 BEGIN
   SELECT * FROM `Sub_Letter`
@@ -33,12 +33,27 @@ DELIMITER ;
 DELIMITER //
 CREATE PROCEDURE Sub_Letter_Add
 (
+	IN sBName VARCHAR(50),
+    IN sCFName VARCHAR(50),
+    IN sCLName VARCHAR(50),
+    IN sCNumber VARCHAR(15),
+	IN sCEmail VARCHAR(100),
 	IN sDateTime DATE,
-    IN sAmount DECIMAL(8,2),
-    IN sEmail VARCHAR(100),
-    IN sContactNumber VARCHAR(15)
+    IN sAmount DECIMAL(8,2)
+    
 )   
 BEGIN
-	INSERT INTO `Sub_Letter`(sDateTime,sAmount,sEmail,sContactNumber,sActive) VALUES(sDateTime,sAmount,sEmail,sContactNumber,TRUE);
+	INSERT 
+		INTO `Sub_Letter`(
+			sBusinessName,
+			sContactFName,
+			sContactLName,
+			sContactNumber,
+			sContactEmail,
+			sDateTime,
+			sAmount,
+			sActive) 
+		VALUES
+			(sBName, sCFName, sCLName, sCNumber, sCEmail, sDateTime, sAmount, True);
 END // 
 DELIMITER ;

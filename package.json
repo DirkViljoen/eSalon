@@ -20,7 +20,8 @@
     "less": "~1.7.0",
     "localizr": "^1.0.0",
     "mysql": "^2.8.0",
-    "node-mysql": "^0.4.2"
+    "node-mysql": "^0.4.2",
+    "q": "^1.4.1"
   },
   "devDependencies": {
     "mocha": "^1.18.0",

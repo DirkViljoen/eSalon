@@ -11,20 +11,62 @@ module.exports = function (router) {
     var model = new SubLettersModel();
 
     router.get('/', function (req, res) {
-        console.log(req.params);
-        //model = new SubLettersModel();
-        res.render('subletters/subletter', model.find());
-        //res.send('<code><pre>' + JSON.stringify(model.index()) + '</pre></code>')
-        //res.render('subletters/subletter', model.index());
+        console.log('request body: ' + JSON.stringify(req.body));
+        model.find()
+            .then(
+                function (result){
+                    res.render('subletters/subletter', result);
+                }
+            );
     });
 
     router.post('/', function (req, res) {
-        console.log(req.body);
-        //model = new SubLettersModel();
-        //var temp = model.index(req.body.sBusinessName))
-        res.render('subletters/subletter', model.find(req.body.sBusinessName));
-        //res.send('<code><pre>' + JSON.stringify(model.index(req.body.sBusinessName)) + '</pre></code>')
-        //res.render('subletters/subletter', model.index());
+        console.log('request body: ' + JSON.stringify(req.body));
+
+        switch(req.body.action) {
+            case 'View':
+                //res.render('subletters/subletter-view', model)
+                {
+                    model.index(req.body.subletter)
+                        .then(
+                            function (result){
+                                if (result.rows[0])
+                                    res.render('subletters/subletter-view', result.rows[0]);
+
+                            }
+                        );
+                }
+                break;
+            case 'Update':
+                res.render('subletters/subletter-update', model.find(req.body.subletter))
+                break;
+
+            case 'Delete':
+                {
+                    model.find(req.body.sBusinessName)
+                        .then(
+                            function (result){
+
+                                res.render('subletters/subletter', result);
+                            }
+                        );
+                }
+                break;
+
+            case 'Capture payment':
+                res.render('subletters/subletter-payment', model)
+                break;
+
+            default:
+                {
+                    model.find(req.body.sBusinessName)
+                        .then(
+                            function (result){
+                                res.render('subletters/subletter', result);
+                            }
+                        );
+                }
+        }
     });
 
     router.get('/add', function (req, res) {
@@ -32,9 +74,22 @@ module.exports = function (router) {
     });
 
     router.post('/add/', function (req, res) {
-        console.log(req.params);
-        var index = model.create(req.body);
-        res.render('subletters')
+        console.log('request body: ' + JSON.stringify(req.body));
+        if (req.body) {
+            var index = model.create(req.body);
+            res.render('subletters');
+        }
+        else
+        {
+            console.log('empty body on add');
+            res.render('subletters/subletter-add', model)
+        }
+    });
+
+    router.post('/edit', function (req, res) {
+        console.log(req.body);
+
+        res.render('subletters/subletter-add', model);
     });
 
     router.get('/update', function (req, res) {

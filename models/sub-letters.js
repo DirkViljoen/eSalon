@@ -1,9 +1,46 @@
 'use strict';
 
+var q = require('q');
+var db = require('../libs/db');
+
 module.exports = function SubLettersModel() {
-    var result = {};
 
     function search(bName) {
+        var deferred = q.defer();
+
+        console.log('Search');
+        // ** test code
+
+        if (bName) {
+            console.log('sub-letter name search');
+            db.query('CALL Sub_Letter_Search("%' + bName + '%");')
+                .then(
+                    function (result){
+                        deferred.resolve(result);
+                    },
+                    function (err){
+                        deferred.reject(new Error(err));
+                    }
+                );
+        }
+        else{
+            console.log('sub-letter full search');
+
+            db.query('CALL Sub_Letter_All();')
+                .then(
+                    function (result){
+                        deferred.resolve(result);
+                    },
+                    function (err){
+                        deferred.reject(new Error(err));
+                    }
+                );
+        }
+
+        return deferred.promise;
+    };
+
+    function add(sub_letter) {
         var mysql = require('mysql');
 
         var connection = mysql.createConnection({
@@ -17,107 +54,43 @@ module.exports = function SubLettersModel() {
 
         connection.query('USE eSalon');
 
-        if (bName) {
-            connection.query('CALL Sub_Letter_Search("%' + bName + '%");', function(err, rows, fields) {
+        var query = connection.query('CALL Sub_Letter_Add ("'+sub_letter.slBName+'","'+sub_letter.slCFName+'","'+sub_letter.slCLName+'","'+sub_letter.slCNumber+'","'+sub_letter.slCEmail+'","2015-04-01",'+sub_letter.slRent+')', function(err, result) {
                 if (!err){
-                    console.log('SL search by Name complete');
-                    result = JSON.parse('{"rows": ' + JSON.stringify(rows[0]) + ',' + '"SQLstats": ' + JSON.stringify(rows[1]) + '}');
+                    console.log('SL create complete');
                 }
                 else{
-                    console.log('Error while performing SL search by Name.', err);
-                    console.log(connection.query.sql);
-                    result = JSON.parse('{}');
-                }
-
-            });
-        }
-        else{
-            connection.query('CALL Sub_Letter_All();', function(err, rows, fields) {
-                if (!err){
-                    console.log('SL search all complete');
-                    result = JSON.parse('{"rows": ' + JSON.stringify(rows[0]) + ',' + '"SQLstats": ' + JSON.stringify(rows[1]) + '}');
-                }
-                else{
-                    console.log('Error while performing SL search all.', err);
-                    result = JSON.parse('{}');
-                }
-                //res.json({"Error" : false, "Message" : "Success", "Users" : rows});
-
-            });
-        }
-        console.log(result);
-        return result;
-        connection.end();
-    };
-
-    function add(sub_letter) {
-        var db = require('../database/dbConnection');
-        var connection = db.newConnection();
-        db.opencon(connection);
-
-        //var mysql = require('mysql');
-
-        //var connection = mysql.createConnection({
-        //    host     : 'localhost',
-        //    user     : 'root',
-            // password : '',
-        //    database : 'eSalon'
-        //});
-
-        //connection.connect();
-
-        //connection.query('USE eSalon');
-
-        var query = connection.query('CALL Sub_Letter_Add ("'+sub_letter.body.slStartDate+'",'+sub_letter.body.slRent+',"'+sub_letter.body.slCEmail+'","'+sub_letter.body.slCNumber+'")', function(err, result) {
-                if (!err){
-                    console.log('SL search all complete');
-                }
-                else{
-                    console.log('Error while performing SL search all.', err);
+                    console.log('Error while performing SL create.', err);
                 }
             });
         console.log(query.sql);
 
-        //connection.end();
-
-        db.closecon(connection);
+        connection.end();
     };
 
     function view(sID) {
-        var mysql = require('mysql');
+        var deferred = q.defer();
 
-        var connection = mysql.createConnection({
-            host     : 'localhost',
-            user     : 'root',
-            // password : '',
-            database : 'eSalon'
-        });
-
-        connection.connect();
-
-        connection.query('USE eSalon');
+        console.log('View');
+        // ** test code
 
         if (sID) {
-            connection.query('CALL Sub_Letter_View("' + sID + '");', function(err, rows, fields) {
-                if (!err){
-                    console.log('SL search by Name complete');
-                    result = JSON.parse('{"rows": ' + JSON.stringify(rows[0]) + ',' + '"SQLstats": ' + JSON.stringify(rows[1]) + '}');
-                }
-                else{
-                    console.log('Error while performing SL search by Name.', err);
-                    console.log(connection.query.sql);
-                    result = JSON.parse('{}');
-                }
-
-            });
+            console.log('sub-letter get details');
+            db.query('CALL Sub_Letter_get(' + sID + ');')
+                .then(
+                    function (result){
+                        deferred.resolve(result);
+                    },
+                    function (err){
+                        deferred.reject(new Error(err));
+                    }
+                );
         }
         else{
-            result = JSON.parse('{}');
-        }
+            console.log('ERROR - no ID for sub-letter get');
+            deferred.reject(new Error('No ID'));
+        };
 
-        console.log(result);
-        return result;
-        connection.end();
+        return deferred.promise;
     }
 
     function testdata() {
@@ -158,10 +131,31 @@ module.exports = function SubLettersModel() {
         };
     }
 
+    function testcode() {
+        var deferred = q.defer();
+
+        console.log('module defer testing');
+
+        db.query('CALL Sub_Letter_All();')
+            .then(
+                function (result){
+                    console.log(result);
+                    deferred.resolve(result);
+                },
+                function (err){
+                    deferred.reject(new Error(err));
+                }
+            );
+
+        console.log('Module end');
+        return deferred.promise;
+    };
+
     return {
         find: search,
         index: view,
         create: add,
-        test: testdata
+        test: testdata,
+        help: testcode
     };
 };

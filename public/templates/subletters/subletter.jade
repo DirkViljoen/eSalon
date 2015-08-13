@@ -8,46 +8,55 @@ block loggedIn
     a(href='#', class='navbar-link') Signed in as Mark Otto
 
 block content
-    .row
-        .col-sm-1
-        .col-sm-10.workarea
-            h3 Sub-letter search
-            form.form-horizontal(id="slSearch" method="post" action="/sub-letters/")
-                input.form-control(type='text' id='sBusinessName' name="sBusinessName" placeholder='b search' value='')
-                //+form-inputbox('text', 'sBusinessName', 'Business name:', 'Sub-letter business name', 'test')
-                input(type="submit" for="slSearch" value="Search")
+    form(id="slSelect" method="post" action="/sub-letters/")
+        .row
+            .col-sm-1
+            .col-sm-10.workarea
+                h3 Sub-letter search
+                .form-horizontal
+                    input.form-control(type='text' id='sBusinessName' name="sBusinessName" placeholder='b search' value='')
+                    //+form-inputbox('text', 'sBusinessName', 'Business name:', 'Sub-letter business name', 'test')
+                    input(type="submit" name="action" value="Search")
 
-    +workbreak()
-    .row
-        .col-sm-1
-        .col-sm-10.workarea
-          table.table.table-hover.table-clickable(id="subletter-search")
-            thead
-              tr
-                th.hide_col ID
-                th Business
-                th Contact Person
-                th Contact Number
-                th Contact email
-            each item in rows
-                tbody
-                    tr
-                        td.hide_col= item.sSub_Letter_id
-                        td= item.sBusinessName
-                        td= item.sContactFName + ' ' + item.sContactLName
-                        td= item.sContactNumber
-                        td= item.sContactEmail
-    .row
-        .col-sm-1
-        .col-sm-10.form-group.workarea
-            ul.nav.nav-pills.pull-right
-                li(role='presentation')
-                    a.btn-primary(href='/sub-letters/view') View
-                li(role='presentation')
-                    a.btn-primary(href='/sub-letters/update') Update
-                li(role='presentation')
-                    a.btn-primary(href='#') Delete
-                li(role='presentation')
-                    a.btn-primary(href='/sub-letters/payment') Capture payment
-                    br
+        +workbreak()
+        .row
+            .col-sm-1
+            .col-sm-10.workarea
+              table.table.table-hover.table-radio(id="subletter-search")
+                thead
+                  tr
+                    th(data-field="state" data-radio="true")
+                    th Business
+                    th Contact Person
+                    th Contact Number
+                    th Contact email
+                each item in rows
+                    tbody
+                        tr
+                            td
+                                input(type="radio" name="subletter" value=item.sSub_Letter_id)
+                            td= item.sBusinessName
+                            td= item.sContactFName + ' ' + item.sContactLName
+                            td= item.sContactNumber
+                            td= item.sContactEmail
+        .row
+            .col-sm-1
+            .col-sm-10
+                input(type="submit" name="action" value="View")
+                input(type="submit" name="action" value="Update")
+                input(type="submit" name="action" value="Delete")
+                input(type="submit" name="action" value="Capture payment")
+        .row
+            .col-sm-1
+            .col-sm-10.form-group.workarea
+                ul.nav.nav-pills.pull-right
+                    li(role='presentation')
+                        a.btn-primary(href='/sub-letters/view') View
+                    li(role='presentation')
+                        a.btn-primary(href='/sub-letters/update') Update
+                    li(role='presentation')
+                        a.btn-primary(href='#') Delete
+                    li(role='presentation')
+                        a.btn-primary(href='/sub-letters/payment') Capture payment
+                        br
 

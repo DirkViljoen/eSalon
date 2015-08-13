@@ -11,15 +11,15 @@ block content
     .row
         .col-sm-1
         .col-sm-10.workarea
-            h3 View details for !{slBName}
+            h3 View details for !{sBusinessName}
             form.form-horizontal
-                +form-inputbox-readonly('text', 'slBusinessName', 'Business name:', 'Sub-letter business name', slBName)
-                +form-inputbox-readonly('text', 'slContactFName', 'Contact name:', 'Sub-letter contact name', slCFName)
-                +form-inputbox-readonly('text', 'slContactLName', 'Contact surname:', 'Sub-letter contact surname', slCLName)
-                +form-inputbox-readonly('text', 'slContactNumber', 'Contact number:', 'Sub-letter contact number', slCNumber)
-                +form-inputbox-readonly('email', 'slContactEmail', 'Contact email:', 'Sub-letter contact email', slCEmail)
-                +form-inputbox-readonly('text', 'slRent', 'Rent:', 'Sub-letter rent', slRent)
-                +form-input-calendar('slStartDate', 'Start date:', '', slStartDate)
+                +form-inputbox-readonly('text', 'sBusinessName', 'Business name:', 'Sub-letter business name', sBusinessName)
+                +form-inputbox-readonly('text', 'sContactFName', 'Contact name:', 'Sub-letter contact name', sContactFName)
+                +form-inputbox-readonly('text', 'sContactLName', 'Contact surname:', 'Sub-letter contact surname', sContactLName)
+                +form-inputbox-readonly('text', 'sContactNumber', 'Contact number:', 'Sub-letter contact number', sContactNumber)
+                +form-inputbox-readonly('email', 'sContactEmail', 'Contact email:', 'Sub-letter contact email', sContactEmail)
+                +form-inputbox-readonly('text', 'sAmount', 'Rent:', 'Sub-letter rent', sAmount)
+                +form-input-calendar('sDateTime', 'Start date:', '', sDateTime)
 
     +workbreak()
     .row

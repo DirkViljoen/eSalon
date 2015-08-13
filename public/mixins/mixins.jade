@@ -8,7 +8,7 @@ mixin form-inputbox(type, id, label, placeholder, myValue, size, readonly)
     else
       - inSize = 5
     div(class='col-sm-#{inSize}')
-      input.form-control(type=type id=id placeholder=placeholder value=myValue readonly=readonly)
+      input.form-control(type=type id=id name=id placeholder=placeholder value=myValue readonly=readonly)
 
 mixin form-input-search-min(type, id, placeholder, myValue)
     .input-group
@@ -34,7 +34,7 @@ mixin form-input-calendar(id, label, placeholder, myValue)
     label.control-label.col-sm-2(for=id)= label
     .col-sm-5
       .input-group
-        input.form-control.dtpicker(type='text' id=id placeholder=placeholder value=myValue)
+        input.form-control.dtpicker(type='text' name=id id=id placeholder=placeholder value=myValue)
         span.input-group-addon
           span.glyphicon.glyphicon-calendar
 

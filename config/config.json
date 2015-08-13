@@ -1,4 +1,10 @@
 {
+    "db": {
+        "host": "localhost",
+        "user": "root",
+        "password": null,
+        "database": "eSalon"
+    },
 
     "express": {
         "view cache": false,

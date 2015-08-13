@@ -1,8 +1,8 @@
 var mysql = require('mysql');
 
-function newConnection() {
-
-    var connection = mysql.createConnection({
+function newConnection(connection) {
+    console.log('test');
+    connection = mysql.createConnection({
         host     : 'localhost',
         user     : 'root',
         // password : '',
@@ -20,14 +20,7 @@ function newConnection() {
         }
     });
 
-    connection.end();
-
     return connection;
-};
-
-function opencon(connection){
-    var mysql = require('mysql');
-    connection.connect();
 };
 
 function closecon(connection){

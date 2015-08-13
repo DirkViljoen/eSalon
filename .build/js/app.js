@@ -59,23 +59,17 @@ $(function () { $('#roleTree').jstree({
 }); });
 
 $(function addRowHandlers() {
-    var table = document.getElementsByClassName("table-clickable");
-    var i;
-    var j;
-    alert(table.length);
-    for (i = 0; i < table.length; i++) {
+    var table = document.getElementsByClassName("table-radio");
+    for (var i = 0; i < table.length; i++) {
         var rows = table[i].getElementsByTagName("tr");
-        alert(rows.length);
-        for (j = 0; j < rows.length; j++) {
+        for (var j = 0; j < rows.length; j++) {
             var currentRow = table[i].rows[j];
             var createClickHandler =
                 function(row)
                 {
                     return function() {
-                                            var cell = row.getElementsByTagName("td")[1];
-                                            var id = cell.innerHTML;
-                                            alert("id:" + id);
-                                     };
+                        row.getElementsByTagName("input")[0].checked = "checked";
+                     };
                 };
 
             currentRow.onclick = createClickHandler(currentRow);
