@@ -56,7 +56,8 @@ $(function () { $('#roleTree').jstree({
         "keep_selected_style" : false
     },
     "plugins" : [ "wholerow", "checkbox" ]
-}); });
+    });
+});
 
 $(function addRowHandlers() {
     var table = document.getElementsByClassName("table-radio");
@@ -73,6 +74,11 @@ $(function addRowHandlers() {
                 };
 
             currentRow.onclick = createClickHandler(currentRow);
-        }
-    }
+        };
+    };
+
+    $('.table-radio tr').click(function(){
+         $('.active').removeClass('active')
+         $(this).addClass("active");
+    });
 });

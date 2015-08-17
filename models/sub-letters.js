@@ -41,30 +41,89 @@ module.exports = function SubLettersModel() {
     };
 
     function add(sub_letter) {
-        var mysql = require('mysql');
+        var deferred = q.defer();
 
-        var connection = mysql.createConnection({
-            host     : 'localhost',
-            user     : 'root',
-            // password : '',
-            database : 'eSalon'
-        });
+        if (sub_letter) {
+            console.log('Sub-Letter Create');
+            db.execute('CALL Sub_Letter_Add ("' +
+                sub_letter.sBusinessName + '","' +
+                sub_letter.sContactFName + '","' +
+                sub_letter.sContactLName + '","' +
+                sub_letter.sContactNumber + '","' +
+                sub_letter.sContactEmail + '","2015-04-01",' +
+                sub_letter.sAmount + ')'
+            )
+                .then(
+                    function (result){
+                        deferred.resolve(results);
+                    },
+                    function (err){
+                        deferred.reject(new Error(err));
+                    }
+                );
+        }
+        else {
+            console.log('No data to add');
+            deferred.reject('No data');
+        }
 
-        connection.connect();
+        return deferred.promise;
+    };
 
-        connection.query('USE eSalon');
+    function update(sub_letter) {
+        var deferred = q.defer();
 
-        var query = connection.query('CALL Sub_Letter_Add ("'+sub_letter.slBName+'","'+sub_letter.slCFName+'","'+sub_letter.slCLName+'","'+sub_letter.slCNumber+'","'+sub_letter.slCEmail+'","2015-04-01",'+sub_letter.slRent+')', function(err, result) {
-                if (!err){
-                    console.log('SL create complete');
-                }
-                else{
-                    console.log('Error while performing SL create.', err);
-                }
-            });
-        console.log(query.sql);
+        if (sub_letter) {
+            console.log('Sub-Letter Update');
+            db.execute('CALL Sub_Letter_Update (' +
+                sub_letter.sSub_Letter_id + ',"' +
+                sub_letter.sBusinessName + '","' +
+                sub_letter.sContactFName + '","' +
+                sub_letter.sContactLName + '","' +
+                sub_letter.sContactNumber + '","' +
+                sub_letter.sContactEmail + '","2015-04-01",' +
+                sub_letter.sAmount + ')'
+            )
+                .then(
+                    function (result){
+                        deferred.resolve(results);
+                    },
+                    function (err){
+                        deferred.reject(new Error(err));
+                    }
+                );
+        }
+        else {
+            console.log('No data to update');
+            deferred.reject('No data');
+        }
 
-        connection.end();
+        return deferred.promise;
+    };
+
+    function deactivate(sub_letter) {
+        var deferred = q.defer();
+
+        if (sub_letter) {
+            console.log('Sub-Letter Delete');
+            db.execute('CALL Sub_Letter_Delete (' +
+                sub_letter.id + ')'
+            )
+                .then(
+                    function (result){
+                        deferred.resolve(results);
+                    },
+                    function (err){
+                        deferred.reject(new Error(err));
+                    }
+                );
+        }
+        else {
+            console.log('No data to delete');
+            deferred.reject('No data');
+        }
+
+        return deferred.promise;
     };
 
     function view(sID) {
@@ -91,7 +150,7 @@ module.exports = function SubLettersModel() {
         };
 
         return deferred.promise;
-    }
+    };
 
     function testdata() {
         return {
@@ -129,7 +188,7 @@ module.exports = function SubLettersModel() {
                         }
                     ]
         };
-    }
+    };
 
     function testcode() {
         var deferred = q.defer();
@@ -155,6 +214,9 @@ module.exports = function SubLettersModel() {
         find: search,
         index: view,
         create: add,
+        deactivate: deactivate,
+        update: update,
+        buffer: null,
         test: testdata,
         help: testcode
     };

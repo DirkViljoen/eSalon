@@ -8,24 +8,28 @@ block loggedIn
     a(href='#', class='navbar-link') Signed in as Mark Otto
 
 block content
-    form(id="slSelect" method="post" action="/sub-letters/")
+    form.workarea(id="slSelect" method="post" action="/sub-letters/")
         .row
             .col-sm-1
-            .col-sm-10.workarea
+            .col-sm-10
                 h3 Sub-letter search
-                .form-horizontal
-                    input.form-control(type='text' id='sBusinessName' name="sBusinessName" placeholder='b search' value='')
-                    //+form-inputbox('text', 'sBusinessName', 'Business name:', 'Sub-letter business name', 'test')
-                    input(type="submit" name="action" value="Search")
+                br
+
+        .row
+            .col-sm-1
+            .col-sm-9.form-horizontal
+                +form-inputbox('text', 'sBusinessName', 'Business name:', 'Sub-letter business name', '')
+            .col-sm-1.form-horizontal
+                input.btn.btn-primary(type="submit" name="action" value="Search")
 
         +workbreak()
         .row
             .col-sm-1
-            .col-sm-10.workarea
+            .col-sm-10
               table.table.table-hover.table-radio(id="subletter-search")
                 thead
                   tr
-                    th(data-field="state" data-radio="true")
+                    th
                     th Business
                     th Contact Person
                     th Contact Number
@@ -34,29 +38,23 @@ block content
                     tbody
                         tr
                             td
-                                input(type="radio" name="subletter" value=item.sSub_Letter_id)
+                                input(type="radio" name="sSub_Letter_id" value=item.sSub_Letter_id)
                             td= item.sBusinessName
                             td= item.sContactFName + ' ' + item.sContactLName
                             td= item.sContactNumber
                             td= item.sContactEmail
+
         .row
             .col-sm-1
-            .col-sm-10
-                input(type="submit" name="action" value="View")
-                input(type="submit" name="action" value="Update")
-                input(type="submit" name="action" value="Delete")
-                input(type="submit" name="action" value="Capture payment")
-        .row
-            .col-sm-1
-            .col-sm-10.form-group.workarea
+            .col-sm-10.form-group
                 ul.nav.nav-pills.pull-right
                     li(role='presentation')
-                        a.btn-primary(href='/sub-letters/view') View
+                        input.btn.btn-primary(type="submit" name="action" value="View")
                     li(role='presentation')
-                        a.btn-primary(href='/sub-letters/update') Update
+                        input.btn.btn-default(type="submit" name="action" value="Update")
                     li(role='presentation')
-                        a.btn-primary(href='#') Delete
+                        input.btn.btn-default(type="submit" name="action" value="Delete")
                     li(role='presentation')
-                        a.btn-primary(href='/sub-letters/payment') Capture payment
-                        br
+                        input.btn.btn-default(type="submit" name="action" value="Capture payment")
+
 

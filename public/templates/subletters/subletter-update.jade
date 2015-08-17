@@ -8,27 +8,34 @@ block loggedIn
     a(href='#', class='navbar-link') Signed in as Mark Otto
 
 block content
-    .row
-        .col-sm-1
-        .col-sm-10.workarea
-            h3 Update details for !{slBName}
-            form.form-horizontal
-                +form-inputbox('text', 'slBusinessName', 'Business name:', 'Sub-letter business name', slBName)
-                +form-inputbox('text', 'slContactFName', 'Contact name:', 'Sub-letter contact name', slCFName)
-                +form-inputbox('text', 'slContactLName', 'Contact surname:', 'Sub-letter contact surname', slCLName)
-                +form-inputbox('text', 'slContactNumber', 'Contact number:', 'Sub-letter contact number', slCNumber)
-                +form-inputbox('email', 'slContactEmail', 'Contact email:', 'Sub-letter contact email', slCEmail)
-                +form-inputbox('text', 'slRent', 'Rent:', 'Sub-letter rent', slRent)
-                +form-input-calendar('slStartDate', 'Start date:', '', slStartDate)
+    form.row.col-xs-12.workarea.form-validate(id="sub-letterAdd" method="post" action="/sub-letters/update")
+        .row
+            .col-sm-1
+            .col-sm-11
+                h3 Update details for !{sBusinessName}
+                br
 
-    +workbreak()
-    .row
-        .col-sm-1
-        .col-sm-10.form-group.workarea
-            ul.nav.nav-pills.pull-right
-                li(role='presentation')
-                    a.btn-primary(href='/sub-letters') Save
-                li(role='presentation')
-                    a.btn-primary(href='/sub-letters') Cancel
-                    br
+        .row
+            .col-md-1
+            .col-md-10.col-sm-12.form-horizontal
+                +form-input-hidden('sSub_Letter_id', sSub_Letter_id)
+                +form-input-text('sBusinessName', 'Business name:', 'Sub-letter business name', sBusinessName, true, false, '3', '50')
+                +form-input-text('sContactFName', 'Contact name:', 'Sub-letter contact name', sContactFName, true, false, '3', '50')
+                +form-input-text('sContactLName', 'Contact surname:', 'Sub-letter contact surname', sContactLName, true, false, '3', '50')
+                +form-input-text('sContactNumber', 'Contact number:', 'Sub-letter contact number', sContactNumber, true, false, '2', '15')
+                +form-input-email('sContactEmail', 'Contact email:', 'Sub-letter contact email', sContactEmail, true, false, '5', '100')
+                +form-input-currency('sAmount', 'Rent:', 'Sub-letter rent', sAmount, true, false)
+                +form-input-calendar('sDateTime', 'Start date:', '', slDateTime)
+
+        +workbreak()
+        .row
+            .col-sm-1
+            .col-sm-10.form-group.workarea
+                ul.nav.nav-pills.pull-right
+                    li(role='presentation')
+                        input.btn.btn-primary(type="submit" name="action" value="Save")
+                    li(role='presentation')
+                        input.btn.btn-default(type="button" onclick="window.location='/sub-letters'" value='Cancel')
+                        br
+            .col-sm-1
 

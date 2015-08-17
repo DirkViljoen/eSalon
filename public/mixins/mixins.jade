@@ -1,148 +1,199 @@
 //text, password, email
-mixin form-inputbox(type, id, label, placeholder, myValue, size, readonly)
-  .form-group
-    label.control-label.col-sm-2(for=id)= label
-    - var inSize
-    if size
-      - inSize = size
-    else
-      - inSize = 5
-    div(class='col-sm-#{inSize}')
-      input.form-control(type=type id=id name=id placeholder=placeholder value=myValue readonly=readonly)
+mixin form-inputbox(type, id, label, placeholder, myValue, size, readonly, required, minLen, maxLen)
+    .form-group
+        label.control-label.col-md-2.col-sm-3(for=id)= label
+        - var inSize
+        if size
+            - inSize = size
+        else
+            - inSize = 5
+        div.col-md-10.col-sm-9.input-group
+            input.form-control(type=type id=id name=id placeholder=placeholder value=myValue readonly=readonly required=required minlength=minLen maxlength=maxLen size=inSize)
+
+mixin form-input-text(id, label, placeholder, myValue, required, readonly, minLen, maxLen)
+    .form-group
+        label.control-label.col-md-2.col-sm-3(for=id)= label
+        - var inSize
+        if size
+            - inSize = size * 10
+        else
+            - inSize = 50
+        div.col-md-10.col-sm-9.input-group
+            input.form-control(type='text' id=id name=id placeholder=placeholder value=myValue readonly=readonly required=required minlength=minLen maxlength=maxLen size=inSize)
+            if (required)
+                span.input-group-addon
+                    span.glyphicon.glyphicon-asterisk
+
+mixin form-input-email(id, label, placeholder, myValue, required, readonly, minLen, maxLen)
+    .form-group
+        label.control-label.col-md-2.col-sm-3(for=id)= label
+        - var inSize
+        if size
+            - inSize = size * 10
+        else
+            - inSize = 50
+        div.col-md-10.col-sm-9.input-group
+            span.input-group-addon
+                span.glyphicon.glyphicon-envelope
+            input.form-control(type='email' id=id name=id placeholder=placeholder value=myValue readonly=readonly required=required minlength=minLen maxlength=maxLen size=inSize)
+            span.input-group-addon
+                if (required)
+                    span.glyphicon.glyphicon-asterisk
+
+mixin form-input-currency(id, label, placeholder, myValue, required, readonly, minLen, maxLen)
+    .form-group
+        label.control-label.col-md-2.col-sm-3(for=id)= label
+        - var inSize
+        if size
+            - inSize = size * 10
+        else
+            - inSize = 50
+        div.col-md-10.col-sm-9.input-group
+            span.input-group-addon
+                span.glyphicon
+                    b R
+            input.form-control(type='text' id=id name=id placeholder=placeholder value=myValue readonly=readonly required=required minlength=minLen maxlength=maxLen size=inSize)
+            span.input-group-addon
+                if (required)
+                    span.glyphicon.glyphicon-asterisk
+
+mixin form-input-hidden(id, myValue)
+    .form-group
+        input.form-control(type='hidden' id=id name=id value=myValue readonly=readonly)
 
 mixin form-input-search-min(type, id, placeholder, myValue)
     .input-group
-      input.form-control(id=id type=type placeholder=placeholder)= myvalue
-      span.input-group-btn
-        button.btn.btn-default.glyphicon.glyphicon-search(type="button")
+        input.form-control(id=id type=type placeholder=placeholder)= myvalue
+        span.input-group-btn
+            button.btn.btn-default.glyphicon.glyphicon-search(type="button")
 
 mixin form-inputbox-multiline(id, label, placeholder, myValue)
-  .form-group
-    label.control-label.col-sm-2(for=id)= label
-    .col-sm-5
-      textarea(rows="3" id=id placeholder=placeholder)
+    .form-group
+        label.control-label.col-sm-2(for=id)= label
+        .col-sm-5
+            textarea(rows="3" id=id placeholder=placeholder)
 
 //text, password, email
 mixin form-inputbox-readonly(type, id, label, placeholder, myValue)
-  .form-group
-    label.control-label.col-sm-2(for=id)= label
-    .col-sm-5
-      input.form-control(type=type id=id placeholder=placeholder value=myValue readonly)
+    .form-group
+        label.control-label.col-sm-2(for=id)= label
+        .col-sm-5
+            input.form-control(type=type id=id placeholder=placeholder value=myValue readonly)
 
 mixin form-input-calendar(id, label, placeholder, myValue)
-  .form-group
-    label.control-label.col-sm-2(for=id)= label
-    .col-sm-5
-      .input-group
-        input.form-control.dtpicker(type='text' name=id id=id placeholder=placeholder value=myValue)
-        span.input-group-addon
-          span.glyphicon.glyphicon-calendar
+    .form-group
+        label.control-label.col-sm-2(for=id)= label
+        .col-sm-5
+            .input-group
+                input.form-control.dtpicker(type='text' name=id id=id placeholder=placeholder value=myValue)
+                span.input-group-addon
+                    span.glyphicon.glyphicon-calendar
 
 mixin form-input-time(id, label, placeholder, timeBookingStart)
-  .form-group
-    label.control-label.col-sm-2(for=id)= label
-    .col-sm-5
-      .input-group
-        input.form-control.tmpicker(type='text' id=id placeholder=placeholder value=myValue)
-        span.input-group-addon
-          span.glyphicon.glyphicon-time
+    .form-group
+        label.control-label.col-sm-2(for=id)= label
+        .col-sm-5
+            .input-group
+                input.form-control.tmpicker(type='text' id=id placeholder=placeholder value=myValue)
+                span.input-group-addon
+                    span.glyphicon.glyphicon-time
 
 mixin form-input-slider(id, label, placeholder, myValue)
-  .form-group
-    label.control-label.col-sm-2(for=id)= label
-    .col-sm-5
-      input.form-control(type='text' id=id placeholder=placeholder value=myValue readonly)
-      div(id='slider')
+    .form-group
+        label.control-label.col-sm-2(for=id)= label
+        .col-sm-5
+            input.form-control(type='text' id=id placeholder=placeholder value=myValue readonly)
+            div(id='slider')
 
 mixin form-button(label, path, id)
-  ul.nav.nav-pills
-    li(role='presentation')
-      a.btn-primary(href=path id=id)= label
+    ul.nav.nav-pills
+        li(role='presentation')
+            a.btn-primary(href=path id=id)= label
 
 mixin form-submit(label, path, id)
-  input.btn.btn-default(id=id type="submit" value=label)
+    input.btn.btn-default(id=id type="submit" value=label)
 
 mixin form-button-upload(label, path, id)
-  ul.nav.nav-pills
-    li(role='presentation')
-      a.btnUpload.btn-primary(href=path id=id)= label
+    ul.nav.nav-pills
+        li(role='presentation')
+            a.btnUpload.btn-primary(href=path id=id)= label
 
 mixin form-button-download(label, path, id)
-  ul.nav.nav-pills
-    li(role='presentation')
-      a.btnDownload.btn-primary(href=path id=id)= label
+    ul.nav.nav-pills
+        li(role='presentation')
+            a.btnDownload.btn-primary(href=path id=id)= label
 
 mixin form-button-small-remove()
-  ul.nav.nav-pills
-    li(role='presentation')
-      a.btn-primary.btn-danger.glyphicon-minus(href='#')
+    ul.nav.nav-pills
+        li(role='presentation')
+            a.btn-primary.btn-danger.glyphicon-minus(href='#')
 
 mixin form-button-small-add()
-  ul.nav.nav-pills
-    li(role='presentation')
-      a.btn-primary.btn-sm.btn-success.glyphicon-plus(href='#')
+    ul.nav.nav-pills
+        li(role='presentation')
+            a.btn-primary.btn-sm.btn-success.glyphicon-plus(href='#')
 
 mixin form-group(label)
-  .form-group
-    .col-sm-2
-    .col-sm-5
-      h5= label
+    .form-group
+        .col-sm-2
+        .col-sm-5
+            h5= label
 
 mixin workbreak()
-  .row
-    .col-sm-1
-    .col-sm-10.workarea
-      br
+    .row
+        .col-sm-1
+        .col-sm-10.workarea
+            br
 
 mixin form-combobox(id, name, values, selected)
-  .form-group
-    label.col-sm-2.control-label= name
-    .col-sm-5.selectContainer
-      select.form-control(id=id name=name)
-        each item in values
-          if item.id == selected
-            option(value=item.id selected)= item.value
-          else
-            option(value=item.id)= item.value
+    .form-group
+        label.col-sm-2.control-label= name
+        .col-sm-5.selectContainer
+            select.form-control(id=id name=name)
+                each item in values
+                    if item.id == selected
+                        option(value=item.id selected)= item.value
+                    else
+                        option(value=item.id)= item.value
 
 mixin form-combobox-button(id, name, values, selected, href)
-  .form-group
-    label.col-sm-2.control-label= name
-    .col-sm-5.selectContainer
-      select.form-control(id=id name=name)
-        each item in values
-          if item.id == selected
-            option(value=item.id selected)= item.value
-          else
-            option(value=item.id)= item.value
-    .col-sm-1
-        ul.nav.nav-pills
-          li(role='presentation')
-            a.btn-primary.btn-sm.btn-primary.glyphicon-plus(href=href)
+    .form-group
+        label.col-sm-2.control-label= name
+        .col-sm-5.selectContainer
+            select.form-control(id=id name=name)
+                each item in values
+                    if item.id == selected
+                        option(value=item.id selected)= item.value
+                    else
+                        option(value=item.id)= item.value
+        .col-sm-1
+                ul.nav.nav-pills
+                    li(role='presentation')
+                        a.btn-primary.btn-sm.btn-primary.glyphicon-plus(href=href)
 
 
 mixin form-combobox-minimal(id, name, values, selected)
-  select.form-control(id=id name=name)
-    each item in values
-      if item.id == selected
-        option(value=item.id selected)= item.value
-      else
-        option(value=item.id)= item.value
+    select.form-control(id=id name=name)
+        each item in values
+            if item.id == selected
+                option(value=item.id selected)= item.value
+            else
+                option(value=item.id)= item.value
 
 
 
 mixin form-combobox-readonly(id, name, values, selected)
-  .form-group
-    label.control-label.col-sm-2(for=id)= name
-    .col-sm-5
-      each item in values
-        if item.id == selected
-          input.form-control(type='text' id=id value=item.value readonly)
+    .form-group
+        label.control-label.col-sm-2(for=id)= name
+        .col-sm-5
+            each item in values
+                if item.id == selected
+                    input.form-control(type='text' id=id value=item.value readonly)
 
 mixin table-timeslot(time)
-  tr(style="row-height: 10px;")
-    td.fc-axis.fc-time.ui-widget-content(style="width: 49px;")
-      span= time
-  tr.fc-minor
-    td.fc-axis.fc-time.ui-widget-content(style="width: 49px;")
+    tr(style="row-height: 10px;")
+        td.fc-axis.fc-time.ui-widget-content(style="width: 49px;")
+            span= time
+    tr.fc-minor
+        td.fc-axis.fc-time.ui-widget-content(style="width: 49px;")
 
