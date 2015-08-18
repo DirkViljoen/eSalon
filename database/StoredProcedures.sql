@@ -5,8 +5,8 @@ CREATE PROCEDURE Sub_Letter_Search
 (IN bName VARCHAR(50))
 BEGIN
   SELECT * FROM `Sub_Letter`
-  WHERE `sBusinessName` LIKE bName
-   AND `sActive` = true;
+  WHERE `BusinessName` LIKE bName
+   AND `Active` = true;
 END //
 DELIMITER ;
 
@@ -15,9 +15,9 @@ CREATE PROCEDURE Sub_Letter_get
 (IN id INT)
 BEGIN
   SELECT * FROM `Sub_Letter`
-  WHERE `sSub_Letter_id` = id
-   AND `sActive` = true
-  ORDER BY `sBusinessName`;
+  WHERE `Sub_Letter_id` = id
+   AND `Active` = true
+  ORDER BY `BusinessName`;
 END //
 DELIMITER ;
 
@@ -27,8 +27,8 @@ CREATE PROCEDURE Sub_Letter_All
 BEGIN
   SELECT * 
   FROM `Sub_Letter`
-  WHERE `sActive` = true
-  ORDER BY `sBusinessName`;
+  WHERE `Active` = true
+  ORDER BY `BusinessName`;
 END //
 DELIMITER ;
 
@@ -47,14 +47,14 @@ CREATE PROCEDURE Sub_Letter_Add
 BEGIN
 	INSERT 
 		INTO `Sub_Letter`(
-			sBusinessName,
-			sContactFName,
-			sContactLName,
-			sContactNumber,
-			sContactEmail,
-			sDateTime,
-			sAmount,
-			sActive) 
+			`BusinessName`,
+			`ContactFName`,
+			`ContactLName`,
+			`ContactNumber`,
+			`ContactEmail`,
+			`DateTime`,
+			`Amount`,
+			`Active`) 
 		VALUES
 			(sBName, sCFName, sCLName, sCNumber, sCEmail, sDateTime, sAmount, True);
 END // 
@@ -76,16 +76,16 @@ CREATE PROCEDURE Sub_Letter_Update
 BEGIN
 	UPDATE `Sub_Letter`
 		SET 
-			sBusinessName = sBName,
-			sContactFName = sCFName,
-			sContactLName = sCLName,
-			sContactNumber = sCNumber,
-			sContactEmail = sCEmail,
-			sDateTime = sDateTime,
-			sAmount = sAmount,
-			sActive = true
+			`BusinessName` = sBName,
+			`ContactFName` = sCFName,
+			`ContactLName` = sCLName,
+			`ContactNumber` = sCNumber,
+			`ContactEmail` = sCEmail,
+			`DateTime` = sDateTime,
+			`Amount` = sAmount,
+			`Active` = true
 		WHERE
-			sSub_Letter_id = sID;
+			`Sub_Letter_id` = sID;
 END // 
 DELIMITER ;
 
@@ -97,8 +97,8 @@ CREATE PROCEDURE Sub_Letter_Delete
 BEGIN
 	UPDATE `Sub_Letter`
 		SET 
-			sActive = false
+			`Active` = false
 		WHERE
-			sSub_Letter_id = sID;
+			`Sub_Letter_id` = sID;
 END // 
 DELIMITER ;
