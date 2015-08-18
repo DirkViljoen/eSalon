@@ -1,4 +1,14 @@
 $('.form-validate').validate({
+    submitHandler: function(form) {
+        submitfunction('Are you sure you want to update?', function(res) {
+            if (res == 'Yes') {
+                form.submit();
+            }
+            else if (res == 'Cancel') {
+                window.location='/sub-letters'
+            }
+        });
+    },
     highlight: function(element) {
         $(element).closest('.form-group').addClass('has-error');
         $(element).closest('.form-group').removeClass('has-success');
@@ -45,3 +55,42 @@ jQuery.validator.addMethod('myContactNumber', function(value, element) {
 jQuery.validator.addMethod('myRadioGroup', function(value, element) {
     return this.optional(element) || /^[0-9]{3}\s{1}[0-9]{3}\s{1}[0-9]{4}$/.test(value);
 }, 'Please enter a valid South African contact number');
+
+function submitfunction(msg, callback) {
+    var res = 'no value';
+
+    var dialog = new BootstrapDialog({
+        title: 'Update sub-letter',
+        message: msg,
+        type: BootstrapDialog.TYPE_WARNING,
+        buttons: [{
+            id: 'btn-Yes',
+            label: 'Yes'
+        },
+        {
+            id: 'btn-No',
+            label: 'No'
+        },
+        {
+            id: 'btn-Cancel',
+            label: 'Cancel'
+        }]
+    });
+    dialog.realize();
+
+    var btn1 = dialog.getButton('btn-Yes');
+    btn1.click({'result': 'Yes'}, function(event){
+        callback(event.data.result);
+    });
+    var btn1 = dialog.getButton('btn-No');
+    btn1.click({'result': 'No'}, function(event){
+        callback(event.data.result);
+        dialog.close();
+    });
+    var btn1 = dialog.getButton('btn-Cancel');
+    btn1.click({'result': 'Cancel'}, function(event){
+        callback(event.data.result);
+    });
+
+    dialog.open();
+};

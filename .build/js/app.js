@@ -82,3 +82,9 @@ $(function addRowHandlers() {
          $(this).addClass("active");
     });
 });
+
+$(function () { $("#alertTest").click(function(){
+        console.log('alert test');
+        BootstrapDialog.alert('I want banana!');
+    });
+});

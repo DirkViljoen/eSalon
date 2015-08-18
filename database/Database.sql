@@ -206,20 +206,3 @@ CREATE TABLE `Company_Details`(
           PRIMARY KEY(  cCompany_Details_id)
 );
 INSERT INTO `Company_Details`(cName,cContact_Details,cEmail) VALUES("Salon Re-design","072 842 9882","susan_roux@yahoo.com");
-
-CREATE TABLE `Employee` (
-	Employee_ID INT NOT NULL AUTO_INCREMENT,
-    `Name` VARCHAR(50),
-    `Surname` VARCHAR(50),
-    `Contact Number` VARCHAR(15),
-    `email`VARCHAR(50),
-    `Salary` DECIMAL(8,2),
-    `Active` BOOLEAN,
-    `Address_ID` INT,
-    
-    PRIMARY KEY(Employee_ID),
-    
-    FOREIGN KEY(`Address_ID`)
-          REFERENCES `Address`(`aAddress_id`)
-    
-)
