@@ -12,20 +12,20 @@ block content
         .row
             .col-sm-1
             .col-sm-11
-                h3 View details for !{sBusinessName}
+                h3 View details for !{BusinessName}
                 br
 
         .row
             .col-md-1
             .col-md-10.col-sm-12.form-horizontal
-                +form-input-hidden('sSub_Letter_id', sSub_Letter_id)
-                +form-input-text('sBusinessName', 'Business name:', 'Sub-letter business name', sBusinessName, true, true, '3', '50')
-                +form-input-text('sContactFName', 'Contact name:', 'Sub-letter contact name', sContactFName, true, true, '3', '50')
-                +form-input-text('sContactLName', 'Contact surname:', 'Sub-letter contact surname', sContactLName, true, true, '3', '50')
-                +form-input-text('sContactNumber', 'Contact number:', 'Sub-letter contact number', sContactNumber, true, true, '2', '15')
-                +form-input-email('sContactEmail', 'Contact email:', 'Sub-letter contact email', sContactEmail, true, true, '5', '100')
-                +form-input-currency('sAmount', 'Rent:', 'Sub-letter rent', sAmount, true, true)
-                +form-input-calendar('sDateTime', 'Start date:', '', slDateTime)
+                +form-input-hidden('Sub_Letter_id', Sub_Letter_id)
+                +form-input-text('BusinessName', 'Business name:', 'Sub-letter business name', BusinessName, true, true, '3', '50')
+                +form-input-text('ContactFName', 'Contact name:', 'Sub-letter contact name', ContactFName, true, true, '3', '50')
+                +form-input-text('ContactLName', 'Contact surname:', 'Sub-letter contact surname', ContactLName, true, true, '3', '50')
+                +form-input-text('ContactNumber', 'Contact number:', 'Sub-letter contact number', ContactNumber, true, true, '2', '15')
+                +form-input-email('ContactEmail', 'Contact email:', 'Sub-letter contact email', ContactEmail, true, true, '5', '100')
+                +form-input-currency('Amount', 'Rent:', 'Sub-letter rent', Amount, true, true)
+                +form-input-calendar('DateTime', 'Start date:', '', DateTime)
 
         +workbreak()
         .row

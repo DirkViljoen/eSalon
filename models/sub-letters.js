@@ -9,7 +9,6 @@ module.exports = function SubLettersModel() {
         var deferred = q.defer();
 
         console.log('Search');
-        // ** test code
 
         if (bName) {
             console.log('sub-letter name search');
@@ -46,12 +45,12 @@ module.exports = function SubLettersModel() {
         if (sub_letter) {
             console.log('Sub-Letter Create');
             db.execute('CALL Sub_Letter_Add ("' +
-                sub_letter.sBusinessName + '","' +
-                sub_letter.sContactFName + '","' +
-                sub_letter.sContactLName + '","' +
-                sub_letter.sContactNumber + '","' +
-                sub_letter.sContactEmail + '","2015-04-01",' +
-                sub_letter.sAmount + ')'
+                sub_letter.BusinessName + '","' +
+                sub_letter.ContactFName + '","' +
+                sub_letter.ContactLName + '","' +
+                sub_letter.ContactNumber + '","' +
+                sub_letter.ContactEmail + '","2015-04-01",' +
+                sub_letter.Amount + ')'
             )
                 .then(
                     function (result){
@@ -76,13 +75,13 @@ module.exports = function SubLettersModel() {
         if (sub_letter) {
             console.log('Sub-Letter Update');
             db.execute('CALL Sub_Letter_Update (' +
-                sub_letter.sSub_Letter_id + ',"' +
-                sub_letter.sBusinessName + '","' +
-                sub_letter.sContactFName + '","' +
-                sub_letter.sContactLName + '","' +
-                sub_letter.sContactNumber + '","' +
-                sub_letter.sContactEmail + '","2015-04-01",' +
-                sub_letter.sAmount + ')'
+                sub_letter.Sub_Letter_id + ',"' +
+                sub_letter.BusinessName + '","' +
+                sub_letter.ContactFName + '","' +
+                sub_letter.ContactLName + '","' +
+                sub_letter.ContactNumber + '","' +
+                sub_letter.ContactEmail + '","2015-04-01",' +
+                sub_letter.Amount + ')'
             )
                 .then(
                     function (result){
@@ -131,6 +130,31 @@ module.exports = function SubLettersModel() {
 
         console.log('View');
         // ** test code
+
+        if (sID) {
+            console.log('sub-letter get details');
+            db.query('CALL Sub_Letter_get(' + sID + ');')
+                .then(
+                    function (result){
+                        deferred.resolve(result);
+                    },
+                    function (err){
+                        deferred.reject(new Error(err));
+                    }
+                );
+        }
+        else{
+            console.log('ERROR - no ID for sub-letter get');
+            deferred.reject(new Error('No ID'));
+        };
+
+        return deferred.promise;
+    };
+
+    function getPaymentDetails(sID) {
+        var deferred = q.defer();
+
+        console.log('Sub-Letter Details for payments');
 
         if (sID) {
             console.log('sub-letter get details');
@@ -216,6 +240,7 @@ module.exports = function SubLettersModel() {
         create: add,
         deactivate: deactivate,
         update: update,
+        payment: getPaymentDetails,
         buffer: null,
         test: testdata,
         help: testcode

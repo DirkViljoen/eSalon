@@ -83,8 +83,9 @@ $(function addRowHandlers() {
     });
 });
 
-$(function () { $("#alertTest").click(function(){
+/*$(function () { $("#alertTest").click(function(){
         console.log('alert test');
         BootstrapDialog.alert('I want banana!');
     });
 });
+*/

@@ -5,7 +5,6 @@ var SubLettersModel = require('../../models/sub-letters');
 var app = require('express')();
 var bodyParser = require('body-parser');
 
-
 module.exports = function (router) {
 
     var model = new SubLettersModel();
@@ -30,8 +29,8 @@ module.exports = function (router) {
 
         switch(req.body.action) {
             case 'View':
-                if (req.body.sSub_Letter_id) {
-                    res.redirect('/sub-letters/view/' + req.body.sSub_Letter_id);
+                if (req.body.Sub_Letter_id) {
+                    res.redirect('/sub-letters/view/' + req.body.Sub_Letter_id);
                 }
                 else
                 {
@@ -39,8 +38,8 @@ module.exports = function (router) {
                 }
                 break;
             case 'Update':
-                if (req.body.sSub_Letter_id) {
-                    res.redirect('/sub-letters/update/' + req.body.sSub_Letter_id)
+                if (req.body.Sub_Letter_id) {
+                    res.redirect('/sub-letters/update/' + req.body.Sub_Letter_id)
                 }
                 else
                 {
@@ -49,8 +48,8 @@ module.exports = function (router) {
                 break;
 
             case 'Delete':
-                if (req.body.sSub_Letter_id) {
-                    res.redirect('/sub-letters/delete/' + req.body.sSub_Letter_id)
+                if (req.body.Sub_Letter_id) {
+                    res.redirect('/sub-letters/delete/' + req.body.Sub_Letter_id)
                 }
                 else
                 {
@@ -59,8 +58,8 @@ module.exports = function (router) {
                 break;
 
             case 'Capture payment':
-                if (req.body.sSub_Letter_id) {
-                    res.render('subletters/subletter-payment', model)
+                if (req.body.Sub_Letter_id) {
+                    res.redirect('/sub-letters/RecievePayment/' + req.body.Sub_Letter_id)
                 }
                 else
                 {
@@ -70,7 +69,7 @@ module.exports = function (router) {
 
             default:
                 {
-                    model.find(req.body.sBusinessName)
+                    model.find(req.body.BusinessName)
                         .then(
                             function (result){
                                 res.render('subletters/subletter', result);
@@ -157,7 +156,52 @@ module.exports = function (router) {
         }
     });
 
-    router.get('/payment', function (req, res) {
-        res.render('subletters/subletter-payment', model)
+    router.get('/RecievePayment/:id', function (req, res) {
+        console.log('Sub-Letter Recieve Payment');
+        model.payment(req.params.id)
+            .then(
+                function (result){
+                    if (result) {
+                        console.log(result);
+                        var test = {'paymentMethods': [{'id':1, value: 'select payment'},{'id':1,value:'zapper'}]};
+                        console.log(test);
+                        //var test2 = new JSONObject().put("JSON", "Hello, World!");
+                        //test2.put(test);
+                        //console.log(test2);
+                        result.lookups.push(test);
+                        console.log(result);
+                        res.render('subletters/subletter-payment', result);
+                    }
+                }
+            );
+    });
+
+    router.post('/RecievePayment', function (req, res) {
+        console.log('Sub-Letter RecievePayment Post');
+        console.log('request body: ' + JSON.stringify(req.body));
+
+        if (req.body) {
+            //var index = model.update(req.body);
+            res.redirect('/sub-letters');
+        }
+        else
+        {
+            console.log('empty body on capture sub-letter payment sub-letter');
+            res.redirect('/sub-letters');
+        }
+    })
+
+    router.get('/PaymentMethods', function (req, res) {
+        console.log('Sub-Letter Recieve Payment');
+        model.index(req.params.id)
+            .then(
+                function (result){
+                    if (result.rows[0])
+                        console.log(result.rows);
+                        console.log(JSON.parse('{"id":1,"content":"hello angular"}'));
+                        res.send(JSON.parse('{"id":1,"content":"hello angular"}'));
+                        //res.render('subletters/subletter-payment', result.rows[0]);
+                }
+            );
     });
 };

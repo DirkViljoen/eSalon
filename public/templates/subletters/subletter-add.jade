@@ -18,13 +18,13 @@ block content
         .row
             .col-md-1
             .col-md-10.col-sm-12.form-horizontal
-                +form-input-text('sBusinessName', 'Business name:', 'Sub-letter business name', sBusinessName, true, false, '3', '50')
-                +form-input-text('sContactFName', 'Contact name:', 'Sub-letter contact name', sContactFName, true, false, '3', '50')
-                +form-input-text('sContactLName', 'Contact surname:', 'Sub-letter contact surname', sContactLName, true, false, '3', '50')
-                +form-input-text('sContactNumber', 'Contact number:', 'Sub-letter contact number', sContactNumber, true, false, '2', '15')
-                +form-input-email('sContactEmail', 'Contact email:', 'Sub-letter contact email', sContactEmail, true, false, '5', '100')
-                +form-input-currency('sAmount', 'Rent:', 'Sub-letter rent', sAmount, true, false)
-                +form-input-calendar('sDateTime', 'Start date:', '', slDateTime)
+                +form-input-text('BusinessName', 'Business name:', 'Sub-letter business name', BusinessName, true, false, '3', '50')
+                +form-input-text('ContactFName', 'Contact name:', 'Sub-letter contact name', ContactFName, true, false, '3', '50')
+                +form-input-text('ContactLName', 'Contact surname:', 'Sub-letter contact surname', ContactLName, true, false, '3', '50')
+                +form-input-text('ContactNumber', 'Contact number:', 'Sub-letter contact number', ContactNumber, true, false, '2', '15')
+                +form-input-email('ContactEmail', 'Contact email:', 'Sub-letter contact email', ContactEmail, true, false, '5', '100')
+                +form-input-currency('Amount', 'Rent:', 'Sub-letter rent', Amount, true, false)
+                +form-input-calendar('DateTime', 'Start date:', '', DateTime)
 
         +workbreak()
         .row
@@ -37,6 +37,10 @@ block content
                         input.btn.btn-default(type="button" onclick="window.location='/sub-letters'" value='Cancel')
                         br
             .col-sm-1
+
+        //Pure functionality objects
+        input(type='hidden' id='btnClicked' value='none')
+
 
 
 

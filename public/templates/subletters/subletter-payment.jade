@@ -8,23 +8,35 @@ block loggedIn
     a(href='#', class='navbar-link') Signed in as Mark Otto
 
 block content
-    .row
-        .col-sm-1
-        .col-sm-10.workarea
-            h3 Capture payment from !{slBName}
-            form.form-horizontal
-                +form-input-calendar('slPaymentDate', 'Payment date:', '', slPaymentDate)
-                +form-inputbox('text', 'slPaymentAmount', 'Amount:', 'Payment amount', slRent)
-                +form-combobox('slComboPaymentMethod', 'Payment method:', slPaymentMethods, slPaymentMethod)
+    form.row.col-xs-12.workarea.form-validate(id="sub-letterPayment" method="post" action="/sub-letters/RecievePayment")
+        .row
+            .col-sm-1
+            .col-sm-11
+                h3 Capture payment from !{BusinessName}
+                br
 
-    +workbreak()
-    .row
-        .col-sm-1
-        .col-sm-10.form-group.workarea
-            ul.nav.nav-pills.pull-right
-                li(role='presentation')
-                    a.btn-primary(href='/sub-letters') Capture
-                li(role='presentation')
-                    a.btn-primary(href='/sub-letters') Cancel
-                    br
+        .row
+            .col-md-1
+            .col-md-10.col-sm-12.form-horizontal
+                +form-input-hidden('Sub_Letter_id', rows[0].Sub_Letter_id)
+                +form-input-calendar('PaymentDate', 'Payment date:', '', DateTime)
+                +form-input-text('Amount', 'Payment amount:', 'Enter amount recieved', Amount, true, false, '3', '50')
+                +form-combobox('slComboPaymentMethod', 'Payment method:', lookups[0].paymentMethods)
+                script.
+                    alert(JSON.stringify(model));
+
+        +workbreak()
+        .row
+            .col-sm-1
+            .col-sm-10.form-group.workarea
+                ul.nav.nav-pills.pull-right
+                    li(role='presentation')
+                        input.btn.btn-primary(type="submit" name="action" value="Capture")
+                    li(role='presentation')
+                        input.btn.btn-default(type="button" onclick="window.location='/sub-letters'" value='Cancel')
+                        br
+            .col-sm-1
+
+        //Pure functionality objects
+        input(type='hidden' id='btnClicked' value='none')
 
