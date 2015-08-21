@@ -4,14 +4,14 @@ INSERT INTO `Province`(`Province_id`, `Name`) VALUES(1,"Gauteng");
 INSERT INTO `Province`(`Province_id`, `Name`) VALUES(2,"Mpumalanga");
 INSERT INTO `Province`(`Province_id`, `Name`) VALUES(3,"Limpopo");
 
-INSERT INTO `City`(`City_id`,`Name`) VALUES(1,"Pretoria");
-INSERT INTO `City`(`City_id`,`Name`) VALUES(2,"Bombela");
-INSERT INTO `City`(`City_id`,`Name`) VALUES(3,"Polokwane");
+INSERT INTO `City`(`City_id`,`Name`,`Province_id`) VALUES(1,"Pretoria",1);
+INSERT INTO `City`(`City_id`,`Name`,`Province_id`) VALUES(2,"Bombela",2);
+INSERT INTO `City`(`City_id`,`Name`,`Province_id`) VALUES(3,"Polokwane",3);
 
-INSERT INTO `Surburb`(`Surburb_id`,`Name`) VALUES(1,"Centurion");
-INSERT INTO `Surburb`(`Surburb_id`,`Name`) VALUES(2,"Hatfield");
-INSERT INTO `Surburb`(`Surburb_id`,`Name`) VALUES(3,"Riverside Park");
-INSERT INTO `Surburb`(`Surburb_id`,`Name`) VALUES(4,"Ivy Park");
+INSERT INTO `Surburb`(`Surburb_id`,`Name`,`City_id`) VALUES(1,"Centurion",1);
+INSERT INTO `Surburb`(`Surburb_id`,`Name`,`City_id`) VALUES(2,"Hatfield",1);
+INSERT INTO `Surburb`(`Surburb_id`,`Name`,`City_id`) VALUES(3,"Riverside Park",1);
+INSERT INTO `Surburb`(`Surburb_id`,`Name`,`City_id`) VALUES(4,"Ivy Park",1);
 
 INSERT INTO `Address`(`Address_id`,`Line1`,`Line2`) VALUES(1,"268 West Avenue","Centurion");
 INSERT INTO `Address`(`Address_id`,`Line1`,`Line2`) VALUES(2,"553 Grosvenor","Hatfield");

@@ -1,5 +1,7 @@
 USE eSalon;
 
+-- Lookups
+
 DELIMITER //
 CREATE PROCEDURE spPayment_Method_All
 ()
@@ -7,6 +9,37 @@ BEGIN
   SELECT * FROM `Payment_Method`;
 END //
 DELIMITER ;
+
+DELIMITER //
+CREATE PROCEDURE spProvinces_Read
+()
+BEGIN
+  SELECT * FROM `Province`;
+END //
+DELIMITER ;
+
+DELIMITER //
+CREATE PROCEDURE spCities_Filtered
+(IN id INT)
+BEGIN
+  SELECT * 
+  FROM `City`
+  WHERE `Province_id` = id;
+END //
+DELIMITER ;
+
+DELIMITER //
+CREATE PROCEDURE spSuburbs_Filtered
+(IN id INT)
+BEGIN
+  SELECT * 
+  FROM `Surburb`
+  WHERE `City_id` = id;
+END //
+DELIMITER ;
+
+
+-- Other normal type tables
 
 DELIMITER //
 CREATE PROCEDURE Sub_Letter_Search
