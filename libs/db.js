@@ -37,11 +37,11 @@ var db = function() {
             connection.query(myQuery, function(err, rows, fields) {
                 if (err) {
                     console.error(err);
-                    deferred.reject(new Error(err));
-                } else {
+                    deferred.reject(err);
+                }
+                else {
                     console.log('Query completed: ' + myQuery);
-                    result = JSON.parse('{"rows": ' + JSON.stringify(rows[0]) + ',"lookups": [], ' + '"SQLstats": ' + JSON.stringify(rows[1]) + '}');
-                    console.log(result);
+                    result = JSON.parse('{"rows": ' + JSON.stringify(rows[0]) + ', "SQLstats": ' + JSON.stringify(rows[1]) + '}');
                     deferred.resolve(result);
                 }
             });
@@ -51,15 +51,16 @@ var db = function() {
         execute: function(myQuery) {
             var deferred = q.defer();
             console.log(myQuery);
+
             connection.query(myQuery, function(err, rows, fields) {
                 if (err) {
                     console.error(err);
-                    deferred.reject(new Error(err));
-                } else {
-                    console.log('Execute completed: ' + myQuery);
-                    result = JSON.parse('{"rows": {},' + '"SQLstats": ' + JSON.stringify(rows) + '}');
-                    deferred.resolve(result);
+                    deferred.reject(err);
                 }
+                else {
+                    console.log('Execute completed');
+                    deferred.resolve('sucess');
+                };
             });
             return deferred.promise;
         },

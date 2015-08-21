@@ -10,9 +10,18 @@ module.exports = function (router) {
     var model = new SubLettersModel();
 
     router.get('/', function (req, res) {
-        console.log('Sub-Letter Search Get');
-        console.log('request body: ' + JSON.stringify(req.params));
-        res.render('subletters/subletter', req.params);
+        console.log('get all subletters')
+        model.find()
+            .then(
+                function (result){
+                    if (result)
+                        res.send(result);
+                },
+                function (err){
+                    console.log(err);
+                    res.send(err);
+                }
+            );
     });
 
     router.get('/:id', function (req, res) {
@@ -22,12 +31,16 @@ module.exports = function (router) {
                 function (result){
                     if (result)
                         res.send(result);
+                },
+                function (err){
+                    console.log(err);
+                    res.send(err);
                 }
             );
     });
 
     router.post('/', function (req, res) {
-        console.log('Sub-Letter Search Post');
+        console.log('Sub-Letter Create');
         console.log('request body: ' + JSON.stringify(req.body));
 
         if (req.body) {
@@ -77,7 +90,13 @@ module.exports = function (router) {
             );
     })
 
-    router.get('/add', function (req, res) {
+    router.get('/manage/sl', function (req, res) {
+        console.log('Sub-Letter Search Get');
+        console.log('request body: ' + JSON.stringify(req.params));
+        res.render('subletters/subletter', req.params);
+    });
+
+    router.get('/add/new', function (req, res) {
         console.log('Sub-Letter Add Get');
         console.log('request body: ' + JSON.stringify(req.params));
         res.render('subletters/subletter-add', req.params);
@@ -118,6 +137,21 @@ module.exports = function (router) {
         {
             console.log('empty body on capture sub-letter payment sub-letter');
         }
+    })
+
+    router.post('/search', function (req, res) {
+        console.log('search subletters')
+        model.find(req.body.businessName)
+            .then(
+                function (result){
+                    if (result)
+                        res.send(result);
+                },
+                function (err){
+                    console.log(err);
+                    res.send(err);
+                }
+            );
     })
 
     router.get('/:id/payments', function (req, res) {

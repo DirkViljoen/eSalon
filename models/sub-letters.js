@@ -55,7 +55,7 @@ module.exports = function SubLettersModel() {
             )
                 .then(
                     function (result){
-                        deferred.resolve(results);
+                        deferred.resolve(result);
                     },
                     function (err){
                         deferred.reject(new Error(err));
@@ -87,7 +87,7 @@ module.exports = function SubLettersModel() {
             )
                 .then(
                     function (result){
-                        deferred.resolve(results);
+                        deferred.resolve(result);
                     },
                     function (err){
                         deferred.reject(new Error(err));
@@ -111,11 +111,14 @@ module.exports = function SubLettersModel() {
                 id + ')'
             )
                 .then(
-                    function (results){
-                        deferred.resolve(results);
+                    function (result){
+                        console.log('success');
+                        console.log(result);
+                        deferred.resolve(result);
                     },
                     function (err){
-                        deferred.reject(new Error(err));
+                        console.log('error');
+                        deferred.reject(err);
                     }
                 );
         }
@@ -130,24 +133,26 @@ module.exports = function SubLettersModel() {
     function view(sID) {
         var deferred = q.defer();
 
-        console.log('View');
+        console.log('Module - Sub-Letter - view');
         // ** test code
 
+        console.log(typeof sID)
+
         if (sID) {
-            console.log('sub-letter get details');
             db.query('CALL Sub_Letter_get(' + sID + ');')
                 .then(
                     function (result){
+                        console.log('success');
                         deferred.resolve(result);
                     },
                     function (err){
-                        deferred.reject(new Error(err));
+                        deferred.reject(err);
                     }
                 );
         }
         else{
-            console.log('ERROR - no ID for sub-letter get');
-            deferred.reject(new Error('No ID'));
+            console.error(new Error('Invalid ID specified: ' + sID));
+            deferred.reject(new Error('Invalid ID specified: ' + sID));
         };
 
         return deferred.promise;
@@ -216,7 +221,7 @@ module.exports = function SubLettersModel() {
             )
                 .then(
                     function (result){
-                        deferred.resolve(results);
+                        deferred.resolve(result);
                     },
                     function (err){
                         deferred.reject(new Error(err));

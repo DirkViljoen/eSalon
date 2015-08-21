@@ -1,15 +1,17 @@
-var myModule = angular.module('app', []);
+var myModule = angular.module('app', ['smart-table']);
 
 myModule.controller('SubLetterController', function($scope, $http, $window) {
     $scope.loading = true;
     $scope.error = '';
 
     $scope.subLetter = {};
+    $scope.subLetters = [];
     $scope.subLetterPayments = [];
     $scope.paymentMethods = [];
     $scope.payment = {};
+    $scope.searchCriteria = {};
 
-    $scope.home = '/sub-letters';
+    $scope.home = '/sub-letters/manage/sl';
 
 // Lookup tables
     $scope.getPaymentMethods = function() {
@@ -46,6 +48,20 @@ myModule.controller('SubLetterController', function($scope, $http, $window) {
                 $scope.payment.id = response.data.rows[0].Sub_Letter_id;
                 $scope.payment.date = new Date().toJSON().slice(0,10)
                 $scope.payment.amount = response.data.rows[0].Amount;
+            }
+        }, function(err) {
+            $scope.loading = false;
+            $scope.error = err.data;
+        });
+    };
+
+    $scope.getSubLetters = function() {
+        $scope.loading = true;
+        $http.get('/sub-letters').then(function(response) {
+            $scope.loading = false;
+            console.log(response.data);
+            if (response.data.rows) {
+                $scope.subLetters = response.data.rows;
             }
         }, function(err) {
             $scope.loading = false;
@@ -172,13 +188,14 @@ myModule.controller('SubLetterController', function($scope, $http, $window) {
 
     $scope.deleteSubLetter = function() {
         if($scope.subLetter.id){
+            var temp = $scope.subLetter.businessName;
             subletter_delete('delete', function(res) {
                 console.log(res);
                 switch (res){
                     case 'yes':
                         $http.delete('/sub-letters/' + $scope.subLetter.id, $scope.subLetter)
                             .then(function(response) {
-                                success_Ok('Sub-letter deleted', $scope.subLetter.businessName + ' has been deleted successfully.', function(res) {
+                                success_Ok('Sub-letter deleted', 'The sub-letter has been deleted successfully.', function(res) {
                                     $window.location.href = $scope.home;
                                 });
                             }, function(err) {
@@ -203,14 +220,57 @@ myModule.controller('SubLetterController', function($scope, $http, $window) {
         }
     };
 
+    $scope.searchSubLetter = function() {
+        $scope.loading = true;
+        $http.post('/sub-letters/search', $scope.searchCriteria).then(function(response) {
+            $scope.loading = false;
+            console.log(response.data);
+            if (response.data.rows) {
+                $scope.subLetters = response.data.rows;
+            }
+        }, function(err) {
+            $scope.loading = false;
+            $scope.error = err.data;
+        });
+    };
+
+    $scope.selectRow = function(id) {
+        $scope.subLetter.id = id;
+    };
+
 // Routing
     $scope.cancel = function() {
         $window.location.href = $scope.home;
     };
 
-    $scope.updateSubLetter = function() {
-        $window.location.href = $scope.home + '/update/' + $scope.subLetter.id;
+    $scope.viewSubLetter = function() {
+        if($scope.subLetter.id){
+            $window.location.href = '/sub-letters/view/' + $scope.subLetter.id;
+        }
+        else {
+            error_Ok('Sub-letter not selected', 'You have not selected a sub-letter to view.');
+        };
     }
+
+    $scope.updateSubLetter = function() {
+        if($scope.subLetter.id){
+            $window.location.href = '/sub-letters/update/' + $scope.subLetter.id;
+        }
+        else {
+            error_Ok('Sub-letter not selected', 'You have not selected a sub-letter to update.');
+        };
+    }
+
+    $scope.capturePayment = function() {
+        if($scope.subLetter.id){
+            $window.location.href = '/sub-letters/RecievePayment/' + $scope.subLetter.id;
+        }
+        else {
+            error_Ok('Sub-letter not selected', 'You have not selected a sub-letter to recieve a payment from.');
+        };
+    }
+
+
 
 //Initializing
     $scope.initPayment = function(subLetter) {
@@ -240,6 +300,12 @@ myModule.controller('SubLetterController', function($scope, $http, $window) {
     $scope.initUpdate = function(subLetter) {
         $scope.getSubLetter(subLetter);
     }
+
+    $scope.initManage = function(subLetter) {
+        $scope.getSubLetters();
+    }
+
+
   });
 
 myModule.controller('PaymentController', function($scope, $http, $window) {

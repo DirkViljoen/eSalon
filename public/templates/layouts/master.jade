@@ -86,10 +86,10 @@ html(lang="en", ng-app="app")
                             b.caret
                         ul.dropdown-menu
                             li
-                                a(href='/sub-letters/add') Add new sub-letter
+                                a(href='/sub-letters/add/new') Add new sub-letter
                             li.divider
                             li
-                                a(href='/sub-letters') Manage sub-letters
+                                a(href='/sub-letters/manage/sl') Manage sub-letters
                     li.dropdown
                         a.dropdown-toggle(href='#', data-toggle='dropdown')
                             | Administration
@@ -133,6 +133,7 @@ html(lang="en", ng-app="app")
         script(src='/bower_components/jquery-validation/dist/jquery.validate.min.js')
         script(src='/bower_components/bootstrap3-dialog/dist/js/bootstrap-dialog.min.js')
         script(src='/bower_components/angular/angular.min.js')
+        script(src='/bower_components/angular-smart-table/dist/smart-table.min.js')
 
         script(src="/bower_components/javascript-detect-element-resize/jquery.resize.js")
         script(src="/bower_components/waitForImages/dist/jquery.waitforimages.js")
@@ -147,7 +148,7 @@ html(lang="en", ng-app="app")
         script.
             $( document ).ready(function() {
                 $(":submit").click(function () { $("#btnClicked").val(this.value); });
-                addSelectionValidation('#sub-letterManage', 'subletter-manage');
+                // addSelectionValidation('#sub-letterManage', 'subletter-manage');
                 addNGValidation('#sub-letterAdd');
                 addNGValidation('#sub-letterPayment');
                 addNGValidation('#sub-letterUpdate');

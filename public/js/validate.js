@@ -405,7 +405,7 @@ jQuery.validator.addMethod('myEmail', function(value, element) {
 
 jQuery.validator.addMethod('myContactNumber', function(value, element) {
     return this.optional(element) || /^[0-9]{3}\s{1}[0-9]{3}\s{1}[0-9]{4}$/.test(value);
-}, 'Please enter a valid South African contact number');
+}, 'Please enter a valid South African contact number in the folowing format: 099 999 9999');
 
 jQuery.validator.addMethod('myRadioGroup', function(value, element) {
     return this.optional(element) || /^[0-9]{3}\s{1}[0-9]{3}\s{1}[0-9]{4}$/.test(value);
