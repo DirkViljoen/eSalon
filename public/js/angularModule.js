@@ -29,7 +29,7 @@ myModule.controller('SubLetterController', function($scope, $http, $window) {
 // Core controller tables
     $scope.getSubLetter = function(id) {
         $scope.loading = true;
-        $http.get('/sub-letters/get/' + id).then(function(response) {
+        $http.get('/sub-letters/' + id).then(function(response) {
             $scope.loading = false;
             console.log(response.data);
             if (response.data.rows) {
