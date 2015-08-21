@@ -8,24 +8,23 @@ block loggedIn
     a(href='#', class='navbar-link') Signed in as Mark Otto
 
 block content
-    form.row.col-xs-12.workarea.form-validate(id="sub-letterView" method="post" action="/sub-letters")
+    form.row.col-xs-12.workarea.form-validate(id="sub-letterView", ng-controller="SubLetterController", ng-init="initView("+id+")")
         .row
             .col-sm-1
             .col-sm-11
-                h3 View details for !{BusinessName}
+                h3 View details for {{subLetter.businessName}}
                 br
 
         .row
             .col-md-1
             .col-md-10.col-sm-12.form-horizontal
-                +form-input-hidden('Sub_Letter_id', Sub_Letter_id)
-                +form-input-text('BusinessName', 'Business name:', 'Sub-letter business name', BusinessName, true, true, '3', '50')
-                +form-input-text('ContactFName', 'Contact name:', 'Sub-letter contact name', ContactFName, true, true, '3', '50')
-                +form-input-text('ContactLName', 'Contact surname:', 'Sub-letter contact surname', ContactLName, true, true, '3', '50')
-                +form-input-text('ContactNumber', 'Contact number:', 'Sub-letter contact number', ContactNumber, true, true, '2', '15')
-                +form-input-email('ContactEmail', 'Contact email:', 'Sub-letter contact email', ContactEmail, true, true, '5', '100')
-                +form-input-currency('Amount', 'Rent:', 'Sub-letter rent', Amount, true, true)
-                +form-input-calendar('DateTime', 'Start date:', '', DateTime)
+                +ng-input-text('businessName', 'Business name:', 'subLetter.businessName', 'Sub-letter business name', false, true, '3', '50')
+                +ng-input-text('contactFName', 'Contact name:', 'subLetter.contactFName', 'Sub-letter contact name', false, true, '3', '50')
+                +ng-input-text('contactLName', 'Contact surname:', 'subLetter.contactLName', 'Sub-letter contact surname', false, true, '3', '50')
+                +ng-input-text('contactNumber', 'Contact number:', 'subLetter.contactNumber', 'Sub-letter contact number', false, true, '2', '15')
+                +ng-input-email('contactEmail', 'Contact email:', 'subLetter.contactEmail', 'Sub-letter contact email', false, true, '5', '100')
+                +ng-input-currency('rent', 'Rent:', 'subLetter.rent', 'Sub-letter rent', false, true, '1', '100')
+                +ng-input-calendar('startDate', 'Contract start date:', 'subLetter.startDate', 'Enter lease start date', false, true)
 
         +workbreak()
         .row
@@ -33,10 +32,18 @@ block content
             .col-sm-10.form-group.workarea
                 ul.nav.nav-pills.pull-right
                     li(role='presentation')
-                        input.btn.btn-primary.cancel(type="submit" name="action" value="Update")
+                        input.btn.btn-primary(type="button", value='Update', ng-click='updateSubLetter()')
                     li(role='presentation')
-                        input.btn.btn-primary.cancel(type="submit" name="action" value="Delete")
+                        input.btn.btn-default(type="button", value='Delete', ng-click='deleteSubLetter()')
                     li(role='presentation')
-                        input.btn.btn-default(type="button" onclick="window.location='/sub-letters'" value='Back')
+                        input.btn.btn-default(type="button", value='Back', ng-click='cancel()')
                         br
             .col-sm-1
+
+        //- Pure functionality objects
+        div
+            p(ng-if="loading") Loading&hellip;
+            p paymentMethods: {{paymentMethods}}
+            p subLetter: {{subLetter}}
+            p subLetterPayments: {{subLetterPayments}}
+            p payment: {{payment}}

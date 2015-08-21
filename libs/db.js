@@ -41,6 +41,7 @@ var db = function() {
                 } else {
                     console.log('Query completed: ' + myQuery);
                     result = JSON.parse('{"rows": ' + JSON.stringify(rows[0]) + ',"lookups": [], ' + '"SQLstats": ' + JSON.stringify(rows[1]) + '}');
+                    console.log(result);
                     deferred.resolve(result);
                 }
             });

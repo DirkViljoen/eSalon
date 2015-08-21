@@ -1,11 +1,13 @@
 'use strict';
 
-$('.dtpicker').pickadate({})
+$('.dtpicker').pickadate({
+    format: 'yyyy-mm-dd'
+});
 
 $('.tmpicker').pickatime({
     min: [7,30],
     max: [18,0]
-    })
+    });
 
 $(function() {
     $( "#slider" ).slider({
@@ -83,9 +85,20 @@ $(function addRowHandlers() {
     });
 });
 
-/*$(function () { $("#alertTest").click(function(){
-        console.log('alert test');
-        BootstrapDialog.alert('I want banana!');
-    });
+$(function getCurrentDate() {
+    var today = new Date();
+    var dd = today.getDate();
+    var mm = today.getMonth()+1; //January is 0!
+    var yyyy = today.getFullYear();
+
+    if(dd<10) {
+        dd='0'+dd
+    }
+
+    if(mm<10) {
+        mm='0'+mm
+    }
+
+    today = yyyy+'-'+mm+'-'+dd;
+    return today;
 });
-*/

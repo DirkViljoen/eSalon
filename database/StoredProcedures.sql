@@ -110,3 +110,37 @@ BEGIN
 			`Sub_Letter_id` = sID;
 END // 
 DELIMITER ;
+
+DELIMITER //
+CREATE PROCEDURE spSub_Letter_Payments_Create
+(
+	IN subletter_id INT,
+    IN sDateTime DATE,
+    IN sAmount DECIMAL(8,2),
+    IN paymentMethod_id INT
+    
+)   
+BEGIN
+	INSERT 
+		INTO `Sub_Letter_Payment`(
+			`DateTime`,
+			`Amount`,
+			`Sub_Letter_id`,
+			`PaymentMethod_ID`
+            )
+		VALUES
+			(sDateTime, sAmount, subletter_id, paymentMethod_id);
+END // 
+DELIMITER ;
+
+DELIMITER //
+CREATE PROCEDURE spSub_Letter_Payments_Read
+(
+	IN id INT
+)   
+BEGIN
+  SELECT * FROM `Sub_Letter_Payment`
+  WHERE `Sub_Letter_id` = id
+  ORDER BY `DateTime`;
+END // 
+DELIMITER ;

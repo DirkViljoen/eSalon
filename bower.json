@@ -28,7 +28,8 @@
     "jstree": "~3.1.1",
     "jquery-validation": "~1.14.0",
     "angular-dialog-service": "~5.2.8",
-    "bootstrap3-dialog": "~1.34.5"
+    "bootstrap3-dialog": "~1.34.5",
+    "angular-bootstrap-show-errors": "~2.3.0"
   },
   "resolutions": {
     "angular": "1.4.4"

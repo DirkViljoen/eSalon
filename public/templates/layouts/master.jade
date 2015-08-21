@@ -1,5 +1,5 @@
 
-html(lang="en")
+html(lang="en", ng-app="app")
     head
         title eSalon
         link(rel="stylesheet", href="/bower_components/bootstrap/dist/css/bootstrap.min.css")
@@ -17,6 +17,7 @@ html(lang="en")
 
 
     body.container-fluid
+
         nav.navbar.navbar-default
             .container-fluid
                 .navbar-header
@@ -131,7 +132,7 @@ html(lang="en")
         script(src='/bower_components/fullcalendar/dist/fullcalendar.min.js')
         script(src='/bower_components/jquery-validation/dist/jquery.validate.min.js')
         script(src='/bower_components/bootstrap3-dialog/dist/js/bootstrap-dialog.min.js')
-        //script(src='/bower_components/angular/angular.min.js')
+        script(src='/bower_components/angular/angular.min.js')
 
         script(src="/bower_components/javascript-detect-element-resize/jquery.resize.js")
         script(src="/bower_components/waitForImages/dist/jquery.waitforimages.js")
@@ -141,13 +142,16 @@ html(lang="en")
         script(src="/js/calendar.js")
         script(src="/js/app.js")
         script(src="/js/validate.js")
+        script(src="/js/angularModule.js")
 
         script.
             $( document ).ready(function() {
                 $(":submit").click(function () { $("#btnClicked").val(this.value); });
                 addSelectionValidation('#sub-letterManage', 'subletter-manage');
-                addFormValidation('#sub-letterAdd', 'subletter-add');
-                addFormValidation('#sub-letterUpdate', 'subletter-update');
+                addNGValidation('#sub-letterAdd');
+                addNGValidation('#sub-letterPayment');
+                addNGValidation('#sub-letterUpdate');
+
             });
 
 

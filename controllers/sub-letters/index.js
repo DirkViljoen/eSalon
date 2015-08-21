@@ -12,11 +12,16 @@ module.exports = function (router) {
     router.get('/', function (req, res) {
         console.log('Sub-Letter Search Get');
         console.log('request body: ' + JSON.stringify(req.params));
+        res.render('subletters/subletter', req.params);
+    });
 
-        model.find()
+    router.get('/:id', function (req, res) {
+        console.log('get subLetter by id')
+        model.index(req.params.id)
             .then(
                 function (result){
-                    res.render('subletters/subletter', result);
+                    if (result)
+                        res.send(result);
                 }
             );
     });
@@ -25,182 +30,105 @@ module.exports = function (router) {
         console.log('Sub-Letter Search Post');
         console.log('request body: ' + JSON.stringify(req.body));
 
-
-
-        switch(req.body.action) {
-            case 'View':
-                if (req.body.Sub_Letter_id) {
-                    res.redirect('/sub-letters/view/' + req.body.Sub_Letter_id);
-                }
-                else
-                {
-                    return null;
-                }
-                break;
-            case 'Update':
-                if (req.body.Sub_Letter_id) {
-                    res.redirect('/sub-letters/update/' + req.body.Sub_Letter_id)
-                }
-                else
-                {
-                    return null;
-                }
-                break;
-
-            case 'Delete':
-                if (req.body.Sub_Letter_id) {
-                    res.redirect('/sub-letters/delete/' + req.body.Sub_Letter_id)
-                }
-                else
-                {
-                    return null;
-                }
-                break;
-
-            case 'Capture payment':
-                if (req.body.Sub_Letter_id) {
-                    res.redirect('/sub-letters/RecievePayment/' + req.body.Sub_Letter_id)
-                }
-                else
-                {
-                    return null;
-                }
-                break;
-
-            default:
-                {
-                    model.find(req.body.BusinessName)
-                        .then(
-                            function (result){
-                                res.render('subletters/subletter', result);
-                            }
-                        );
-                }
+        if (req.body) {
+             model.create(req.body)
+                .then(
+                    function (result){
+                        console.log(result);
+                        res.send(result);
+                    }
+                );
+        }
+        else
+        {
+            console.log('empty body on sub-letter add');
+            res.send(err('No body'));
         }
     });
 
-    router.get('/view/:id', function (req, res) {
-        console.log('Sub-Letter View Get');
-        model.index(req.params.id)
-            .then(
-                function (result){
-                    if (result.rows[0])
-                        res.render('subletters/subletter-view', result.rows[0]);
-                }
-            );
-    });
-
-    router.get('/update/:id', function (req, res) {
-        console.log('Sub-Letter Update Get');
-        model.index(req.params.id)
-            .then(
-                function (result){
-                    if (result.rows[0])
-                        res.render('subletters/subletter-update', result.rows[0]);
-                }
-            );
-    });
-
-    router.post('/update', function (req, res) {
+    router.put('/:id', function (req, res) {
         console.log('Sub-Letter Update Post');
         console.log('request body: ' + JSON.stringify(req.body));
 
         if (req.body) {
-            var index = model.update(req.body);
-            res.redirect('/sub-letters');
+             model.update(req.body)
+                .then(
+                    function (result){
+                        console.log(result);
+                        res.send(result);
+                    }
+                );
         }
         else
         {
             console.log('empty body on sub-letter update');
-            res.redirect('/sub-letters');
         }
+    })
+
+    router.delete('/:id', function (req, res) {
+        console.log('Sub-Letter Delete');
+        console.log('request params: ' + JSON.stringify(req.params));
+        model.deactivate(req.params.id)
+            .then(
+                function (result){
+                    console.log(result);
+                    res.send(result);
+                }
+            );
     })
 
     router.get('/add', function (req, res) {
         console.log('Sub-Letter Add Get');
         console.log('request body: ' + JSON.stringify(req.params));
-
-        model.index('0')
-            .then(
-                function (result){
-                    res.render('subletters/subletter-add', result);
-                }
-            );
+        res.render('subletters/subletter-add', req.params);
     });
 
-    router.post('/add', function (req, res) {
-        console.log('Sub-Letter Add Post');
-        console.log('request body: ' + JSON.stringify(req.body));
-
-        if (req.body) {
-            var index = model.create(req.body);
-            res.redirect('/sub-letters');
-        }
-        else
-        {
-            console.log('empty body on add');
-            res.render('subletters/subletter-add', model)
-        }
+    router.get('/view/:id', function (req, res) {
+        console.log('Sub-Letter View Get');
+        console.log(req.params);
+        res.render('subletters/subletter-view', req.params);
     });
 
-    router.get('/delete/:id', function (req, res) {
-        console.log('request param: ' + JSON.stringify(req.params));
-        if (req.params) {
-            var index = model.deactivate(req.params);
-            res.redirect('/sub-letters');
-        }
-        else
-        {
-            console.log('empty params on sub-letter delete');
-            res.redirect('/sub-letters');
-        }
+    router.get('/update/:id', function (req, res) {
+        console.log('Sub-Letter Update Get');
+        console.log(req.params);
+        res.render('subletters/subletter-update', req.params);
     });
 
     router.get('/RecievePayment/:id', function (req, res) {
-        console.log('Sub-Letter Recieve Payment');
-        model.payment(req.params.id)
-            .then(
-                function (result){
-                    if (result) {
-                        console.log(result);
-                        var test = {'paymentMethods': [{'id':1, value: 'select payment'},{'id':1,value:'zapper'}]};
-                        console.log(test);
-                        //var test2 = new JSONObject().put("JSON", "Hello, World!");
-                        //test2.put(test);
-                        //console.log(test2);
-                        result.lookups.push(test);
-                        console.log(result);
-                        res.render('subletters/subletter-payment', result);
-                    }
-                }
-            );
+        console.log('Router - Sub-Letter - RecievePayment - ' + req.params.id);
+        console.log(req.params);
+        res.render('subletters/subletter-payment', req.params);
     });
 
-    router.post('/RecievePayment', function (req, res) {
+    router.post('/payment', function (req, res) {
         console.log('Sub-Letter RecievePayment Post');
         console.log('request body: ' + JSON.stringify(req.body));
 
         if (req.body) {
-            //var index = model.update(req.body);
-            res.redirect('/sub-letters');
+             model.capturePayment(req.body)
+                .then(
+                    function (result){
+                        console.log(result);
+                        res.send(result);
+                    }
+                );
         }
         else
         {
             console.log('empty body on capture sub-letter payment sub-letter');
-            res.redirect('/sub-letters');
         }
     })
 
-    router.get('/PaymentMethods', function (req, res) {
+    router.get('/:id/payments', function (req, res) {
         console.log('Sub-Letter Recieve Payment');
-        model.index(req.params.id)
+        console.log(req.params);
+
+        model.previousPayments(req.params.id)
             .then(
                 function (result){
-                    if (result.rows[0])
-                        console.log(result.rows);
-                        console.log(JSON.parse('{"id":1,"content":"hello angular"}'));
-                        res.send(JSON.parse('{"id":1,"content":"hello angular"}'));
-                        //res.render('subletters/subletter-payment', result.rows[0]);
+                    console.log(result);
+                    res.send(result);
                 }
             );
     });
