@@ -17,67 +17,79 @@ block content
 
         .row
             .col-md-1
-            .col-md-10.col-sm-12.form-horizontal
-                +form-group('Personal information')
-                +ng-input-text('title', 'Client title:', 'client.title', '', false, true, '1', '50')
-                +ng-input-text('fname', 'Client name:', 'client.contactFName', '', false, true, '3', '50')
-                +ng-input-text('lname', 'Client surname:', 'client.contactLName', '', false, true, '3', '50')
-                +ng-input-text('contactNumber', 'Contact number:', 'client.contactNumber', '', false, true, '2', '15')
-                +ng-input-email('contactEmail', 'Contact email:', 'client.contactEmail', '', false, true, '5', '100')
-                +ng-input-calendar('dateOfBirth', 'Client date of birth:', 'client.dateOfBirth', '', false, true)
+            .col-md-10.form-horizontal
+                .grouphead
+                    +form-group('Personal information')
+                .groupbox
+                    +ng-input-text('title', 'Client title:', 'client.title', '', false, true, '1', '50')
+                    +ng-input-text('fname', 'Client name:', 'client.contactFName', '', false, true, '3', '50')
+                    +ng-input-text('lname', 'Client surname:', 'client.contactLName', '', false, true, '3', '50')
+                    +ng-input-text('contactNumber', 'Contact number:', 'client.contactNumber', '', false, true, '2', '15')
+                    +ng-input-email('contactEmail', 'Contact email:', 'client.contactEmail', '', false, true, '5', '100')
+                    +ng-input-calendar('dateOfBirth', 'Client date of birth:', 'client.dateOfBirth', '', false, true)
+                br
 
-                +form-group('Address information')
-                +ng-input-combobox('province', 'Province:', 'client.provinceId', 'Select a province', 'province.Province_id as province.Name for province in provinces', false, true, 'getCities()')
-                +ng-input-combobox('city', 'City:', 'client.cityId', 'Select a city', 'city.City_id as city.Name for city in cities', false, true, 'getSuburbs()')
-                +ng-input-combobox('suburb', 'Suburb:', 'client.suburbId', 'Select a suburb', 'suburb.Surburb_id as suburb.Name for suburb in suburbs', false, true)
-                +ng-input-text('line2', 'Line 2:', 'client.line2', '', false, true, '3', '50')
-                +ng-input-text('line1', 'Line 1:', 'client.line1', '', false, true, '3', '50')
+                .grouphead
+                    +form-group('Address information')
+                .groupbox
+                    +ng-input-combobox('province', 'Province:', 'client.provinceId', 'Select a province', 'province.Province_id as province.Name for province in provinces', false, true, 'getCities()')
+                    +ng-input-combobox('city', 'City:', 'client.cityId', 'Select a city', 'city.City_id as city.Name for city in cities', false, true, 'getSuburbs()')
+                    +ng-input-combobox('suburb', 'Suburb:', 'client.suburbId', 'Select a suburb', 'suburb.Surburb_id as suburb.Name for suburb in suburbs', false, true)
+                    +ng-input-text('line2', 'Line 2:', 'client.line2', '', false, true, '3', '50')
+                    +ng-input-text('line1', 'Line 1:', 'client.line1', '', false, true, '3', '50')
+                br
 
-                +form-group('Notifications and reminders')
-                +ng-input-checkbox('reminders', 'Recieve reminders', 'client.reminders', false, true)
-                +ng-input-checkbox('notifications', 'Recieve notifications', 'client.notifications', false, true)
-                +ng-input-combobox('notifyMethod', 'Notification method:', 'client.notificationMethod', 'Select a notification method', 'method.NoticationMethod_ID as method.NotificationType for method in notificationMethods', false, true)
+                .grouphead
+                    +form-group('Notifications and reminders')
+                .groupbox
+                    +ng-input-checkbox('reminders', 'Recieve reminders', 'client.reminders', false, true)
+                    +ng-input-checkbox('notifications', 'Recieve notifications', 'client.notifications', false, true)
+                    +ng-input-combobox('notifyMethod', 'Notification method:', 'client.notificationMethod', 'Select a notification method', 'method.NoticationMethod_ID as method.NotificationType for method in notificationMethods', false, true)
 
-        +workbreak()
+        br
         .row
-            .col-sm-1
-            .col-sm-10.col-sm-12
-                +form-group('Client service history')
-                table.table(id="clientServicehistory" st-table='serviceHistory')
-                    thead
-                        tr
-                            th Date
-                            th Service
-                            th Stylist
-                    tbody
-                        tr(ng-repeat="row in serviceHistory")
-                            td {{row.DateTime}}
-                            td {{row.service}}
-                            td {{row.employeeFName}} {{row.employeeLName}}
+            .col-md-1
+            .col-md-10.table-responsive
+                .grouphead
+                    +form-group('Client service history')
+                .groupbox
+                    table.table(id="clientServicehistory" st-table='serviceHistory')
+                        thead
+                            tr
+                                th Date
+                                th Service
+                                th Stylist
+                        tbody
+                            tr(ng-repeat="row in serviceHistory")
+                                td {{row.DateTime}}
+                                td {{row.service}}
+                                td {{row.employeeFName}} {{row.employeeLName}}
 
-        +workbreak()
+        br
         .row
-            .col-sm-1
-            .col-sm-10.col-sm-12
-                +form-group('Client product history')
-                table.table(id="clientProducthistory" st-table='productHistory')
-                    thead
-                        tr
-                            th Date
-                            th Product
-                            th Quantity
-                            th Stylist
-                    tbody
-                        tr(ng-repeat="row in productHistory")
-                            td {{row.DateTime}}
-                            td {{row.stockBName}} {{row.stockPName}}
-                            td {{row.Quantity}}
-                            td {{row.employeeFName}} {{row.employeeLName}}
+            .col-md-1
+            .col-md-10.table-responsive
+                .grouphead
+                    +form-group('Client product history')
+                .groupbox
+                    table.table(id="clientProducthistory" st-table='productHistory')
+                        thead
+                            tr
+                                th Date
+                                th Product
+                                th Quantity
+                                th Stylist
+                        tbody
+                            tr(ng-repeat="row in productHistory")
+                                td {{row.DateTime}}
+                                td {{row.stockBName}} {{row.stockPName}}
+                                td {{row.Quantity}}
+                                td {{row.employeeFName}} {{row.employeeLName}}
 
-        +workbreak()
+        br
         .row
-            .col-sm-1
-            .col-sm-10.form-group.workarea
+            .col-md-1
+            .col-md-10.form-group
                 ul.nav.nav-pills.pull-right
                     li(role='presentation')
                         input.btn.btn-primary(type="button", value="Delete", ng-click='deleteClient()')
@@ -88,7 +100,6 @@ block content
                     li(role='presentation')
                         input.btn.btn-default(type="button", value='Booking', ng-click='makeBooking()')
                         br
-            .col-sm-1
 
         //- Pure functionality objects
         //- div

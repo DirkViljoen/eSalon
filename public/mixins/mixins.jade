@@ -134,10 +134,7 @@ mixin form-button-small-add()
             a.btn-primary.btn-sm.btn-success.glyphicon-plus(href='#')
 
 mixin form-group(label)
-    .form-group
-        .col-sm-2
-        .col-sm-5
-            h4= label
+    h4= label
 
 mixin workbreak()
     .row
@@ -200,17 +197,26 @@ mixin table-timeslot(time)
 
 mixin ng-input-text(name, label, model, placeholder, required, readonly, minLen, maxLen)
     .form-group
-        label.control-label.col-md-2.col-sm-3(for=name)= label
-        div.col-md-10.col-sm-9.input-group
-            input.form-control(type='text', id=name, name=name, ng-model=model, placeholder=placeholder, readonly=readonly, required=required, minlength=minLen, maxlength=maxLen)
+        label.control-label.col-md-3.col-sm-4(for=name)= label
+        div.input-group
+            input.form-control(type='text', id=name, name=name, ng-model=model, placeholder=placeholder, readonly=readonly, required=required, minlength=minLen, maxlength=maxLen size='40')
+            if (required)
+                span.input-group-addon
+                    span.glyphicon.glyphicon-asterisk
+
+mixin ng-input-text-alt(name, label, model, placeholder, required, readonly, minLen, maxLen)
+    .form-group
+        label.control-label.col-sm-4(for=name)= label
+        div.input-group
+            input.form-control(type='text', id=name, name=name, ng-model=model, placeholder=placeholder, readonly=readonly, required=required, minlength=minLen, maxlength=maxLen size='40')
             if (required)
                 span.input-group-addon
                     span.glyphicon.glyphicon-asterisk
 
 mixin ng-input-email(name, label, model, placeholder, required, readonly, minLen, maxLen)
     .form-group
-        label.control-label.col-md-2.col-sm-3(for=name)= label
-        div.col-md-10.col-sm-9.input-group
+        label.control-label.col-md-3.col-sm-4(for=name)= label
+        div.input-group
             span.input-group-addon
                 span.glyphicon.glyphicon-envelope
             input.form-control(type='email', id=name, name=name, ng-model=model, placeholder=placeholder, readonly=readonly, required=required, minlength=minLen, maxlength=maxLen)
@@ -220,8 +226,8 @@ mixin ng-input-email(name, label, model, placeholder, required, readonly, minLen
 
 mixin ng-input-currency(name, label, model, placeholder, required, readonly, minLen, maxLen)
     .form-group
-        label.control-label.col-md-2.col-sm-3(for=id)= label
-        div.col-md-10.col-sm-9.input-group
+        label.control-label.col-md-3.col-sm-4(for=id)= label
+        div.input-group
             span.input-group-addon
                 span.glyphicon
                     b R
@@ -232,8 +238,8 @@ mixin ng-input-currency(name, label, model, placeholder, required, readonly, min
 
 mixin ng-input-checkbox(name, label, model, selected, required, readonly)
     .form-group
-        .col-md-2.col-sm-3
-        div.col-md-10.col-sm-9.input-group
+        .col-md-3.col-sm-4
+        div.input-group
             input(type="checkbox", name=name, ng-model=model, required=required, readonly=readonly)
             label &nbsp;
             label(for=id)= label
@@ -244,14 +250,14 @@ mixin ng-input-hidden(model)
 
 mixin ng-input-combobox(name, label, model, placeholder, options, required, readonly, changeEvent)
     .form-group
-        label.control-label.col-md-2.col-sm-3= label
-        div.col-md-10.col-sm-9.input-group
+        label.control-label.col-md-3.col-sm-4= label
+        div.input-group
             select.form-control(name=name, ng-model=model, ng-options=options, placeholder=placeholder, readonly=readonly, required=required, ng-change=changeEvent)
 
 mixin ng-input-calendar(name, label, model, placeholder, required, readonly)
     .form-group
-        label.control-label.col-sm-2(for=id)= label
-        div.col-md-5.col-sm-5.input-group
+        label.control-label.col-md-3.col-sm-4(for=id)= label
+        div.input-group
             input.form-control.dtpicker(type='text', name=name, ng-model=model, placeholder=placeholder, data-value=myValue, required=required, readonly=readonly)
             span.input-group-addon
                 span.glyphicon.glyphicon-calendar

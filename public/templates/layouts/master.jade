@@ -32,7 +32,7 @@ html(lang="en", ng-app="app")
                             a(href="/login") Log out
 
         .row
-            .col-sm-2()
+            .col-sm-3.col-md-2
                 ul(class='nav nav-pills nav-stacked')
                     li.dropdown
                         a.dropdown-toggle(href='#', data-toggle='dropdown')
@@ -113,11 +113,10 @@ html(lang="en", ng-app="app")
                             li.divider
                             li
                                 a(href='#') Expense Report
-            .col-sm-10()
-                .row
-                    p
+            .col-sm-9.col-md-10
                 block content
-                .col-xs-12(style="height:50px")
+                .col-xs-12(style="height:100px")
+
 
         .footer
             block footer

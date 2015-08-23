@@ -12,57 +12,66 @@ block content
         .row
             .col-sm-1
             .col-sm-11
-                h3 Client Search
+                h3 Manage clients
                 br
 
         .row
-            .col-sm-1
-            .col-sm-9.form-horizontal
-                +ng-input-text('fname', 'Client name:', 'searchCriteria.contactFName', 'Search on client name', false, false, '0', '50')
-                +ng-input-text('lname', 'Client surname:', 'searchCriteria.contactLName', 'Search on client surname', false, false, '0', '50')
-            .col-sm-1.form-vertical
-                input.btn.btn-primary.pull-down(type="button", value="Search", ng-click='searchClient()')
+            .col-md-1
+            .col-md-10.form-horizontal
+                .grouphead
+                    +form-group('Search for a client')
+                .groupbox
+                    .row
+                        .col-md-4
+                            +ng-input-text-alt('fname', 'Name:', 'searchCriteria.contactFName', 'Search on client name', false, false, '0', '50')
+                        .col-md-5
+                            +ng-input-text-alt('lname', 'Surname:', 'searchCriteria.contactLName', 'Search on client surname', false, false, '0', '50')
+                        .col-md-3
+                            .nav.nav-pills.pull-right
+                                li(role='presentation')
+                                    input.btn.btn-primary(type="button", value="Search", ng-click='searchClient()')
+                                li(role='presentation')
+                                    input.btn.btn-default(type="button", value='Clear', ng-click='searchClearClient()')
 
-        +workbreak()
+        br
         .row
-            .col-sm-1
-            .col-sm-10
-              table.table.table-hover(id="client-search" st-table='clients')
-                thead
-                  tr
-                    th
-                    th Title
-                    th Name
-                    th Surname
-                    th Date of birth
-                tbody
-                    tr(ng-repeat="row in clients" ng-click="selectRow(row.Client_ID)")
-                        td
-                            input(type="radio" name="Client_ID" ng-model="client.clientid" value='{{row.Client_ID}}')
-                        td {{row.Title}}
-                        td {{row.Name}}
-                        td {{row.Surname}}
-                        td {{row.DateOfBirth}}
+            .col-md-1
+            .col-md-10.table-responsive
+                table.table.table-hover(id="client-search" st-table='clients')
+                    thead
+                        tr
+                            th
+                            th Title
+                            th Name
+                            th Surname
+                            th Date of birth
+                    tbody
+                        tr(ng-repeat="row in clients" ng-click="selectRow(row.Client_ID)")
+                            td
+                                input(type="radio" name="Client_ID" ng-model="client.clientid" value='{{row.Client_ID}}')
+                            td {{row.Title}}
+                            td {{row.Name}}
+                            td {{row.Surname}}
+                            td {{row.DateOfBirth}}
 
-        +workbreak()
+        br
         .row
-            .col-sm-1
-            .col-sm-10.form-group.workarea
+            .col-md-1
+            .col-md-10.form-group
                 ul.nav.nav-pills.pull-right
                     li(role='presentation')
                         input.btn.btn-primary(type="button", value="Add", ng-click='addClient()')
                     li(role='presentation')
                         input.btn.btn-default(type="button", value='View', ng-click='viewClient()')
                     li(role='presentation')
-                        input.btn.btn-default(type="button", value='Export client list', ng-click='export()')
+                        input.btn.btn-default(type="button", value='Export client list', ng-click='exportClients()')
                         br
-            .col-sm-1
 
         //- Pure functionality objects
         //- div
         //-     p(ng-if="loading") Loading&hellip;
-        //-     p client:
-        //-         span {{client}}
+        //-     p clients:
+        //-         span {{clients}}
         //-     p oldClient:
         //-         span {{oldClient}}
         //-     p suburbs:

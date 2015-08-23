@@ -1,5 +1,6 @@
 var myModule = angular.module('app', ['smart-table']);
 
+//Angular app
 myModule.controller('SubLetterController', function($scope, $http, $window) {
     $scope.loading = true;
     $scope.error = '';
@@ -600,6 +601,12 @@ myModule.controller('ClientController', function($scope, $http, $window) {
         });
     };
 
+    $scope.searchClearClient = function() {
+        $scope.searchCriteria.contactFName = '';
+        $scope.searchCriteria.contactLName = '';
+        $scope.searchClient();
+    }
+
     $scope.selectRow = function(id) {
         $scope.client.clientid = id;
     };
@@ -609,6 +616,56 @@ myModule.controller('ClientController', function($scope, $http, $window) {
     $scope.formatDateTime = function(inDate) {
         return (inDate.slice(0,10) + ' ' + indate.slice(11,15));
     }
+
+    $scope.JSON2CSV = function(objArray) {
+        var array = typeof objArray != 'object' ? JSON.parse(objArray) : objArray;
+
+        var str = '';
+        var line = '';
+
+        if ($("#labels").is(':checked')) {
+            var head = array[0];
+            if ($("#quote").is(':checked')) {
+                for (var index in array[0]) {
+                    var value = index + "";
+                    line += '"' + value.replace(/"/g, '""') + '",';
+                }
+            } else {
+                for (var index in array[0]) {
+                    line += index + ',';
+                }
+            }
+
+            line = line.slice(0, -1);
+            str += line + '\r\n';
+        }
+
+        for (var i = 0; i < array.length; i++) {
+            var line = '';
+
+            if ($("#quote").is(':checked')) {
+                for (var index in array[i]) {
+                    var value = array[i][index] + "";
+                    line += '"' + value.replace(/"/g, '""') + '",';
+                }
+            } else {
+                for (var index in array[i]) {
+                    line += array[i][index] + ',';
+                }
+            }
+
+            line = line.slice(0, -1);
+            str += line + '\r\n';
+        }
+        return str;
+    };
+
+    $scope.downloadCSV = function(obj) {
+        var json = $.parseJSON(obj);
+        var csv = JSON2CSV(json);
+        window.open("data:text/csv;charset=utf-8," + escape(csv));
+    };
+
 
     // Routing
     $scope.cancel = function() {
@@ -635,6 +692,10 @@ myModule.controller('ClientController', function($scope, $http, $window) {
         else {
             error_Ok('Client not selected', 'You have not selected a client to update.');
         };
+    };
+
+    $scope.exportClients = function() {
+        $scope.downloadCSV($scope.clients);
     };
 
     //Initializing

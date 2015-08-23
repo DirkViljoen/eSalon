@@ -1,23 +1,49 @@
-.workarea {
-	background-color: #FCE0FF;
+
+
+.grouphead {
+    background-color: #FEF;
+
+    margin-top: 3px;
+    margin-left: 3px;
+    margin-right: 3px;
+    padding-left: 7px;
+    padding-right: 7px;
+    border-radius: 5px 5px 0px 0px;
+    border: 1px solid #DBD;
+}
+
+.groupbox {
+    margin-left: 3px;
+    margin-right: 3px;
+    margin-bottom: 3px;
+    padding: 7px;
+    border-radius: 0px 0px 5px 5px;
+    border: 1px solid #DBD;
+}
+
+.form-group {
+    margin-left: 6px;
+    margin-right: 6px;
+    padding-left: 14px;
+    padding-right: 14px;
 }
 
 .table {
-  background-color: #FCF0FF;
+    background-color: #FCF0FF;
 }
 
 .nopadding {
-   padding: 0 !important;
+     padding: 0 !important;
 }
 
 .treeview {
-  background-color: #f5f4f5;
+    background-color: #f5f4f5;
 }
 
 input.error {
-  border-color: red;
+    border-color: red;
 }
 
 label.error {
-  color: red;
+    color: red;
 }
