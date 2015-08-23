@@ -1,0 +1,76 @@
+extends ../layouts/master
+include ../../mixins/mixins
+
+block header
+  label Clients
+
+block loggedIn
+  a(href='#', class='navbar-link') Signed in as Mark Otto
+
+block content
+    form.row.col-xs-12.workarea.form-validate(id="clientUpdate", ng-controller="ClientController", ng-init='initManage()')
+        .row
+            .col-sm-1
+            .col-sm-11
+                h3 Client Search
+                br
+
+        .row
+            .col-sm-1
+            .col-sm-9.form-horizontal
+                +ng-input-text('fname', 'Client name:', 'searchCriteria.contactFName', 'Search on client name', false, false, '0', '50')
+                +ng-input-text('lname', 'Client surname:', 'searchCriteria.contactLName', 'Search on client surname', false, false, '0', '50')
+            .col-sm-1.form-vertical
+                input.btn.btn-primary.pull-down(type="button", value="Search", ng-click='searchClient()')
+
+        +workbreak()
+        .row
+            .col-sm-1
+            .col-sm-10
+              table.table.table-hover(id="client-search" st-table='clients')
+                thead
+                  tr
+                    th
+                    th Title
+                    th Name
+                    th Surname
+                    th Date of birth
+                tbody
+                    tr(ng-repeat="row in clients" ng-click="selectRow(row.Client_ID)")
+                        td
+                            input(type="radio" name="Client_ID" ng-model="client.clientid" value='{{row.Client_ID}}')
+                        td {{row.Title}}
+                        td {{row.Name}}
+                        td {{row.Surname}}
+                        td {{row.DateOfBirth}}
+
+        +workbreak()
+        .row
+            .col-sm-1
+            .col-sm-10.form-group.workarea
+                ul.nav.nav-pills.pull-right
+                    li(role='presentation')
+                        input.btn.btn-primary(type="button", value="Add", ng-click='addClient()')
+                    li(role='presentation')
+                        input.btn.btn-default(type="button", value='View', ng-click='viewClient()')
+                    li(role='presentation')
+                        input.btn.btn-default(type="button", value='Export client list', ng-click='export()')
+                        br
+            .col-sm-1
+
+        //- Pure functionality objects
+        //- div
+        //-     p(ng-if="loading") Loading&hellip;
+        //-     p client:
+        //-         span {{client}}
+        //-     p oldClient:
+        //-         span {{oldClient}}
+        //-     p suburbs:
+        //-         span {{suburbs}}
+        //-     p serviceHistory:
+        //-         span {{serviceHistory}}
+        //-     p productHistory:
+        //-         span {{productHistory}}
+        //-     p {{cities}}
+        //-     p {{provinces}}
+        //-     p {{notificationMethods}}

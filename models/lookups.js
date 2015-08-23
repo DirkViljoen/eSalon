@@ -69,10 +69,27 @@ module.exports = function LookupsModel() {
         return deferred.promise;
     };
 
+    function notificationMethods() {
+        var deferred = q.defer();
+
+        db.query('CALL spNotificationMethods_Read();')
+            .then(
+                function (result){
+                    deferred.resolve(result);
+                },
+                function (err){
+                    deferred.reject(new Error(err));
+                }
+            );
+
+        return deferred.promise;
+    };
+
     return {
         paymentMethods: paymentMethods,
         provinces: provinces,
         cities: cities,
-        suburbs: suburbs
+        suburbs: suburbs,
+        notificationMethods: notificationMethods
     };
 };

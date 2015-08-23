@@ -137,7 +137,7 @@ mixin form-group(label)
     .form-group
         .col-sm-2
         .col-sm-5
-            h5= label
+            h4= label
 
 mixin workbreak()
     .row
@@ -214,8 +214,8 @@ mixin ng-input-email(name, label, model, placeholder, required, readonly, minLen
             span.input-group-addon
                 span.glyphicon.glyphicon-envelope
             input.form-control(type='email', id=name, name=name, ng-model=model, placeholder=placeholder, readonly=readonly, required=required, minlength=minLen, maxlength=maxLen)
-            span.input-group-addon
-                if (required)
+            if (required)
+                span.input-group-addon
                     span.glyphicon.glyphicon-asterisk
 
 mixin ng-input-currency(name, label, model, placeholder, required, readonly, minLen, maxLen)
@@ -226,19 +226,27 @@ mixin ng-input-currency(name, label, model, placeholder, required, readonly, min
                 span.glyphicon
                     b R
             input.form-control(type='text', id=name, name=name, ng-model=model, placeholder=placeholder, readonly=readonly, required=required, minlength=minLen, maxlength=maxLen)
-            span.input-group-addon
-                if (required)
+            if (required)
+                span.input-group-addon
                     span.glyphicon.glyphicon-asterisk
+
+mixin ng-input-checkbox(name, label, model, selected, required, readonly)
+    .form-group
+        .col-md-2.col-sm-3
+        div.col-md-10.col-sm-9.input-group
+            input(type="checkbox", name=name, ng-model=model, required=required, readonly=readonly)
+            label &nbsp;
+            label(for=id)= label
 
 mixin ng-input-hidden(model)
     .form-group
         input.form-control(type='hidden' ng-model=model readonly=readonly)
 
-mixin ng-input-combobox(name, label, model, placeholder, options, required, readonly)
+mixin ng-input-combobox(name, label, model, placeholder, options, required, readonly, changeEvent)
     .form-group
         label.control-label.col-md-2.col-sm-3= label
         div.col-md-10.col-sm-9.input-group
-            select.form-control(name=name, ng-model=model, ng-options=options, placeholder=placeholder, readonly=readonly, required=required)
+            select.form-control(name=name, ng-model=model, ng-options=options, placeholder=placeholder, readonly=readonly, required=required, ng-change=changeEvent)
 
 mixin ng-input-calendar(name, label, model, placeholder, required, readonly)
     .form-group

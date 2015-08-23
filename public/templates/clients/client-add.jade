@@ -1,0 +1,62 @@
+extends ../layouts/master
+include ../../mixins/mixins
+
+block header
+  label Add new client
+
+block loggedIn
+  a(href='#', class='navbar-link') Signed in as Mark Otto
+
+block content
+    form.row.col-xs-12.workarea.form-validate(id="clientAdd", ng-controller="ClientController", ng-init="initAdd()")
+        .row
+            .col-sm-1
+            .col-sm-11
+                h3 New client details
+                br
+
+        .row
+            .col-md-1
+            .col-md-10.col-sm-12.form-horizontal
+                +form-group('Personal information')
+                +ng-input-text('title', 'Client title:', 'client.title', 'Mrs', false, false, '1', '50')
+                +ng-input-text('fname', 'Client name:', 'client.contactFName', 'Refiloe', true, false, '3', '50')
+                +ng-input-text('lname', 'Client surname:', 'client.contactLName', 'Chaka', true, false, '3', '50')
+                +ng-input-text('contactNumber', 'Contact number:', 'client.contactNumber', '082 555 1234', true, false, '2', '15')
+                +ng-input-email('contactEmail', 'Contact email:', 'client.contactEmail', 'rchaka@gmail.com', false, false, '5', '100')
+                +ng-input-calendar('dateOfBirth', 'Client date of birth:', 'client.dateOfBirth', '1991-08-23', false, false)
+
+                +form-group('Address information')
+                +ng-input-combobox('province', 'Province:', 'client.provinceId', 'Select a province', 'province.Province_id as province.Name for province in provinces', false, false, 'getCities()')
+                +ng-input-combobox('city', 'City:', 'client.cityId', 'Select a city', 'city.City_id as city.Name for city in cities', false, false, 'getSuburbs()')
+                +ng-input-combobox('suburb', 'Suburb:', 'client.suburbId', 'Select a suburb', 'suburb.Surburb_id as suburb.Name for suburb in suburbs', false, false)
+                +ng-input-text('line2', 'Line 2:', 'client.line2', '19 Someother street', false, false, '3', '50')
+                +ng-input-text('line1', 'Line 1:', 'client.line1', '23 Some complex', false, false, '3', '50')
+
+                +form-group('Notifications and reminders')
+                +ng-input-checkbox('reminders', 'Recieve reminders', 'client.reminders', false, false, false)
+                +ng-input-checkbox('notifications', 'Recieve notifications', 'client.notifications', false, false, false)
+                +ng-input-combobox('notifyMethod', 'Notification method:', 'client.notificationMethod', 'Select a notification method', 'method.NoticationMethod_ID as method.NotificationType for method in notificationMethods', false, false)
+
+        +workbreak()
+        .row
+            .col-sm-1
+            .col-sm-10.form-group.workarea
+                ul.nav.nav-pills.pull-right
+                    li(role='presentation')
+                        input.btn.btn-primary(type="button", value="Save", ng-click='postClient()')
+                    li(role='presentation')
+                        input.btn.btn-default(type="button", value='Cancel', ng-click='cancel()')
+                        br
+            .col-sm-1
+
+        //- Pure functionality objects
+        //- div
+        //-     p(ng-if="loading") Loading&hellip;
+        //-     p client
+        //-         span {{client}}
+        //-     p suburbs
+        //-         span {{suburbs}}
+        //-     p {{cities}}
+        //-     p {{provinces}}
+        //-     p {{notificationMethods}}

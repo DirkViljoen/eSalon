@@ -40,10 +40,10 @@ html(lang="en", ng-app="app")
                             b.caret
                         ul.dropdown-menu
                             li
-                                a(href='/client/add') Add new client
+                                a(href='/client/add/new') Add new client
                             li.divider
                             li
-                                a(href='/client') Manage clients
+                                a(href='/client/manage/cl') Manage clients
                     li.dropdown
                         a.dropdown-toggle(href='/booking')
                             | Bookings
@@ -152,7 +152,8 @@ html(lang="en", ng-app="app")
                 addNGValidation('#sub-letterAdd');
                 addNGValidation('#sub-letterPayment');
                 addNGValidation('#sub-letterUpdate');
-
+                addNGValidation('#clientAdd');
+                addNGValidation('#clientUpdate');
             });
 
 

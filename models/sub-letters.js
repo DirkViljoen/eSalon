@@ -213,7 +213,7 @@ module.exports = function SubLettersModel() {
 
         if (sub_letter) {
             console.log('Sub-Letter Capture Payment');
-            db.execute('CALL spSub_Letter_Payment_Create (' +
+            db.execute('CALL spSub_Letter_Payments_Create (' +
                 sub_letter.id + ',"' +
                 sub_letter.date + '","' +
                 sub_letter.amount + '",' +

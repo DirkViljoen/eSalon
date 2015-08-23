@@ -259,8 +259,8 @@ CREATE TABLE `Role_Permission` (
 CREATE TABLE `Invoice` (
 	`Invoice_ID` INT NOT NULL AUTO_INCREMENT,
     `DateTime` DateTime,
-    `PaymentMethod` Decimal(8,2),
-    `isPercentage` INT,
+    `Discount` Decimal(8,2),
+    `isPercentage` BOOLEAN,
     `Total` Decimal(8,2),
     `PaymentMethod_ID` INT,
     `Client_ID` INT,
@@ -405,8 +405,8 @@ CREATE TABLE `Invoice_Stock_Line` (
 	`InvoiceStockLine_id` INT NULL AUTO_INCREMENT,
     `Price` DECIMAL (8,2),
     `Quantity` INT,
-    `Special_id` INT,
     `StockHistory_id` INT,
+    `Special_id` INT,
     `Invoice_id` INT,
     
     PRIMARY KEY (`InvoiceStockLine_id`),

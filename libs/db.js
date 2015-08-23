@@ -33,15 +33,18 @@ var db = function() {
 
         query: function(myQuery) {
             var deferred = q.defer();
-            console.log(myQuery);
+            console.log('libs/db.js - query - ' + myQuery);
+
             connection.query(myQuery, function(err, rows, fields) {
                 if (err) {
                     console.error(err);
                     deferred.reject(err);
                 }
                 else {
-                    console.log('Query completed: ' + myQuery);
-                    result = JSON.parse('{"rows": ' + JSON.stringify(rows[0]) + ', "SQLstats": ' + JSON.stringify(rows[1]) + '}');
+                    console.log('Query completed.');
+                    result = {"rows": rows[0], "SQLstats": rows[1]};
+
+                    console.log(result);
                     deferred.resolve(result);
                 }
             });
@@ -50,7 +53,7 @@ var db = function() {
 
         execute: function(myQuery) {
             var deferred = q.defer();
-            console.log(myQuery);
+            console.log('libs/db.js - execute - ' + myQuery);
 
             connection.query(myQuery, function(err, rows, fields) {
                 if (err) {
@@ -58,15 +61,25 @@ var db = function() {
                     deferred.reject(err);
                 }
                 else {
-                    console.log('Execute completed');
-                    deferred.resolve('sucess');
+                    console.log('Execute completed.');
+
+                    // Determine if rows are returned
+                    if (rows.length) {
+                        // Determine if an insert id is returned
+                        if (rows[0][0].insertId) {
+                            rows[1].insertId = rows[0][0].insertId;
+                        }
+                        result = {"rows": [], "SQLstats": rows[1]};
+                    }
+                    else {
+                        result = {"rows": [], "SQLstats": rows}
+                    };
+
+                    console.log(result);
+                    deferred.resolve(result);
                 };
             });
             return deferred.promise;
-        },
-
-        echo: function(a) {
-            return a;
         }
     }
 };
