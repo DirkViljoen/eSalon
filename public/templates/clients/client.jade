@@ -52,7 +52,7 @@ block content
                             td {{row.Title}}
                             td {{row.Name}}
                             td {{row.Surname}}
-                            td {{row.DateOfBirth}}
+                            td {{row.DateOfBirth | date: 'yyyy-MM-dd'}}
 
         br
         .row

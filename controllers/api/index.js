@@ -1,15 +1,18 @@
 'use strict';
 
-
 var ClientModel = require('../../models/client');
-
+var LookupsModel = require('../../models/lookups');
 
 module.exports = function (router) {
 
-    var model = new ClientModel();
+    var model = {};
+    model.client = new ClientModel();
+    model.lookup = new LookupsModel();
 
-// RESTfull
-    router.get('/', function (req, res) {
+    console.log(model);
+
+// Clients
+    router.get('/clients/', function (req, res) {
         console.log('Clients GET. Parameters: ' + JSON.stringify(req.query))
         var fname = "";
         var lname = "";
@@ -17,7 +20,7 @@ module.exports = function (router) {
         if (req.query.fname) {fname = req.query.fname};
         if (req.query.lname) {lname = req.query.lname};
 
-        model.find(fname, lname)
+        model.client.find(fname, lname)
             .then(
                 function (result){
                     if (result)
@@ -30,10 +33,10 @@ module.exports = function (router) {
             );
     });
 
-    router.get('/:id', function (req, res) {
+    router.get('/clients/:id', function (req, res) {
         console.log('Clients GET w/ ID. Parameters: ' + JSON.stringify(req.params))
 
-        model.index(req.params.id)
+        model.client.index(req.params.id)
             .then(
                 function (result){
                     if (result)
@@ -46,10 +49,10 @@ module.exports = function (router) {
             );
     });
 
-    router.get('/:id/address', function (req, res) {
+    router.get('/clients/:id/address', function (req, res) {
         console.log('Clients address GET w/ ID. Parameters: ' + JSON.stringify(req.params))
 
-        model.address(req.params.id)
+        model.client.address(req.params.id)
             .then(
                 function (result){
                     if (result)
@@ -62,10 +65,10 @@ module.exports = function (router) {
             );
     });
 
-    router.get('/:id/services', function (req, res) {
+    router.get('/clients/:id/services', function (req, res) {
         console.log('Clients services GET w/ ID. Parameters: ' + JSON.stringify(req.params))
 
-        model.services(req.params.id)
+        model.client.services(req.params.id)
             .then(
                 function (result){
                     if (result)
@@ -78,10 +81,10 @@ module.exports = function (router) {
             );
     });
 
-    router.get('/:id/products', function (req, res) {
+    router.get('/clients/:id/products', function (req, res) {
         console.log('Clients products GET w/ ID. Parameters: ' + JSON.stringify(req.params))
 
-        model.products(req.params.id)
+        model.client.products(req.params.id)
             .then(
                 function (result){
                     if (result)
@@ -94,7 +97,7 @@ module.exports = function (router) {
             );
     });
 
-    router.post('/', function (req, res) {
+    router.post('/clients', function (req, res) {
         console.log('Clients POST. Parameters: ' + JSON.stringify(req.body));
 
         if (JSON.stringify(req.body) != '{}') {
@@ -114,7 +117,7 @@ module.exports = function (router) {
             obj.line2 = (req.body.line2 ? '"' + req.body.line2 + '"' : null);
             obj.suburbId = (req.body.suburbId ? req.body.suburbId : null);
 
-             model.create(obj)
+             model.client.create(obj)
                 .then(
                     function (result){
                         console.log(result);
@@ -134,7 +137,7 @@ module.exports = function (router) {
         }
     });
 
-    router.put('/:id', function (req, res) {
+    router.put('/clients/:id', function (req, res) {
         console.log('Clients PUT. Parameters: ' + JSON.stringify(req.body));
 
         if (JSON.stringify(req.body) != '{}') {
@@ -156,7 +159,7 @@ module.exports = function (router) {
             obj.line2 = (req.body.line2 ? '"' + req.body.line2 + '"' : null);
             obj.suburbId = (req.body.suburbId ? req.body.suburbId : null);
 
-             model.update(obj)
+             model.client.update(obj)
                 .then(
                     function (result){
                         console.log(result);
@@ -176,7 +179,7 @@ module.exports = function (router) {
         }
     });
 
-    router.delete('/:id', function (req, res) {
+    router.delete('/clients/:id', function (req, res) {
         console.log('Clients DELETE. Parameters: ' + JSON.stringify(req.body));
 
         if (JSON.stringify(req.params) != '{}') {
@@ -184,7 +187,7 @@ module.exports = function (router) {
             //client
             obj.clientId = req.params.id;
 
-             model.remove(obj)
+             model.client.remove(obj)
                 .then(
                     function (result){
                         console.log(result);
@@ -204,24 +207,71 @@ module.exports = function (router) {
         }
     });
 
-// Navigation
+// Lookups
+    router.get('/lookups/paymentMethods', function (req, res) {
+        console.log('get payment methods');
+        console.log('request body: ' + JSON.stringify(req.params));
 
-    router.get('/manage/cl', function (req, res) {
-        res.render('clients/client', {})
+        model.lookup.paymentMethods()
+            .then(
+                function (result){
+                    console.log(result);
+                    res.send(result);
+                }
+            );
     });
 
-    router.get('/add/new', function (req, res) {
-        res.render('clients/client-add', {"test":null})
+    router.get('/lookups/provinces', function (req, res) {
+        console.log('get provinces');
+        console.log('request body: ' + JSON.stringify(req.params));
+
+        model.lookup.provinces()
+            .then(
+                function (result){
+                    console.log(result);
+                    res.send(result);
+                }
+            );
     });
 
-    router.get('/view/:id', function (req, res) {
-        console.log('Client View Get')
-        res.render('clients/client-view', req.params)
+    router.get('/lookups/cities/:provinceID', function (req, res) {
+        console.log('get cities based on provinceID');
+        console.log('request body: ' + JSON.stringify(req.params));
+
+        model.lookup.cities(req.params.provinceID)
+            .then(
+                function (result){
+                    console.log(result);
+                    res.send(result);
+                }
+            );
     });
 
-    router.get('/update/:id', function (req, res) {
-        console.log('Client Update Get');
-        console.log(req.params);
-        res.render('clients/client-update', req.params)
+    router.get('/lookups/suburbs/:cityID', function (req, res) {
+        console.log('get suburbs based on cityID');
+        console.log('request body: ' + JSON.stringify(req.params));
+
+        model.lookup.suburbs(req.params.cityID)
+            .then(
+                function (result){
+                    console.log(result);
+                    res.send(result);
+                }
+            );
     });
+
+    router.get('/lookups/notificationMethods', function (req, res) {
+        console.log('get notification methods');
+        console.log('request body: ' + JSON.stringify(req.params));
+
+        model.lookup.notificationMethods(req.params.cityID)
+            .then(
+                function (result){
+                    console.log(result);
+                    res.send(result);
+                }
+            );
+    });
+
+
 };

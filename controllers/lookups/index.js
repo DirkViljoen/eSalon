@@ -7,13 +7,13 @@ module.exports = function (router) {
 
     var model = new LookupsModel();
 
-    router.get('/', function (req, res) {
+    router.get('/lookups/', function (req, res) {
 
         res.send('<code><pre>' + JSON.stringify(model, null, 2) + '</pre></code>');
 
     });
 
-    router.get('/paymentMethods', function (req, res) {
+    router.get('/lookups/paymentMethods', function (req, res) {
         console.log('get payment methods');
         console.log('request body: ' + JSON.stringify(req.params));
 
@@ -26,7 +26,7 @@ module.exports = function (router) {
             );
     });
 
-    router.get('/provinces', function (req, res) {
+    router.get('/lookups/provinces', function (req, res) {
         console.log('get provinces');
         console.log('request body: ' + JSON.stringify(req.params));
 
@@ -39,7 +39,7 @@ module.exports = function (router) {
             );
     });
 
-    router.get('/cities/:provinceID', function (req, res) {
+    router.get('/lookups/cities/:provinceID', function (req, res) {
         console.log('get cities based on provinceID');
         console.log('request body: ' + JSON.stringify(req.params));
 
@@ -52,7 +52,7 @@ module.exports = function (router) {
             );
     });
 
-    router.get('/suburbs/:cityID', function (req, res) {
+    router.get('/lookups/suburbs/:cityID', function (req, res) {
         console.log('get suburbs based on cityID');
         console.log('request body: ' + JSON.stringify(req.params));
 
@@ -65,7 +65,7 @@ module.exports = function (router) {
             );
     });
 
-    router.get('/notificationMethods', function (req, res) {
+    router.get('/lookups/notificationMethods', function (req, res) {
         console.log('get notification methods');
         console.log('request body: ' + JSON.stringify(req.params));
 

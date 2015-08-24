@@ -322,12 +322,12 @@ myModule.controller('ClientController', function($scope, $http, $window) {
     $scope.suburbs = [];
     $scope.searchCriteria = {};
 
-    $scope.home = '/client/manage/cl';
+    $scope.home = '/clients';
 
     // Lookup tables
     $scope.getNotificationMethods = function() {
         $scope.loading = true;
-        $http.get('/lookups/notificationMethods').then(function(response) {
+        $http.get('/api/lookups/notificationMethods').then(function(response) {
             $scope.loading = false;
             console.log(response.data);
             if (response.data.rows) {
@@ -341,7 +341,7 @@ myModule.controller('ClientController', function($scope, $http, $window) {
 
     $scope.getProvinces = function() {
         $scope.loading = true;
-        $http.get('/lookups/provinces').then(function(response) {
+        $http.get('/api/lookups/provinces').then(function(response) {
             $scope.loading = false;
             console.log(response.data);
             if (response.data.rows) {
@@ -356,7 +356,7 @@ myModule.controller('ClientController', function($scope, $http, $window) {
     $scope.getCities = function() {
         if ($scope.client.provinceId) {
             $scope.loading = true;
-            $http.get('/lookups/cities/' + $scope.client.provinceId).then(function(response) {
+            $http.get('/api/lookups/cities/' + $scope.client.provinceId).then(function(response) {
                 $scope.loading = false;
                 console.log(response.data);
                 if (response.data.rows) {
@@ -372,7 +372,7 @@ myModule.controller('ClientController', function($scope, $http, $window) {
     $scope.getSuburbs = function() {
         if ($scope.client.cityId) {
             $scope.loading = true;
-            $http.get('/lookups/suburbs/' + $scope.client.cityId).then(function(response) {
+            $http.get('/api/lookups/suburbs/' + $scope.client.cityId).then(function(response) {
                 $scope.loading = false;
                 console.log(response.data);
                 if (response.data.rows) {
@@ -388,7 +388,7 @@ myModule.controller('ClientController', function($scope, $http, $window) {
     // Core controller tables
     $scope.getClient = function(id) {
         $scope.loading = true;
-        $http.get('/client/' + id).then(function(response) {
+        $http.get('/api/clients/' + id).then(function(response) {
             $scope.loading = false;
             console.log(response.data);
             if (response.data.rows) {
@@ -417,7 +417,7 @@ myModule.controller('ClientController', function($scope, $http, $window) {
 
     $scope.getAddress = function(id) {
         $scope.loading = true;
-        $http.get('/client/' + id + '/address').then(function(response) {
+        $http.get('/api/clients/' + id + '/address').then(function(response) {
             $scope.loading = false;
             console.log(response.data);
             if (response.data.rows) {
@@ -439,8 +439,9 @@ myModule.controller('ClientController', function($scope, $http, $window) {
     };
 
     $scope.getClients = function() {
+        console.log('test');
         $scope.loading = true;
-        $http.get('/client').then(function(response) {
+        $http.get('/api/clients').then(function(response) {
             $scope.loading = false;
             console.log(response.data);
             if (response.data.rows) {
@@ -454,7 +455,7 @@ myModule.controller('ClientController', function($scope, $http, $window) {
 
     $scope.getServiceHistory = function(id) {
         $scope.loading = true;
-        $http.get('/client/' + id + '/services').then(function(response) {
+        $http.get('/api/clients/' + id + '/services').then(function(response) {
             $scope.loading = false;
             console.log(response.data);
             if (response.data.rows) {
@@ -468,7 +469,7 @@ myModule.controller('ClientController', function($scope, $http, $window) {
 
     $scope.getProductHistory = function(id) {
         $scope.loading = true;
-        $http.get('/client/' + id + '/products').then(function(response) {
+        $http.get('/api/clients/' + id + '/products').then(function(response) {
             $scope.loading = false;
             console.log(response.data);
             if (response.data.rows) {
@@ -487,7 +488,7 @@ myModule.controller('ClientController', function($scope, $http, $window) {
                 console.log(res);
                 switch (res){
                     case 'yes':
-                        $http.post('/client/', $scope.client)
+                        $http.post('/api/clients', $scope.client)
                             .then(function(response) {
                                 if (response.data.err) {
                                     error_Ok('Client add error', 'An error occured while saving the new client details. Please contact suport with the following details: ' + JSON.stringify(response.data.err), function() {return {}});
@@ -522,7 +523,7 @@ myModule.controller('ClientController', function($scope, $http, $window) {
                 console.log(res);
                 switch (res){
                     case 'yes':
-                        $http.put('/client/' + $scope.client.clientid, $scope.client)
+                        $http.put('/api/clients/' + $scope.client.clientid, $scope.client)
                             .then(function(response) {
                                 if (response.data.err) {
                                     error_Ok('Client update error', 'An error occured while saving the clients new details. Please contact suport with the following information: ' + JSON.stringify(response.data.err), function() {return {}});
@@ -557,7 +558,7 @@ myModule.controller('ClientController', function($scope, $http, $window) {
                 console.log(res);
                 switch (res){
                     case 'yes':
-                        $http.delete('/client/' + $scope.client.clientid, $scope.client)
+                        $http.delete('/api/clients/' + $scope.client.clientid, $scope.client)
                             .then(function(response) {
                                 if (response.data.err) {
                                     error_Ok('Client delete error', 'An error occured while deleting the client. Please contact support with the following information: ' + JSON.stringify(response.data.err), function(res) {return {};});
@@ -589,7 +590,7 @@ myModule.controller('ClientController', function($scope, $http, $window) {
         $scope.loading = true;
         var criteria = '?fname=' + $scope.searchCriteria.contactFName + '&lname=' + $scope.searchCriteria.contactLName
 
-        $http.get('/client' + criteria).then(function(response) {
+        $http.get('/api/clients' + criteria).then(function(response) {
             $scope.loading = false;
             console.log(response.data);
             if (response.data.rows) {
@@ -673,12 +674,12 @@ myModule.controller('ClientController', function($scope, $http, $window) {
     };
 
     $scope.addClient = function() {
-        $window.location.href = '/client/add/new';
+        $window.location.href = '/clients/add';
     };
 
     $scope.viewClient = function() {
         if($scope.client.clientid){
-            $window.location.href = '/client/view/' + $scope.client.clientid;
+            $window.location.href = '/clients/view/' + $scope.client.clientid;
         }
         else {
             error_Ok('Client not selected', 'You have not selected a client to view.');
@@ -687,7 +688,7 @@ myModule.controller('ClientController', function($scope, $http, $window) {
 
     $scope.updateClient = function() {
         if($scope.client.clientid){
-            $window.location.href = '/client/update/' + $scope.client.clientid;
+            $window.location.href = '/clients/update/' + $scope.client.clientid;
         }
         else {
             error_Ok('Client not selected', 'You have not selected a client to update.');
