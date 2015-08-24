@@ -499,7 +499,7 @@ CREATE TABLE `Hair_Length_Service` (
 
 CREATE TABLE `Booking` (
 	`Booking_id` INT NULL AUTO_INCREMENT,
-    `DateTime` DATE,
+    `DateTime` DATETIME,
     `Duration` INT,
     `Completed` BOOLEAN,
     `Active` BOOLEAN,

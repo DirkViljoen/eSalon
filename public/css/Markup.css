@@ -1,7 +1,7 @@
 
 
 .grouphead {
-    background-color: #FEF;
+    background-color: #C6D6CC;
 
     margin-top: 3px;
     margin-left: 3px;
@@ -9,7 +9,7 @@
     padding-left: 7px;
     padding-right: 7px;
     border-radius: 5px 5px 0px 0px;
-    border: 1px solid #DBD;
+    border: 1px solid #98B3AE;
 }
 
 .groupbox {
@@ -18,7 +18,7 @@
     margin-bottom: 3px;
     padding: 7px;
     border-radius: 0px 0px 5px 5px;
-    border: 1px solid #DBD;
+    border: 1px solid #98B3AE;
 }
 
 .form-group {
@@ -29,7 +29,7 @@
 }
 
 .table {
-    background-color: #FCF0FF;
+    background-color: #C6D6CC;
 }
 
 .nopadding {

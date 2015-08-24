@@ -88,3 +88,6 @@ INSERT INTO `Invoice_Service_Line` VALUES (1,160,1,1,null,1);
 
 INSERT INTO `Invoice_Stock_Line` VALUES (1,35,4,1,null,1);
 
+INSERT INTO `Booking` VALUES (1,"2015-09-01 08:00:00",30,false,1,"booking1",1,1,1);
+INSERT INTO `Booking` VALUES (2,"2015-09-01 08:30:00",60,false,1,"booking2",1,1,null);
+
