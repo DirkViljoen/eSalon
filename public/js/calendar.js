@@ -189,30 +189,6 @@ $('.employee3').fullCalendar({
         ]
     });
 
-$('#calendar-emp1').fullCalendar({
-    dayClick: function(date, jsEvent, view) {
-
-        alert('Clicked on: ' + date.format());
-        alert('Coordinates: ' + jsEvent.pageX + ',' + jsEvent.pageY);
-        alert('Current view: ' + view.name);
-
-        // change the day's background color just for fun
-        $(this).css('background-color', 'red');
-    },
-    eventClick: function(calEvent, jsEvent, view) {
-
-        alert('Event: ' + calEvent.title);
-        alert('Coordinates: ' + jsEvent.pageX + ',' + jsEvent.pageY);
-        alert('View: ' + view.name);
-
-        // change the border color just for fun
-        $(this).css('border-color', 'lime');
-    }
-});
-
-$('.navigation').find('.fc-view-container').each(function(i, el) {
-    $(el).hide();
-});
 
 $('.employee').find('.fc-toolbar').each(function(i, el) {
     $(el).hide();

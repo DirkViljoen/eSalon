@@ -8,7 +8,7 @@ block loggedIn
     a(href="#", class="navbar-link") Signed in as Mark Otto
 
 block content
-    .workarea
+    form.row.col-xs-12.workarea.form-validate(id="bookings", ng-controller="CalendarCtrl", ng-init='initManage()')
         br
         .row
             .col-sm-3
@@ -25,20 +25,35 @@ block content
                 .row
                     .col-sm-1.nopadding
                         h3 Time
-                        div.times.calendar(id='calendar-times')
+                        div.times.calendar(ui-calendar="uiConfig.calendar", ng-model="eventSources")
                     .col-sm-11
                         .row
                             .col-sm-4.nopadding
                                 h3 Cherise
-                                div.employee.employee1.calendar(id='calendar-emp1')
+                                div.employee.calendar(ui-calendar="uiConfig.calendar1", ng-model="eventSources", ng-click="indicate(1)")
                             .col-sm-4.nopadding
                                 h3 Sam
-                                div.employee.employee2.calendar(id='calendar-emp2')
+                                div.employee.calendar(ui-calendar="uiConfig.calendar2", ng-model="eventSources", ng-click="indicate(2)")
                             .col-sm-4.nopadding
                                 h3 Mandy
-                                div.employee.employee3.calendar(id='calendar-emp3')
+                                div.employee.calendar(ui-calendar="uiConfig.calendar3", ng-model="eventSources", ng-click="indicate(3)")
             .col-sm-1
                 +form-button('>', '#', 'btn-cal-next')
         br
-
+        //- Pure functionality objects
+        div
+            p(ng-if="loading") Loading&hellip;
+            p eventSources:
+                span {{eventSources}}
+            p alertMessage:
+                span {{alertMessage}}
+            p uiConfig:
+                span {{uiConfig}}
+            p events.new:
+                span {{events.new}}
+            p productHistory:
+                span {{productHistory}}
+            p {{cities}}
+            p {{provinces}}
+            p {{notificationMethods}}
 

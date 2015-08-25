@@ -20,9 +20,17 @@ module.exports = function (router) {
         var lname = "";
         var ref = "";
 
-        if (req.query.fname) {fname = req.query.fname};
-        if (req.query.lname) {lname = req.query.lname};
-        if (req.query.reference) {ref = req.query.reference};
+        console.log(req.query.search.length);
+        if (req.query.search) {
+            if (req.query.search.indexOf(" ") >= 0) {
+                fname = req.query.search.substring(0, req.query.search.indexOf(" "));
+                lname = req.query.search.substring(req.query.search.indexOf(" ") + 1, req.query.search.length);
+            }
+            else {
+                fname = req.query.search;
+                ref = req.query.search;
+            };
+        };
 
         models.booking.find(fname, lname, ref)
             .then(

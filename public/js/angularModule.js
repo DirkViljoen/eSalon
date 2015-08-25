@@ -1,4 +1,4 @@
-var myModule = angular.module('app', ['smart-table']);
+var myModule = angular.module('app', ['smart-table', 'ui.calendar']);
 
 //Angular app
 myModule.controller('SubLetterController', function($scope, $http, $window) {
@@ -726,3 +726,195 @@ myModule.controller('ClientController', function($scope, $http, $window) {
     }
 
   });
+
+myModule.controller('CalendarCtrl', function($scope, $http, $window,$compile,uiCalendarConfig) {
+    var date = new Date();
+    var d = date.getDate();
+    var m = date.getMonth();
+    var y = date.getFullYear();
+
+    $scope.alertMessage = {};
+
+    $scope.events = {};
+
+    $scope.events.current = [
+      {title: 'All Day Event',start: new Date(y, m, 1)},
+      {title: 'Long Event',start: new Date(y, m, d - 5),end: new Date(y, m, d - 2)},
+      {id: 999,title: 'Repeating Event',start: new Date(y, m, d - 3, 16, 0),allDay: false},
+      {id: 999,title: 'Repeating Event',start: new Date(y, m, d + 4, 16, 0),allDay: false},
+      {title: 'Birthday Party',start: new Date(y, m, d + 1, 19, 0),end: new Date(y, m, d + 1, 22, 30),allDay: false},
+      {title: 'Click for Google',start: new Date(y, m, 28),end: new Date(y, m, 29)}
+    ];
+
+    $scope.calEventsExt = {
+       color: '#AAA',
+       textColor: '#000',
+       events: [
+          {type:'party',title: 'Lunch',start: new Date(y, m, d, 12, 0),end: new Date(y, m, d, 14, 0),allDay: false,backgroundColor: '#FFB0B0'},
+          {type:'party',title: 'Lunch 2',start: new Date(y, m, d, 12, 0),end: new Date(y, m, d, 14, 0),allDay: false,backgroundColor: '#B0FFB1'},
+          {type:'party',title: 'Click for Google',start: new Date(y, m, d),allDay: true,backgroundColor: '#FFFCB0'}
+        ]
+    };
+
+    $scope.events.new = {};
+
+    $scope.booking = {};
+    $scope.bookings = [];
+
+    $scope.clients = [];
+    $scope.employees = [];
+
+// core controller tables
+
+    $scope.getbooking = function(id) {
+        $scope.loading = true;
+        $http.get('/api/bookings/' + id).then(function(response) {
+            $scope.loading = false;
+            console.log(response.data);
+            if (response.data.rows) {
+                $scope.booking.bid = response.data.rows[0].Booking_ID;
+                $scope.booking.datetime = response.data.rows[0].DateTime;
+                $scope.booking.duration = response.data.rows[0].Duration;
+                $scope.booking.completed = response.data.rows[0].Completed;
+                $scope.booking.active = response.data.rows[0].Active;
+                $scope.booking.reference = response.data.rows[0].ReferenceNumber;
+                $scope.booking.cid = response.data.rows[0].Client_ID;
+                $scope.booking.eid = response.data.rows[0].Employee_ID;
+                $scope.booking.iid = response.data.rows[0].Invoice_ID;
+            }
+        }, function(err) {
+            $scope.loading = false;
+            $scope.error = err.data;
+        });
+    };
+
+    $scope.getbookings = function() {
+        $scope.loading = true;
+        $http.get('/api/bookings').then(function(response) {
+            $scope.loading = false;
+            console.log(response.data);
+            if (response.data.rows) {
+                $scope.bookings = response.data.rows;
+            }
+        }, function(err) {
+            $scope.loading = false;
+            $scope.error = err.data;
+        });
+    };
+
+    // $scope.
+
+// lookup tables
+
+    $scope.getclients = function() {
+        $scope.loading = true;
+        $http.get('/api/clients').then(function(response) {
+            $scope.loading = false;
+            console.log(response.data);
+            if (response.data.rows) {
+                $scope.bookings = response.data.rows;
+            }
+        }, function(err) {
+            $scope.loading = false;
+            $scope.error = err.data;
+        });
+    };
+
+// functionality
+
+    $scope.searchBooking = function() {
+        $scope.loading = true;
+        var criteria = '?search=' + $scope.searchCriteria.replace(" ", "+");
+
+        $http.get('/api/clients' + criteria).then(function(response) {
+            $scope.loading = false;
+            console.log(response.data);
+            if (response.data.rows) {
+                $scope.clients = response.data.rows;
+            }
+        }, function(err) {
+            $scope.loading = false;
+            $scope.error = err.data;
+        });
+    };
+
+    $scope.indicate = function(id) {
+        $scope.events.new.calendar = id;
+    }
+
+    $scope.dayClick = function(date, jsEvent, view) {
+        $scope.events.new.date = date;
+
+        // change the day's background color just for fun
+        $(this).css('background-color', 'red');
+    };
+
+    /* alert on eventClick */
+    $scope.alertOnEventClick = function( date, jsEvent, view){
+        $scope.alertMessage = (date.title + ' was clicked ');
+    };
+
+    /* alert on Drop */
+     $scope.alertOnDrop = function(event, delta, revertFunc, jsEvent, ui, view){
+       $scope.alertMessage = ('Event Droped to make dayDelta ' + delta);
+    };
+
+    /* alert on Resize */
+    $scope.alertOnResize = function(event, delta, revertFunc, jsEvent, ui, view ){
+       $scope.alertMessage = ('Event Resized to make dayDelta ' + delta);
+    };
+
+    /* add custom event*/
+    $scope.addEvent = function() {
+      $scope.events.push({
+        title: 'Open Sesame',
+        start: new Date(y, m, 28),
+        end: new Date(y, m, 29),
+        className: ['openSesame']
+      });
+    };
+    /* remove event */
+    $scope.remove = function(index) {
+      $scope.events.splice(index,1);
+    };
+    /* Change View */
+    $scope.changeView = function(view,calendar) {
+      uiCalendarConfig.calendars[calendar].fullCalendar('changeView',view);
+    };
+    /* Change View */
+    $scope.renderCalender = function(calendar) {
+      if(uiCalendarConfig.calendars[calendar]){
+        uiCalendarConfig.calendars[calendar].fullCalendar('render');
+      }
+    };
+
+    $scope.configdefualt = {
+        // defaultView: 'agendaDay',
+        minTime: '07:00:00',
+        maxTime: '18:00:00',
+        height: 540,
+        editable: true,
+        eventLimit: true, // allow "more" link when too many events
+        theme: true,
+        header:{
+          left: '',
+          center: '',
+          right: ''
+        },
+        eventClick: $scope.alertOnEventClick,
+        eventDrop: $scope.alertOnDrop,
+        eventResize: $scope.alertOnResize,
+        eventRender: $scope.eventRender,
+        dayClick: $scope.dayClick
+    };
+
+    /* config object */
+    $scope.uiConfig = {
+      calendar1: $scope.configdefualt,
+      calendar2: $scope.configdefualt,
+      calendar3: $scope.configdefualt
+    };
+
+    /* event sources array*/
+    $scope.eventSources = [$scope.events.current, $scope.calEventsExt];
+});

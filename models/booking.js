@@ -35,7 +35,7 @@ module.exports = function BookingModel() {
         var deferred = q.defer();
 
         console.log('booking fname, sname & reference search');
-        db.query('CALL spBooking_Read_Search("%' + fname + '%","%' + lname + '%","%' + reference + '%");')
+        db.query('CALL spBooking_Read_Search("%' + fname + '%","%' + lname + '%","' + reference + '");')
             .then(
                 function (result){
                     deferred.resolve(result);

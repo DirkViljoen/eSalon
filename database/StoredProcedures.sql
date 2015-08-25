@@ -428,12 +428,22 @@ USE eSalon;
     )
     BEGIN
         SELECT 
-			* 
+			b.*, 
+            c.`Name` as 'clientFName', 
+            c.`Surname` as 'clientLName',
+            e.`Name` as 'employeeFName',
+            e.`Surname` as 'employeeLName'
 		FROM 
-			`Booking`
+			`Booking` b, 
+            `Client` c, 
+            `Employee` e
         WHERE 
 			`Booking_ID` = id
-			AND 
+            AND
+            b.`Client_id` = c.`Client_id`
+            AND
+            b.`Employee_id` = e.`Employee_id`
+            AND
             b.`Active` = true;
     END //
     DELIMITER ;
@@ -448,17 +458,29 @@ USE eSalon;
     )
     BEGIN
         SELECT 
-			b.* 
+			b.*, 
+            c.`Name` as 'clientFName', 
+            c.`Surname` as 'clientLName',
+            e.`Name` as 'employeeFName',
+            e.`Surname` as 'employeeLName'
         FROM 
-			`Booking` b, `Client` c
+			`Booking` b, 
+            `Client` c, 
+            `Employee` e
         WHERE 
-			b.`ReferenceNumber` Like reference
-            AND
-            c.`Name` Like fname
-            AND
-            c.`Surname` Like lname
+			(
+				b.`ReferenceNumber` = reference
+				OR
+                (
+					c.`Name` Like fname
+					AND
+					c.`Surname` Like lname
+                )
+			)
             AND
             b.`Client_id` = c.`Client_id`
+            AND
+            b.`Employee_id` = e.`Employee_id`
             AND
             b.`Active` = true;
     END //
