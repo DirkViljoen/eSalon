@@ -3,7 +3,7 @@
 var q = require('q');
 var db = require('../libs/db');
 
-module.exports = function BookingModel() {
+module.exports = function StockModel() {
     function get(id) {
         console.log('Module - Booking - Get');
 
@@ -29,13 +29,12 @@ module.exports = function BookingModel() {
         return deferred.promise;
     };
 
-    function search(fname, lname, reference) {
-        console.log('Module - Booking - Search');
+    function search(sname, pname, bname) {
+        console.log('Module - Stock - Search');
 
         var deferred = q.defer();
 
-        console.log('booking fname, sname & reference search');
-        db.query('CALL spBooking_Read_Search("%' + fname + '%","%' + lname + '%","' + reference + '");')
+        db.query('CALL spStock_Search("%' + sname + '%","%' + bname + '%","%' + pname + '%");')
             .then(
                 function (result){
                     deferred.resolve(result);
@@ -172,38 +171,12 @@ module.exports = function BookingModel() {
         return deferred.promise;
     };
 
-    function services(id) {
-        console.log('Module - Service history - Get');
-
-        var deferred = q.defer();
-
-        if (id) {
-            console.log('Client get service history');
-            db.query('CALL spClient_Service_History(' + id + ');')
-                .then(
-                    function (result){
-                        deferred.resolve(result);
-                    },
-                    function (err){
-                        deferred.reject(new Error(err));
-                    }
-                );
-        }
-        else
-        {
-            deferred.reject(new Error('No ID'));
-        }
-
-        return deferred.promise;
-    };
-
     return {
         index: get,
         find: search,
         create: add,
         update: update,
         remove: disable,
-        products: products,
-        services: services
+        products: products
     };
 };

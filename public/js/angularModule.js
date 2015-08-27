@@ -728,33 +728,9 @@ myModule.controller('ClientController', function($scope, $http, $window) {
   });
 
 myModule.controller('CalendarCtrl', function($scope, $http, $window,$compile,uiCalendarConfig) {
-    var date = new Date();
-    var d = date.getDate();
-    var m = date.getMonth();
-    var y = date.getFullYear();
-
     $scope.alertMessage = {};
 
     $scope.events = {};
-
-    $scope.events.current = [
-      {title: 'All Day Event',start: new Date(y, m, 1)},
-      {title: 'Long Event',start: new Date(y, m, d - 5),end: new Date(y, m, d - 2)},
-      {id: 999,title: 'Repeating Event',start: new Date(y, m, d - 3, 16, 0),allDay: false},
-      {id: 999,title: 'Repeating Event',start: new Date(y, m, d + 4, 16, 0),allDay: false},
-      {title: 'Birthday Party',start: new Date(y, m, d + 1, 19, 0),end: new Date(y, m, d + 1, 22, 30),allDay: false},
-      {title: 'Click for Google',start: new Date(y, m, 28),end: new Date(y, m, 29)}
-    ];
-
-    $scope.calEventsExt = {
-       color: '#AAA',
-       textColor: '#000',
-       events: [
-          {type:'party',title: 'Lunch',start: new Date(y, m, d, 12, 0),end: new Date(y, m, d, 14, 0),allDay: false,backgroundColor: '#FFB0B0'},
-          {type:'party',title: 'Lunch 2',start: new Date(y, m, d, 12, 0),end: new Date(y, m, d, 14, 0),allDay: false,backgroundColor: '#B0FFB1'},
-          {type:'party',title: 'Click for Google',start: new Date(y, m, d),allDay: true,backgroundColor: '#FFFCB0'}
-        ]
-    };
 
     $scope.events.new = {};
 
@@ -764,7 +740,11 @@ myModule.controller('CalendarCtrl', function($scope, $http, $window,$compile,uiC
     $scope.clients = [];
     $scope.employees = [];
 
-// core controller tables
+    $scope.calendar = {};
+
+    $scope.home = '/booking/'
+
+    // core controller tables
 
     $scope.getbooking = function(id) {
         $scope.loading = true;
@@ -795,6 +775,7 @@ myModule.controller('CalendarCtrl', function($scope, $http, $window,$compile,uiC
             console.log(response.data);
             if (response.data.rows) {
                 $scope.bookings = response.data.rows;
+                $scope.colorize();
             }
         }, function(err) {
             $scope.loading = false;
@@ -820,6 +801,46 @@ myModule.controller('CalendarCtrl', function($scope, $http, $window,$compile,uiC
         });
     };
 
+    $scope.getemployees = function() {
+
+    };
+
+// helper functions
+
+    $scope.bookings2tomonth = function() {
+        // $scope.bookings.foreach(b) {
+
+        // }
+    };
+
+    $scope.addminutes = function(start,minutes) {
+        var d = new Date(start);
+        d.setMinutes(d.getMinutes() + minutes);
+        return d.toISOString();
+    };
+
+    $scope.colorize = function() {
+
+        for (index = 0; index < $scope.bookings.length; ++index) {
+            console.log($scope.bookings[index]);
+            $scope.bookings[index].events = [];
+
+            var color = $scope.getColor($scope.bookings[index].DateTime, $scope.bookings[index].Invoice_id);
+
+            $scope.bookings[index].events.push({
+                id: $scope.bookings[index].Booking_id,
+                title: $scope.bookings[index].clientFName,
+                start: $scope.bookings[index].DateTime,
+                end: $scope.addminutes($scope.bookings[index].DateTime, $scope.bookings[index].Duration),
+                allDay: false,
+                backgroundColor: color,
+                color: "#AAA",
+                textColor: "#000"
+              });
+            $scope.eventSources.push($scope.bookings[index])
+        };
+    };
+
 // functionality
 
     $scope.searchBooking = function() {
@@ -838,30 +859,112 @@ myModule.controller('CalendarCtrl', function($scope, $http, $window,$compile,uiC
         });
     };
 
-    $scope.indicate = function(id) {
-        $scope.events.new.calendar = id;
+    $scope.postBooking = function() {
+        $http.put('/api/bookings/' + $scope.booking.Booking_id, $scope.booking)
+            .then(function(response) {
+                if (response.data.err) {
+                    error_Ok('Client add error', 'An error occured while saving the new client details. Please contact suport with the following details: ' + JSON.stringify(response.data.err), function() {return {}});
+                    $scope.error = response.data.err;
+                }
+                else {
+                    success_Ok('Client successfully added', 'The details for ' + $scope.client.contactFName + ' ' + $scope.client.contactLName + ' has been saved successfully.', function(res) {
+                        $scope.getbookings();
+                    });
+                }
+            });
+    };
+
+    $scope.getColor = function(indate, invoiceid) {
+        var color = {};
+        color.bg = "#FFFCB0";
+
+        var date = {};
+
+        date.d1 = new Date();
+        date.d2 = new Date(indate);
+
+        console.log(date);
+
+        // booking missed
+        if (date.d1 > date.d2){
+            color.bg = "#FFB0B0";
+        };
+
+        // booking completed
+        if (invoiceid != null){
+            color.bg = "#B0FFB1";
+        }
+
+        return color.bg;
     }
 
-    $scope.dayClick = function(date, jsEvent, view) {
+// initiating
+
+    $scope.initManage = function() {
+        $scope.getbookings();
+        $scope.getemployees();
+    };
+
+// calendar
+
+    $scope.calendar.changedate = function() {
+
+    };
+
+    $scope.calendar.dayClick = function(date, jsEvent, view) {
         $scope.events.new.date = date;
+        $scope.events.new.view = view.name;
 
         // change the day's background color just for fun
         $(this).css('background-color', 'red');
     };
 
     /* alert on eventClick */
-    $scope.alertOnEventClick = function( date, jsEvent, view){
-        $scope.alertMessage = (date.title + ' was clicked ');
+    $scope.calendar.alertOnEventClick = function( event, jsEvent, view){
+        $scope.alertMessage = ('booking ' + event.id + ' was clicked ');
     };
 
     /* alert on Drop */
-     $scope.alertOnDrop = function(event, delta, revertFunc, jsEvent, ui, view){
-       $scope.alertMessage = ('Event Droped to make dayDelta ' + delta);
+     $scope.calendar.alertOnDrop = function(event, delta, revertFunc, jsEvent, ui, view){
+       $scope.alertMessage = ('booking ' + event.id + ' was moved by ' + delta/1000/60 + ' minutes');
+       for (index = 0; index < $scope.bookings.length; ++index) {
+            if ($scope.bookings[index].Booking_id == event.id){
+                $scope.bookings[index].DateTime = $scope.addminutes($scope.bookings[index].DateTime, delta/1000/60);
+                $scope.bookings[index].events[0].start = $scope.bookings[index].DateTime;
+                $scope.bookings[index].events[0].end = $scope.addminutes($scope.bookings[index].DateTime, $scope.bookings[index].Duration);
+
+                var color = $scope.getColor($scope.bookings[index].DateTime, $scope.bookings[index].Invoice_id);
+                $scope.bookings[index].events[0].backgroundColor = color;
+
+                $scope.booking = {};
+                $scope.booking.bid = $scope.bookings[index].Booking_id;
+                $scope.booking.datetime = $scope.bookings[index].DateTime;
+                $scope.booking.duration = $scope.bookings[index].Duration;
+                $scope.booking.completed = $scope.bookings[index].Completed;
+                $scope.booking.active = $scope.bookings[index].Active;
+                $scope.booking.reference = $scope.bookings[index].ReferenceNumber;
+                $scope.booking.eid = $scope.bookings[index].Employee_id;
+                $scope.booking.iid = $scope.bookings[index].Client_id;
+
+                $scope.postBooking();
+            }
+        };
+
     };
 
     /* alert on Resize */
-    $scope.alertOnResize = function(event, delta, revertFunc, jsEvent, ui, view ){
-       $scope.alertMessage = ('Event Resized to make dayDelta ' + delta);
+    $scope.calendar.alertOnResize = function(event, delta, revertFunc, jsEvent, ui, view ){
+       $scope.alertMessage = ('booking ' + event.id + ' duration was changed by ' + delta/1000/60 + ' minutes');
+       for (index = 0; index < $scope.bookings.length; ++index) {
+            if ($scope.bookings[index].Booking_id == event.id){
+                $scope.bookings[index].Duration = $scope.bookings[index].Duration + (delta/1000/60);
+                $scope.bookings[index].events[0].start = $scope.bookings[index].DateTime;
+                $scope.bookings[index].events[0].end = $scope.addminutes($scope.bookings[index].DateTime, $scope.bookings[index].Duration);
+
+                var color = $scope.getColor($scope.bookings[index].DateTime, $scope.bookings[index].Invoice_id);
+                $scope.bookings[index].events[0].backgroundColor = color;
+            }
+        };
     };
 
     /* add custom event*/
@@ -888,33 +991,31 @@ myModule.controller('CalendarCtrl', function($scope, $http, $window,$compile,uiC
       }
     };
 
-    $scope.configdefualt = {
+    /* config object */
+    $scope.uiConfig = {
+      calendar: {
         // defaultView: 'agendaDay',
-        minTime: '07:00:00',
-        maxTime: '18:00:00',
-        height: 540,
+        minTime: '06:00:00',
+        maxTime: '19:00:00',
+        height: 640,
         editable: true,
         eventLimit: true, // allow "more" link when too many events
         theme: true,
+        timezone: 'local',
         header:{
-          left: '',
-          center: '',
-          right: ''
+          left: 'title',
+          center: 'today',
+          right: 'month agendaWeek agendaDay prev next'
         },
-        eventClick: $scope.alertOnEventClick,
-        eventDrop: $scope.alertOnDrop,
-        eventResize: $scope.alertOnResize,
-        eventRender: $scope.eventRender,
-        dayClick: $scope.dayClick
-    };
-
-    /* config object */
-    $scope.uiConfig = {
-      calendar1: $scope.configdefualt,
-      calendar2: $scope.configdefualt,
-      calendar3: $scope.configdefualt
+        eventClick: $scope.calendar.alertOnEventClick,
+        eventDrop: $scope.calendar.alertOnDrop,
+        eventResize: $scope.calendar.alertOnResize,
+        eventRender: $scope.calendar.eventRender,
+        dayClick: $scope.calendar.dayClick
+    }
     };
 
     /* event sources array*/
-    $scope.eventSources = [$scope.events.current, $scope.calEventsExt];
+    $scope.eventSources = [];
+
 });

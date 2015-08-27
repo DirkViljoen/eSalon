@@ -33,7 +33,7 @@ INSERT INTO `Address` VALUES(2,"","553 Grosvenor", 2);
 INSERT INTO `Address` VALUES(3,"Unit 15, Sliverlakes", "312 Maple street", 4);
 
 INSERT INTO `Client` VALUES(1,"Ms","Nanda","Nakai","079 227 1769","nandanakai@hotmail.com","1997-02-14",1,1,True,1,3);
-INSERT INTO `Client` VALUES(2,"Miss", "Refiloe","Chaka","0828524512","RefiloeChaka@gmail.com","1994-03-02",2,2,False,2,1);
+INSERT INTO `Client` VALUES(2,"Miss", "Refiloe","Chaka","0828524512","RefiloeChaka@gmail.com","1994-03-02",1,0,False,2,1);
 INSERT INTO `Client` VALUES(3,"Mr","Johan","Roux","0833365913","JohanRoux@gmail.com","1995-08-05",1,1,True,1,2);
 
 INSERT INTO `Sub_Letter` VALUES(1,"Cat's nails","Rose", "Muller","0825673546","RoseMuller@gmail.com","2015-07-01",2500,True);
@@ -88,6 +88,8 @@ INSERT INTO `Invoice_Service_Line` VALUES (1,160,1,1,null,1);
 
 INSERT INTO `Invoice_Stock_Line` VALUES (1,35,4,1,null,1);
 
-INSERT INTO `Booking` VALUES (1,"2015-09-01 08:00:00",30,false,1,"booking1",1,1,1);
-INSERT INTO `Booking` VALUES (2,"2015-09-01 08:30:00",60,false,1,"booking2",1,1,null);
+INSERT INTO `Booking` VALUES (1,"2015-07-22 08:00:00",30,true,1,"booking1",1,1,1);
+INSERT INTO `Booking` VALUES (2,"2015-08-22 08:00:00",30,false,1,"booking2",1,1,null);
+INSERT INTO `Booking` VALUES (3,"2015-09-04 08:30:00",60,false,1,"booking3",2,1,null);
+
 

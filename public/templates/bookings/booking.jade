@@ -8,7 +8,7 @@ block loggedIn
     a(href="#", class="navbar-link") Signed in as Mark Otto
 
 block content
-    form.row.col-xs-12.workarea.form-validate(id="bookings", ng-controller="CalendarCtrl", ng-init='initManage()')
+    form.row.col-xs-12.workarea.form-validate(id="bookings", ng-controller="CalendarCtrl", ng-init='initManage()', calendar="myCalendar")
         br
         .row
             .col-sm-3
@@ -18,27 +18,8 @@ block content
                 +form-input-search-min('text', 'cliSearch', 'Search client...', '')
         br
         .row
-            .col-sm-1
-                .pull-right
-                    +form-button('<', '#', 'btn-cal-prev')
-            .col-sm-10
-                .row
-                    .col-sm-1.nopadding
-                        h3 Time
-                        div.times.calendar(ui-calendar="uiConfig.calendar", ng-model="eventSources")
-                    .col-sm-11
-                        .row
-                            .col-sm-4.nopadding
-                                h3 Cherise
-                                div.employee.calendar(ui-calendar="uiConfig.calendar1", ng-model="eventSources", ng-click="indicate(1)")
-                            .col-sm-4.nopadding
-                                h3 Sam
-                                div.employee.calendar(ui-calendar="uiConfig.calendar2", ng-model="eventSources", ng-click="indicate(2)")
-                            .col-sm-4.nopadding
-                                h3 Mandy
-                                div.employee.calendar(ui-calendar="uiConfig.calendar3", ng-model="eventSources", ng-click="indicate(3)")
-            .col-sm-1
-                +form-button('>', '#', 'btn-cal-next')
+            .col-sm-12
+                .calendar(ui-calendar="uiConfig.calendar", ng-model="eventSources")
         br
         //- Pure functionality objects
         div
@@ -51,9 +32,10 @@ block content
                 span {{uiConfig}}
             p events.new:
                 span {{events.new}}
-            p productHistory:
-                span {{productHistory}}
-            p {{cities}}
+            p bookings:
+                span {{bookings}}
+            p booking:
+                span {{booking}}
             p {{provinces}}
             p {{notificationMethods}}
 

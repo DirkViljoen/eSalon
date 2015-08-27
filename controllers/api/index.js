@@ -2,6 +2,8 @@
 
 var BookingModel = require('../../models/booking');
 var ClientModel = require('../../models/client');
+var OrdersModel = require('../../models/orders');
+var StockModel = require('../../models/stock');
 var LookupsModel = require('../../models/lookups');
 
 module.exports = function (router) {
@@ -9,18 +11,19 @@ module.exports = function (router) {
     var models = {};
     models.client = new ClientModel();
     models.lookup = new LookupsModel();
+    models.orders = new OrdersModel();
+    models.stock = new StockModel();
     models.booking = new BookingModel();
 
 // Bookings
 
-    router.get('/bookings/', function (req, res) {
+    router.get('/bookings', function (req, res) {
         console.log('Bookings GET. Parameters: ' + JSON.stringify(req.query))
 
         var fname = "";
         var lname = "";
         var ref = "";
 
-        console.log(req.query.search.length);
         if (req.query.search) {
             if (req.query.search.indexOf(" ") >= 0) {
                 fname = req.query.search.substring(0, req.query.search.indexOf(" "));
@@ -354,6 +357,48 @@ module.exports = function (router) {
             console.error(new Error(err));
             res.send({'err': err});
         }
+    });
+
+// Stock
+
+    router.get('/stock', function (req, res) {
+        console.log('Stock GET. Parameters: ' + JSON.stringify(req.query))
+
+        var sname = "";
+        var bname = "";
+        var pname = "";
+
+        sname = (req.query.sname ? '"' + req.query.sname + '"' : "");
+        pname = (req.query.pname ? '"' + req.query.pname + '"' : "");
+        bname = (req.query.bname ? '"' + req.query.bname + '"' : "");
+
+        models.stock.find(sname, pname, bname)
+            .then(
+                function (result){
+                    if (result)
+                        res.send(result);
+                },
+                function (err){
+                    console.log(err);
+                    res.send(err);
+                }
+            );
+    });
+
+    router.get('/bookings/:id', function (req, res) {
+        console.log('Bookings GET w/ ID. Parameters: ' + JSON.stringify(req.params))
+
+        models.booking.index(req.params.id)
+            .then(
+                function (result){
+                    if (result)
+                        res.send(result);
+                },
+                function (err){
+                    console.log(err);
+                    res.send(err);
+                }
+            );
     });
 
 // Lookups
