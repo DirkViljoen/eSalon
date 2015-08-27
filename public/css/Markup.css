@@ -47,3 +47,7 @@ input.error {
 label.error {
     color: red;
 }
+
+.testlabel {
+	color:red;
+}
