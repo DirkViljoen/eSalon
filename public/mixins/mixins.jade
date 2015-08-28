@@ -204,11 +204,11 @@ mixin ng-input-text(name, label, model, placeholder, required, readonly, minLen,
                 span.input-group-addon
                     span.glyphicon.glyphicon-asterisk
 
-mixin ng-input-text-alt(name, label, model, placeholder, required, readonly, minLen, maxLen)
+mixin ng-input-text-alt(name, label, model, placeholder, required, readonly, minLen, maxLen, changeEvent)
     .form-group
         label.control-label.col-sm-4(for=name)= label
         div.input-group
-            input.form-control(type='text', id=name, name=name, ng-model=model, placeholder=placeholder, readonly=readonly, required=required, minlength=minLen, maxlength=maxLen size='40')
+            input.form-control(type='text', id=name, name=name, ng-model=model, placeholder=placeholder, readonly=readonly, required=required, minlength=minLen, maxlength=maxLen size='40', ng-change=changeEvent)
             if (required)
                 span.input-group-addon
                     span.glyphicon.glyphicon-asterisk
@@ -253,6 +253,9 @@ mixin ng-input-combobox(name, label, model, placeholder, options, required, read
         label.control-label.col-md-3.col-sm-4= label
         div.input-group
             select.form-control(name=name, ng-model=model, ng-options=options, placeholder=placeholder, readonly=readonly, required=required, ng-change=changeEvent)
+
+mixin ng-input-combobox-min(name, model, placeholder, options, required, readonly, changeEvent)
+    select.form-control(name=name, ng-model=model, ng-options=options, placeholder=placeholder, readonly=readonly, required=required, ng-change=changeEvent)
 
 mixin ng-input-calendar(name, label, model, placeholder, required, readonly)
     .form-group

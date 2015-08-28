@@ -1,8 +1,6 @@
 extends ../layouts/master
 include ../../mixins/mixins
 
-block links
-
 block header
   label Add booking
 
@@ -10,57 +8,77 @@ block loggedIn
   a(href="#", class="navbar-link") Signed in as Mark Otto
 
 block content
-  .row
-    .col-sm-1
-    .col-sm-10.workarea
-      h3 Add new booking
-      form.form-horizontal(role="form")
-        +form-group("Booking details")
-        +form-combobox-button('bookingClient', 'Client:', arrClients, bkgClient, '/client/add')
-        //+form-combobox(id, name, values, selected)
-        +form-inputbox('text', 'bookingStylist', 'Stylist:', '', bkgStylist)
-        +form-input-calendar('bookingDate', 'Booking date:', 'dd/mm/yyyy', dateBookingStart)
-        +form-input-time('bookingTime', 'Booking time:', 'hh:mm', timeBookingStart)
-        .form-group
-          label.control-label.col-sm-2(for='frmServ') Services:
-          .col-sm-10
-            form.form-horizontal(role="form" id="frmServ")
-              table.table.table-hover
-                thead
-                  tr
-                    th Service
-                    th Length
-                    th Duration
-                    th
-                tbody
-                  tr
-                    td
-                      +form-combobox-minimal('bkgService', 'Service', arrServices, bkgService)
-                    td
-                      +form-combobox-minimal('bkgService', 'Service', arrHairLength, bkgHairLength)
-                    td
-                      input.form-control(type='text' id='dur_1' placeholder='Duration' value=bkgSerLen)
-                    td
-                      +form-button-small-remove()
-                  tr
-                    td
-                    td
-                    td
-                    td
-                      +form-button-small-add()
-        +form-input-slider('amount', 'Duration:', 'mm', '30')
-      +workbreak()
-      form.form-horizontal(role="form")
-        +form-inputbox('text', 'bkngReference', 'Booking reference:', '', '0526-0023', 5, true)
+    form.row.col-xs-12.workarea.form-validate(id="bookingAdd", ng-controller="BookingController", ng-init='initAdd(' + datetime + ',"' + stylist + '",' + eid + ')')
+        .row
+            .col-sm-1
+            .col-sm-11
+                h3 New booking details
+                br
 
-  +workbreak()
-  .row
-    .col-sm-1
-    .col-sm-10.form-group.workarea
-      ul.nav.nav-pills.pull-right
-        li(role="presentation")
-          a.btn-primary(href="/booking") Cancel
-        li(role="presentation")
-          a.btn-primary(href="/booking") Save
-          br
+        .row
+            .col-md-1
+            .col-md-10.form-horizontal
+                .grouphead
+                    +form-group('Booking details')
+                .groupbox
+                    +ng-input-combobox('client', 'Client:', 'booking.cid', 'Select a client', 'client.Client_ID as client.fullname for client in clients', false, false, 'generateReference()')
+                    +ng-input-text('stylist', 'Stylist:', 'booking.efullname', '', false, true, '1', '50')
+                    +ng-input-text('bookingDate', 'Booking date:', 'booking.date', '', false, true, '1', '50')
+                    +ng-input-text('bookingTime', 'Booking time:', 'booking.time', '', false, true, '1', '50')
+                br
 
+                .grouphead
+                    +form-group('Services')
+                .groupbox
+                    .row
+                        .col-md-1
+                        .col-md-10.table-responsive
+                            table.table(id="booking-services" st-table='booking.services')
+                                thead
+                                    tr
+                                        th
+                                        th Service
+                                        th Hairlength
+                                        th Duration
+                                tbody
+                                    tr(ng-repeat="row in booking.services")
+                                        td
+                                            .btn.btn-default(type="button" ng-click="removeService($index)") Remove Service
+                                        td
+                                            +ng-input-combobox-min('service', 'row.sid', 'Select a service', 'service.Service_id as service.Name for service in services', false, false, 'updateService($index)')
+                                        td
+                                            +ng-input-combobox-min('hairlength', 'row.hlid', 'Select a hair length', 'hairlength.HairLength_id as hairlength.Description for hairlength in hairlengths', false, false, 'updateService($index)')
+                                        td {{row.duration}}
+                                    tr
+                                        td
+                                            .btn.btn-default(type="button" ng-click="addService()") Add Service
+                br
+
+                .grouphead
+                    +form-group('Additional details')
+                .groupbox
+                    +ng-input-text('duration', 'Booking duration:', 'booking.duration', '15 minutes', false, false, '0', '50')
+                    +ng-input-text('reference', 'Booking reference:', 'booking.reference', 'cidmmdd', false, true, '0', '50')
+
+        br
+        .row
+            .col-md-1
+            .col-md-10.form-group.workarea
+                ul.nav.nav-pills.pull-right
+                    li(role='presentation')
+                        input.btn.btn-primary(type="button", value="Save", ng-click='postBooking()')
+                    li(role='presentation')
+                        input.btn.btn-default(type="button", value='Cancel', ng-click='cancel()')
+                        br
+
+        //- Pure functionality objects
+        //- div
+        //-     p(ng-if="loading") Loading&hellip;
+        //-     p clients:
+        //-         span {{clients}}
+        //-     p suburbs
+        //-         span {{suburbs}}
+        //-     p booking:
+        //-         span {{booking}}
+        //-     p {{hairlengths}}
+        //-     p {{hairlengthservices}}

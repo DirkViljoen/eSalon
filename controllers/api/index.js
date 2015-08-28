@@ -2,16 +2,22 @@
 
 var BookingModel = require('../../models/booking');
 var ClientModel = require('../../models/client');
+var EmployeeModel = require('../../models/employee');
 var OrdersModel = require('../../models/orders');
+var ServiceModel = require('../../models/service');
 var StockModel = require('../../models/stock');
 var LookupsModel = require('../../models/lookups');
+
+var moment = require('moment');
 
 module.exports = function (router) {
 
     var models = {};
     models.client = new ClientModel();
+    models.employee = new EmployeeModel();
     models.lookup = new LookupsModel();
     models.orders = new OrdersModel();
+    models.services = new ServiceModel();
     models.stock = new StockModel();
     models.booking = new BookingModel();
 
@@ -48,6 +54,22 @@ module.exports = function (router) {
             );
     });
 
+    router.get('/employees/:eid/bookings', function (req, res) {
+        console.log('Bookings for employee GET w/ ID. Parameters: ' + JSON.stringify(req.params))
+
+        models.employee.bookings(req.params.eid)
+            .then(
+                function (result){
+                    if (result)
+                        res.send(result);
+                },
+                function (err){
+                    console.log(err);
+                    res.send(err);
+                }
+            );
+    });
+
     router.get('/bookings/:id', function (req, res) {
         console.log('Bookings GET w/ ID. Parameters: ' + JSON.stringify(req.params))
 
@@ -71,15 +93,24 @@ module.exports = function (router) {
             var obj = {};
             //booking
             obj.datetime = (req.body.datetime ? '"' + req.body.datetime + '"' : null);
-            obj.duration = (req.body.duration ? '"' + req.body.duration + '"' : null);
-            obj.completed = (req.body.completed ? '"' + req.body.completed + '"' : null);
-            obj.active = (req.body.active ? '"' + req.body.active + '"' : null);
+            obj.datetime = obj.datetime.replace("T"," ");
+            obj.datetime = obj.datetime.replace("Z","");
+            obj.duration = (req.body.duration ? '"' + req.body.duration + '"' : 30);
+            obj.completed = (req.body.completed ? '"' + req.body.completed + '"' : 0);
+            obj.active = (req.body.active ? '"' + req.body.active + '"' : 1);
             obj.reference = (req.body.reference ? '"' + req.body.reference + '"' : null);
-            obj.cid = (req.body.cid ? '"' + req.body.cid + '"' : null);
-            obj.eid = (req.body.eid ? '"' + req.body.eid + '"' : null);
-            obj.iid = (req.body.iid ? req.body.iid : true);
+            obj.cid = (req.body.cid ? req.body.cid : null);
+            obj.eid = (req.body.eid ? req.body.eid : null);
+            obj.iid = (req.body.iid ? req.body.iid : null);
+            obj.services = [];
 
-             models.booking.create(obj)
+            if (req.body.services) {
+                for (var i = 0; i < req.body.services.length; i++) {
+                    obj.services.push({hlsid: req.body.services[i].hlsid});
+                };
+            };
+
+            models.booking.create(obj)
                 .then(
                     function (result){
                         console.log(result);
@@ -105,19 +136,31 @@ module.exports = function (router) {
         if (JSON.stringify(req.body) != '{}') {
             var obj = {};
             //booking
-            obj.bid = (req.body.bid ? '"' + req.body.bid + '"' : null);
-            obj.datetime = (req.body.datetime ? '"' + req.body.datetime + '"' : null);
-            obj.duration = (req.body.duration ? '"' + req.body.duration + '"' : null);
-            obj.completed = (req.body.completed ? '"' + req.body.completed + '"' : null);
-            obj.active = (req.body.active ? '"' + req.body.active + '"' : null);
+            obj.bid = (req.body.bid ? req.body.bid : req.params.id);
+
+            obj.datetime = '"' + moment(req.body.datetime).format('YYYY-MM-DD HH:mm:ss') + '"';
+
+            obj.duration = (req.body.duration ? '"' + req.body.duration + '"' : 60);
+            obj.completed = (req.body.completed ? '"' + req.body.completed + '"' : 0);
+            obj.active = (req.body.active ? '"' + req.body.active + '"' : 1);
             obj.reference = (req.body.reference ? '"' + req.body.reference + '"' : null);
-            obj.eid = (req.body.eid ? '"' + req.body.eid + '"' : null);
-            obj.iid = (req.body.iid ? req.body.iid : true);
+            obj.eid = (req.body.eid ? req.body.eid : null);
+            obj.iid = (req.body.iid ? req.body.iid : null);
+
+            if (req.body.services) {
+                for (i = 0; i < req.body.services.length; i++) {
+                    t = {
+                        bid: obj.bid,
+                        hlsid: req.body.services[i].hlsid
+                    };
+
+                    obj.services.push(t);
+                };
+            };
 
              models.booking.update(obj)
                 .then(
                     function (result){
-                        console.log(result);
                         res.send(result);
                     },
                     function (err){
@@ -359,6 +402,83 @@ module.exports = function (router) {
         }
     });
 
+// Employees
+
+    router.get('/employees/', function (req, res) {
+        console.log('Employees GET. Parameters: ' + JSON.stringify(req.query))
+        var fname = "";
+        var lname = "";
+        var role = "";
+
+        if (req.query.fname) {fname = req.query.fname};
+        if (req.query.lname) {lname = req.query.lname};
+        if (req.query.role) {role = req.query.role};
+
+        models.employee.find(fname, lname, role)
+            .then(
+                function (result){
+                    if (result)
+                        res.send(result);
+                },
+                function (err){
+                    console.log(err);
+                    res.send(err);
+                }
+            );
+    });
+
+    router.get('/employees/:id', function (req, res) {
+        console.log('Employees GET w/ ID. Parameters: ' + JSON.stringify(req.params))
+
+        models.employee.index(req.params.id)
+            .then(
+                function (result){
+                    if (result)
+                        res.send(result);
+                },
+                function (err){
+                    console.log(err);
+                    res.send(err);
+                }
+            );
+    });
+
+// Services
+
+    router.get('/services', function (req, res) {
+        console.log('Services GET. Parameters: ' + JSON.stringify(req.query))
+
+        var sname = (req.query.service ? req.query.service : "");
+
+        models.services.find(sname)
+            .then(
+                function (result){
+                    if (result)
+                        res.send(result);
+                },
+                function (err){
+                    console.log(err);
+                    res.send(err);
+                }
+            );
+    });
+
+    router.get('/services/hairlengthservices', function (req, res) {
+        console.log('hair length services GET. Parameters: ' + JSON.stringify(req.params))
+
+        models.services.hairlengthservices()
+            .then(
+                function (result){
+                    if (result)
+                        res.send(result);
+                },
+                function (err){
+                    console.log(err);
+                    res.send(err);
+                }
+            );
+    });
+
 // Stock
 
     router.get('/stock', function (req, res) {
@@ -373,22 +493,6 @@ module.exports = function (router) {
         bname = (req.query.bname ? '"' + req.query.bname + '"' : "");
 
         models.stock.find(sname, pname, bname)
-            .then(
-                function (result){
-                    if (result)
-                        res.send(result);
-                },
-                function (err){
-                    console.log(err);
-                    res.send(err);
-                }
-            );
-    });
-
-    router.get('/bookings/:id', function (req, res) {
-        console.log('Bookings GET w/ ID. Parameters: ' + JSON.stringify(req.params))
-
-        models.booking.index(req.params.id)
             .then(
                 function (result){
                     if (result)
@@ -459,6 +563,20 @@ module.exports = function (router) {
         console.log('request body: ' + JSON.stringify(req.params));
 
         models.lookup.notificationMethods(req.params.cityID)
+            .then(
+                function (result){
+                    console.log(result);
+                    res.send(result);
+                }
+            );
+    });
+
+
+    router.get('/lookups/hairlength', function (req, res) {
+        console.log('get hairlengths');
+        console.log('request body: ' + JSON.stringify(req.params));
+
+        models.lookup.hairlengths()
             .then(
                 function (result){
                     console.log(result);

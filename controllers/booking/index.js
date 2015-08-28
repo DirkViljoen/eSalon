@@ -10,23 +10,24 @@ module.exports = function (router) {
 
 
     router.get('/', function (req, res) {
-        res.render('bookings/booking', model);
+        res.render('bookings/booking', {})
     });
 
     router.get('/add', function (req, res) {
-        res.render('bookings/booking-add', model);
+        console.log('Booking add with query: ' + JSON.stringify(req.query))
+        res.render('bookings/booking-add', req.query);
     });
 
-    router.get('/update', function (req, res) {
-        res.render('bookings/booking-update', model);
+    router.get('/update/:id', function (req, res) {
+        res.render('bookings/booking-update', req.params);
     });
 
     router.get('/makesale', function (req, res) {
-        res.render('invoice/makesale', model);
+        res.render('invoice/makesale', {});
     });
 
-    router.get('/finalise', function (req, res) {
-        res.render('invoice/finalisebooking', model);
+    router.get('/finalise/:id', function (req, res) {
+        res.render('invoice/finalisebooking', req.params);
     });
 
 };

@@ -4,6 +4,7 @@ var q = require('q');
 var db = require('../libs/db');
 
 module.exports = function StockModel() {
+
     function get(id) {
         console.log('Module - Booking - Get');
 

@@ -49,9 +49,10 @@ module.exports = function BookingModel() {
     };
 
     function add(obj) {
-        console.log('Module - Booking - Create');
+        console.log('Module - Booking - Add');
 
         var deferred = q.defer();
+        var services = 0;
 
         if (obj) {
             console.log('Creating Booking.');
@@ -62,13 +63,26 @@ module.exports = function BookingModel() {
                 obj.active + ',' +
                 obj.reference + ',' +
                 obj.cid + ',' +
-                obj.eid + ',' +
-                obj.iid + ')'
+                obj.eid + ')'
             )
                 .then(
                     function (result){
-                        console.log('Booking created.');
-                        deferred.resolve(result);
+                        console.log('Booking created. Creating ' + obj.services.length + ' service(s).');
+                        for (var i = 0; i < obj.services.length; i++) {
+                            db.execute('CALL spBookingServices_Create(' + result.SQLstats.insertId + ',' + obj.services[i].hlsid + ')')
+                                .then(
+                                    function (result){
+                                        services = services + 1;
+                                        if (services == obj.services.length) {
+                                            console.log('All services created.');
+                                            deferred.resolve(result);
+                                        };
+                                    },
+                                    function (err){
+                                        console.error(new Error('Unable to create Booking Services.'))
+                                        deferred.reject(err);
+                                    });
+                        }
                     },
                     function (err){
                         console.error(new Error('Unable to create Booking.'))
@@ -78,7 +92,7 @@ module.exports = function BookingModel() {
 
         }
         else {
-            console.error(new Error('Unable to create booking. No object provided.'))
+            console.error(new Error('Unable to create Booking. no object provided'))
             deferred.reject(err);
         }
 
@@ -89,6 +103,7 @@ module.exports = function BookingModel() {
         console.log('Module - Booking - Update');
 
         var deferred = q.defer();
+        var services = 0;
 
         if (obj.bid) {
             console.log('Updating Booking.');
@@ -104,7 +119,32 @@ module.exports = function BookingModel() {
             )
                 .then(
                     function (result){
-                        console.log('Booking updated.');
+                        console.log('Booking updated. Updating services.');
+                        db.execute('CALL spBookingServices_Delete()')
+                            .then(
+                                function (result){
+                                    console.log('Booking services deleted. Creating new services');
+                                    for (i = 0; i < obj.services.length; i++) {
+                                        db.execute('CALL spBookingServices_Create(' + obj.services[i].bid + ',' + obj.services[i].hlsid + ')')
+                                            .then(
+                                                function (result){
+                                                    services = services + 1;
+                                                    if (services == obj.services.length) {
+                                                        console.log('All services created.');
+                                                        deferred.resolve(result);
+                                                    };
+                                                },
+                                                function (err){
+                                                    console.error(new Error('Unable to create Booking Services.'))
+                                                    deferred.reject(err);
+                                                });
+                                    }
+                                },
+                                function (err){
+                                    console.error(new Error('Unable to delete Booking Services.'))
+                                    deferred.reject(err);
+                                }
+                            )
                         deferred.resolve(result);
                     },
                     function (err){

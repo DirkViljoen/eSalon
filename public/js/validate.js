@@ -248,6 +248,46 @@ function addSelectionValidation(myForm, formHandler) {
         };
     };
 
+// Booking
+    function booking_add(usrResponse, callback) {
+        switch(usrResponse){
+            case 'save':
+                confirm_YesNoCancel('Add booking', 'Are you sure you want to add the new booking?', function(res) {
+                    callback(res);
+                });
+                break;
+            default:
+                callback('none');
+                break;
+        };
+    };
+
+    function booking_update(usrResponse, callback) {
+        switch(usrResponse){
+            case 'update':
+                confirm_YesNoCancel('Update booking', 'Are you sure you want to update the booking?', function(res) {
+                    callback(res);
+                });
+                break;
+            default:
+                callback('none');
+                break;
+        };
+    };
+
+    function booking_delete(usrResponse, callback) {
+        switch(usrResponse){
+            case 'delete':
+                warning_YesNo('Delete booking', 'Are you sure you want to delete the selected booking?', function(res) {
+                    callback(res);
+                });
+                break;
+            default:
+                callback('none');
+                break;
+        };
+    };
+
 // Client
 
     function client_add(usrResponse, callback) {

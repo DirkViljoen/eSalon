@@ -31,7 +31,8 @@
     "bootstrap3-dialog": "~1.34.5",
     "angular-bootstrap-show-errors": "~2.3.0",
     "angular-smart-table": "~2.1.2",
-    "angular-ui-calendar": "~1.0.1"
+    "angular-ui-calendar": "~1.0.1",
+    "angular-moment": "~0.10.2"
   },
   "resolutions": {
     "angular": "~1.4.2"

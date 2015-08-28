@@ -1,5 +1,125 @@
 USE eSalon;
 
+-- Employee
+
+    DELIMITER //
+    CREATE PROCEDURE spEmployee_Read_Search
+    (
+        IN fname VARCHAR(50),
+        IN lname VARCHAR(50),
+        IN role VARCHAR(30)
+    )
+    BEGIN
+        SELECT 
+			e.* 
+		FROM 
+			`Employee`e, `User` u, `Role` r
+        WHERE 
+			e.`Name` Like fname
+			AND 
+			e.`Surname` Like lname
+			AND
+            r.`Name` Like Role
+            AND
+            e.`Employee_ID` = u.`Employee_ID`
+            AND
+            u.`Role_ID` = r.`Role_ID`
+        ORDER BY 
+			e.`Name`;
+    END //
+    DELIMITER ;
+
+    DELIMITER //
+    CREATE PROCEDURE spEmployee_Read_ID
+    (
+        IN id INT
+    )
+    BEGIN
+        SELECT 
+			* 
+        FROM 
+			`Employee`
+        WHERE 
+			`Employee_ID` = id;
+    END //
+    DELIMITER ;
+    
+    DELIMITER //
+    CREATE PROCEDURE spEmployeeBookings_Read_ID
+    (
+        IN id INT
+    )
+    BEGIN
+        SELECT 
+			b.*, 
+            c.`Name` as 'clientFName', 
+            c.`Surname` as 'clientLName',
+            e.`Name` as 'employeeFName',
+            e.`Surname` as 'employeeLName'
+		FROM 
+			`Booking` b, 
+            `Client` c, 
+            `Employee` e
+        WHERE 
+			e.`Employee_id` = id
+            AND
+            b.`Client_id` = c.`Client_id`
+            AND
+            b.`Employee_id` = e.`Employee_id`
+            AND
+            b.`Active` = true;
+    END //
+    DELIMITER ;
+    
+-- Service
+
+    DELIMITER //
+    CREATE PROCEDURE spService_Search
+    (
+        IN sname VARCHAR(50)
+    )
+    BEGIN
+        SELECT 
+			s.*
+		FROM 
+			`Service` s
+        WHERE 
+			s.`Name` like sname
+        ORDER BY 
+			s.`Name`;
+    END //
+    DELIMITER ;
+
+    DELIMITER //
+    CREATE PROCEDURE spService_Read
+    (
+        IN id INT
+    )
+    BEGIN
+        SELECT 
+			s.*
+		FROM 
+			`Service` s
+        WHERE 
+			s.`Service_id` = id;
+    END //
+    DELIMITER ;
+    
+-- Hair Length Service
+
+    DELIMITER //
+    CREATE PROCEDURE spHairLengthService_Search
+    (
+
+    )
+    BEGIN
+        SELECT 
+			hls.*
+		FROM 
+			`Hair_Length_Service` hls;
+    END //
+    DELIMITER ;
+    
 -- Lookups
 
     DELIMITER //
@@ -44,6 +164,15 @@ USE eSalon;
     BEGIN
         SELECT *
         FROM `Notification_Method`;
+    END //
+    DELIMITER ;
+    
+    DELIMITER //
+    CREATE PROCEDURE spHairLength_Read
+    ()
+    BEGIN
+        SELECT *
+        FROM `Hair_Length`;
     END //
     DELIMITER ;
 
@@ -495,10 +624,11 @@ USE eSalon;
 		IN iActive BOOLEAN,
 		IN iReference VARCHAR(12),
 		IN iClient_ID INT,
-		IN iEmployee_ID INT,
-		IN iInvoice_ID INT
+		IN iEmployee_ID INT
 	)
     BEGIN
+		DECLARE insertId  INT;
+        
         INSERT 
 			INTO `Booking`
 				(
@@ -520,8 +650,11 @@ USE eSalon;
 				iReference,
 				iClient_ID,
 				iEmployee_ID,
-				iInvoice_ID
+				null
                 );
+
+        SET insertId = LAST_INSERT_ID();
+            SELECT insertId;
     END //
     DELIMITER ;
     
@@ -569,3 +702,22 @@ USE eSalon;
     END //
     DELIMITER ;
     
+    -- booking services
+    
+	DELIMITER //
+    CREATE PROCEDURE spBookingServices_Create
+    (
+        IN bid INT,
+        IN hlsid INT
+	)
+    BEGIN
+        INSERT 
+			INTO 
+				`Booking_Service`
+			VALUES
+				(
+                bid,
+				hlsid
+                );
+    END //
+    DELIMITER ;

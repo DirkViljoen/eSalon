@@ -135,6 +135,7 @@ html(lang="en", ng-app="app")
         script(src='/bower_components/angular/angular.min.js')
         script(src='/bower_components/angular-smart-table/dist/smart-table.min.js')
         script(src='/bower_components/angular-ui-calendar/src/calendar.js')
+        script(src='/bower_components/angular-moment/angular-moment.min.js')
 
         script(src="/bower_components/javascript-detect-element-resize/jquery.resize.js")
         script(src="/bower_components/waitForImages/dist/jquery.waitforimages.js")
@@ -149,12 +150,13 @@ html(lang="en", ng-app="app")
         script.
             $( document ).ready(function() {
                 $(":submit").click(function () { $("#btnClicked").val(this.value); });
-                // addSelectionValidation('#sub-letterManage', 'subletter-manage');
                 addNGValidation('#sub-letterAdd');
                 addNGValidation('#sub-letterPayment');
                 addNGValidation('#sub-letterUpdate');
                 addNGValidation('#clientAdd');
                 addNGValidation('#clientUpdate');
+                addNGValidation('#bookingAdd');
+                addNGValidation('#bookingUpdate');
             });
 
 

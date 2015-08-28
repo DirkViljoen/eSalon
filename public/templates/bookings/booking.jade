@@ -8,18 +8,26 @@ block loggedIn
     a(href="#", class="navbar-link") Signed in as Mark Otto
 
 block content
-    form.row.col-xs-12.workarea.form-validate(id="bookings", ng-controller="CalendarCtrl", ng-init='initManage()', calendar="myCalendar")
-        br
+    form.row.col-xs-12.workarea.form-validate(id="bookings", ng-controller="BookingController", ng-init='initManage()')
         .row
-            .col-sm-3
-            .col-sm-6
-                +form-input-calendar('cal-nav', 'Date:', 'dd/mm/yyyy', '20/07/2015')
-            .col-sm-2
-                +form-input-search-min('text', 'cliSearch', 'Search client...', '')
+            .col-md-1
+            .col-md-10.form-horizontal
+                .grouphead
+                    +form-group('Booking details')
+                .groupbox
+                    .row
+                        .col-md-5
+                            +ng-input-combobox('employee', 'View calendar for:', 'booking.eid', 'Select an employee', 'employee.Employee_ID as employee.fullname for employee in employees', false, false, 'changeCalendar()')
+                        .col-md-5
+                            +ng-input-text-alt('bookingSearch', 'Search for booking:', 'searchCriteria.booking', 'name, surname or reference', false, false, '0', '50')
+                        .col-md-2
+                            .nav.nav-pills.pull-right
+                                li(role='presentation')
+                                    input.btn.btn-primary(type="button", value="Search", ng-click='searchBooking()')
         br
         .row
             .col-sm-12
-                .calendar(ui-calendar="uiConfig.calendar", ng-model="eventSources")
+                .calendar(ui-calendar="uiConfig.calendar", ng-model="eventSources", calendar="myCalendar")
         br
         //- Pure functionality objects
         div
@@ -28,14 +36,14 @@ block content
                 span {{eventSources}}
             p alertMessage:
                 span {{alertMessage}}
-            p uiConfig:
-                span {{uiConfig}}
             p events.new:
                 span {{events.new}}
             p bookings:
                 span {{bookings}}
             p booking:
                 span {{booking}}
-            p {{provinces}}
-            p {{notificationMethods}}
+            p searchResult:
+                span {{searchResult}}
+            p employees:
+                span {{employees}}
 

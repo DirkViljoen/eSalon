@@ -53,6 +53,22 @@ module.exports = function LookupsModel() {
         return deferred.promise;
     };
 
+    function hairlength() {
+        var deferred = q.defer();
+
+        db.query('CALL spHairLength_Read();')
+            .then(
+                function (result){
+                    deferred.resolve(result);
+                },
+                function (err){
+                    deferred.reject(new Error(err));
+                }
+            );
+
+        return deferred.promise;
+    };
+
     function suburbs(id) {
         var deferred = q.defer();
 
@@ -85,11 +101,14 @@ module.exports = function LookupsModel() {
         return deferred.promise;
     };
 
+
+
     return {
+        cities: cities,
+        hairlengths: hairlength,
+        notificationMethods: notificationMethods,
         paymentMethods: paymentMethods,
         provinces: provinces,
-        cities: cities,
-        suburbs: suburbs,
-        notificationMethods: notificationMethods
+        suburbs: suburbs
     };
 };

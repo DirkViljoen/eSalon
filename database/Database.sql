@@ -450,7 +450,6 @@ CREATE TABLE `Service` (
 	`Service_id` INT NULL AUTO_INCREMENT,
     `Name` VARCHAR (50),
     `AdditionalInformation` VARCHAR(200),
-    `Duration` INT,
     `Price` DECIMAL (8,2),
     `Active` BOOLEAN,
     
@@ -519,13 +518,13 @@ CREATE TABLE `Booking` (
 
 CREATE TABLE `Booking_Service` (
 	`Booking_id` INT,
-    `Service_id` INT,
+    `HairLengthService_id` INT,
     
     FOREIGN KEY (`Booking_id`)
 		REFERENCES `Booking` (`Booking_id`),
 	
-    FOREIGN KEY (`Service_id`)
-		REFERENCES `Service` (`Service_id`)
+    FOREIGN KEY (`HairLengthService_id`)
+		REFERENCES `Hair_Length_Service` (`HairLengthService_id`)
 );
 
 CREATE TABLE `Service_History` (

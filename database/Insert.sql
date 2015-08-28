@@ -70,9 +70,9 @@ INSERT INTO `Stock_History` VALUES (2,150,"2014-06-01",null,1);
 INSERT INTO `Stock_History` VALUES (3,275,null,null,2);
 INSERT INTO `Stock_History` VALUES (4,100,null,null,3);
 
-INSERT INTO `Service` VALUES (1, "Hair Cut", "Short Hair Cut for females", 30, 150.00, True);
-INSERT INTO `Service` VALUES (2, "Hair Cut", "Medium Hair Cut for females", 35, 170.00, True);
-INSERT INTO `Service` VALUES (3, "Hair Treatment", "Treatment for medium male hair", 60, 200.00, True);
+INSERT INTO `Service` VALUES (1, "Hair Cut", "Normal hair cut for females", 160.00, True);
+INSERT INTO `Service` VALUES (2, "Hair Cut", "Normal hair cut for males", 120.00, True);
+INSERT INTO `Service` VALUES (3, "Full colour", "Full hair colour", 300.00, True);
 
 INSERT INTO `Service_History` VALUES (1,150,null,null,1);
 INSERT INTO `Service_History` VALUES (2,170,null,null,2);
@@ -81,6 +81,12 @@ INSERT INTO `Service_History` VALUES (3,200,null,null,3);
 INSERT INTO `Hair_Length_Service` VALUES (1, 30, 1, 1);
 INSERT INTO `Hair_Length_Service` VALUES (2, 45, 2, 1);
 INSERT INTO `Hair_Length_Service` VALUES (3, 50, 3, 1); 
+INSERT INTO `Hair_Length_Service` VALUES (4, 10, 1, 2);
+INSERT INTO `Hair_Length_Service` VALUES (5, 15, 2, 2);
+INSERT INTO `Hair_Length_Service` VALUES (6, 20, 3, 2); 
+INSERT INTO `Hair_Length_Service` VALUES (7, 60, 1, 3);
+INSERT INTO `Hair_Length_Service` VALUES (8, 70, 2, 3);
+INSERT INTO `Hair_Length_Service` VALUES (9, 80, 3, 3); 
 
 INSERT INTO `Invoice` VALUES (1,"2015-08-20",50,false,300,3,1,1);
 
