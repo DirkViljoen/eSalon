@@ -124,7 +124,7 @@ module.exports = function BookingModel() {
                             .then(
                                 function (result){
                                     console.log('Booking services deleted. Creating new services');
-                                    for (i = 0; i < obj.services.length; i++) {
+                                    for (var i = 0; i < obj.services.length; i++) {
                                         db.execute('CALL spBookingServices_Create(' + obj.services[i].bid + ',' + obj.services[i].hlsid + ')')
                                             .then(
                                                 function (result){
@@ -188,38 +188,37 @@ module.exports = function BookingModel() {
     };
 
     function products(id) {
-        console.log('Module - Products history - Get');
+        // console.log('Module - Products history - Get');
 
-        var deferred = q.defer();
+        // var deferred = q.defer();
 
-        if (id) {
-            console.log('Client get products history');
-            db.query('CALL spClient_Product_History(' + id + ');')
-                .then(
-                    function (result){
-                        deferred.resolve(result);
-                    },
-                    function (err){
-                        deferred.reject(new Error(err));
-                    }
-                );
-        }
-        else
-        {
-            deferred.reject(new Error('No ID'));
-        }
+        // if (id) {
+        //     console.log('Client get products history');
+        //     db.query('CALL spClient_Product_History(' + id + ');')
+        //         .then(
+        //             function (result){
+        //                 deferred.resolve(result);
+        //             },
+        //             function (err){
+        //                 deferred.reject(new Error(err));
+        //             }
+        //         );
+        // }
+        // else
+        // {
+        //     deferred.reject(new Error('No ID'));
+        // }
 
-        return deferred.promise;
+        // return deferred.promise;
     };
 
     function services(id) {
-        console.log('Module - Service history - Get');
+        console.log('Module - Booking services - Get');
 
         var deferred = q.defer();
 
         if (id) {
-            console.log('Client get service history');
-            db.query('CALL spClient_Service_History(' + id + ');')
+            db.query('CALL spBooking_Services(' + id + ');')
                 .then(
                     function (result){
                         deferred.resolve(result);

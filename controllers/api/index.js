@@ -86,6 +86,22 @@ module.exports = function (router) {
             );
     });
 
+    router.get('/bookings/:id/services', function (req, res) {
+        console.log('Bookings services GET w/ ID. Parameters: ' + JSON.stringify(req.params))
+
+        models.booking.services(req.params.id)
+            .then(
+                function (result){
+                    if (result)
+                        res.send(result);
+                },
+                function (err){
+                    console.log(err);
+                    res.send(err);
+                }
+            );
+    });
+
     router.post('/bookings', function (req, res) {
         console.log('Bookings POST. Parameters: ' + JSON.stringify(req.body));
 
@@ -148,13 +164,8 @@ module.exports = function (router) {
             obj.iid = (req.body.iid ? req.body.iid : null);
 
             if (req.body.services) {
-                for (i = 0; i < req.body.services.length; i++) {
-                    t = {
-                        bid: obj.bid,
-                        hlsid: req.body.services[i].hlsid
-                    };
-
-                    obj.services.push(t);
+                for (var i = 0; i < req.body.services.length; i++) {
+                    obj.services.push({hlsid: req.body.services[i].hlsid, bid: req.body.services[i].bid});
                 };
             };
 

@@ -754,469 +754,559 @@ myModule.controller('BookingController', function($scope, $http, $window,$compil
 
     // core controller tables
 
-    $scope.getbooking = function(id) {
-        $scope.loading = true;
-        $http.get('/api/bookings/' + id).then(function(response) {
-            $scope.loading = false;
-            console.log(response.data);
-            if (response.data.rows) {
-                $scope.booking.bid = response.data.rows[0].Booking_ID;
-                $scope.booking.datetime = response.data.rows[0].DateTime;
-                $scope.booking.duration = response.data.rows[0].Duration;
-                $scope.booking.completed = response.data.rows[0].Completed;
-                $scope.booking.active = response.data.rows[0].Active;
-                $scope.booking.reference = response.data.rows[0].ReferenceNumber;
-                $scope.booking.cid = response.data.rows[0].Client_ID;
-                $scope.booking.eid = response.data.rows[0].Employee_ID;
-                $scope.booking.iid = response.data.rows[0].Invoice_ID;
-            }
-        }, function(err) {
-            $scope.loading = false;
-            $scope.error = err.data;
-        });
-    };
+        $scope.getbooking = function(id) {
+            $scope.loading = true;
+            $http.get('/api/bookings/' + id).then(function(response) {
+                $scope.loading = false;
+                console.log(response.data);
+                if (response.data.rows) {
+                    $scope.booking.bid = response.data.rows[0].Booking_ID;
+                    $scope.booking.datetime = response.data.rows[0].DateTime;
+                    $scope.booking.date = moment($scope.booking.datetime).format('dddd, MMMM Do YYYY');
+                    $scope.booking.time = moment($scope.booking.datetime).format('HH:mm');
 
-    $scope.getbookings = function(id) {
-        $scope.loading = true;
-        $scope.eventSources = [];
-        $scope.bookings = [];
+                    $scope.booking.duration = response.data.rows[0].Duration;
+                    $scope.booking.completed = response.data.rows[0].Completed;
+                    $scope.booking.active = response.data.rows[0].Active;
+                    $scope.booking.reference = response.data.rows[0].ReferenceNumber;
+                    $scope.booking.cid = response.data.rows[0].Client_ID;
+                    $scope.booking.eid = response.data.rows[0].Employee_ID;
+                    $scope.booking.efullname = 'test';
+                    $scope.booking.iid = response.data.rows[0].Invoice_ID;
 
-        var path = (id ? '/api/employees/' + id + '/bookings': '/api/bookings');
-
-        $http.get(path).then(function(response) {
-            $scope.loading = false;
-            console.log(response.data);
-            if (response.data.rows) {
-                $scope.bookings = response.data.rows;
-                $scope.colorize();
-            }
-        }, function(err) {
-            $scope.loading = false;
-            $scope.error = err.data;
-        });
-    };
-
-    // $scope.
-
-// lookup tables
-
-    $scope.getclients = function() {
-        $scope.loading = true;
-        $http.get('/api/clients').then(function(response) {
-            $scope.loading = false;
-            console.log(response.data);
-            if (response.data.rows) {
-                $scope.clients = response.data.rows;
-                for (index = 0; index < $scope.clients.length; ++index) {
-                    $scope.clients[index].fullname = $scope.clients[index].Title + ". " + $scope.clients[index].Name + " " + $scope.clients[index].Surname;
-                };
-
-            }
-        }, function(err) {
-            $scope.loading = false;
-            $scope.error = err.data;
-        });
-    };
-
-    $scope.getemployees = function() {
-        $scope.loading = true;
-        $http.get('/api/employees').then(function(response) {
-            $scope.loading = false;
-            console.log(response.data);
-            if (response.data.rows) {
-                $scope.employees = response.data.rows;
-                for (index = 0; index < $scope.employees.length; ++index) {
-                    $scope.employees[index].fullname = $scope.employees[index].Name + " " + $scope.employees[index].Surname;
-                };
-
-            }
-        }, function(err) {
-            $scope.loading = false;
-            $scope.error = err.data;
-        });
-    };
-
-    $scope.getservices = function() {
-        $scope.loading = true;
-        $http.get('/api/services').then(function(response) {
-            $scope.loading = false;
-            console.log(response.data);
-            if (response.data.rows) {
-                $scope.services = response.data.rows;
-            };
-        }, function(err) {
-            $scope.loading = false;
-            $scope.error = err.data;
-        });
-    };
-
-    $scope.gethairlengths = function() {
-        $scope.loading = true;
-        $http.get('/api/lookups/hairlength').then(function(response) {
-            $scope.loading = false;
-            console.log(response.data);
-            if (response.data.rows) {
-                $scope.hairlengths = response.data.rows;
-            };
-        }, function(err) {
-            $scope.loading = false;
-            $scope.error = err.data;
-        });
-    };
-
-    $scope.gethairlengthservices = function() {
-        $scope.loading = true;
-        $http.get('/api/services/hairlengthservices').then(function(response) {
-            $scope.loading = false;
-            console.log(response.data);
-            if (response.data.rows) {
-                $scope.hairlengthservices = response.data.rows;
-            };
-        }, function(err) {
-            $scope.loading = false;
-            $scope.error = err.data;
-        });
-    };
-
-// helper functions
-
-    $scope.addminutes = function(start,minutes) {
-        var d = new Date(start);
-        d.setMinutes(d.getMinutes() + minutes);
-        return d.toISOString();
-    };
-
-    $scope.colorize = function() {
-
-        for (index = 0; index < $scope.bookings.length; ++index) {
-            console.log($scope.bookings[index]);
-            $scope.bookings[index].events = [];
-
-            var color = $scope.getColor($scope.bookings[index].DateTime, $scope.bookings[index].Invoice_id);
-
-            $scope.bookings[index].events.push({
-                id: $scope.bookings[index].Booking_id,
-                title: $scope.bookings[index].clientFName,
-                start: $scope.bookings[index].DateTime,
-                end: $scope.addminutes($scope.bookings[index].DateTime, $scope.bookings[index].Duration),
-                allDay: false,
-                backgroundColor: color,
-                color: "#AAA",
-                textColor: "#000"
-              });
-            $scope.eventSources.push($scope.bookings[index])
-        };
-    };
-
-    $scope.generateReference = function() {
-        $scope.booking.reference = $scope.booking.cid + moment($scope.booking.datetime).format('MMDD');
-    };
-
-    $scope.addService = function(){
-        var service = {};
-
-        $scope.booking.services.push(service);
-    };
-
-    $scope.updateService = function(index){
-        if (($scope.booking.services[index].hlid) && ($scope.booking.services[index].sid)) {
-            for (i = 0; i < $scope.hairlengthservices.length; ++i) {
-                if (($scope.hairlengthservices[i].Service_id == $scope.booking.services[index].sid) &&
-                    ($scope.hairlengthservices[i].HairLength_id == $scope.booking.services[index].hlid)) {
-
-                    $scope.booking.services[index].hlsid = $scope.hairlengthservices[i].HairLengthService_id;
-                    $scope.booking.services[index].duration = $scope.hairlengthservices[i].Duration;
-                };
-            };
-        };
-
-        $scope.booking.duration = 0;
-        for (i = 0; i < $scope.booking.services.length; ++i) {
-            if ($scope.booking.services[i].duration){
-                $scope.booking.duration = $scope.booking.duration + $scope.booking.services[i].duration;
-            };
-        }
-    };
-
-    $scope.removeService = function(index){
-        $scope.booking.services.splice(index, 1);
-    };
-
-// functionality
-
-    $scope.searchBooking = function() {
-        $scope.loading = true;
-        var criteria = '?search=' + $scope.searchCriteria.booking;
-
-        $http.get('/api/bookings' + criteria).then(function(response) {
-            $scope.loading = false;
-            console.log(response.data);
-            if (response.data.rows) {
-                $scope.searchResult = response.data.rows;
-            }
-        }, function(err) {
-            $scope.loading = false;
-            $scope.error = err.data;
-        });
-    };
-
-
-    $scope.changeCalendar = function() {
-
-        $scope.getbookings($scope.booking.eid);
-        $scope.renderCalender('myCalendar');
-    };
-
-    $scope.postBooking = function() {
-        if($("#bookingAdd").valid()){
-            booking_add('save', function(res) {
-                console.log(res);
-                switch (res){
-                    case 'yes':
-                        $http.post('/api/bookings', $scope.booking)
-                            .then(function(response) {
-                                if (response.data.err) {
-                                    error_Ok('Booking add error', 'An error occured while saving the new booking details. Please contact suport with the following details: ' + JSON.stringify(response.data.err), function() {return {}});
-                                    $scope.error = response.data.err;
-                                }
-                                else {
-                                    success_Ok('Booking successfully added', 'The booking reference number is: ' + $scope.booking.reference, function(res) {
-                                        $window.location.href = $scope.home;
-                                    });
-                                }
+                    $http.get('/api/bookings/' + id + '/services')
+                        .then(
+                            function(response) {
+                                $scope.booking.services = response.data.rows;
                             });
-                        break;
-                    case 'no':
-                        break;
-                    case 'cancel':
-                        $window.location.href = $scope.home;
-                        break;
-                    default:
-                        error_Ok('Response error', 'Sorry, we missed that. Please only use a provided button.');
-                        break;
-                }
-            })
-        }
-        else {
-            error_Ok('Create new booking failed', 'Some fields have not passed validation, please correct before submitting.');
-        }
-    };
+                };
+            }, function(err) {
+                $scope.loading = false;
+                $scope.error = err.data;
+            });
+        };
 
-    $scope.putBooking = function() {
-        $http.put('/api/bookings/' + $scope.booking.Booking_id, $scope.booking)
-            .then(function(response) {
-                if (response.data.err) {
-                    error_Ok('Client add error', 'An error occured while saving the new client details. Please contact suport with the following details: ' + JSON.stringify(response.data.err), function() {return {}});
-                    $scope.error = response.data.err;
+        $scope.getbookings = function(id) {
+            $scope.loading = true;
+            $scope.eventSources = [];
+            $scope.bookings = [];
+
+            var path = (id ? '/api/employees/' + id + '/bookings': '/api/bookings');
+
+            $http.get(path).then(function(response) {
+                console.log(response.data);
+                if (response.data.rows) {
+                    $scope.bookings = response.data.rows;
+                    $scope.colorize();
+                    $scope.getbookinggservices();
+                }
+            }, function(err) {
+                $scope.loading = false;
+                $scope.error = err.data;
+            });
+        };
+
+        $scope.getbookinggservices = function() {
+            var temp = [];
+
+            for (var i = 0; i < $scope.bookings.length; i++)
+            {
+                temp.push({bid: $scope.bookings[i].Booking_id, index: i})
+
+                $http.get('/api/bookings/' + $scope.bookings[i].Booking_id + '/services')
+                    .then(
+                        function(response) {
+                            for (var j = 0; j < temp.length; j++) {
+                                if (response.data.rows.length > 0) {
+                                    if (response.data.rows[0].Booking_id == temp[j].bid) {
+                                        console.log(temp[j].index);
+                                        $scope.bookings[temp[j].index].services = response.data.rows;
+                                    };
+                                };
+                            };
+                        });
+            }
+            $scope.loading = false;
+
+        };
+
+    // lookup tables
+
+        $scope.getclients = function() {
+            $scope.loading = true;
+            $http.get('/api/clients').then(function(response) {
+                $scope.loading = false;
+                console.log(response.data);
+                if (response.data.rows) {
+                    $scope.clients = response.data.rows;
+                    for (index = 0; index < $scope.clients.length; ++index) {
+                        $scope.clients[index].fullname = $scope.clients[index].Title + ". " + $scope.clients[index].Name + " " + $scope.clients[index].Surname;
+                    };
+
+                }
+            }, function(err) {
+                $scope.loading = false;
+                $scope.error = err.data;
+            });
+        };
+
+        $scope.getemployees = function() {
+            $scope.loading = true;
+            $http.get('/api/employees').then(function(response) {
+                $scope.loading = false;
+                console.log(response.data);
+                if (response.data.rows) {
+                    $scope.employees = response.data.rows;
+                    for (index = 0; index < $scope.employees.length; ++index) {
+                        $scope.employees[index].fullname = $scope.employees[index].Name + " " + $scope.employees[index].Surname;
+                    };
+
+                }
+            }, function(err) {
+                $scope.loading = false;
+                $scope.error = err.data;
+            });
+        };
+
+        $scope.getservices = function() {
+            $scope.loading = true;
+            $http.get('/api/services').then(function(response) {
+                $scope.loading = false;
+                console.log(response.data);
+                if (response.data.rows) {
+                    $scope.services = response.data.rows;
+                };
+            }, function(err) {
+                $scope.loading = false;
+                $scope.error = err.data;
+            });
+        };
+
+        $scope.gethairlengths = function() {
+            $scope.loading = true;
+            $http.get('/api/lookups/hairlength').then(function(response) {
+                $scope.loading = false;
+                console.log(response.data);
+                if (response.data.rows) {
+                    $scope.hairlengths = response.data.rows;
+                };
+            }, function(err) {
+                $scope.loading = false;
+                $scope.error = err.data;
+            });
+        };
+
+        $scope.gethairlengthservices = function() {
+            $scope.loading = true;
+            $http.get('/api/services/hairlengthservices').then(function(response) {
+                $scope.loading = false;
+                console.log(response.data);
+                if (response.data.rows) {
+                    $scope.hairlengthservices = response.data.rows;
+                };
+            }, function(err) {
+                $scope.loading = false;
+                $scope.error = err.data;
+            });
+        };
+
+    // helper functions
+
+        $scope.addminutes = function(start,minutes) {
+            var d = new Date(start);
+            d.setMinutes(d.getMinutes() + minutes);
+            return d.toISOString();
+        };
+
+        $scope.colorize = function() {
+
+            for (index = 0; index < $scope.bookings.length; ++index) {
+                console.log($scope.bookings[index]);
+                $scope.bookings[index].events = [];
+
+                var color = $scope.getColor($scope.bookings[index].DateTime, $scope.bookings[index].Invoice_id);
+
+                $scope.bookings[index].events.push({
+                    id: $scope.bookings[index].Booking_id,
+                    title: $scope.bookings[index].clientFName,
+                    start: $scope.bookings[index].DateTime,
+                    end: $scope.addminutes($scope.bookings[index].DateTime, $scope.bookings[index].Duration),
+                    allDay: false,
+                    backgroundColor: color,
+                    color: "#AAA",
+                    textColor: "#000"
+                  });
+                $scope.eventSources.push($scope.bookings[index])
+            };
+        };
+
+        $scope.generateReference = function() {
+            $scope.booking.reference = $scope.booking.cid + moment($scope.booking.datetime).format('MMDD');
+        };
+
+        $scope.addService = function(){
+            var service = {};
+
+            $scope.booking.services.push(service);
+        };
+
+        $scope.updateService = function(index){
+            if (($scope.booking.services[index].hlid) && ($scope.booking.services[index].sid)) {
+                for (i = 0; i < $scope.hairlengthservices.length; ++i) {
+                    if (($scope.hairlengthservices[i].Service_id == $scope.booking.services[index].sid) &&
+                        ($scope.hairlengthservices[i].HairLength_id == $scope.booking.services[index].hlid)) {
+
+                        $scope.booking.services[index].hlsid = $scope.hairlengthservices[i].HairLengthService_id;
+                        $scope.booking.services[index].duration = $scope.hairlengthservices[i].Duration;
+                    };
+                };
+            };
+
+            $scope.booking.duration = 0;
+            for (i = 0; i < $scope.booking.services.length; ++i) {
+                if ($scope.booking.services[i].duration){
+                    $scope.booking.duration = $scope.booking.duration + $scope.booking.services[i].duration;
+                };
+            }
+        };
+
+        $scope.removeService = function(index){
+            $scope.booking.services.splice(index, 1);
+        };
+
+        $scope.timeFormatting = function(value){
+            return (value-(value%60))/60 + ':' + (value%60)
+        }
+
+    // functionality
+
+        $scope.searchBooking = function() {
+            $scope.loading = true;
+            var criteria = '?search=' + $scope.searchCriteria.booking;
+
+            $http.get('/api/bookings' + criteria).then(function(response) {
+                $scope.loading = false;
+                console.log(response.data);
+                if (response.data.rows) {
+                    $scope.searchResult = response.data.rows;
+                }
+            }, function(err) {
+                $scope.loading = false;
+                $scope.error = err.data;
+            });
+        };
+
+        $scope.changeCalendar = function() {
+
+            $scope.getbookings($scope.booking.eid);
+            $scope.renderCalender('myCalendar');
+        };
+
+        $scope.postBooking = function() {
+            if($("#bookingAdd").valid()){
+                if($scope.booking.services.length > 0){
+                    booking_add('save', function(res) {
+                        console.log(res);
+                        switch (res){
+                            case 'yes':
+                                $http.post('/api/bookings', $scope.booking)
+                                    .then(function(response) {
+                                        if (response.data.err) {
+                                            error_Ok('Booking add error', 'An error occured while saving the new booking details. Please contact suport with the following details: ' + JSON.stringify(response.data.err), function() {return {}});
+                                            $scope.error = response.data.err;
+                                        }
+                                        else {
+                                            success_Ok('Booking successfully added', 'The booking reference number is: ' + $scope.booking.reference, function(res) {
+                                                $window.location.href = $scope.home;
+                                            });
+                                        }
+                                    });
+                                break;
+                            case 'no':
+                                break;
+                            case 'cancel':
+                                $window.location.href = $scope.home;
+                                break;
+                            default:
+                                error_Ok('Response error', 'Sorry, we missed that. Please only use a provided button.');
+                                break;
+                        }
+                    })
                 }
                 else {
-                    success_Ok('Client successfully added', 'The details for ' + $scope.client.contactFName + ' ' + $scope.client.contactLName + ' has been saved successfully.', function(res) {
-                        $scope.getbookings();
-                    });
+                    error_Ok('You have not selected any services.', 'Please select at least one service before saving the booking.');
                 }
-            });
-    };
 
-    $scope.getColor = function(indate, invoiceid) {
-        var color = {};
-        color.bg = "#FFFCB0";
-
-        var date = {};
-
-        date.d1 = new Date();
-        date.d2 = new Date(indate);
-
-        console.log(date);
-
-        // booking missed
-        if (date.d1 > date.d2){
-            color.bg = "#FFB0B0";
+            }
+            else {
+                error_Ok('Create new booking failed', 'Some fields have not passed validation, please correct before submitting.');
+            }
         };
 
-        // booking completed
-        if (invoiceid != null){
-            color.bg = "#B0FFB1";
-        }
+        $scope.putBooking = function() {
+            if($("#bookingUpdate").valid()){
+                if($scope.booking.services.length > 0){
+                    booking_update('update', function(res) {
+                        console.log(res);
+                        switch (res){
+                            case 'yes':
+                                $http.put('/api/bookings', $scope.booking)
+                                    .then(function(response) {
+                                        if (response.data.err) {
+                                            error_Ok('Booking update error', 'An error occured while updating the booking details. Please contact suport with the following details: ' + JSON.stringify(response.data.err), function() {return {}});
+                                            $scope.error = response.data.err;
+                                        }
+                                        else {
+                                            success_Ok('Booking successfully updated', 'The booking reference number is: ' + $scope.booking.reference, function(res) {
+                                                $window.location.href = $scope.home;
+                                            });
+                                        }
+                                    });
+                                break;
+                            case 'no':
+                                break;
+                            case 'cancel':
+                                $window.location.href = $scope.home;
+                                break;
+                            default:
+                                error_Ok('Response error', 'Sorry, we missed that. Please only use a provided button.');
+                                break;
+                        }
+                    })
+                }
+                else {
+                    error_Ok('You have not selected any services.', 'Please select at least one service before saving the booking.');
+                }
 
-        return color.bg;
-    };
-
-// initiating
-
-    $scope.initManage = function() {
-        $scope.booking.eid = 1;
-        $scope.getbookings(1);
-        $scope.getemployees();
-    };
-
-    $scope.initAdd = function(date,fullname,eid) {
-        $scope.getclients();
-        $scope.getemployees();
-        $scope.getservices();
-        $scope.gethairlengths();
-        $scope.gethairlengthservices();
-
-        $scope.booking.datetime = moment(date);
-        $scope.booking.date = moment(date).format('dddd, MMMM Do YYYY');
-        $scope.booking.time = moment(date).format('HH:mm');
-        $scope.booking.eid = eid;
-        $scope.booking.efullname = fullname;
-        $scope.booking.services = [];
-        console.log('initiated add');
-    };
-
-// calendar
-
-    $scope.calendar.changedate = function() {
-
-    };
-
-    $scope.calendar.dayClick = function(date, jsEvent, view) {
-        // $scope.events.new.date = date;
-        // $scope.events.new.view = view.name;
-
-        if (view.name == 'month') {
-            console.log(uiCalendarConfig.calendars);
-            // $scope.uiConfig.fullCalendar('changeView', 'agendaWeek')
-            $scope.changeDate(date,'myCalendar')
-            $scope.changeView('agendaWeek', 'myCalendar');
-        }
-        else {
-            if (moment(date) > moment()) {
-                for (index = 0; index < $scope.employees.length; ++index) {
-                    var temp = "";
-                    if ($scope.booking.eid == $scope.employees[index].Employee_ID) {
-                        temp = $scope.employees[index].fullname;
-                    }
-                    $scope.employees[index].fullname = $scope.employees[index].Name + " " + $scope.employees[index].Surname;
-                };
-                $window.location.href = $scope.home + 'add?datetime=' + moment(date) +
-                    '&stylist=' + temp + '&eid=' + $scope.booking.eid;
             }
-            else
-            {
-                if ($scope.badclicks > 3){
-                    alert('Are you trying to add a booking? You cannot add a booking to a past date.');
+            else {
+                error_Ok('Updating booking failed', 'Some fields have not passed validation, please correct before submitting.');
+            }
+        }
+
+        $scope.putBookingMovement = function() {
+            $http.put('/api/bookings/' + $scope.booking.Booking_id, $scope.booking)
+                .then(function(response) {
+                    if (response.data.err) {
+                        error_Ok('Booking update error', 'An error occured while saving the booking details. Please contact suport with the following details: ' + JSON.stringify(response.data.err), function() {return {}});
+                        $scope.error = response.data.err;
+                    };
+                });
+        };
+
+        $scope.getColor = function(indate, invoiceid) {
+            var color = {};
+            color.bg = "#FFFCB0";
+
+            var date = {};
+
+            date.d1 = new Date();
+            date.d2 = new Date(indate);
+
+            console.log(date);
+
+            // booking missed
+            if (date.d1 > date.d2){
+                color.bg = "#FFB0B0";
+            };
+
+            // booking completed
+            if (invoiceid != null){
+                color.bg = "#B0FFB1";
+            }
+
+            return color.bg;
+        };
+
+    // initiating
+
+        $scope.initManage = function() {
+            $scope.booking.eid = 1;
+            $scope.getbookings(1);
+            $scope.getemployees();
+        };
+
+        $scope.initAdd = function(date,fullname,eid) {
+            $scope.getclients();
+            $scope.getemployees();
+            $scope.getservices();
+            $scope.gethairlengths();
+            $scope.gethairlengthservices();
+
+            $scope.booking.datetime = moment(date);
+            $scope.booking.date = moment(date).format('dddd, MMMM Do YYYY');
+            $scope.booking.time = moment(date).format('HH:mm');
+            $scope.booking.eid = eid;
+            $scope.booking.efullname = fullname;
+            $scope.booking.services = [];
+            console.log('initiated add');
+        };
+
+        $scope.initUpdate = function(bid) {
+            $scope.getclients();
+            $scope.getemployees();
+            $scope.getservices();
+            $scope.gethairlengths();
+            $scope.gethairlengthservices();
+            $scope.getbooking(bid);
+
+            console.log('initiated update');
+        };
+
+    // calendar
+
+        $scope.calendar.changedate = function() {
+
+        };
+
+        $scope.calendar.dayClick = function(date, jsEvent, view) {
+            // $scope.events.new.date = date;
+            // $scope.events.new.view = view.name;
+
+            if (view.name == 'month') {
+                console.log(uiCalendarConfig.calendars);
+                // $scope.uiConfig.fullCalendar('changeView', 'agendaWeek')
+                $scope.changeDate(date,'myCalendar')
+                $scope.changeView('agendaDay', 'myCalendar');
+            }
+            else {
+                if (moment(date) > moment()) {
+                    for (index = 0; index < $scope.employees.length; ++index) {
+                        var temp = "";
+                        if ($scope.booking.eid == $scope.employees[index].Employee_ID) {
+                            temp = $scope.employees[index].fullname;
+                        }
+                        $scope.employees[index].fullname = $scope.employees[index].Name + " " + $scope.employees[index].Surname;
+                    };
+                    $window.location.href = $scope.home + 'add?datetime=' + moment(date) +
+                        '&stylist=' + temp + '&eid=' + $scope.booking.eid;
                 }
                 else
                 {
-                    $scope.badclicks = $scope.badclicks + 1;
+                    if ($scope.badclicks > 1){
+                        alert('Are you trying to add a booking? You cannot add a booking to a past date.');
+                    }
+                    else
+                    {
+                        $scope.badclicks = $scope.badclicks + 1;
+                    }
                 }
-            }
-        };
-    };
-
-    /* alert on eventClick */
-    $scope.calendar.OnEventClick = function( event, jsEvent, view){
-        $scope.alertMessage = ('booking ' + event.id + ' was clicked ');
-    };
-
-    /* alert on Drop */
-    $scope.calendar.OnDrop = function(event, delta, revertFunc, jsEvent, ui, view){
-       $scope.alertMessage = ('booking ' + event.id + ' was moved by ' + delta/1000/60 + ' minutes');
-       for (index = 0; index < $scope.bookings.length; ++index) {
-            if ($scope.bookings[index].Booking_id == event.id){
-                $scope.bookings[index].DateTime = $scope.addminutes($scope.bookings[index].DateTime, delta/1000/60);
-                $scope.bookings[index].events[0].start = $scope.bookings[index].DateTime;
-                $scope.bookings[index].events[0].end = $scope.addminutes($scope.bookings[index].DateTime, $scope.bookings[index].Duration);
-
-                $scope.booking = {};
-                $scope.booking.bid = $scope.bookings[index].Booking_id;
-                $scope.booking.datetime = $scope.bookings[index].DateTime;
-                $scope.booking.duration = $scope.bookings[index].Duration;
-                $scope.booking.completed = $scope.bookings[index].Completed;
-                $scope.booking.active = $scope.bookings[index].Active;
-                $scope.booking.reference = $scope.bookings[index].ReferenceNumber;
-                $scope.booking.eid = $scope.bookings[index].Employee_id;
-                $scope.booking.iid = $scope.bookings[index].Invoice_id;
-
-                $scope.putBooking();
-
-                $scope.getbookings();
-            }
+            };
         };
 
-    };
-
-    /* alert on Resize */
-    $scope.calendar.OnResize = function(event, delta, revertFunc, jsEvent, ui, view ){
-       $scope.alertMessage = ('booking ' + event.id + ' duration was changed by ' + delta/1000/60 + ' minutes');
-       for (index = 0; index < $scope.bookings.length; ++index) {
-            if ($scope.bookings[index].Booking_id == event.id){
-                $scope.bookings[index].Duration = $scope.bookings[index].Duration + (delta/1000/60);
-                $scope.bookings[index].events[0].start = $scope.bookings[index].DateTime;
-                $scope.bookings[index].events[0].end = $scope.addminutes($scope.bookings[index].DateTime, $scope.bookings[index].Duration);
-
-                $scope.booking = {};
-                $scope.booking.bid = $scope.bookings[index].Booking_id;
-                $scope.booking.datetime = $scope.bookings[index].DateTime;
-                $scope.booking.duration = $scope.bookings[index].Duration;
-                $scope.booking.completed = $scope.bookings[index].Completed;
-                $scope.booking.active = $scope.bookings[index].Active;
-                $scope.booking.reference = $scope.bookings[index].ReferenceNumber;
-                $scope.booking.eid = $scope.bookings[index].Employee_id;
-                $scope.booking.iid = $scope.bookings[index].Invoice_id;
-
-                $scope.putBooking();
-
-                $scope.getbookings();
-            }
+        /* alert on eventClick */
+        $scope.calendar.OnEventClick = function( event, jsEvent, view){
+            $window.location.href = '/booking/update/' + event.id;
         };
-    };
 
-    /* add custom event*/
-    $scope.addEvent = function() {
-      $scope.events.push({
-        title: 'Open Sesame',
-        start: new Date(y, m, 28),
-        end: new Date(y, m, 29),
-        className: ['openSesame']
-      });
-    };
-    /* remove event */
-    $scope.remove = function(index) {
-      $scope.events.splice(index,1);
-    };
-    /* Change View */
-    $scope.changeView = function(view,calendar) {
-      uiCalendarConfig.calendars[calendar].fullCalendar('changeView',view);
-    };
-    /* Change month/week/day shown */
-    $scope.changeDate = function(date,calendar) {
-      uiCalendarConfig.calendars[calendar].fullCalendar('gotoDate',date);
-    };
-    /* Change View */
-    $scope.renderCalender = function(calendar) {
-      if(uiCalendarConfig.calendars[calendar]){
-        uiCalendarConfig.calendars[calendar].fullCalendar('render');
-      }
-    };
+        /* alert on Drop */
+        $scope.calendar.OnDrop = function(event, delta, revertFunc, jsEvent, ui, view){
+           $scope.alertMessage = ('booking ' + event.id + ' was moved by ' + delta/1000/60 + ' minutes');
+           for (index = 0; index < $scope.bookings.length; ++index) {
+                if ($scope.bookings[index].Booking_id == event.id){
+                    $scope.bookings[index].DateTime = $scope.addminutes($scope.bookings[index].DateTime, delta/1000/60);
+                    $scope.bookings[index].events[0].start = $scope.bookings[index].DateTime;
+                    $scope.bookings[index].events[0].end = $scope.addminutes($scope.bookings[index].DateTime, $scope.bookings[index].Duration);
 
-    /* config object */
-    $scope.uiConfig = {
-      calendar: {
-        // defaultView: 'agendaDay',
-        minTime: '06:00:00',
-        maxTime: '19:00:00',
-        height: 640,
-        editable: true,
-        eventLimit: true, // allow "more" link when too many events
-        theme: true,
-        timezone: 'local',
-        header:{
-          left: 'title',
-          center: 'today',
-          right: 'month agendaWeek agendaDay prev next'
-        },
-        eventClick: $scope.calendar.OnEventClick,
-        eventDrop: $scope.calendar.OnDrop,
-        eventResize: $scope.calendar.OnResize,
-        eventRender: $scope.calendar.eventRender,
-        dayClick: $scope.calendar.dayClick
-    }
-    };
+                    $scope.booking = {};
+                    $scope.booking.bid = $scope.bookings[index].Booking_id;
+                    $scope.booking.datetime = $scope.bookings[index].DateTime;
+                    $scope.booking.duration = $scope.bookings[index].Duration;
+                    $scope.booking.completed = $scope.bookings[index].Completed;
+                    $scope.booking.active = $scope.bookings[index].Active;
+                    $scope.booking.reference = $scope.bookings[index].ReferenceNumber;
+                    $scope.booking.eid = $scope.bookings[index].Employee_id;
+                    $scope.booking.iid = $scope.bookings[index].Invoice_id;
+                    $scope.booking.services = ($scope.bookings[index].Services ? $scope.bookings[index].Services : []);
 
-    /* event sources array*/
-    $scope.eventSources = [];
+                    $scope.putBookingMovement();
+
+                    $scope.getbookings();
+                }
+            };
+
+        };
+
+        /* alert on Resize */
+        $scope.calendar.OnResize = function(event, delta, revertFunc, jsEvent, ui, view ){
+           $scope.alertMessage = ('booking ' + event.id + ' duration was changed by ' + delta/1000/60 + ' minutes');
+           for (index = 0; index < $scope.bookings.length; ++index) {
+                if ($scope.bookings[index].Booking_id == event.id){
+                    $scope.bookings[index].Duration = $scope.bookings[index].Duration + (delta/1000/60);
+                    $scope.bookings[index].events[0].start = $scope.bookings[index].DateTime;
+                    $scope.bookings[index].events[0].end = $scope.addminutes($scope.bookings[index].DateTime, $scope.bookings[index].Duration);
+
+                    $scope.booking = {};
+                    $scope.booking.bid = $scope.bookings[index].Booking_id;
+                    $scope.booking.datetime = $scope.bookings[index].DateTime;
+                    $scope.booking.duration = $scope.bookings[index].Duration;
+                    $scope.booking.completed = $scope.bookings[index].Completed;
+                    $scope.booking.active = $scope.bookings[index].Active;
+                    $scope.booking.reference = $scope.bookings[index].ReferenceNumber;
+                    $scope.booking.eid = $scope.bookings[index].Employee_id;
+                    $scope.booking.iid = $scope.bookings[index].Invoice_id;
+                    $scope.booking.services = ($scope.bookings[index].Services ? $scope.bookings[index].Services : []);
+
+                    $scope.putBookingMovement();
+
+                    $scope.getbookings();
+                }
+            };
+        };
+
+        /* add custom event*/
+        $scope.addEvent = function() {
+          $scope.events.push({
+            title: 'Open Sesame',
+            start: new Date(y, m, 28),
+            end: new Date(y, m, 29),
+            className: ['openSesame']
+          });
+        };
+        /* remove event */
+        $scope.remove = function(index) {
+          $scope.events.splice(index,1);
+        };
+        /* Change View */
+        $scope.changeView = function(view,calendar) {
+          uiCalendarConfig.calendars[calendar].fullCalendar('changeView',view);
+        };
+        /* Change month/week/day shown */
+        $scope.changeDate = function(date,calendar) {
+          uiCalendarConfig.calendars[calendar].fullCalendar('gotoDate',date);
+        };
+        /* Change View */
+        $scope.renderCalender = function(calendar) {
+          if(uiCalendarConfig.calendars[calendar]){
+            uiCalendarConfig.calendars[calendar].fullCalendar('render');
+          }
+        };
+
+        /* config object */
+        $scope.uiConfig = {
+          calendar: {
+            // defaultView: 'agendaDay',
+            minTime: '06:00:00',
+            maxTime: '19:00:00',
+            height: 640,
+            editable: true,
+            eventLimit: true, // allow "more" link when too many events
+            theme: true,
+            timezone: 'local',
+            header:{
+              left: 'title',
+              center: 'today',
+              right: 'month agendaWeek agendaDay prev next'
+            },
+            eventClick: $scope.calendar.OnEventClick,
+            eventDrop: $scope.calendar.OnDrop,
+            eventResize: $scope.calendar.OnResize,
+            eventRender: $scope.calendar.eventRender,
+            dayClick: $scope.calendar.dayClick
+        }
+        };
+
+        /* event sources array*/
+        $scope.eventSources = [];
 
 });

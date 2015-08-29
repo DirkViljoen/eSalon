@@ -58,7 +58,9 @@ block content
                     +form-group('Additional details')
                 .groupbox
                     +ng-input-text('duration', 'Booking duration:', 'booking.duration', '15 minutes', false, false, '0', '50')
-                    +ng-input-text('reference', 'Booking reference:', 'booking.reference', 'cidmmdd', false, true, '0', '50')
+                    slider(floor="10" ceiling="300" step="5" precision="2" ng-model="booking.duration" translate="timeFormatting")
+                    +ng-input-text('reference', 'Booking reference:', 'booking.reference', 'please select a client', false, true, '0', '50')
+                    slider(floor="100" ceiling="1000" step="50" precision="2" ng-model="booking.cost")
 
         br
         .row

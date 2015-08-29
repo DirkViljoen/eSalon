@@ -702,6 +702,21 @@ USE eSalon;
     END //
     DELIMITER ;
     
+    DELIMITER //
+    CREATE PROCEDURE spBooking_Services
+    (
+        IN bid INT
+	)
+    BEGIN
+        SELECT
+            *
+        FROM 
+			`Booking_Service`
+        WHERE
+            `Booking_id` = bid;
+    END //
+    DELIMITER ;
+    
     -- booking services
     
 	DELIMITER //
