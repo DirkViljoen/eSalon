@@ -65,10 +65,10 @@ INSERT INTO `Stock` VALUES (1, "Maybelline", "Shampoo", 150.00 , 150, True, 100,
 INSERT INTO `Stock` VALUES (2, "Tresemme", "Conditioner", 275.00 , 150, True, 40, "6001233443", 2, 1);
 INSERT INTO `Stock` VALUES (3, "Wella", "Hair Dye", 100.00 , 100, False, 10, "6053422344", 3, 2);  
 
-INSERT INTO `Stock_History` VALUES (1,100,null,"2014-06-01",1);
+INSERT INTO `Stock_History` VALUES (1,100,"2014-01-01","2014-06-01",1);
 INSERT INTO `Stock_History` VALUES (2,150,"2014-06-01",null,1);
-INSERT INTO `Stock_History` VALUES (3,275,null,null,2);
-INSERT INTO `Stock_History` VALUES (4,100,null,null,3);
+INSERT INTO `Stock_History` VALUES (3,275,"2014-01-01",null,2);
+INSERT INTO `Stock_History` VALUES (4,100,"2014-01-01",null,3);
 
 INSERT INTO `Service` VALUES (1, "Hair Cut", "Normal hair cut for females", 160.00, True);
 INSERT INTO `Service` VALUES (2, "Hair Cut", "Normal hair cut for males", 120.00, True);
@@ -98,4 +98,6 @@ INSERT INTO `Booking` VALUES (1,"2015-07-22 08:00:00",30,true,1,"booking1",1,1,1
 INSERT INTO `Booking` VALUES (2,"2015-08-22 08:00:00",30,false,1,"booking2",1,1,null);
 INSERT INTO `Booking` VALUES (3,"2015-09-04 08:30:00",60,false,1,"booking3",2,1,null);
 
+
+INSERT INTO `Order` VALUES (1, "2015-01-01", "2012-01-01", 1);
 

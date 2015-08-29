@@ -341,7 +341,7 @@ USE eSalon;
                 `Title`,
                 `Name`,
                 `Surname`,
-                            `ContactNumber`,
+				`ContactNumber`,
                 `email`,
                 `DateOfBirth`,
                 `Reminders`,

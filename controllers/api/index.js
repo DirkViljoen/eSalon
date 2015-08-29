@@ -443,6 +443,214 @@ module.exports = function (router) {
             );
     });
 
+//orders
+    router.get('/order', function (req, res) {
+        console.log('order GET. Parameters: ' + JSON.stringify(req.query))
+
+        var sname = "";
+        var dateTo = "";
+        var dateFrom = "";
+
+        sname = (req.query.sname ? req.query.sname : "");
+        dateTo = (req.query.dateTo ? '"' + req.query.dateTo + '"' : "2030-01-01");
+        dateFrom = (req.query.dateFrom ? '"' + req.query.dateFrom + '"' : "1990-01-01");
+
+        models.orders.find(sname, dateTo, dateFrom)
+            .then(
+                function (result){
+                    if (result)
+                        res.send(result);
+                },
+                function (err){
+                    console.log(err);
+                    res.send(err);
+                }
+            );
+    });
+
+    router.get('/order/:id', function (req, res) {
+        console.log('order GET w/ ID. Parameters: ' + JSON.stringify(req.params))
+
+        models.orders.index(req.params.id)
+              .then(
+                  function (result){
+                      if (result)
+                          res.send(result);
+                  },
+                  function (err){
+                      console.log(err);
+                      res.send(err);
+                  }
+              );
+            });
+
+    router.post('/order', function (req, res) {
+       console.log('order POST. Parameters: ' + JSON.stringify(req.body));
+
+       if (JSON.stringify(req.body) != '{}') {
+           var obj = {};
+           //post
+           obj.dateTo = (req.body.dateTo ? '"' + req.body.dateTo + '"' : null);
+           obj.dateFrom = (req.body.dateFrom ? '"' + req.body.dateFrom + '"' : null);
+           obj.sname = (req.body.sname ? req.body.sname : null);
+
+            models.orders.create(obj)
+               .then(
+                   function (result){
+                       console.log(result);
+                       res.send(result);
+                   },
+                   function (err){
+                       // console.error(err);
+                       res.send({'err': err});
+                   }
+               );
+         }
+         else
+         {
+             var err = 'No req.body on order POST';
+             console.error(new Error(err));
+             res.send({'err': err});
+         }
+     });
+
+    router.put('/order', function (req, res) {
+      console.log('order PUT. Parameters: ' + JSON.stringify(req.body));
+
+      if (JSON.stringify(req.body) != '{}') {
+          var obj = {};
+          //post
+          obj.orderID = (req.body.orderID ? req.body.orderID : null);
+          obj.dateTo = (req.body.dateTo ? '"' + req.body.dateTo + '"' : null);
+          obj.dateFrom = (req.body.dateFrom ? '"' + req.body.dateFrom + '"' : null);
+          obj.sname = (req.body.sname ? req.body.sname : null);
+
+           models.orders.update(obj)
+              .then(
+                  function (result){
+                      console.log(result);
+                      res.send(result);
+                  },
+                  function (err){
+                      // console.error(err);
+                      res.send({'err': err});
+                  }
+              );
+        }
+        else
+        {
+            var err = 'No req.body on order PUT';
+            console.error(new Error(err));
+            res.send({'err': err});
+        }
+    });
+
+    router.delete('/order/:id', function (req, res) {
+            console.log('order DELETE. Parameters: ' + JSON.stringify(req.body));
+
+            if (JSON.stringify(req.params) != '{}') {
+                var obj = {};
+                //client
+                obj.orderID = req.params.id;
+
+                 models.orders.remove(obj)
+                    .then(
+                        function (result){
+                            console.log(result);
+                            res.send(result);
+                        },
+                        function (err){
+                            // console.error(err);
+                            res.send({'err': err});
+                        }
+                    );
+            }
+            else
+            {
+                var err = 'No req.params on order DELETE';
+                console.error(new Error(err));
+                res.send({'err': err});
+            }
+    });
+
+//order Line
+    router.get('/orderLine/:id', function (req, res) {
+        console.log('Order_Line GET w/ ID. Parameters: ' + JSON.stringify(req.params))
+
+        models.orderLine.index(req.params.id)
+              .then(
+                  function (result){
+                      if (result)
+                          res.send(result);
+                  },
+                  function (err){
+                      console.log(err);
+                      res.send(err);
+                  }
+              );
+            });
+
+    router.post('/orderLine', function (req, res) {
+       console.log('Order_Line POST. Parameters: ' + JSON.stringify(req.body));
+
+       if (JSON.stringify(req.body) != '{}') {
+           var obj = {};
+           //post
+           obj.quantity = (req.body.quantity ?  req.body.quantity : 0);
+           obj.stockID = (req.body.stockID ? req.body.stockID : null);
+           obj.orderID = (req.body.orderID ? req.body.orderID : null);
+
+            models.orders.addLine(obj)
+               .then(
+                   function (result){
+                       console.log(result);
+                       res.send(result);
+                   },
+                   function (err){
+                       // console.error(err);
+                       res.send({'err': err});
+                   }
+               );
+         }
+         else
+         {
+             var err = 'No req.body on orderLine POST';
+             console.error(new Error(err));
+             res.send({'err': err});
+         }
+     });
+
+    router.put('/orderLine', function (req, res) {
+      console.log('Order_Line PUT. Parameters: ' + JSON.stringify(req.body));
+
+      if (JSON.stringify(req.body) != '{}') {
+          var obj = {};
+          //post
+          obj.orderLineID = (req.body.orderLineID ? req.body.orderLineID : null);
+          obj.quantity = (req.body.quantity ?  req.body.quantity : 0);
+          obj.stockID = (req.body.stockID ? req.body.stockID  : null);
+          obj.orderID = (req.body.orderID ? req.body.orderID : null);
+
+           models.orderLine.update(obj)
+              .then(
+                  function (result){
+                      console.log(result);
+                      res.send(result);
+                  },
+                  function (err){
+                      // console.error(err);
+                      res.send({'err': err});
+                  }
+              );
+        }
+        else
+        {
+            var err = 'No req.body on orderLine PUT';
+            console.error(new Error(err));
+            res.send({'err': err});
+        }
+    });
+
 // Services
 
     router.get('/services', function (req, res) {
@@ -479,7 +687,7 @@ module.exports = function (router) {
             );
     });
 
-// Stock
+// stock
 
     router.get('/stock', function (req, res) {
         console.log('Stock GET. Parameters: ' + JSON.stringify(req.query))
@@ -504,6 +712,139 @@ module.exports = function (router) {
                 }
             );
     });
+
+    router.get('/stock/:id', function (req, res) {
+        console.log('Stock GET w/ ID. Parameters: ' + JSON.stringify(req.params))
+
+        models.stock.index(req.params.id)
+              .then(
+                  function (result){
+                      if (result)
+                          res.send(result);
+                  },
+                  function (err){
+                      console.log(err);
+                      res.send(err);
+                  }
+              );
+            });
+
+    router.post('/stock', function (req, res) {
+       console.log('Stock POST. Parameters: ' + JSON.stringify(req.body));
+
+       if (JSON.stringify(req.body) != '{}') {
+           var obj = {};
+           //post
+           obj.brandName = (req.body.brandName ? '"' + req.body.brandName + '"' : null);
+           obj.productName = (req.body.productName ? '"' + req.body.productName + '"' : null);
+           obj.price = (req.body.price ? req.body.price : null);
+           obj._size = (req.body._size ? req.body._size : null);
+           obj.active = (req.body.active ? req.body.active : 1);
+           obj.quantity = (req.body.quantity ? req.body.quantity : null);
+           obj.barcode = (req.body.barcode ?  '"' + req.body.barcode + '"' : null);
+           obj.supplierID = (req.body.supplierID ? req.body.supplierID : null);
+
+            models.stock.create(obj)
+               .then(
+                   function (result){
+                       console.log(result);
+                       res.send(result);
+                   },
+                   function (err){
+                       // console.error(err);
+                       res.send({'err': err});
+                   }
+               );
+         }
+         else
+         {
+             var err = 'No req.body on stock POST';
+             console.error(new Error(err));
+             res.send({'err': err});
+         }
+     });
+
+    router.put('/stock', function (req, res) {
+      console.log('Stock PUT. Parameters: ' + JSON.stringify(req.body));
+
+      if (JSON.stringify(req.body) != '{}') {
+          var obj = {};
+          //post
+          obj.stockID = (req.body.stockID ? req.body.stockID : null);
+          obj.brandName = (req.body.brandName ? '"' + req.body.brandName + '"' : null);
+          obj.productName = (req.body.productName ? '"' + req.body.productName + '"' : null);
+          obj.price = (req.body.price ? req.body.price : null);
+          obj._size = (req.body._size ? req.body._size : null);
+          obj.active = (req.body.active ? req.body.active : 1);
+          obj.quantity = (req.body.quantity ? req.body.quantity : null);
+          obj.barcode = (req.body.barcode ?  '"' + req.body.barcode + '"' : null);
+          obj.supplierID = (req.body.supplierID ? req.body.supplierID : null);
+
+           models.stock.update(obj)
+              .then(
+                  function (result){
+                      console.log(result);
+                      res.send(result);
+                  },
+                  function (err){
+                      // console.error(err);
+                      res.send({'err': err});
+                  }
+              );
+        }
+        else
+        {
+            var err = 'No req.body on stock PUT';
+            console.error(new Error(err));
+            res.send({'err': err});
+        }
+    });
+
+    router.delete('/stock/:id', function (req, res) {
+            console.log('Stock DELETE. Parameters: ' + JSON.stringify(req.body));
+
+            if (JSON.stringify(req.params) != '{}') {
+                var obj = {};
+                //client
+                obj.stockID = req.params.id;
+
+                 models.stock.remove(obj)
+                    .then(
+                        function (result){
+                            console.log(result);
+                            res.send(result);
+                        },
+                        function (err){
+                            // console.error(err);
+                            res.send({'err': err});
+                        }
+                    );
+            }
+            else
+            {
+                var err = 'No req.params on stock DELETE';
+                console.error(new Error(err));
+                res.send({'err': err});
+            }
+    });
+
+// sp_Insert_Stock_History
+
+    router.get('/stockHistory/:id', function (req, res) {
+        console.log('Stock_History GET w/ ID. Parameters: ' + JSON.stringify(req.params))
+
+        models.stock.index(req.params.id)
+              .then(
+                  function (result){
+                      if (result)
+                          res.send(result);
+                  },
+                  function (err){
+                      console.log(err);
+                      res.send(err);
+                  }
+              );
+            });
 
 // Lookups
     router.get('/lookups/paymentMethods', function (req, res) {
@@ -544,33 +885,6 @@ module.exports = function (router) {
                 }
             );
     });
-
-    router.get('/lookups/suburbs/:cityID', function (req, res) {
-        console.log('get suburbs based on cityID');
-        console.log('request body: ' + JSON.stringify(req.params));
-
-        models.lookup.suburbs(req.params.cityID)
-            .then(
-                function (result){
-                    console.log(result);
-                    res.send(result);
-                }
-            );
-    });
-
-    router.get('/lookups/notificationMethods', function (req, res) {
-        console.log('get notification methods');
-        console.log('request body: ' + JSON.stringify(req.params));
-
-        models.lookup.notificationMethods(req.params.cityID)
-            .then(
-                function (result){
-                    console.log(result);
-                    res.send(result);
-                }
-            );
-    });
-
 
     router.get('/lookups/hairlength', function (req, res) {
         console.log('get hairlengths');
