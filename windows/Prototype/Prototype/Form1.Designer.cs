@@ -31,14 +31,14 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.mainMenuToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ordersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.addOrderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.stockToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.viewMantainToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.addStockToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.webProgramToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.label1 = new System.Windows.Forms.Label();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.button1 = new System.Windows.Forms.Button();
-            this.stockToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.webProgramToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.viewMantainToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.addStockToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.addOrderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -71,7 +71,6 @@
             this.mainMenuToolStripMenuItem.Padding = new System.Windows.Forms.Padding(5, 10, 5, 7);
             this.mainMenuToolStripMenuItem.Size = new System.Drawing.Size(77, 39);
             this.mainMenuToolStripMenuItem.Text = "Orders";
-            this.mainMenuToolStripMenuItem.Click += new System.EventHandler(this.mainMenuToolStripMenuItem_Click);
             // 
             // ordersToolStripMenuItem
             // 
@@ -82,6 +81,54 @@
             this.ordersToolStripMenuItem.Size = new System.Drawing.Size(223, 50);
             this.ordersToolStripMenuItem.Text = "View / Maintain";
             this.ordersToolStripMenuItem.Click += new System.EventHandler(this.ordersToolStripMenuItem_Click);
+            // 
+            // addOrderToolStripMenuItem
+            // 
+            this.addOrderToolStripMenuItem.Name = "addOrderToolStripMenuItem";
+            this.addOrderToolStripMenuItem.Padding = new System.Windows.Forms.Padding(10, 15, 10, 15);
+            this.addOrderToolStripMenuItem.Size = new System.Drawing.Size(223, 50);
+            this.addOrderToolStripMenuItem.Text = "Add Order";
+            this.addOrderToolStripMenuItem.Click += new System.EventHandler(this.addOrderToolStripMenuItem_Click);
+            // 
+            // stockToolStripMenuItem1
+            // 
+            this.stockToolStripMenuItem1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(104)))), ((int)(((byte)(133)))));
+            this.stockToolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.viewMantainToolStripMenuItem,
+            this.addStockToolStripMenuItem});
+            this.stockToolStripMenuItem1.Font = new System.Drawing.Font("Lucida Fax", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.stockToolStripMenuItem1.Name = "stockToolStripMenuItem1";
+            this.stockToolStripMenuItem1.Padding = new System.Windows.Forms.Padding(25, 7, 25, 7);
+            this.stockToolStripMenuItem1.Size = new System.Drawing.Size(106, 44);
+            this.stockToolStripMenuItem1.Text = "Stock";
+            this.stockToolStripMenuItem1.Click += new System.EventHandler(this.stockToolStripMenuItem1_Click);
+            // 
+            // viewMantainToolStripMenuItem
+            // 
+            this.viewMantainToolStripMenuItem.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(152)))), ((int)(((byte)(179)))), ((int)(((byte)(174)))));
+            this.viewMantainToolStripMenuItem.Name = "viewMantainToolStripMenuItem";
+            this.viewMantainToolStripMenuItem.Padding = new System.Windows.Forms.Padding(10, 15, 10, 15);
+            this.viewMantainToolStripMenuItem.Size = new System.Drawing.Size(213, 50);
+            this.viewMantainToolStripMenuItem.Text = "View/ Mantain";
+            this.viewMantainToolStripMenuItem.Click += new System.EventHandler(this.viewMantainToolStripMenuItem_Click);
+            // 
+            // addStockToolStripMenuItem
+            // 
+            this.addStockToolStripMenuItem.Name = "addStockToolStripMenuItem";
+            this.addStockToolStripMenuItem.Padding = new System.Windows.Forms.Padding(10, 15, 10, 15);
+            this.addStockToolStripMenuItem.Size = new System.Drawing.Size(213, 50);
+            this.addStockToolStripMenuItem.Text = "Add Stock";
+            this.addStockToolStripMenuItem.Click += new System.EventHandler(this.addStockToolStripMenuItem_Click);
+            // 
+            // webProgramToolStripMenuItem
+            // 
+            this.webProgramToolStripMenuItem.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(104)))), ((int)(((byte)(133)))));
+            this.webProgramToolStripMenuItem.Font = new System.Drawing.Font("Lucida Fax", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.webProgramToolStripMenuItem.Name = "webProgramToolStripMenuItem";
+            this.webProgramToolStripMenuItem.Padding = new System.Windows.Forms.Padding(5, 7, 5, 7);
+            this.webProgramToolStripMenuItem.Size = new System.Drawing.Size(129, 44);
+            this.webProgramToolStripMenuItem.Text = "Web Program";
+            this.webProgramToolStripMenuItem.Click += new System.EventHandler(this.webProgramToolStripMenuItem_Click);
             // 
             // label1
             // 
@@ -113,53 +160,6 @@
             this.button1.Text = "button1";
             this.button1.UseVisualStyleBackColor = false;
             this.button1.Click += new System.EventHandler(this.button1_Click);
-            // 
-            // stockToolStripMenuItem1
-            // 
-            this.stockToolStripMenuItem1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(104)))), ((int)(((byte)(133)))));
-            this.stockToolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.viewMantainToolStripMenuItem,
-            this.addStockToolStripMenuItem});
-            this.stockToolStripMenuItem1.Font = new System.Drawing.Font("Lucida Fax", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.stockToolStripMenuItem1.Name = "stockToolStripMenuItem1";
-            this.stockToolStripMenuItem1.Padding = new System.Windows.Forms.Padding(25, 7, 25, 7);
-            this.stockToolStripMenuItem1.Size = new System.Drawing.Size(106, 41);
-            this.stockToolStripMenuItem1.Text = "Stock";
-            // 
-            // webProgramToolStripMenuItem
-            // 
-            this.webProgramToolStripMenuItem.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(104)))), ((int)(((byte)(133)))));
-            this.webProgramToolStripMenuItem.Font = new System.Drawing.Font("Lucida Fax", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.webProgramToolStripMenuItem.Name = "webProgramToolStripMenuItem";
-            this.webProgramToolStripMenuItem.Padding = new System.Windows.Forms.Padding(5, 7, 5, 7);
-            this.webProgramToolStripMenuItem.Size = new System.Drawing.Size(129, 41);
-            this.webProgramToolStripMenuItem.Text = "Web Program";
-            this.webProgramToolStripMenuItem.Click += new System.EventHandler(this.webProgramToolStripMenuItem_Click);
-            // 
-            // viewMantainToolStripMenuItem
-            // 
-            this.viewMantainToolStripMenuItem.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(152)))), ((int)(((byte)(179)))), ((int)(((byte)(174)))));
-            this.viewMantainToolStripMenuItem.Name = "viewMantainToolStripMenuItem";
-            this.viewMantainToolStripMenuItem.Padding = new System.Windows.Forms.Padding(10, 15, 10, 15);
-            this.viewMantainToolStripMenuItem.Size = new System.Drawing.Size(213, 50);
-            this.viewMantainToolStripMenuItem.Text = "View/ Mantain";
-            this.viewMantainToolStripMenuItem.Click += new System.EventHandler(this.viewMantainToolStripMenuItem_Click);
-            // 
-            // addStockToolStripMenuItem
-            // 
-            this.addStockToolStripMenuItem.Name = "addStockToolStripMenuItem";
-            this.addStockToolStripMenuItem.Padding = new System.Windows.Forms.Padding(10, 15, 10, 15);
-            this.addStockToolStripMenuItem.Size = new System.Drawing.Size(213, 50);
-            this.addStockToolStripMenuItem.Text = "Add Stock";
-            this.addStockToolStripMenuItem.Click += new System.EventHandler(this.addStockToolStripMenuItem_Click);
-            // 
-            // addOrderToolStripMenuItem
-            // 
-            this.addOrderToolStripMenuItem.Name = "addOrderToolStripMenuItem";
-            this.addOrderToolStripMenuItem.Padding = new System.Windows.Forms.Padding(10, 15, 10, 15);
-            this.addOrderToolStripMenuItem.Size = new System.Drawing.Size(223, 50);
-            this.addOrderToolStripMenuItem.Text = "Add Order";
-            this.addOrderToolStripMenuItem.Click += new System.EventHandler(this.addOrderToolStripMenuItem_Click);
             // 
             // Form1
             // 

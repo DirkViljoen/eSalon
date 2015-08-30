@@ -1,20 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
 using System.Linq;
 using System.Text;
-using System.Data;
-using System.ComponentModel;
+using System.Net;
+using System.IO;
+using RestSharp;
+using Newtonsoft.Json;
 
 namespace BusinessTier
 {
     class StockList : System.ComponentModel.BindingList<Stock>
     {
-                public StockList()
+
+        RestRequest request = new RestRequest();
+        RestClient stock = new RestClient();
+        
+        public StockList()
         {
-            StockTableAdapter.Fill(ds.Stock);
-            //Create an object for each Stock in the dataset
-            //and add to list
-            foreach (PrettyPawsVetDataSet.StockRow StockRow in ds.Stock.Rows)
+            //Create an object for each Stock in the dataset and add to list
+
+            foreach (Stock StockRow in GetStock())
             {
                 Stock Stock = new Stock(
                     StockRow.StockID,
@@ -35,24 +42,23 @@ namespace BusinessTier
 
         public StockList(int StockID)
         {
-            StockTableAdapter.Fill(ds.Stock);
 
             //Create an object for each Stock in dataset and add to list
-            foreach (PrettyPawsVetDataSet.StockRow StockRow in ds.Stock.Rows)
+            foreach (Stock StockRow in GetStock(StockID))
             {
                 if (StockID == StockRow.StockID)
                 {
                     Stock Stock =
-                        new Stock((int)StockRow["StockID"], 
-                            (string)StockRow["Brand"], 
-                            (string)StockRow["Product"], 
-                            (double)StockRow["Price"],
-                            (int)StockRow["Size"],
-                            (bool)StockRow["Active"],
-                            (int)StockRow["Quantity"],
-                            (string)StockRow["Barcode"],
-                            (int)StockRow["CategoryID"],
-                            (int)StockRow["SupplierID"]);
+                        new Stock(StockRow.StockID,
+                                    StockRow.Brand,
+                                    StockRow.Product,
+                                    StockRow.Price,
+                                    StockRow.Size,
+                                    StockRow.Active,
+                                    StockRow.Quantity,
+                                    StockRow.Barcode,
+                                    StockRow.CategoryID,
+                                    StockRow.SupplierID);
                     this.Add(Stock);
                     break;
                 }
@@ -60,94 +66,96 @@ namespace BusinessTier
             }
         }
 
-        public void Save()
-        {
-            //PrettyPawsVetDataSet.StockDataTable tempDataTable = new PrettyPawsVetDataSet.StockDataTable();
-
-            foreach (Stock Stock in this)
-            {
-                PrettyPawsVetDataSet.StockRow newStockRow = ds.Stock.NewStockRow();
-
-                newStockRow.StockID = Stock.StockID;
-                newStockRow.Brand = Stock.Brand;
-                newStockRow.Product = Stock.Product;
-                newStockRow.Price = Stock.Price;
-                newStockRow.Size = Stock.Size;
-                newStockRow.Active = Stock.Active;
-                newStockRow.Quantity = Stock.Quantity;
-                newStockRow.Barcode = Stock.Barcode;
-                newStockRow.CategoryID = Stock.CategoryID;
-                newStockRow.SupplierID = Stock.SupplierID;
-
-                tempDataTable.Rows.Add(newStockRow.ItemArray);
-            }
-
-            ds.Supplier.Merge(tempDataTable, false);
-
-            foreach (PrettyPawsVetDataSet.StockRow StockRow in ds.Stock.Rows)
-            {
-                if (StockRow.RowState == DataRowState.Unchanged)
-                {
-                    StockRow.Delete();
-                }
-            }
-
-            StockTableAdapter.Update(ds.Stock);
-
-        }
-
         public StockList GetStock()
         {
+            // GET
+            //RestClient stock = new RestClient();
+            stock.BaseUrl = new Uri("http://localhost:8000");
+
+            //var request = new RestRequest();
+            request.Resource = "/api/stock";
+
+            IRestResponse response = stock.Execute(request);
+
+            string temp = response.Content.Replace("\"", "'");
+            //List<Client> list = JsonConvert.DeserializeObject<List<Client>>(temp);
+            Stock test = JsonConvert.DeserializeObject<Stock>(temp);
+           
             return this;
         }
 
         public StockList GetStock(int inID)
         {
             StockList temp = new StockList(inID);
+
+            // GET
+            stock.BaseUrl = new Uri("http://localhost:8000");
+
+            request.Resource = "/api/stock/:id";
+
+            IRestResponse response = stock.Execute(request);
+
+            string temp2 = response.Content.Replace("\"", "'");
+
+            Stock test = JsonConvert.DeserializeObject<Stock>(temp2);
+
             return temp;
         }
 
-        public void InsertStock(Stock Stock)
+        public void InsertStock(Stock s)
         {
-            this.Add(Stock);
+            // POST
+
+            IRestResponse response = stock.Execute(request);
+            request = new RestRequest(Method.POST);
+            request.Resource = "/api/stock";
+
+            request.AddParameter("quantity", s.Brand);
+            request.AddParameter("stockId", s.Product);
+            request.AddParameter("quantity", s.Price);
+            request.AddParameter("stockId", s.Size);
+            request.AddParameter("quantity", s.Active);
+            request.AddParameter("stockId", s.Quantity);
+            request.AddParameter("quantity", s.Barcode);
+            request.AddParameter("stockId", s.CategoryID);
+            request.AddParameter("quantity", s.SupplierID);
+
+            response = stock.Execute(request);
         }
 
-        public void DeleteVet(Stock delStock)
+        public void DeleteStock(Stock s)
         {
-            int i = 0;
-            int deleteIndex = -1;
-            foreach (Stock Stock in this)
-            {
-                if (Stock.StockID == delStock.SupplierID)
-                {
-                    deleteIndex = i;
-                }
-                i++;
-            }
-            if (deleteIndex != -1)
-            {
-                this.RemoveAt(deleteIndex);
-            }
+            IRestResponse response = stock.Execute(request);
+
+            request = new RestRequest(Method.PUT);
+            request.Resource = "/api/stock/:id";
+
+            request.AddParameter("stockId", s.StockID);
+            request.AddParameter("quantity", s.Active);
+
+            response = stock.Execute(request);
         }
 
-        public void UpdateStock(Stock upConsulatncy)
+        public void UpdateStock(Stock s)
         {
-            foreach (Stock Stock in this)
-            {
-                if (Stock.StockID == upConsulatncy.StockID)
-                {
-                    Stock.StockID = upConsulatncy.StockID;
-                    Stock.Brand = upConsulatncy.Brand;
-                    Stock.Product = upConsulatncy.Product;
-                    Stock.Price = upConsulatncy.Price;
-                    Stock.Size = upConsulatncy.Size;
-                    Stock.Active = upConsulatncy.Active;
-                    Stock.Quantity = upConsulatncy.Quantity;
-                    Stock.Barcode = upConsulatncy.Barcode;
-                    Stock.CategoryID = upConsulatncy.CategoryID;
-                    Stock.SupplierID = upConsulatncy.SupplierID;
-                }
-            }
+            IRestResponse response = stock.Execute(request);
+
+            request = new RestRequest(Method.PUT);
+            request.Resource = "/api/stock";
+
+            request.AddParameter("stockId", s.StockID);
+            request.AddParameter("quantity", s.Brand);
+            request.AddParameter("stockId", s.Product);
+            request.AddParameter("quantity", s.Price);
+            request.AddParameter("stockId", s.Size);
+            request.AddParameter("quantity", s.Active);
+            request.AddParameter("stockId", s.Quantity);
+            request.AddParameter("quantity", s.Barcode);
+            request.AddParameter("stockId", s.CategoryID);
+            request.AddParameter("quantity", s.SupplierID);
+
+            response = stock.Execute(request);
+
         }
     }
 }

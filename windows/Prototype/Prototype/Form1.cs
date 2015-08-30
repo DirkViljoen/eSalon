@@ -30,51 +30,6 @@ namespace Prototype
             
         }
 
-
-        private void addProductToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            AddStock a = new AddStock();
-            a.ShowDialog();
-        }
-
-        private void aDDToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            AddOrder a = new AddOrder();
-            a.ShowDialog();
-        }
-
-        private void awesomeRestOfTheProgramToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            System.Diagnostics.Process.Start("http://www.google.co.za");
-        }
-
-        private void viewToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            SearchOrder a = new SearchOrder();
-            a.ShowDialog();
-        }
-
-        private void viewToolStripMenuItem1_Click(object sender, EventArgs e)
-        {
-            SearchStock a = new SearchStock();
-            a.ShowDialog();
-        }
-
-        private void addEmployeeToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void viewToolStripMenuItem2_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void mainMenuToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void button1_Click(object sender, EventArgs e)
         {
 
@@ -108,29 +63,16 @@ namespace Prototype
 
             response = client.Execute(request);
 
+            // PUT
+            request = new RestRequest(Method.PUT);
+            request.Resource = "/api/orderLine";
+
+            request.AddParameter("orderLineID", 1);
+            request.AddParameter("quantity", 8);
+
+            response = client.Execute(request);
+
         }
-
-        //public InitiateOutboundCall(CallOptions options)
-        //{
-        //    Require.Argument("Caller", options.Caller);
-        //    Require.Argument("Called", options.Called);
-        //    Require.Argument("Url", options.Url);
-
-        //    var request = new RestRequest(Method.POST);
-        //    request.Resource = "Accounts/{AccountSid}/Calls";
-        //    request.RootElement = "Calls";
-
-        //    request.AddParameter("Caller", options.Caller);
-        //    request.AddParameter("Called", options.Called);
-        //    request.AddParameter("Url", options.Url);
-
-        //    if (options.Method.HasValue) request.AddParameter("Method", options.Method);
-        //    if (options.SendDigits.HasValue()) request.AddParameter("SendDigits", options.SendDigits);
-        //    if (options.IfMachine.HasValue) request.AddParameter("IfMachine", options.IfMachine.Value);
-        //    if (options.Timeout.HasValue) request.AddParameter("Timeout", options.Timeout.Value);
-
-            
-        //}
 
         private void webProgramToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -163,6 +105,11 @@ namespace Prototype
             SearchOrder a = new SearchOrder();
             a.ShowDialog();
             this.Close();
+        }
+
+        private void stockToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+
         }
 
     }

@@ -2,7 +2,7 @@
     "db": {
         "host": "localhost",
         "user": "root",
-        "password": null,
+        "password": "root",
         "database": "eSalon"
     },
 

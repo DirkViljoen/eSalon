@@ -1,0 +1,9 @@
+C:\Users\Fatima\Documents\Sites\eSalon\windows\BusinessTier\BusinessTier\obj\Debug\BusinessTier.csprojResolveAssemblyReference.cache
+C:\Users\Fatima\Documents\Sites\eSalon\windows\BusinessTier\BusinessTier\bin\Debug\BusinessTier.dll
+C:\Users\Fatima\Documents\Sites\eSalon\windows\BusinessTier\BusinessTier\bin\Debug\BusinessTier.pdb
+C:\Users\Fatima\Documents\Sites\eSalon\windows\BusinessTier\BusinessTier\bin\Debug\Newtonsoft.Json.dll
+C:\Users\Fatima\Documents\Sites\eSalon\windows\BusinessTier\BusinessTier\bin\Debug\RestSharp.dll
+C:\Users\Fatima\Documents\Sites\eSalon\windows\BusinessTier\BusinessTier\bin\Debug\Newtonsoft.Json.xml
+C:\Users\Fatima\Documents\Sites\eSalon\windows\BusinessTier\BusinessTier\bin\Debug\RestSharp.xml
+C:\Users\Fatima\Documents\Sites\eSalon\windows\BusinessTier\BusinessTier\obj\Debug\BusinessTier.dll
+C:\Users\Fatima\Documents\Sites\eSalon\windows\BusinessTier\BusinessTier\obj\Debug\BusinessTier.pdb

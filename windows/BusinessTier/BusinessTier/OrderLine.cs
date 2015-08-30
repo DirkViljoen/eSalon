@@ -42,7 +42,7 @@ namespace BusinessTier
         }
         public int OrderID
         {
-            get { return mOrderID }
+            get { return mOrderID; }
             set { mOrderID = value; }
         }
     }

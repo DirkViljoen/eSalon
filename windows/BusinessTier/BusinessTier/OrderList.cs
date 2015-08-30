@@ -1,25 +1,33 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
 using System.Linq;
 using System.Text;
-using System.Data;
-using System.ComponentModel;
+using System.Net;
+using System.IO;
+using RestSharp;
+using Newtonsoft.Json;
 
 namespace BusinessTier
 {
    public class OrderList : System.ComponentModel.BindingList<Order>
     {
-               public OrderList()
+ RestRequest request = new RestRequest();
+        RestClient Order = new RestClient();
+        
+        public OrderList()
         {
-            OrderTableAdapter.Fill(ds.Order);
-            //Create an object for each Order in the dataset
-            //and add to list
-            foreach (PrettyPawsVetDataSet.OrderRow OrderRow in ds.Order.Rows)
+            //Create an object for each Order in the dataset and add to list
+
+            foreach (Order OrderRow in GetOrder())
             {
-                Order Order = new Order(OrderRow.OrderID,
+                Order Order = new Order(
+                    OrderRow.OrderID,
                     OrderRow.Place,
                     OrderRow.Receive,
                     OrderRow.SupplierID);
+
                 this.Add(Order);
             }
 
@@ -27,18 +35,18 @@ namespace BusinessTier
 
         public OrderList(int OrderID)
         {
-            OrderTableAdapter.Fill(ds.Order);
 
             //Create an object for each Order in dataset and add to list
-            foreach (PrettyPawsVetDataSet.OrderRow OrderRow in ds.Order.Rows)
+            foreach (Order OrderRow in GetOrder(OrderID))
             {
                 if (OrderID == OrderRow.OrderID)
                 {
                     Order Order =
-                        new Order((int)OrderRow["OrderID"],
-                            (DateTime)OrderRow["Place"],
-                            (DateTime)OrderRow["Receive"],
-                            (int)OrderRow["SupplierID"]);
+                        new Order(OrderRow.OrderID,
+                                    OrderRow.Place,
+                                    OrderRow.Receive,
+                                    OrderRow.SupplierID);
+
                     this.Add(Order);
                     break;
                 }
@@ -46,83 +54,73 @@ namespace BusinessTier
             }
         }
 
-        public void Save()
-        {
-            PrettyPawsVetDataSet.OrderDataTable tempDataTable = new PrettyPawsVetDataSet.OrderDataTable();
-
-            foreach (Order Order in this)
-            {
-                PrettyPawsVetDataSet.OrderRow newOrderRow = ds.Order.NewOrderRow();
-                
-                newOrderRow.OrderID = Order.OrderID;
-                newOrderRow.Place = Order.Place;
-                newOrderRow.Receive = Order.Receive;
-                newOrderRow.SupplierID = Order.SupplierID;
-
-                tempDataTable.Rows.Add(newOrderRow.ItemArray);
-            }
-
-            //ds.Vet.Merge(tempDataTable, false);
-
-            foreach (PrettyPawsVetDataSet.OrderRow OrderRow in ds.Order.Rows)
-            {
-                if (OrderRow.RowState == DataRowState.Unchanged)
-                {
-                    OrderRow.Delete();
-                }
-            }
-
-            OrderTableAdapter.Update(ds.Order);
-
-        }
-
         public OrderList GetOrder()
         {
+
+            // GET
+            //RestClient Order = new RestClient();
+            Order.BaseUrl = new Uri("http://localhost:8000");
+
+            //var request = new RestRequest();
+            request.Resource = "/api/order";
+
+            IRestResponse response = Order.Execute(request);
+
+            string temp = response.Content.Replace("\"", "'");
+            //List<Client> list = JsonConvert.DeserializeObject<List<Client>>(temp);
+            Order test = JsonConvert.DeserializeObject<Order>(temp);
+           
             return this;
         }
 
         public OrderList GetOrder(int inID)
         {
             OrderList temp = new OrderList(inID);
+
+            // GET
+            Order.BaseUrl = new Uri("http://localhost:8000");
+
+            request.Resource = "/api/order/:id";
+
+            IRestResponse response = Order.Execute(request);
+
+            string temp2 = response.Content.Replace("\"", "'");
+
+            Order test = JsonConvert.DeserializeObject<Order>(temp2);
+
             return temp;
         }
 
-        public void InsertOrder(Order Order)
+        public void InsertOrder(Order s)
         {
-            this.Add(Order);
+            // POST
+
+            IRestResponse response = Order.Execute(request);
+            request = new RestRequest(Method.POST);
+            request.Resource = "/api/Order";
+
+            request.AddParameter("orderID", s.OrderID);
+            request.AddParameter("dateTo", s.Receive);
+            request.AddParameter("dateFrom", s.Place);
+            request.AddParameter("supplierID", s.SupplierID);
+
+            response = Order.Execute(request);
         }
 
-        public void DeleteVet(Order delOrder)
+        public void UpdateOrder(Order s)
         {
-            int i = 0;
-            int deleteIndex = -1;
-            foreach (Order Order in this)
-            {
-                if (Order.OrderID == delOrder.OrderID)
-                {
-                    deleteIndex = i;
-                }
-                i++;
-            }
-            if (deleteIndex != -1)
-            {
-                this.RemoveAt(deleteIndex);
-            }
-        }
+            IRestResponse response = Order.Execute(request);
 
-        public void UpdateOrder(Order upConsulatncy)
-        {
-            foreach (Order Order in this)
-            {
-                if (Order.OrderID == upConsulatncy.OrderID)
-                {
-                    Order.OrderID = upConsulatncy.OrderID;
-                    Order.Place = upConsulatncy.Place;
-                    Order.Receive = upConsulatncy.Receive;
-                    Order.SupplierID = upConsulatncy.SupplierID;
-                }
-            }
-        }
+            request = new RestRequest(Method.PUT);
+            request.Resource = "/api/Order";
 
+            request.AddParameter("orderID", s.OrderID);
+            request.AddParameter("dateTo", s.Receive);
+            request.AddParameter("dateFrom", s.Place);
+            request.AddParameter("supplierID", s.SupplierID);
+
+            response = Order.Execute(request);
+
+        }
     }
 }

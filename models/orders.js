@@ -183,19 +183,16 @@ module.exports = function OrdersModel() {
   };
 
   function updateLine(oid, quantity){
-    console.log('Module - Order Line - Get');
+    console.log('Module - Order Line - PUT');
 
     var deferred = q.defer();
 
     if (oid) {
         console.log('Order Line update order Line');
         console.log(oid);
-        console.log(quantity);
-        console.log(stockID);
         db.execute('CALL sp_Update_Order_Line(' +
-          quantity + ',"' +
-          stockID + ',"' +
-          oid +');'
+          oid.orderLineID + ',' +
+          oid.quantity + ',null,null);'
         )
 
             .then(
@@ -215,6 +212,32 @@ module.exports = function OrdersModel() {
     return deferred.promise;
 
   }
+  
+  function readLine(obj){
+	console.log('Module - OrderLine - Get');
+
+      var deferred = q.defer();
+
+      if (obj) {
+          console.log('OrderLine get');
+          db.query('CALL spOrderLine_Read(' + obj.id + ');')
+              .then(
+                  function (result){
+                      deferred.resolve(result);
+                  },
+                  function (err){
+                      deferred.reject(new Error(err));
+                  }
+              );
+      }
+      else{
+          deferred.reject(new Error('No ID'));
+      }
+
+      return deferred.promise; 
+	  
+	return {err: 'Not implemented'}
+}
 
   return {
       index: get,
@@ -222,6 +245,8 @@ module.exports = function OrdersModel() {
       create: add,
       update: update,
       remove: disable,
-      addLine: addLine
+      addLine: addLine,
+      readLine: readLine,
+      updateLine: updateLine
   };
 };

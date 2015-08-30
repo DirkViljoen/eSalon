@@ -63,6 +63,7 @@ module.exports = function StockModel() {
                 obj.active + ',' +
                 obj.quantity + ',' +
                 obj.barcode + ',' +
+                '0' + ',' +
                 obj.supplierID + ')'
 
             )

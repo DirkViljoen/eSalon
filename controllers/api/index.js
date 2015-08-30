@@ -5,8 +5,9 @@ var ClientModel = require('../../models/client');
 var EmployeeModel = require('../../models/employee');
 var OrdersModel = require('../../models/orders');
 var ServiceModel = require('../../models/service');
-var SpecialsModel = require('../../models/specials');
+// var SpecialsModel = require('../../models/specials');
 var StockModel = require('../../models/stock');
+var SupplierModel = require('../../models/supplier');
 var VouchersModel = require('../../models/vouchers');
 
 var LookupsModel = require('../../models/lookups');
@@ -23,8 +24,9 @@ module.exports = function (router) {
     models.lookup = new LookupsModel();
     models.orders = new OrdersModel();
     models.services = new ServiceModel();
-    models.specials = new SpecialsModel();
+    // models.specials = new SpecialsModel();
     models.stock = new StockModel();
+    models.supplier = new SupplierModel();
     models.vouchers = new VouchersModel();
 
 // Bookings
@@ -690,11 +692,17 @@ module.exports = function (router) {
     router.get('/orderLine/:id', function (req, res) {
         console.log('Order_Line GET w/ ID. Parameters: ' + JSON.stringify(req.params))
 
-        models.orderLine.index(req.params.id)
+        models.orders.readLine(req.params)
               .then(
                   function (result){
-                      if (result)
-                          res.send(result);
+                      if (result.err)
+			  {
+				console.log(result.err)
+			  }
+			  else
+			  {
+				res.send(result);
+			  }
                   },
                   function (err){
                       console.log(err);
@@ -744,7 +752,7 @@ module.exports = function (router) {
           obj.stockID = (req.body.stockID ? req.body.stockID  : null);
           obj.orderID = (req.body.orderID ? req.body.orderID : null);
 
-           models.orderLine.update(obj)
+           models.orders.updateLine(obj)
               .then(
                   function (result){
                       console.log(result);
@@ -831,9 +839,9 @@ module.exports = function (router) {
         var bname = "";
         var pname = "";
 
-        sname = (req.query.sname ? '"' + req.query.sname + '"' : "");
-        pname = (req.query.pname ? '"' + req.query.pname + '"' : "");
-        bname = (req.query.bname ? '"' + req.query.bname + '"' : "");
+        sname = (req.query.sname ? req.query.sname : "");
+        pname = (req.query.pname ? req.query.pname : "");
+        bname = (req.query.bname ? req.query.bname : "");
 
         models.stock.find(sname, pname, bname)
             .then(
@@ -980,6 +988,135 @@ module.exports = function (router) {
                   }
               );
             });
+//suppliers
+    router.get('/supplier', function (req, res) {
+        console.log('supplier GET. Parameters: ' + JSON.stringify(req.query))
+
+       var sname = "";
+       var pname = "";
+
+        sname = (req.query.sname ? '"' + req.query.sname + '"' : "");
+        pname = (req.query.pname ? '"' + req.query.pname + '"' : "");
+
+        models.supplier.find(sname, pname)
+            .then(
+                function (result){
+                    if (result)
+                        res.send(result);
+                },
+                function (err){
+                    console.log(err);
+                    res.send(err);
+                }
+            );
+    });
+
+    router.get('/supplier/:id', function (req, res) {
+        console.log('supplier GET w/ ID. Parameters: ' + JSON.stringify(req.params))
+
+        models.supplier.index(req.params.id)
+              .then(
+                  function (result){
+                      if (result)
+                          res.send(result);
+                  },
+                  function (err){
+                      console.log(err);
+                      res.send(err);
+                  }
+              );
+            });
+
+    router.post('/supplier', function (req, res) {
+       console.log('Supplier POST. Parameters: ' + JSON.stringify(req.body));
+
+       if (JSON.stringify(req.body) != '{}') {
+           var obj = {};
+           //post
+           obj.name = (req.body.name ? '"' + req.body.name + '"' : null);
+           obj.contact = (req.body.contact ? req.body.contact : null);
+           obj.email = (req.body.email ? '"' + req.body.email + '"' : null);
+           obj.active = (req.body.active ? req.body.active : 1);
+
+            models.supplier.create(obj)
+               .then(
+                   function (result){
+                       console.log(result);
+                       res.send(result);
+                   },
+                   function (err){
+                       // console.error(err);
+                       res.send({'err': err});
+                   }
+               );
+         }
+         else
+         {
+             var err = 'No req.body on supplier POST';
+             console.error(new Error(err));
+             res.send({'err': err});
+         }
+     });
+
+    router.put('/supplier', function (req, res) {
+      console.log('supplier PUT. Parameters: ' + JSON.stringify(req.body));
+
+      if (JSON.stringify(req.body) != '{}') {
+          var obj = {};
+          //post
+          obj.supplierID = (req.body.supplierID ? req.body.supplierID : null);
+          obj.name = (req.body.name ? '"' + req.body.name + '"' : null);
+          obj.contact = (req.body.contact ? req.body.contact : null);
+          obj.email = (req.body.email ? '"' + req.body.email + '"' : null);
+
+           models.supplier.update(obj)
+              .then(
+                  function (result){
+                      console.log(result);
+                      res.send(result);
+                  },
+                  function (err){
+                      // console.error(err);
+                      res.send({'err': err});
+                  }
+              );
+        }
+        else
+        {
+            var err = 'No req.body on supplier PUT';
+            console.error(new Error(err));
+            res.send({'err': err});
+        }
+    });
+
+    router.delete('/supplier/:id', function (req, res) {
+            console.log('supplier DELETE. Parameters: ' + JSON.stringify(req.body));
+
+            if (JSON.stringify(req.params) != '{}') {
+                var obj = {};
+                //client
+                obj.supplierID = req.params.id;
+
+                 models.supplier.remove(obj)
+                    .then(
+                        function (result){
+                            console.log(result);
+                            res.send(result);
+                        },
+                        function (err){
+                            // console.error(err);
+                            res.send({'err': err});
+                        }
+                    );
+            }
+            else
+            {
+                var err = 'No req.params on supplier DELETE';
+                console.error(new Error(err));
+                res.send({'err': err});
+            }
+    });
+
 
 // Vouchers
 
