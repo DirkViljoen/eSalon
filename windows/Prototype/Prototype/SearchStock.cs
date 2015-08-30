@@ -21,25 +21,35 @@ namespace Prototype
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (dataGridView1.CurrentCell.ColumnIndex == 0)
+            try
             {
-                viewStock a = new viewStock();
-                a.ShowDialog();
+                if (dataGridView1.CurrentCell.ColumnIndex == 0)
+                {
+                    int id = dataGridView1.CurrentCell.RowIndex;
+                    //MessageBox.Show(id);
+                    viewStock a = new viewStock(id);
+                    a.ShowDialog();
+
+                }
+            }
+            catch (Exception d)
+            {
+                MessageBox.Show("ERROR: " + d);
             }
 
-            if (dataGridView1.CurrentCell.ColumnIndex == 7)
-            {
-                if (pnlTrack.Visible == false)
-                {
-                    pnlTrack.Visible = true;
-                    pnlTrack.Left = Cursor.Position.X;
-                    pnlTrack.Top = Cursor.Position.Y;
-                }
-                else
-                {
-                    pnlTrack.Visible = false;
-                }
-            }
+            //if (dataGridView1.CurrentCell.ColumnIndex == 7)
+            //{
+            //    if (pnlTrack.Visible == false)
+            //    {
+            //        pnlTrack.Visible = true;
+            //        pnlTrack.Left = Cursor.Position.X;
+            //        pnlTrack.Top = Cursor.Position.Y;
+            //    }
+            //    else
+            //    {
+            //        pnlTrack.Visible = false;
+            //    }
+            //}
         }
 
         private void button7_Click(object sender, EventArgs e)
@@ -59,9 +69,16 @@ namespace Prototype
 
         private void button2_Click(object sender, EventArgs e)
         {
-            sl.GetStock(txtSName.Text, txtBName.Text, txtPName.Text);
+            try
+            {
+                sl.GetStock(txtSName.Text, txtBName.Text, txtPName.Text);
 
-            dataGridView1.DataSource = sl;
+                dataGridView1.DataSource = sl;
+            }
+            catch (Exception d)
+            {
+                MessageBox.Show("ERROR: " + d);
+            }
         }
     }
 }

@@ -61,18 +61,5 @@ namespace Prototype
             CategoryID = sCat;
             SupplierID = sSupp;
         }
-
-        public Stock(int oID, string sbrand, string sProduct, double sPrice, int sSize, bool sAct, int sQuan, int sCat, int sSupp)
-        {
-            StockID = oID;
-            Brand = sbrand;
-            Product = sProduct;
-            Price = sPrice;
-            Size = sSize;
-            Active = sAct;
-            Quantity = sQuan;
-            CategoryID = sCat;
-            SupplierID = sSupp;
-        }
     }
 }

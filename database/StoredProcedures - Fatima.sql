@@ -165,7 +165,7 @@ BEGIN  UPDATE `Supplier` SET
 	`Name` = sName,
 	`ContactNumber` = sContactNumber,
 	`Email` = sEmail,
-    Active = sActive
+	Active = sActive
 WHERE `Supplier_id` = sSupplier_id; 
 END //
 DELIMITER ;
@@ -309,7 +309,20 @@ DELIMITER ;
         WHERE `Stock_id` = sStock_id;
     END //
     DELIMITER ;
-    
+-- -- search
+DELIMITER //
+    CREATE PROCEDURE spStock_Search
+    (
+		in sname varchar(50),
+        in bname varchar(50),
+        in pname varchar(50)
+    )
+    BEGIN
+        SELECT * FROM `Stock`
+        WHERE `Active` = true;
+    END //
+    DELIMITER ;
+
 -- -- UPDATE
 DELIMITER //
 create procedure sp_Update_Stock
@@ -319,11 +332,8 @@ create procedure sp_Update_Stock
 	IN sProductName   VARCHAR(50),
 	IN sPrice    	DECIMAL(8, 2),
 	IN sSize   	INT,
-	IN sSupplier    	INT,
-	IN sActive   BOOLEAN,
 	IN sQuantity    	INT,
 	IN sBarcode   VARCHAR(10),
-	IN cCategory_id INT,
 	IN sSupplier_id INT
 )
 BEGIN  UPDATE `Stock` SET 
@@ -331,11 +341,8 @@ BEGIN  UPDATE `Stock` SET
 	ProductName = sProductName,
 	Price = sPrice,
 	Size = sSize,
-	Supplier = sSupplier,
-	Active = sActive,
 	Quantity = sQuantity,
 	Barcode = sBarcode,
-	Category_id = cCategory_id,
 	Supplier_id = sSupplier_id
 	
 WHERE sStock_id = sStock_id

@@ -63,7 +63,7 @@ module.exports = function StockModel() {
                 obj.active + ',' +
                 obj.quantity + ',' +
                 obj.barcode + ',' +
-                '0' + ',' +
+                '1' + ',' +
                 obj.supplierID + ')'
 
             )
@@ -110,7 +110,6 @@ module.exports = function StockModel() {
               obj.productName + ',' +
               obj.price + ',' +
               obj._size + ',' +
-              obj.active + ',' +
               obj.quantity + ',' +
               obj.barcode + ',' +
               obj.supplierID + ')'
