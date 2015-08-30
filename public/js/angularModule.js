@@ -949,7 +949,7 @@ myModule.controller('BookingController', function($scope, $http, $window, $compi
                 console.log($scope.bookings[index]);
                 $scope.bookings[index].events = [];
 
-                var color = $scope.getColor($scope.bookings[index].DateTime, $scope.bookings[index].Invoice_id);
+                var color = $scope.getColor($scope.bookings[index].DateTime, $scope.bookings[index].Completed);
 
                 $scope.bookings[index].events.push({
                     id: $scope.bookings[index].Booking_id,
@@ -1176,7 +1176,7 @@ myModule.controller('BookingController', function($scope, $http, $window, $compi
                 });
         };
 
-        $scope.getColor = function(indate, invoiceid) {
+        $scope.getColor = function(indate, completed) {
             var color = {};
             color.bg = "#FFFCB0";
 
@@ -1193,7 +1193,7 @@ myModule.controller('BookingController', function($scope, $http, $window, $compi
             };
 
             // booking completed
-            if (invoiceid != null){
+            if (completed == 1){
                 color.bg = "#B0FFB1";
             }
 
@@ -1208,6 +1208,10 @@ myModule.controller('BookingController', function($scope, $http, $window, $compi
 
         $scope.finalizeBooking = function() {
             $window.location.href = $scope.home + 'finalise/' + $scope.booking.bid;
+        }
+
+        $scope.newClient = function() {
+            $window.location.href = '/clients/add';
         }
 
     // initiating
@@ -1403,7 +1407,7 @@ myModule.controller('BookingController', function($scope, $http, $window, $compi
         $scope.eventSources = [];
   });
 
-myModule.controller('InvoiceController', function($scope, $http, $window) {
+myModule.controller('InvoiceController', function($scope, $http, $window, $q) {
     // objects
         $scope.loading = true;
         $scope.error = '';
@@ -1411,9 +1415,9 @@ myModule.controller('InvoiceController', function($scope, $http, $window) {
         $scope.invoice = {};
         $scope.invoice.stock = [];
         $scope.invoice.services = [];
-        $scope.invoice.vouchers = {};
-        $scope.invoice.vouchers.redeem = [];
-        $scope.invoice.vouchers.buy = [];
+        $scope.invoice.voucher = {};
+        $scope.invoice.voucher.redeem = {};
+        $scope.invoice.voucher.buy = {};
         $scope.booking = {};
 
         $scope.services = [];
@@ -1422,7 +1426,7 @@ myModule.controller('InvoiceController', function($scope, $http, $window) {
 
         $scope.stock = [];
 
-
+        $scope.home = '/booking'
 
     // core tables
 
@@ -1452,6 +1456,14 @@ myModule.controller('InvoiceController', function($scope, $http, $window) {
                         .then(
                             function(response) {
                                 $scope.invoice.services = response.data.rows;
+                                $scope.invoice.serviceprice = 0;
+                                for (i = 0; i < $scope.invoice.services.length; ++i) {
+                                    if ($scope.invoice.services[i].price){
+                                        $scope.invoice.serviceprice += $scope.invoice.services[i].price;
+                                    };
+                                };
+
+                                $scope.invoice.total = $scope.invoice.stockprice + $scope.invoice.serviceprice;
                             });
                 };
             }, function(err) {
@@ -1533,43 +1545,45 @@ myModule.controller('InvoiceController', function($scope, $http, $window) {
         };
 
         $scope.calculateVoucherContribution = function() {
-            for (var i = 0; i < $scope.invoice.vouchers.redeem.length; i++) {
-                $scope.invoice.vouchertotal -= $scope.invoice.vouchers.redeem[i].Amount;
+            $scope.invoice.vouchertotal = 0;
+            if ($scope.invoice.voucher.redeem.Amount && $scope.invoice.voucher.redeem.Barcode){
+                console.log('redeem voucher')
+                $scope.invoice.vouchertotal -= parseInt($scope.invoice.voucher.redeem.Amount, 10);
             };
-            for (var j = 0; j < $scope.invoice.vouchers.buy.length; j++) {
-                $scope.invoice.vouchertotal += $scope.invoice.vouchers.buy[j].Amount;
+            if ($scope.invoice.voucher.buy.Amount && $scope.invoice.voucher.buy.Barcode){
+                $scope.invoice.vouchertotal += parseInt($scope.invoice.voucher.buy.Amount, 10);
+                console.log('buy voucher')
             };
         };
 
-        $scope.redeemvoucher = function(barcode) {
-            $scope.loading = true;
-            $http.get('/api/vouchers/' + barcode).then(function(response) {
-                $scope.loading = false;
-                console.log(response.data);
-                if (response.data.rows) {
-                    $scope.invoice.vouchers.redeem.push(response.data.rows[0]);
-                };
+        $scope.redeemvoucher = function() {
+            if ($scope.invoice.voucher.redeem.Barcode){
+                $scope.loading = true;
+                $http.get('/api/vouchers/' + $scope.invoice.voucher.redeem.Barcode).then(function(response) {
+                    $scope.loading = false;
+                    console.log(response.data.rows);
+                    if (response.data.rows) {
+                        $scope.invoice.voucher.redeem = response.data.rows[0];
+                    };
 
+                    $scope.calculateVoucherContribution();
+
+                }, function(err) {
+                    $scope.loading = false;
+                    $scope.error = err.data;
+                });
+
+            };
+
+            $scope.updateTotal();
+        };
+
+        $scope.buyvoucher = function() {
+            if ($scope.invoice.voucher.buy.Amount && $scope.invoice.voucher.buy.Barcode){
                 $scope.calculateVoucherContribution();
+            };
 
-            }, function(err) {
-                $scope.loading = false;
-                $scope.error = err.data;
-            });
-        };
-
-        $scope.buyvoucher = function(barcode) {
-            // $scope.loading = true;
-            // $http.get('/api/vouchers/' + barcode).then(function(response) {
-            //     $scope.loading = false;
-            //     console.log(response.data);
-            //     if (response.data.rows) {
-            //         $scope.invoice.vouchers.redeem.push(response.data.rows[0]);
-            //     };
-            // }, function(err) {
-            //     $scope.loading = false;
-            //     $scope.error = err.data;
-            // });
+            $scope.updateTotal();
         };
 
     // functionality
@@ -1598,12 +1612,13 @@ myModule.controller('InvoiceController', function($scope, $http, $window) {
                 };
             };
 
-            $scope.invoice.price = 0;
+            $scope.invoice.serviceprice = 0;
             for (i = 0; i < $scope.invoice.services.length; ++i) {
                 if ($scope.invoice.services[i].price){
                     $scope.invoice.serviceprice += $scope.invoice.services[i].price;
                 };
             }
+            $scope.updateTotal();
         };
 
         $scope.removeService = function(index){
@@ -1639,28 +1654,149 @@ myModule.controller('InvoiceController', function($scope, $http, $window) {
                 };
             };
 
-            $scope.invoice.price = 0;
+            $scope.invoice.stockprice = 0;
             for (i = 0; i < $scope.invoice.stock.length; ++i) {
                 if ($scope.invoice.stock[i].price){
                     $scope.invoice.stockprice += ($scope.invoice.stock[i].price * $scope.invoice.stock[i].quantity);
                 };
             }
+            $scope.updateTotal();
         };
 
         $scope.removeStock = function(index){
             $scope.invoice.services.splice(index, 1);
         };
 
+        $scope.updateTotal = function(){
+            $scope.invoice.total = $scope.invoice.stockprice + $scope.invoice.serviceprice + $scope.invoice.vouchertotal;
+            console.log($scope.invoice.total);
+        };
+
+    // Database
+
+        $scope.postInvoice = function(){
+            var obj = {}
+            obj.invoice = $scope.invoice;
+            obj.booking = $scope.booking;
+
+            if($("#finaliseBooking").valid()){
+                invoice_add('save', function(res) {
+                    console.log(res);
+                    switch (res){
+                        case 'yes':
+                            $http.post('/api/bookings/' + $scope.booking.bid + '/invoice', obj)
+                                .then(function(response) {
+                                    if (response.data.err) {
+                                        error_Ok('Finalise invoice error', 'An error occured while saving the new invoice details. Please contact suport with the following details: ' + JSON.stringify(response.data.err), function() {return {}});
+                                        $scope.error = response.data.err;
+                                    }
+                                    else {
+                                        success_Ok('Invoice successfully captured', 'The invoice has successfully been captured', function(res) {
+                                            $window.location.href = $scope.home;
+                                        });
+                                    }
+                                });
+                            break;
+                        case 'no':
+                            break;
+                        case 'cancel':
+                            $window.location.href = $scope.home;
+                            break;
+                        default:
+                            error_Ok('Response error', 'Sorry, we missed that. Please only use a provided button.');
+                            break;
+                    }
+                })
+            }
+            else {
+                error_Ok('Create new invoice failed', 'Some fields have not passed validation, please correct before submitting.');
+            }
+        };
+
+        $scope.postSale = function(){
+            var obj = {}
+            obj.invoice = $scope.invoice;
+
+            if($("#makeSale").valid()){
+                sale_add('save', function(res) {
+                    console.log(res);
+                    switch (res){
+                        case 'yes':
+                            $http.post('/api/makesale', obj)
+                                .then(function(response) {
+                                    if (response.data.err) {
+                                        error_Ok('Finalise invoice error', 'An error occured while saving the new invoice details. Please contact suport with the following details: ' + JSON.stringify(response.data.err), function() {return {}});
+                                        $scope.error = response.data.err;
+                                    }
+                                    else {
+                                        success_Ok('Invoice successfully captured', 'The invoice has successfully been captured', function(res) {
+                                            $window.location.href = $scope.home;
+                                        });
+                                    }
+                                });
+                            break;
+                        case 'no':
+                            break;
+                        case 'cancel':
+                            $window.location.href = $scope.home;
+                            break;
+                        default:
+                            error_Ok('Response error', 'Sorry, we missed that. Please only use a provided button.');
+                            break;
+                    }
+                })
+            }
+            else {
+                error_Ok('Create new invoice failed', 'Some fields have not passed validation, please correct before submitting.');
+            }
+        };
+
     // initiating
 
         $scope.finalizeInvoice = function(bid) {
             console.log(bid);
+            $scope.invoice.vouchers = 0;
+            $scope.invoice.stockprice = 0;
+            $scope.invoice.serviceprice = 0;
+            $scope.invoice.total = 0;
+
+            $scope.voucher = {};
+            $scope.invoice.voucher.buy.Barcode = "";
+            $scope.invoice.voucher.buy.Amount = 0;
+
+            $scope.invoice.voucher.redeem.Barcode = "";
+            $scope.invoice.voucher.redeem.Amount = 0;
+
+            $scope.invoice.serviceprice = 0
+            $scope.invoice.stockprice = 0;
+            $scope.invoice.vouchertotal = 0;
+
             $scope.getbooking(bid);
-            $scope.getservices();
+            $scope.getservices()
             $scope.gethairlengths();
             $scope.gethairlengthservices();
             $scope.getstock();
+
         };
 
+        $scope.makesale = function(bid) {
+            console.log(bid);
+            $scope.invoice.vouchers = 0;
+            $scope.invoice.stockprice = 0;
+            $scope.invoice.serviceprice = 0;
+            $scope.invoice.total = 0;
+
+            $scope.voucher = {};
+            $scope.invoice.voucher.buy.Barcode = "";
+            $scope.invoice.voucher.buy.Amount = 0;
+
+            $scope.invoice.voucher.redeem.Barcode = "";
+            $scope.invoice.voucher.redeem.Amount = 0;
+
+            $scope.invoice.stockprice = 0;
+            $scope.invoice.vouchertotal = 0;
+
+            $scope.getstock();
+        };
   });
 

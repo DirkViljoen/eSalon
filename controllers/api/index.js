@@ -481,7 +481,82 @@ module.exports = function (router) {
             );
     });
 
-//orders
+// Finalize invoice, make sale
+
+    router.post('/bookings/:id/invoice', function (req, res) {
+        console.log('Bookings Invoice POST.')
+        console.log(' - Parameters: ' + JSON.stringify(req.params));
+        console.log(' - Body: ' + JSON.stringify(req.body));
+
+        if (req.body) {
+            var obj = {};
+
+            obj.booking = {};
+
+            //booking
+            obj.booking.bid = (req.body.booking.bid ? '"' + req.body.booking.bid + '"' : null);
+
+            obj.booking.datetime = (req.body.booking.datetime ? '"' + req.body.booking.datetime + '"' : null);
+            obj.booking.datetime = obj.booking.datetime.replace("T"," ");
+            obj.booking.datetime = obj.booking.datetime.replace("Z","");
+
+            obj.booking.duration = (req.body.booking.duration ? '"' + req.body.booking.duration + '"' : 30);
+            obj.booking.completed = 1;
+            obj.booking.active = (req.body.booking.active ? '"' + req.body.booking.active + '"' : 1);
+            obj.booking.reference = (req.body.booking.reference ? '"' + req.body.booking.reference + '"' : null);
+            obj.booking.cid = (req.body.booking.cid ? req.body.booking.cid : null);
+            obj.booking.eid = (req.body.booking.eid ? req.body.booking.eid : null);
+            obj.booking.iid = (req.body.booking.iid ? req.body.booking.iid : null);
+            obj.booking.services = [];
+
+            if (req.body.booking.services) {
+                for (var i = 0; i < req.body.booking.services.length; i++) {
+                    obj.booking.services.push({hlsid: req.body.booking.services[i].hlsid});
+                };
+            };
+
+            models.booking.update(obj.booking)
+                .then(
+                    function (result){
+                        console.log(result);
+                        res.send(result);
+                    },
+                    function (err){
+                        // console.error(err);
+                        res.send({'err': err});
+                    }
+                );
+
+            obj.invoice = {};
+        }
+        else
+        {
+            var err = 'No req.body on booking POST';
+            console.error(new Error(err));
+            res.send({'err': err});
+        }
+    });
+
+    router.post('/makesale', function (req, res) {
+        console.log('Bookings Invoice POST.')
+        console.log(' - Parameters: ' + JSON.stringify(req.params));
+        console.log(' - Body: ' + JSON.stringify(req.body));
+
+        if (req.body) {
+            var obj = {};
+
+            obj.invoice = {};
+            res.send({done: 'fake'});
+        }
+        else
+        {
+            var err = 'No req.body on booking POST';
+            console.error(new Error(err));
+            res.send({'err': err});
+        }
+    });
+
+// orders
     router.get('/order', function (req, res) {
         console.log('order GET. Parameters: ' + JSON.stringify(req.query))
 
@@ -611,7 +686,7 @@ module.exports = function (router) {
             }
     });
 
-//order Line
+// order Line
     router.get('/orderLine/:id', function (req, res) {
         console.log('Order_Line GET w/ ID. Parameters: ' + JSON.stringify(req.params))
 
@@ -746,7 +821,6 @@ module.exports = function (router) {
     });
 
 // Specials
-
 
 // stock
 

@@ -288,6 +288,34 @@ function addSelectionValidation(myForm, formHandler) {
         };
     };
 
+// Invoice
+    function invoice_add(usrResponse, callback) {
+        switch(usrResponse){
+            case 'save':
+                confirm_YesNoCancel('Capture Invoice', 'Are you sure you want to capture the invoice for the selected booking?', function(res) {
+                    callback(res);
+                });
+                break;
+            default:
+                callback('none');
+                break;
+        };
+    };
+
+    function sale_add(usrResponse, callback) {
+        switch(usrResponse){
+            case 'save':
+                confirm_YesNoCancel('Capture sale', 'Are you sure you want to capture the sale?', function(res) {
+                    callback(res);
+                });
+                break;
+            default:
+                callback('none');
+                break;
+        };
+    };
+
+
 // Client
 
     function client_add(usrResponse, callback) {

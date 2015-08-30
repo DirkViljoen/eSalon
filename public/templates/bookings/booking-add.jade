@@ -22,6 +22,7 @@ block content
                     +form-group('Booking details')
                 .groupbox
                     +ng-input-combobox('client', 'Client:', 'booking.cid', 'Select a client', 'client.Client_ID as client.fullname for client in clients', false, false, 'generateReference()')
+                    input.btn.btn-primary(type="button", value="New client", ng-click='newClient()')
                     +ng-input-text('stylist', 'Stylist:', 'booking.efullname', '', false, true, '1', '50')
                     +ng-input-text('bookingDate', 'Booking date:', 'booking.date', '', false, true, '1', '50')
                     +ng-input-text('bookingTime', 'Booking time:', 'booking.time', '', false, true, '1', '50')

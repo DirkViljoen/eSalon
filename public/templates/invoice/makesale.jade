@@ -2,80 +2,105 @@ extends ../layouts/master
 include ../../mixins/mixins
 
 block header
-    label Finalize invoice
+    label Make sale
 
 block loggedIn
     a(href="#", class="navbar-link") Signed in as Mark Otto
 
 block content
+    form.row.col-xs-12.workarea.form-validate(id="makeSale", ng-controller="InvoiceController", ng-init='makesale()')
+        .row
+            .col-sm-1
+            .col-sm-11
+                h3 Sale details
+                br
 
-    .row
-        .col-sm-1
-        .col-sm-10.workarea
-            h3 Invoice details
-            form.form-horizontal
-                +form-combobox('invoiceClient', 'Client:', arrClients, bkgClient)
-                +form-inputbox('text', 'bookingStylist', 'Stylist:', '', bkgStylist)
-                +form-group("Product information")
-                div
-                    .form-group
-                        label.control-label.col-sm-2(for='frmProducts') Products:
-                        .col-sm-10
-                            div(id='frmProducts')
-                                table.table.table-hover
-                                    thead
-                                        tr
-                                            th Barcode
-                                            th Name
-                                            th Type
-                                            th Quantity
-                                            th Price
-                                            th
-                                    tbody
-                                        tr
-                                            td
-                                                input.form-control(type='text' placeholder='Barcode' value='4356789')
-                                            td
-                                                input.form-control(type='text' placeholder='Product Name' value='Tresume - dry')
-                                            td
-                                                input.form-control(type='text' placeholder='Type' value='Shampoo')
-                                            td
-                                                input.form-control(type='text' placeholder='Quantity' value='2')
-                                            td
-                                                input.form-control(type='text' placeholder='Price' value='R 60')
-                                            td
-                                                +form-button-small-remove()
-                                        tr
-                                            td
-                                            td
-                                            td
-                                            td
-                                            td
-                                            td
-                                                +form-button-small-add()
-                +form-group('Vouchers')
-                div(id='frmVouchersButton')
-                    .form-group
+                .grouphead
+                    +form-group('Product information')
+                .groupbox
+                    .row
+                        .col-md-12.table-responsive
+                            table.table(id="invoice-stock" st-table='invoice.stock')
+                                thead
+                                    tr
+                                        th
+                                        th Barcode
+                                        th Name
+                                        th Type
+                                        th Quantity
+                                        th Price
+                                tbody
+                                    tr(ng-repeat="row in invoice.stock")
+                                        td
+                                            .btn.btn-default(type="button" ng-click="removeStock($index)") Remove Product
+                                        td
+                                            +ng-input-text-min('barcode', 'row.barcode', 'barcode#', false, false, '0', '50', 'updateStock($index)')
+                                        td
+                                            +ng-input-text-min('bname', 'row.pname', 'brand name', false, true, '0', '50')
+                                        td
+                                            +ng-input-text-min('pname', 'row.bname', 'product name', false, true, '0', '50')
+                                        td
+                                            +ng-input-text-min('quantity', 'row.quantity', 'quantity', false, false, '0', '50', '', 'updateStock($index)')
+                                        td {{row.price | currency : "R " : 2}}
+                                    tr
+                                        td
+                                            .btn.btn-default(type="button" ng-click="addStock()") Add Product
+                br
+
+                .grouphead
+                    +form-group('Vouchers')
+                .groupbox
+                    .row
                         .col-sm-2
-                        .col-sm-10
-                            button.btn.btn-primary(type='button' id='btnShowVouchers') Add Vouchers
-                div(id='frmVouchersAll')
-                    +form-inputbox('text', 'buyVoucher', 'Buy voucher ID:', '', '234')
-                    +form-inputbox('text', 'redeemVoucher', 'Redeem voucher ID:', '', '1234')
-                    +form-inputbox('text', 'voucherleft', 'Total cash left:', '', 'R 20')
+                            h4 Redeem voucher:
+                        .col-sm-4
+                            +ng-input-text('barcode', 'Barcode:', 'invoice.voucher.redeem.Barcode', 'barcode#', false, false, '0', '50', 'redeemvoucher()')
+                        .col-sm-4
+                            p Voucher amount: {{invoice.voucher.redeem.Amount | currency : "R " : 2}}
+                    .row
+                        .col-sm-2
+                            h4 Buy voucher:
+                        .col-sm-4
+                            +ng-input-text('barcode', 'Barcode:', 'invoice.voucher.buy.Barcode', 'barcode#', false, false, '0', '50', 'buyvoucher()', 'buyvoucher()')
+                        .col-sm-4
+                            +ng-input-text('amount', 'Amount:', 'invoice.voucher.buy.Amount', 'Amount', false, false, '0', '50', 'buyvoucher()', 'buyvoucher()')
 
-                +workbreak
-                +form-group('Invoice Total')
-                +form-inputbox('text', 'owed', 'Total owed by Client:', '', 'R 160')
+                br
+                .row
+                    .col-sm-6
+                    .col-sm-6
+                        .grouphead
+                            +form-group('Invoice total')
+                        .groupbox
+                            .row
+                                h4.col-sm-6.text-right Stock total:
+                                h3.col-sm-6 {{invoice.stockprice | currency : "R " : 2}}
+                            .row
+                                h4.col-sm-6.text-right Vouchers total:
+                                h3.col-sm-6 {{invoice.vouchertotal | currency : "R " : 2}}
+                            .row
+                                h3.col-sm-6.text-right Invoice total:
+                                h2.col-sm-6 {{invoice.total | currency : "R " : 2}}
 
+        br
+        .row
+            .col-md-1
+            .col-md-10.form-group.workarea
+                ul.nav.nav-pills.pull-right
+                    li(role='presentation')
+                        input.btn.btn-primary(type="button", value="Save", ng-click='postSale()')
+                    li(role='presentation')
+                        input.btn.btn-default(type="button", value='Cancel', ng-click='cancel()')
+                        br
 
-    .row
-        .col-sm-1
-        .col-sm-10.form-group.workarea
-            ul.nav.nav-pills.pull-right
-                li(role="presentation")
-                    a.btn-primary(href="/booking") Capture
-                li(role="presentation")
-                    a.btn-primary(href="/booking") Cancel
-                    br
-
+        //- Pure functionality objects
+        div
+            p(ng-if="loading") Loading&hellip;
+            p invoice:
+                span {{invoice}}
+            p booking:
+                span {{booking}}
+            p services: {{services}}
+            p stock: {{stock}}
+            p redeemvoucher: {{invoice.voucher.redeem}}
+            p buyvoucher: {{invoice.vouchers.buy}}
