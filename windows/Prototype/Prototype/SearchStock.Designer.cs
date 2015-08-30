@@ -28,19 +28,13 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.textBox3 = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.components = new System.ComponentModel.Container();
+            this.txtBName = new System.Windows.Forms.TextBox();
+            this.txtPName = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.Column5 = new System.Windows.Forms.DataGridViewButtonColumn();
-            this.BrandName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ProductName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Price = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.txtSName = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.pnlTrack = new System.Windows.Forms.Panel();
             this.label15 = new System.Windows.Forms.Label();
@@ -64,6 +58,7 @@
             this.label9 = new System.Windows.Forms.Label();
             this.button2 = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.stockListBindingSource = new System.Windows.Forms.BindingSource(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.pnlTrack.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
@@ -71,23 +66,24 @@
             ((System.ComponentModel.ISupportInitialize)(this.trackBar2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar4)).BeginInit();
             this.groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.stockListBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
-            // textBox3
+            // txtBName
             // 
-            this.textBox3.Location = new System.Drawing.Point(178, 80);
-            this.textBox3.Margin = new System.Windows.Forms.Padding(6, 5, 6, 5);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(146, 29);
-            this.textBox3.TabIndex = 18;
+            this.txtBName.Location = new System.Drawing.Point(178, 80);
+            this.txtBName.Margin = new System.Windows.Forms.Padding(6, 5, 6, 5);
+            this.txtBName.Name = "txtBName";
+            this.txtBName.Size = new System.Drawing.Size(146, 29);
+            this.txtBName.TabIndex = 18;
             // 
-            // textBox2
+            // txtPName
             // 
-            this.textBox2.Location = new System.Drawing.Point(178, 119);
-            this.textBox2.Margin = new System.Windows.Forms.Padding(6, 5, 6, 5);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(146, 29);
-            this.textBox2.TabIndex = 17;
+            this.txtPName.Location = new System.Drawing.Point(178, 119);
+            this.txtPName.Margin = new System.Windows.Forms.Padding(6, 5, 6, 5);
+            this.txtPName.Name = "txtPName";
+            this.txtPName.Size = new System.Drawing.Size(146, 29);
+            this.txtPName.TabIndex = 17;
             // 
             // label3
             // 
@@ -112,14 +108,6 @@
             // dataGridView1
             // 
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.Column5,
-            this.BrandName,
-            this.ProductName,
-            this.Price,
-            this.Column1,
-            this.Column2,
-            this.Column4});
             this.dataGridView1.Location = new System.Drawing.Point(22, 228);
             this.dataGridView1.Margin = new System.Windows.Forms.Padding(6, 5, 6, 5);
             this.dataGridView1.Name = "dataGridView1";
@@ -127,56 +115,13 @@
             this.dataGridView1.TabIndex = 14;
             this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
             // 
-            // Column5
+            // txtSName
             // 
-            this.Column5.HeaderText = "View";
-            this.Column5.Name = "Column5";
-            this.Column5.Text = "View";
-            this.Column5.Width = 60;
-            // 
-            // BrandName
-            // 
-            this.BrandName.HeaderText = "BrandName";
-            this.BrandName.Name = "BrandName";
-            this.BrandName.Width = 135;
-            // 
-            // ProductName
-            // 
-            this.ProductName.HeaderText = "ProductName";
-            this.ProductName.Name = "ProductName";
-            this.ProductName.Width = 135;
-            // 
-            // Price
-            // 
-            this.Price.HeaderText = "Price";
-            this.Price.Name = "Price";
-            this.Price.Width = 135;
-            // 
-            // Column1
-            // 
-            this.Column1.HeaderText = "Size";
-            this.Column1.Name = "Column1";
-            this.Column1.Width = 135;
-            // 
-            // Column2
-            // 
-            this.Column2.HeaderText = "Supplier";
-            this.Column2.Name = "Column2";
-            this.Column2.Width = 135;
-            // 
-            // Column4
-            // 
-            this.Column4.HeaderText = "Quantity";
-            this.Column4.Name = "Column4";
-            this.Column4.Width = 135;
-            // 
-            // textBox1
-            // 
-            this.textBox1.Location = new System.Drawing.Point(178, 41);
-            this.textBox1.Margin = new System.Windows.Forms.Padding(6, 5, 6, 5);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(146, 29);
-            this.textBox1.TabIndex = 13;
+            this.txtSName.Location = new System.Drawing.Point(178, 41);
+            this.txtSName.Margin = new System.Windows.Forms.Padding(6, 5, 6, 5);
+            this.txtSName.Name = "txtSName";
+            this.txtSName.Size = new System.Drawing.Size(146, 29);
+            this.txtSName.TabIndex = 13;
             // 
             // label1
             // 
@@ -418,23 +363,28 @@
             this.button2.TabIndex = 23;
             this.button2.Text = "Search";
             this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // groupBox1
             // 
             this.groupBox1.BackColor = System.Drawing.Color.Transparent;
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.button2);
-            this.groupBox1.Controls.Add(this.textBox1);
+            this.groupBox1.Controls.Add(this.txtSName);
             this.groupBox1.Controls.Add(this.label2);
-            this.groupBox1.Controls.Add(this.textBox3);
+            this.groupBox1.Controls.Add(this.txtBName);
             this.groupBox1.Controls.Add(this.label3);
-            this.groupBox1.Controls.Add(this.textBox2);
+            this.groupBox1.Controls.Add(this.txtPName);
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(360, 208);
             this.groupBox1.TabIndex = 24;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Search Criteria";
+            // 
+            // stockListBindingSource
+            // 
+            this.stockListBindingSource.DataSource = typeof(Prototype.StockList);
             // 
             // SearchStock
             // 
@@ -446,6 +396,7 @@
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.pnlTrack);
             this.Controls.Add(this.dataGridView1);
+            this.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.stockListBindingSource, "StockID", true));
             this.Font = new System.Drawing.Font("Kristen ITC", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Margin = new System.Windows.Forms.Padding(6, 5, 6, 5);
             this.Name = "SearchStock";
@@ -460,18 +411,19 @@
             ((System.ComponentModel.ISupportInitialize)(this.trackBar4)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.stockListBindingSource)).EndInit();
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private System.Windows.Forms.TextBox textBox3;
-        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.TextBox txtBName;
+        private System.Windows.Forms.TextBox txtPName;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.DataGridView dataGridView1;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox txtSName;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Panel pnlTrack;
         private System.Windows.Forms.Label label11;
@@ -486,13 +438,6 @@
         private System.Windows.Forms.TrackBar trackBar4;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.DataGridViewButtonColumn Column5;
-        private System.Windows.Forms.DataGridViewTextBoxColumn BrandName;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ProductName;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Price;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column4;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.Label label16;
@@ -502,5 +447,6 @@
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.BindingSource stockListBindingSource;
     }
 }

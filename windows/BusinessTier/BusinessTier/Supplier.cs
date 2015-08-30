@@ -5,7 +5,7 @@ using System.Text;
 
 namespace BusinessTier
 {
-    private class Supplier
+    public class Supplier
     {
         private int mSupplierID;
         private string mName;

@@ -11,9 +11,12 @@ namespace Prototype
 {
     public partial class SearchStock : Form
     {
+        StockList sl = new StockList();
+
         public SearchStock()
         {
             InitializeComponent();
+            dataGridView1.DataSource = sl;
         }
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -52,6 +55,13 @@ namespace Prototype
         private void SearchStock_Load(object sender, EventArgs e)
         {
             pnlTrack.Visible = false;
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            sl.GetStock(txtSName.Text, txtBName.Text, txtPName.Text);
+
+            dataGridView1.DataSource = sl;
         }
     }
 }

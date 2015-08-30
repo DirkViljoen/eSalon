@@ -131,6 +131,26 @@ DELIMITER ;
     END //
     DELIMITER ;
     
+-- -- SEARCH
+DELIMITER //
+CREATE PROCEDURE spSupplier_Search
+(
+	IN sname VARCHAR(50),
+    IN pname VARCHAR(50)
+)
+BEGIN
+	SELECT
+		*
+	FROM
+	  `Stock` st, `supplier` su
+	WHERE
+	  st.`Supplier_ID` = su.`Supplier_ID`
+      AND
+	  st.`ProductName` LIKE pname
+	  AND
+	  su.`Name` LIKE sname;
+END
+DELIMITER ;
 -- -- UPDATE
 DELIMITER //
 create procedure sp_Update_Supplier
@@ -138,15 +158,16 @@ create procedure sp_Update_Supplier
 	IN sSupplier_id  	INT,
 	IN sName 		VARCHAR(50),
 	IN sContactNumber VARCHAR(15),
-	IN sEmail 	VARCHAR(100)
+	IN sEmail 	VARCHAR(100),
+    IN sActive BOOLEAN
 )
 BEGIN  UPDATE `Supplier` SET 
 	`Name` = sName,
 	`ContactNumber` = sContactNumber,
-	`Email` = sEmail
-WHERE `Supplier_id` = sSupplier_id
-
-; END //
+	`Email` = sEmail,
+    Active = sActive
+WHERE `Supplier_id` = sSupplier_id; 
+END //
 DELIMITER ;
 
 -- -- INSERT
@@ -155,12 +176,13 @@ create procedure sp_Insert_Supplier
 (
 	IN sName 		VARCHAR(50),
 	IN sContactNumber VARCHAR(15),
-	IN sEmail 	VARCHAR(100)
+	IN sEmail 	VARCHAR(100),
+    IN sActive BOOLEAN
 )
 BEGIN 
 INSERT INTO `Supplier` (`Name`, `ContactNumber`, `Email`, `Active`)
-VALUES(sName, sContactNumber, sEmail, true)
-; END //
+VALUES(sName, sContactNumber, sEmail, true); 
+END //
 DELIMITER ;
 
 -- -- DELETE
@@ -329,7 +351,6 @@ create procedure sp_Insert_Stock
 	IN sProductName   VARCHAR(50),
 	IN sPrice    	DECIMAL(8, 2),
 	IN sSize   	INT,
-	IN sSupplier    	INT,
 	IN sActive   BOOLEAN,
 	IN sQuantity    	INT,
 	IN sBarcode   VARCHAR(10),
@@ -337,9 +358,9 @@ create procedure sp_Insert_Stock
 	IN sSupplier_id INT
 )
 BEGIN 
-INSERT INTO `Stock` (BrandName, ProductName, Price, Size, Supplier, 
+INSERT INTO `Stock` (BrandName, ProductName, Price, Size, 
 						Active, Quantity, Barcode, category_id, supplier_id)
-VALUES(sBrandName, sProductName, sPrice, sSize, sSupplier, 
+VALUES(sBrandName, sProductName, sPrice, sSize, 
 						true, sQuantity, sBarcode, cCategory_id, sSupplier_id)
 
 ;  END //

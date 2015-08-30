@@ -1,26 +1,34 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
 using System.Linq;
 using System.Text;
-using System.Data;
-using System.ComponentModel;
+using System.Net;
+using System.IO;
+using RestSharp;
+using Newtonsoft.Json;
 
 namespace BusinessTier
 {
     public class StockHistoryList : System.ComponentModel.BindingList<StockHistory>
     {
-               public StockHistoryList()
+ RestRequest request = new RestRequest();
+        RestClient StockHistory = new RestClient();
+        
+        public StockHistoryList()
         {
-            StockHistoryTableAdapter.Fill(ds.StockHistory);
-            //Create an object for each StockHistory in the dataset
-            //and add to list
-            foreach (PrettyPawsVetDataSet.StockHistoryRow StockHistoryRow in ds.StockHistory.Rows)
+            //Create an object for each StockHistory in the dataset and add to list
+
+            foreach (StockHistory StockHistoryRow in GetStockHistory())
             {
-                StockHistory StockHistory = new StockHistory(StockHistoryRow.StockHistoryID,
-                    StockHistoryRow.Price,
-                    StockHistoryRow.From,
-                    StockHistoryRow.To,
-                    StockHistoryRow.StockID);
+                StockHistory StockHistory = new StockHistory(
+                                    StockHistoryRow.StockHistoryID,
+                                    StockHistoryRow.Price,
+                                    StockHistoryRow.To,
+                                    StockHistoryRow.From,
+                                    StockHistoryRow.StockID);
+
                 this.Add(StockHistory);
             }
 
@@ -28,19 +36,18 @@ namespace BusinessTier
 
         public StockHistoryList(int StockHistoryID)
         {
-            StockHistoryTableAdapter.Fill(ds.StockHistory);
 
             //Create an object for each StockHistory in dataset and add to list
-            foreach (PrettyPawsVetDataSet.StockHistoryRow StockHistoryRow in ds.StockHistory.Rows)
+            foreach (StockHistory StockHistoryRow in GetStockHistory(StockHistoryID))
             {
                 if (StockHistoryID == StockHistoryRow.StockHistoryID)
                 {
                     StockHistory StockHistory =
-                        new StockHistory((int)StockHistoryRow["StockHistoryID"], 
-                            (double)StockHistoryRow["Price"], 
-                            (DateTime)StockHistoryRow["From"], 
-                            (DateTime)StockHistoryRow["To"], 
-                            (int)StockHistoryRow["StockID"]);
+                        new StockHistory(StockHistoryRow.StockHistoryID,
+                                    StockHistoryRow.Price,
+                                    StockHistoryRow.To,
+                                    StockHistoryRow.From,
+                                    StockHistoryRow.StockID);
                     this.Add(StockHistory);
                     break;
                 }
@@ -48,83 +55,90 @@ namespace BusinessTier
             }
         }
 
-        public void Save()
-        {
-            //PrettyPawsVetDataSet.StockHistoryDataTable tempDataTable = new PrettyPawsVetDataSet.StockHistoryDataTable();
-
-            foreach (StockHistory StockHistory in this)
-            {
-                PrettyPawsVetDataSet.StockHistoryRow newStockHistoryRow = ds.StockHistory.NewStockHistoryRow();
-                newStockHistoryRow.StockHistoryID = StockHistory.StockHistoryID;
-                newStockHistoryRow.Price = StockHistory.Price;
-                newStockHistoryRow.From = StockHistory.From;
-                newStockHistoryRow.To = StockHistory.To;
-                newStockHistoryRow.StockID = StockHistory.StockID;
-
-                tempDataTable.Rows.Add(newStockHistoryRow.ItemArray);
-            }
-
-            ds.Stock.Merge(tempDataTable, false);
-
-            foreach (PrettyPawsVetDataSet.StockHistoryRow StockHistoryRow in ds.StockHistory.Rows)
-            {
-                if (StockHistoryRow.RowState == DataRowState.Unchanged)
-                {
-                    StockHistoryRow.Delete();
-                }
-            }
-
-            StockHistoryTableAdapter.Update(ds.StockHistory);
-
-        }
-
         public StockHistoryList GetStockHistory()
         {
+
+            // GET
+            //RestClient StockHistory = new RestClient();
+            StockHistory.BaseUrl = new Uri("http://localhost:8000");
+
+            //var request = new RestRequest();
+            request.Resource = "/api/stock";
+
+            IRestResponse response = StockHistory.Execute(request);
+
+            string temp = response.Content.Replace("\"", "'");
+            //List<Client> list = JsonConvert.DeserializeObject<List<Client>>(temp);
+            StockHistory test = JsonConvert.DeserializeObject<StockHistory>(temp);
+           
             return this;
         }
 
         public StockHistoryList GetStockHistory(int inID)
         {
             StockHistoryList temp = new StockHistoryList(inID);
+
+            // GET
+            StockHistory.BaseUrl = new Uri("http://localhost:8000");
+
+            request.Resource = "/api/stock/:id";
+
+            IRestResponse response = StockHistory.Execute(request);
+
+            string temp2 = response.Content.Replace("\"", "'");
+
+            StockHistory test = JsonConvert.DeserializeObject<StockHistory>(temp2);
+
             return temp;
         }
 
-        public void InsertStockHistory(StockHistory StockHistory)
+        public void InsertStockHistory(StockHistory s)
         {
-            this.Add(StockHistory);
+            // POST
+
+            IRestResponse response = StockHistory.Execute(request);
+            request = new RestRequest(Method.POST);
+            request.Resource = "/api/stock";
+
+            request.AddParameter("price", s.Price);
+            request.AddParameter("startdate", s.From);
+            request.AddParameter("enddate", s.To);
+            request.AddParameter("id", s.StockID);
+
+            response = StockHistory.Execute(request);
         }
 
-        public void DeleteVet(StockHistory delStockHistory)
+        public void DeleteStockHistory(StockHistory s)
         {
-            int i = 0;
-            int deleteIndex = -1;
-            foreach (StockHistory StockHistory in this)
-            {
-                if (StockHistory.StockHistoryID == delStockHistory.StockID)
-                {
-                    deleteIndex = i;
-                }
-                i++;
-            }
-            if (deleteIndex != -1)
-            {
-                this.RemoveAt(deleteIndex);
-            }
+            IRestResponse response = StockHistory.Execute(request);
+
+            request = new RestRequest(Method.PUT);
+            request.Resource = "/api/stock/:id";
+
+            request.AddParameter("stockHistoryId", s.StockHistoryID);
+            request.AddParameter("price", s.Price);
+            request.AddParameter("startdate", s.From);
+            request.AddParameter("enddate", s.To);
+            request.AddParameter("id", s.StockID);
+
+            response = StockHistory.Execute(request);
         }
 
-        public void UpdateStockHistory(StockHistory upConsulatncy)
+        public void UpdateStockHistory(StockHistory s)
         {
-            foreach (StockHistory StockHistory in this)
-            {
-                if (StockHistory.StockHistoryID == upConsulatncy.StockHistoryID)
-                {
-                    StockHistory.StockHistoryID = upConsulatncy.StockHistoryID;
-                    StockHistory.Price = upConsulatncy.Price;
-                    StockHistory.From = upConsulatncy.From;
-                    StockHistory.To = upConsulatncy.To;
-                    StockHistory.StockID = upConsulatncy.StockID;
-                }
-            }
+            IRestResponse response = StockHistory.Execute(request);
+
+            request = new RestRequest(Method.PUT);
+            request.Resource = "/api/stock";
+
+            request.AddParameter("stockHistoryId", s.StockHistoryID);
+            request.AddParameter("price", s.Price);
+            request.AddParameter("startdate", s.From);
+            request.AddParameter("enddate", s.To);
+            request.AddParameter("id", s.StockID);
+
+            response = StockHistory.Execute(request);
+
         }
     }
 }

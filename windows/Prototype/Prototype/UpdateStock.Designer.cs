@@ -28,30 +28,22 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.textBox7 = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
-            this.textBox6 = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
-            this.textBox5 = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
-            this.textBox4 = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
             this.button1 = new System.Windows.Forms.Button();
-            this.domainUpDown1 = new System.Windows.Forms.DomainUpDown();
             this.label8 = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
             this.label15 = new System.Windows.Forms.Label();
+            this.dudNotification = new System.Windows.Forms.DomainUpDown();
+            this.txtProduct = new System.Windows.Forms.TextBox();
+            this.txtPrice = new System.Windows.Forms.TextBox();
+            this.txtSize = new System.Windows.Forms.TextBox();
+            this.txtQuantity = new System.Windows.Forms.TextBox();
+            this.txtSupplier = new System.Windows.Forms.TextBox();
+            this.txtBrand = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
-            // 
-            // textBox7
-            // 
-            this.textBox7.Location = new System.Drawing.Point(188, 58);
-            this.textBox7.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.textBox7.Name = "textBox7";
-            this.textBox7.Size = new System.Drawing.Size(181, 29);
-            this.textBox7.TabIndex = 29;
             // 
             // label7
             // 
@@ -64,14 +56,6 @@
             this.label7.TabIndex = 28;
             this.label7.Text = "Product Name";
             // 
-            // textBox6
-            // 
-            this.textBox6.Location = new System.Drawing.Point(188, 97);
-            this.textBox6.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.textBox6.Name = "textBox6";
-            this.textBox6.Size = new System.Drawing.Size(181, 29);
-            this.textBox6.TabIndex = 27;
-            // 
             // label6
             // 
             this.label6.AutoSize = true;
@@ -82,14 +66,6 @@
             this.label6.Size = new System.Drawing.Size(51, 23);
             this.label6.TabIndex = 26;
             this.label6.Text = "Price";
-            // 
-            // textBox5
-            // 
-            this.textBox5.Location = new System.Drawing.Point(188, 137);
-            this.textBox5.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.textBox5.Name = "textBox5";
-            this.textBox5.Size = new System.Drawing.Size(181, 29);
-            this.textBox5.TabIndex = 25;
             // 
             // label5
             // 
@@ -102,14 +78,6 @@
             this.label5.TabIndex = 24;
             this.label5.Text = "Size";
             // 
-            // textBox4
-            // 
-            this.textBox4.Location = new System.Drawing.Point(188, 174);
-            this.textBox4.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.textBox4.Name = "textBox4";
-            this.textBox4.Size = new System.Drawing.Size(181, 29);
-            this.textBox4.TabIndex = 23;
-            // 
             // label4
             // 
             this.label4.AutoSize = true;
@@ -121,22 +89,6 @@
             this.label4.TabIndex = 22;
             this.label4.Text = "Quantity";
             // 
-            // textBox2
-            // 
-            this.textBox2.Location = new System.Drawing.Point(188, 253);
-            this.textBox2.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(181, 29);
-            this.textBox2.TabIndex = 19;
-            // 
-            // textBox1
-            // 
-            this.textBox1.Location = new System.Drawing.Point(188, 19);
-            this.textBox1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(181, 29);
-            this.textBox1.TabIndex = 17;
-            // 
             // button1
             // 
             this.button1.Location = new System.Drawing.Point(207, 292);
@@ -146,20 +98,7 @@
             this.button1.TabIndex = 15;
             this.button1.Text = "Update Product";
             this.button1.UseVisualStyleBackColor = true;
-            // 
-            // domainUpDown1
-            // 
-            this.domainUpDown1.Items.Add("5");
-            this.domainUpDown1.Items.Add("6");
-            this.domainUpDown1.Items.Add("7");
-            this.domainUpDown1.Items.Add("8");
-            this.domainUpDown1.Items.Add("9");
-            this.domainUpDown1.Items.Add("10");
-            this.domainUpDown1.Location = new System.Drawing.Point(188, 214);
-            this.domainUpDown1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.domainUpDown1.Name = "domainUpDown1";
-            this.domainUpDown1.Size = new System.Drawing.Size(181, 29);
-            this.domainUpDown1.TabIndex = 45;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // label8
             // 
@@ -194,6 +133,68 @@
             this.label15.TabIndex = 30;
             this.label15.Text = "Brand Name";
             // 
+            // dudNotification
+            // 
+            this.dudNotification.Items.Add("5");
+            this.dudNotification.Items.Add("6");
+            this.dudNotification.Items.Add("7");
+            this.dudNotification.Items.Add("8");
+            this.dudNotification.Items.Add("9");
+            this.dudNotification.Items.Add("10");
+            this.dudNotification.Location = new System.Drawing.Point(194, 211);
+            this.dudNotification.Margin = new System.Windows.Forms.Padding(6, 5, 6, 5);
+            this.dudNotification.Name = "dudNotification";
+            this.dudNotification.Size = new System.Drawing.Size(184, 29);
+            this.dudNotification.TabIndex = 51;
+            // 
+            // txtProduct
+            // 
+            this.txtProduct.Location = new System.Drawing.Point(197, 55);
+            this.txtProduct.Margin = new System.Windows.Forms.Padding(6, 5, 6, 5);
+            this.txtProduct.Name = "txtProduct";
+            this.txtProduct.Size = new System.Drawing.Size(181, 29);
+            this.txtProduct.TabIndex = 50;
+            // 
+            // txtPrice
+            // 
+            this.txtPrice.Location = new System.Drawing.Point(197, 94);
+            this.txtPrice.Margin = new System.Windows.Forms.Padding(6, 5, 6, 5);
+            this.txtPrice.Name = "txtPrice";
+            this.txtPrice.Size = new System.Drawing.Size(181, 29);
+            this.txtPrice.TabIndex = 49;
+            // 
+            // txtSize
+            // 
+            this.txtSize.Location = new System.Drawing.Point(197, 133);
+            this.txtSize.Margin = new System.Windows.Forms.Padding(6, 5, 6, 5);
+            this.txtSize.Name = "txtSize";
+            this.txtSize.Size = new System.Drawing.Size(181, 29);
+            this.txtSize.TabIndex = 48;
+            // 
+            // txtQuantity
+            // 
+            this.txtQuantity.Location = new System.Drawing.Point(197, 172);
+            this.txtQuantity.Margin = new System.Windows.Forms.Padding(6, 5, 6, 5);
+            this.txtQuantity.Name = "txtQuantity";
+            this.txtQuantity.Size = new System.Drawing.Size(181, 29);
+            this.txtQuantity.TabIndex = 47;
+            // 
+            // txtSupplier
+            // 
+            this.txtSupplier.Location = new System.Drawing.Point(197, 250);
+            this.txtSupplier.Margin = new System.Windows.Forms.Padding(6, 5, 6, 5);
+            this.txtSupplier.Name = "txtSupplier";
+            this.txtSupplier.Size = new System.Drawing.Size(181, 29);
+            this.txtSupplier.TabIndex = 46;
+            // 
+            // txtBrand
+            // 
+            this.txtBrand.Location = new System.Drawing.Point(197, 16);
+            this.txtBrand.Margin = new System.Windows.Forms.Padding(6, 5, 6, 5);
+            this.txtBrand.Name = "txtBrand";
+            this.txtBrand.Size = new System.Drawing.Size(181, 29);
+            this.txtBrand.TabIndex = 45;
+            // 
             // UpdateStock
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 23F);
@@ -201,20 +202,20 @@
             this.BackColor = System.Drawing.Color.BlueViolet;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(393, 346);
-            this.Controls.Add(this.domainUpDown1);
+            this.Controls.Add(this.dudNotification);
+            this.Controls.Add(this.txtProduct);
+            this.Controls.Add(this.txtPrice);
+            this.Controls.Add(this.txtSize);
+            this.Controls.Add(this.txtQuantity);
+            this.Controls.Add(this.txtSupplier);
+            this.Controls.Add(this.txtBrand);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.label13);
             this.Controls.Add(this.label15);
-            this.Controls.Add(this.textBox7);
             this.Controls.Add(this.label7);
-            this.Controls.Add(this.textBox6);
             this.Controls.Add(this.label6);
-            this.Controls.Add(this.textBox5);
             this.Controls.Add(this.label5);
-            this.Controls.Add(this.textBox4);
             this.Controls.Add(this.label4);
-            this.Controls.Add(this.textBox2);
-            this.Controls.Add(this.textBox1);
             this.Controls.Add(this.button1);
             this.Font = new System.Drawing.Font("Kristen ITC", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
@@ -227,20 +228,20 @@
 
         #endregion
 
-        private System.Windows.Forms.TextBox textBox7;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.TextBox textBox6;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.TextBox textBox5;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.TextBox textBox4;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.DomainUpDown domainUpDown1;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.DomainUpDown dudNotification;
+        private System.Windows.Forms.TextBox txtProduct;
+        private System.Windows.Forms.TextBox txtPrice;
+        private System.Windows.Forms.TextBox txtSize;
+        private System.Windows.Forms.TextBox txtQuantity;
+        private System.Windows.Forms.TextBox txtSupplier;
+        private System.Windows.Forms.TextBox txtBrand;
     }
 }

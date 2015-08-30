@@ -105,6 +105,8 @@
     <Compile Include="SearchStock.Designer.cs">
       <DependentUpon>SearchStock.cs</DependentUpon>
     </Compile>
+    <Compile Include="Stock.cs" />
+    <Compile Include="StockList.cs" />
     <Compile Include="UpdateOrder.cs">
       <SubType>Form</SubType>
     </Compile>
