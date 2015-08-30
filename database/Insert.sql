@@ -46,6 +46,8 @@ INSERT INTO `Employee`(`Name`,`Surname`,`ContactNumber`,`email`,`Salary`,`Active
 INSERT INTO `Employee`(`Name`,`Surname`,`ContactNumber`,`email`,`Salary`,`Active`,`Address_ID`) VALUES("Cerese","Bouwer","0824569858","cerese@yahoo.com","5000",True, 1);
 INSERT INTO `Employee`(`Name`,`Surname`,`ContactNumber`,`email`,`Salary`,`Active`,`Address_ID`) VALUES("Grieta","Goosen","0824788787","grieta@yahoo.com","5000",True, 1);
 
+INSERT INTO `Employee_Leave` VALUES(1,"2015-10-01 08:00",null,"2015-10-10 17:00",null, 1);
+
 INSERT INTO `Role` VALUES (1, "Admin");
 INSERT INTO `Role` VALUES (2, "Stylist");
 
@@ -98,6 +100,6 @@ INSERT INTO `Booking` VALUES (1,"2015-07-22 08:00:00",30,true,1,"booking1",1,1,1
 INSERT INTO `Booking` VALUES (2,"2015-08-22 08:00:00",30,false,1,"booking2",1,1,null);
 INSERT INTO `Booking` VALUES (3,"2015-09-04 08:30:00",60,false,1,"booking3",2,1,null);
 
-
 INSERT INTO `Order` VALUES (1, "2015-01-01", "2012-01-01", 1);
 
+INSERT INTO `Voucher` VALUES (1, 500, "1");

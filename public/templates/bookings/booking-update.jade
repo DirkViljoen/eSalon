@@ -10,7 +10,7 @@ block loggedIn
   a(href="#", class="navbar-link") Signed in as Mark Otto
 
 block content
-    form.row.col-xs-12.workarea.form-validate(id="bookingAdd", ng-controller="BookingController", ng-init='initUpdate(' + bid + ')')
+    form.row.col-xs-12.workarea.form-validate(id="bookingUpdate", ng-controller="BookingController", ng-init='initUpdate(' + id + ')')
         .row
             .col-sm-1
             .col-sm-11
@@ -23,7 +23,7 @@ block content
                 .grouphead
                     +form-group('Booking details')
                 .groupbox
-                    +ng-input-combobox('client', 'Client:', 'booking.cid', 'Select a client', 'client.Client_ID as client.fullname for client in clients', false, false, 'generateReference()')
+                    +ng-input-text('client', 'Client:', 'booking.cfullname', '', false, true, '1', '50')
                     +ng-input-text('stylist', 'Stylist:', 'booking.efullname', '', false, true, '1', '50')
                     +ng-input-text('bookingDate', 'Booking date:', 'booking.date', '', false, true, '1', '50')
                     +ng-input-text('bookingTime', 'Booking time:', 'booking.time', '', false, true, '1', '50')
@@ -68,11 +68,11 @@ block content
             .col-md-10.form-group.workarea
                 ul.nav.nav-pills.pull-right
                     li(role='presentation')
-                        input.btn.btn-primary(type="button", value="Cancel", ng-click='cancel()')
+                        input.btn.btn-default(type="button", value="Back", ng-click='cancel()')
                     li(role='presentation')
-                        input.btn.btn-default(type="button", value='Save', ng-click='putBooking()')
+                        input.btn.btn-primary(type="button", value='Save', ng-click='putBooking()')
                     li(role='presentation')
-                        input.btn.btn-primary(type="button", value="Delete", ng-click='deleteBooking()')
+                        input.btn.btn-default(type="button", value="Cancel Booking", ng-click='deleteBooking()')
                     li(role='presentation')
                         input.btn.btn-default(type="button", value='Finalize Invoice', ng-click='finalizeBooking()')
                         br
@@ -80,11 +80,5 @@ block content
         //- Pure functionality objects
         div
             p(ng-if="loading") Loading&hellip;
-            p clients:
-                span {{clients}}
-            p suburbs
-                span {{suburbs}}
             p booking:
                 span {{booking}}
-            p {{hairlengths}}
-            p {{hairlengthservices}}

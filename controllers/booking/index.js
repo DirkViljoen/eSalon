@@ -14,11 +14,12 @@ module.exports = function (router) {
     });
 
     router.get('/add', function (req, res) {
-        console.log('Booking add with query: ' + JSON.stringify(req.query))
+        console.log('Booking add with params: ' + JSON.stringify(req.params))
         res.render('bookings/booking-add', req.query);
     });
 
     router.get('/update/:id', function (req, res) {
+        console.log('Booking add with params: ' + JSON.stringify(req.params))
         res.render('bookings/booking-update', req.params);
     });
 

@@ -9,107 +9,212 @@ block loggedIn
 
 block content
 
-    .row
-        .col-sm-1
-        .col-sm-10.workarea
-            h3 Invoice details
-            form.form-horizontal
-                +form-combobox('invoiceClient', 'Client:', arrClients, bkgClient)
-                +form-inputbox('text', 'bookingStylist', 'Stylist:', '', bkgStylist)
-                +form-group("Service information")
-                div
-                    .form-group
-                        label.control-label.col-sm-2(for='frmServices') Services:
-                        .col-sm-10
-                            div(id='frmServices')
-                                table.table.table-hover
-                                    thead
-                                        tr
-                                            th Service
-                                            th Length
-                                            th Price
-                                            th
-                                    tbody
-                                        tr
-                                            td
-                                                input.form-control(type='text' placeholder='Service name' value='Standard cut')
-                                            td
-                                                input.form-control(type='text' placeholder='Length' value='Short')
-                                            td
-                                                input.form-control(type='text' placeholder='Price' value='R 100')
-                                            td
-                                                +form-button-small-remove()
-                                        tr
-                                            td
-                                            td
-                                            td
-                                            td
-                                                +form-button-small-add()
-                +form-group("Product information")
-                div(id='frmProductsButton')
-                    .form-group
-                        .col-sm-2
-                        .col-sm-10
-                            button.btn.btn-primary(type='button' id='btnShowProducts') Add products
-                div(id='frmProductsAll')
-                    .form-group
-                        label.control-label.col-sm-2(for='frmProducts') Products:
-                        .col-sm-10
-                            div(id='frmProducts')
-                                table.table.table-hover
-                                    thead
-                                        tr
-                                            th Barcode
-                                            th Name
-                                            th Type
-                                            th Quantity
-                                            th Price
-                                            th
-                                    tbody
-                                        tr
-                                            td
-                                                input.form-control(type='text' placeholder='Barcode' value='123452312')
-                                            td
-                                                input.form-control(type='text' placeholder='Product Name' value='Biokenetics - dry')
-                                            td
-                                                input.form-control(type='text' placeholder='Type' value='Shampoo')
-                                            td
-                                                input.form-control(type='text' placeholder='Quantity' value='1')
-                                            td
-                                                input.form-control(type='text' placeholder='Price' value='R 60')
-                                            td
-                                                +form-button-small-remove()
-                                        tr
-                                            td
-                                            td
-                                            td
-                                            td
-                                            td
-                                            td
-                                                +form-button-small-add()
-                +form-group('Vouchers')
-                div(id='frmVouchersButton')
-                    .form-group
-                        .col-sm-2
-                        .col-sm-10
-                            button.btn.btn-primary(type='button' id='btnShowVouchers') Add Vouchers
-                div(id='frmVouchersAll')
-                    +form-inputbox('text', 'buyVoucher', 'Buy voucher ID:', '', '3435')
-                    +form-inputbox('text', 'redeemVoucher', 'Redeem voucher ID:', '', '4245')
-                    +form-inputbox('text', 'voucherleft', 'Total cash left:', '', 'R 20')
+    //- .row
+    //-     .col-sm-1
+    //-     .col-sm-10.workarea
+    //-         h3 Invoice details
+    //-         form.form-horizontal
+    //-             +form-combobox('invoiceClient', 'Client:', arrClients, bkgClient)
+    //-             +form-inputbox('text', 'bookingStylist', 'Stylist:', '', bkgStylist)
+    //-             +form-group("Service information")
+    //-             div
+    //-                 .form-group
+    //-                     label.control-label.col-sm-2(for='frmServices') Services:
+    //-                     .col-sm-10
+    //-                         div(id='frmServices')
+    //-                             table.table.table-hover
+    //-                                 thead
+    //-                                     tr
+    //-                                         th Service
+    //-                                         th Length
+    //-                                         th Price
+    //-                                         th
+    //-                                 tbody
+    //-                                     tr
+    //-                                         td
+    //-                                             input.form-control(type='text' placeholder='Service name' value='Standard cut')
+    //-                                         td
+    //-                                             input.form-control(type='text' placeholder='Length' value='Short')
+    //-                                         td
+    //-                                             input.form-control(type='text' placeholder='Price' value='R 100')
+    //-                                         td
+    //-                                             +form-button-small-remove()
+    //-                                     tr
+    //-                                         td
+    //-                                         td
+    //-                                         td
+    //-                                         td
+    //-                                             +form-button-small-add()
+    //-             +form-group("Product information")
+    //-             div(id='frmProductsButton')
+    //-                 .form-group
+    //-                     .col-sm-2
+    //-                     .col-sm-10
+    //-                         button.btn.btn-primary(type='button' id='btnShowProducts') Add products
+    //-             div(id='frmProductsAll')
+    //-                 .form-group
+    //-                     label.control-label.col-sm-2(for='frmProducts') Products:
+    //-                     .col-sm-10
+    //-                         div(id='frmProducts')
+    //-                             table.table.table-hover
+    //-                                 thead
+    //-                                     tr
+    //-                                         th Barcode
+    //-                                         th Name
+    //-                                         th Type
+    //-                                         th Quantity
+    //-                                         th Price
+    //-                                         th
+    //-                                 tbody
+    //-                                     tr
+    //-                                         td
+    //-                                             input.form-control(type='text' placeholder='Barcode' value='123452312')
+    //-                                         td
+    //-                                             input.form-control(type='text' placeholder='Product Name' value='Biokenetics - dry')
+    //-                                         td
+    //-                                             input.form-control(type='text' placeholder='Type' value='Shampoo')
+    //-                                         td
+    //-                                             input.form-control(type='text' placeholder='Quantity' value='1')
+    //-                                         td
+    //-                                             input.form-control(type='text' placeholder='Price' value='R 60')
+    //-                                         td
+    //-                                             +form-button-small-remove()
+    //-                                     tr
+    //-                                         td
+    //-                                         td
+    //-                                         td
+    //-                                         td
+    //-                                         td
+    //-                                         td
+    //-                                             +form-button-small-add()
+    //-             +form-group('Vouchers')
+    //-             div(id='frmVouchersButton')
+    //-                 .form-group
+    //-                     .col-sm-2
+    //-                     .col-sm-10
+    //-                         button.btn.btn-primary(type='button' id='btnShowVouchers') Add Vouchers
+    //-             div(id='frmVouchersAll')
+    //-                 +form-inputbox('text', 'buyVoucher', 'Buy voucher ID:', '', '3435')
+    //-                 +form-inputbox('text', 'redeemVoucher', 'Redeem voucher ID:', '', '4245')
+    //-                 +form-inputbox('text', 'voucherleft', 'Total cash left:', '', 'R 20')
 
-                +workbreak
-                +form-group('Invoice Total')
-                +form-inputbox('text', 'owed', 'Total owed by Client:', '', 'R 160')
+    //-             +workbreak
+    //-             +form-group('Invoice Total')
+    //-             +form-inputbox('text', 'owed', 'Total owed by Client:', '', 'R 160')
 
 
-    .row
-        .col-sm-1
-        .col-sm-10.form-group.workarea
-            ul.nav.nav-pills.pull-right
-                li(role="presentation")
-                    a.btn-primary(href="/booking") Capture
-                li(role="presentation")
-                    a.btn-primary(href="/booking") Cancel
-                    br
+    //- .row
+    //-     .col-sm-1
+    //-     .col-sm-10.form-group.workarea
+    //-         ul.nav.nav-pills.pull-right
+    //-             li(role="presentation")
+    //-                 a.btn-primary(href="/booking") Capture
+    //-             li(role="presentation")
+    //-                 a.btn-primary(href="/booking") Cancel
+    //-                 br
 
+    form.row.col-xs-12.workarea.form-validate(id="finaliseBooking", ng-controller="InvoiceController", ng-init='finalizeInvoice(' + id + ')')
+        .row
+            .col-sm-1
+            .col-sm-11
+                h3 Invoice details
+                br
+
+        .row
+            .col-md-1
+            .col-md-10.form-horizontal
+                .grouphead
+                    +form-group('Booking details')
+                .groupbox
+                    +ng-input-text('client', 'Client:', 'booking.cfullname', '', false, true, '1', '50')
+                    +ng-input-text('stylist', 'Stylist:', 'booking.efullname', '', false, true, '1', '50')
+                    +ng-input-text('bookingDate', 'Booking date:', 'booking.date', '', false, true, '1', '50')
+                    +ng-input-text('bookingTime', 'Booking time:', 'booking.time', '', false, true, '1', '50')
+                br
+
+                .grouphead
+                    +form-group('Service information')
+                .groupbox
+                    .row
+                        .col-md-12.table-responsive
+                            table.table(id="invoice-services" st-table='invoice.services')
+                                thead
+                                    tr
+                                        th
+                                        th Service
+                                        th Hairlength
+                                        th Price
+                                tbody
+                                    tr(ng-repeat="row in invoice.services")
+                                        td
+                                            .btn.btn-default(type="button" ng-click="removeService($index)") Remove Service
+                                        td
+                                            +ng-input-combobox-min('service', 'row.sid', 'Select a service', 'service.Service_id as service.Name for service in services', false, false, 'updateService($index)')
+                                        td
+                                            +ng-input-combobox-min('hairlength', 'row.hlid', 'Select a hair length', 'hairlength.HairLength_id as hairlength.Description for hairlength in hairlengths', false, false, 'updateService($index)')
+                                        td {{row.price}}
+                                    tr
+                                        td
+                                            .btn.btn-default(type="button" ng-click="addService()") Add Service
+                br
+
+                .grouphead
+                    +form-group('Product information')
+                .groupbox
+                    .row
+                        .col-md-12.table-responsive
+                            table.table(id="invoice-stock" st-table='invoice.stock')
+                                thead
+                                    tr
+                                        th
+                                        th Barcode
+                                        th Name
+                                        th Type
+                                        th Quantity
+                                        th Price
+                                tbody
+                                    tr(ng-repeat="row in invoice.stock")
+                                        td
+                                            .btn.btn-default(type="button" ng-click="removeStock($index)") Remove Product
+                                        td
+                                            +ng-input-text-min('barcode', 'row.barcode', 'barcode#', false, false, '0', '50', 'updateStock($index)')
+                                        td
+                                            +ng-input-text-min('bname', 'row.pname', 'brand name', false, true, '0', '50')
+                                        td
+                                            +ng-input-text-min('pname', 'row.bname', 'product name', false, true, '0', '50')
+                                        td
+                                            +ng-input-text-min('quantity', 'row.quantity', 'quantity', false, false, '0', '50', 'updateStock($index)')
+                                        td {{row.price}}
+                                    tr
+                                        td
+                                            .btn.btn-default(type="button" ng-click="addStock()") Add Product
+                br
+
+                .grouphead
+                    +form-group('Additional details')
+                .groupbox
+                    +ng-input-text('duration', 'Booking duration:', 'invoice.duration', '15 minutes', false, false, '0', '50')
+                    slider(floor="10" ceiling="300" step="5" precision="2" ng-model="booking.duration" translate="timeFormatting")
+                    +ng-input-text('reference', 'Booking reference:', 'booking.reference', 'please select a client', false, true, '0', '50')
+                    slider(floor="100" ceiling="1000" step="50" precision="2" ng-model="booking.cost")
+
+        br
+        .row
+            .col-md-1
+            .col-md-10.form-group.workarea
+                ul.nav.nav-pills.pull-right
+                    li(role='presentation')
+                        input.btn.btn-primary(type="button", value="Save", ng-click='postBooking()')
+                    li(role='presentation')
+                        input.btn.btn-default(type="button", value='Cancel', ng-click='cancel()')
+                        br
+
+        //- Pure functionality objects
+        div
+            p(ng-if="loading") Loading&hellip;
+            p invoice:
+                span {{invoice}}
+            p booking:
+                span {{booking}}
+            p services: {{services}}
+            p stock: {{stock}}

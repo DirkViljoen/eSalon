@@ -281,12 +281,37 @@ module.exports = function EmployeeModel() {
         return deferred.promise;
     };
 
+    function getLeave(id) {
+        console.log('Module - Employee - Get leave');
+
+        var deferred = q.defer();
+
+        if (id) {
+            db.query('CALL spEmployee_Leave_ID(' + id + ');')
+                .then(
+                    function (result){
+                        deferred.resolve(result);
+                    },
+                    function (err){
+                        deferred.reject(new Error(err));
+                    }
+                );
+        }
+        else
+        {
+            deferred.reject(new Error('No ID'));
+        }
+
+        return deferred.promise;
+    };
+
     return {
         index: get,
         find: search,
         create: add,
         update: update,
         remove: disable,
-        bookings: getBookings
+        bookings: getBookings,
+        leave: getLeave
     };
 };

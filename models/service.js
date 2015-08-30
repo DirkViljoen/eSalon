@@ -164,12 +164,31 @@ module.exports = function ServiceModel() {
         return deferred.promise;
     };
 
+    function historicservices(sname) {
+        console.log('Module - HistoricService - Search');
+
+        var deferred = q.defer();
+
+        db.query('CALL spHistoricService_Search("%' + sname + '%");')
+            .then(
+                function (result){
+                    deferred.resolve(result);
+                },
+                function (err){
+                    deferred.reject(new Error(err));
+                }
+            );
+
+        return deferred.promise;
+    };
+
     return {
         index: get,
         find: search,
         create: add,
         update: update,
         remove: disable,
-        hairlengthservices: hairlengthservices
+        hairlengthservices: hairlengthservices,
+        historicservices: historicservices
     };
 };

@@ -278,7 +278,7 @@ function addSelectionValidation(myForm, formHandler) {
     function booking_delete(usrResponse, callback) {
         switch(usrResponse){
             case 'delete':
-                warning_YesNo('Delete booking', 'Are you sure you want to delete the selected booking?', function(res) {
+                warning_YesNo('Cancel booking', 'Are you sure you want to cancel the selected booking?', function(res) {
                     callback(res);
                 });
                 break;

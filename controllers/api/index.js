@@ -5,7 +5,10 @@ var ClientModel = require('../../models/client');
 var EmployeeModel = require('../../models/employee');
 var OrdersModel = require('../../models/orders');
 var ServiceModel = require('../../models/service');
+var SpecialsModel = require('../../models/specials');
 var StockModel = require('../../models/stock');
+var VouchersModel = require('../../models/vouchers');
+
 var LookupsModel = require('../../models/lookups');
 
 var moment = require('moment');
@@ -13,13 +16,16 @@ var moment = require('moment');
 module.exports = function (router) {
 
     var models = {};
+
+    models.booking = new BookingModel();
     models.client = new ClientModel();
     models.employee = new EmployeeModel();
     models.lookup = new LookupsModel();
     models.orders = new OrdersModel();
     models.services = new ServiceModel();
+    models.specials = new SpecialsModel();
     models.stock = new StockModel();
-    models.booking = new BookingModel();
+    models.vouchers = new VouchersModel();
 
 // Bookings
 
@@ -163,6 +169,8 @@ module.exports = function (router) {
             obj.eid = (req.body.eid ? req.body.eid : null);
             obj.iid = (req.body.iid ? req.body.iid : null);
 
+            obj.services = [];
+
             if (req.body.services) {
                 for (var i = 0; i < req.body.services.length; i++) {
                     obj.services.push({hlsid: req.body.services[i].hlsid, bid: req.body.services[i].bid});
@@ -189,12 +197,12 @@ module.exports = function (router) {
     });
 
     router.delete('/bookings/:id', function (req, res) {
-        console.log('Bookings DELETE. Parameters: ' + JSON.stringify(req.body));
+        console.log('Bookings DELETE. Parameters: ' + JSON.stringify(req.params));
 
-        if (JSON.stringify(req.body) != '{}') {
+        if (JSON.stringify(req.params) != '{}') {
             var obj = {};
             //booking
-            obj.bid = (req.body.bid ? '"' + req.body.bid + '"' : null);
+            obj.bid = (req.params.id ? '"' + req.params.id + '"' : null);
 
              models.booking.remove(obj)
                 .then(
@@ -454,6 +462,25 @@ module.exports = function (router) {
             );
     });
 
+// Employee_Leave
+
+
+    router.get('/employees/:id/leave', function (req, res) {
+        console.log('Employees leave GET w/ ID. Parameters: ' + JSON.stringify(req.params))
+
+        models.employee.leave(req.params.id)
+            .then(
+                function (result){
+                    if (result)
+                        res.send(result);
+                },
+                function (err){
+                    console.log(err);
+                    res.send(err);
+                }
+            );
+    });
+
 //orders
     router.get('/order', function (req, res) {
         console.log('order GET. Parameters: ' + JSON.stringify(req.query))
@@ -682,6 +709,26 @@ module.exports = function (router) {
             );
     });
 
+    router.get('/historicservices', function (req, res) {
+        console.log('Historic services GET. Parameters: ' + JSON.stringify(req.query))
+
+        var sname = (req.query.service ? req.query.service : "");
+
+        models.historicservices.find(sname)
+            .then(
+                function (result){
+                    if (result)
+                        res.send(result);
+                },
+                function (err){
+                    console.log(err);
+                    res.send(err);
+                }
+            );
+    });
+
+
+
     router.get('/services/hairlengthservices', function (req, res) {
         console.log('hair length services GET. Parameters: ' + JSON.stringify(req.params))
 
@@ -697,6 +744,9 @@ module.exports = function (router) {
                 }
             );
     });
+
+// Specials
+
 
 // stock
 
@@ -857,6 +907,70 @@ module.exports = function (router) {
               );
             });
 
+// Vouchers
+
+    router.get('/vouchers/:id', function (req, res) {
+        console.log('Vouchers GET. Parameters: ' + JSON.stringify(req.params))
+
+        var obj = {};
+
+        obj.vid = (req.params.id ? req.params.id : null);
+
+        models.vouchers.find(obj)
+            .then(
+                function (result){
+                    if (result)
+                        res.send(result);
+                },
+                function (err){
+                    console.log(err);
+                    res.send(err);
+                }
+            );
+    });
+
+    router.post('/vouchers', function (req, res) {
+        console.log('Vouchers POST. Body: ' + JSON.stringify(req.body))
+
+        var obj = {};
+
+        obj.amount = (req.body.amount ? req.body.amount : 0);
+        obj.barcode = (req.body.barcode ? req.body.barcode : null);
+
+        models.vouchers.create(obj)
+            .then(
+                function (result){
+                    if (result)
+                        res.send(result);
+                },
+                function (err){
+                    console.log(err);
+                    res.send(err);
+                }
+            );
+    });
+
+    router.put('/vouchers/:id', function (req, res) {
+        console.log('Vouchers PUT. Body: ' + JSON.stringify(req.body))
+
+        var obj = {};
+
+        obj.vid = (req.body.vid ? req.body.vid : null);
+        obj.amount = (req.body.amount ? req.body.amount : 0);
+
+        models.vouchers.update(obj)
+            .then(
+                function (result){
+                    if (result)
+                        res.send(result);
+                },
+                function (err){
+                    console.log(err);
+                    res.send(err);
+                }
+            );
+    });
+
 // Lookups
     router.get('/lookups/paymentMethods', function (req, res) {
         console.log('get payment methods');
@@ -902,6 +1016,32 @@ module.exports = function (router) {
         console.log('request body: ' + JSON.stringify(req.params));
 
         models.lookup.hairlengths()
+            .then(
+                function (result){
+                    console.log(result);
+                    res.send(result);
+                }
+            );
+    });
+
+    router.get('/lookups/suburbs/:cityID', function (req, res) {
+        console.log('get suburbs based on cityID');
+        console.log('request body: ' + JSON.stringify(req.params));
+
+        models.lookup.suburbs(req.params.cityID)
+            .then(
+                function (result){
+                    console.log(result);
+                    res.send(result);
+                }
+            );
+    });
+
+    router.get('/lookups/notificationMethods', function (req, res) {
+        console.log('get notification methods');
+        console.log('request body: ' + JSON.stringify(req.params));
+
+        models.lookup.notificationMethods(req.params.cityID)
             .then(
                 function (result){
                     console.log(result);

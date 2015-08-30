@@ -237,28 +237,28 @@ DELIMITER ;
 
 -- ---- ---- ----- HAIR LENGTH -- ---- ---- ---- ---
 -- --READ
-    DELIMITER //
-    CREATE PROCEDURE spHairLength_Read
-    (
-        IN hHairLength_id INT
-    )
-    BEGIN
-        SELECT * FROM `Hair_Length`
-        WHERE `HairLength_id` = hHairLength_id;
-    END //
-    DELIMITER ;
+--    DELIMITER //
+--    CREATE PROCEDURE spHairLength_Read
+--    (
+--        IN hHairLength_id INT
+--    )
+--    BEGIN
+--        SELECT * FROM `Hair_Length`
+--        WHERE `HairLength_id` = hHairLength_id;
+--    END //
+--    DELIMITER ;
     
 -- -- INSERT
-DELIMITER //
-create procedure sp_Insert_Hair_Length
-(
-	IN hDescription  	VARCHAR(50)
-)
-BEGIN 
-INSERT INTO `Hair_Length` (`Description`)
-VALUES(hDescription)
-;  END //
-DELIMITER ;
+	DELIMITER //
+	create procedure sp_Insert_Hair_Length
+	(
+		IN hDescription  	VARCHAR(50)
+	)
+	BEGIN 
+	INSERT INTO `Hair_Length` (`Description`)
+	VALUES(hDescription)
+	;  END //
+	DELIMITER ;
 
 
 -- ---- ---- ---- --- CATEgoRY -- ---- ---- ---- --
@@ -276,6 +276,7 @@ DELIMITER ;
 
 -- ---- ---- ---- ----- STOCK -- ---- ---- ---- ---- ----
 -- -- READ    
+
     DELIMITER //
     CREATE PROCEDURE spStock_Read
     (

@@ -71,6 +71,21 @@ USE eSalon;
     END //
     DELIMITER ;
     
+    DELIMITER //
+    CREATE PROCEDURE spEmployee_Leave_ID
+    (
+        IN id INT
+    )
+    BEGIN
+        SELECT 
+			* 
+        FROM 
+			`Employee_Leave`
+        WHERE 
+			`Employee_ID` = id;
+    END //
+    DELIMITER ;
+    
 -- Service
 
     DELIMITER //
@@ -558,6 +573,7 @@ USE eSalon;
     BEGIN
         SELECT 
 			b.*, 
+            c.`Title` as 'clientTitle',
             c.`Name` as 'clientFName', 
             c.`Surname` as 'clientLName',
             e.`Name` as 'employeeFName',
@@ -587,7 +603,8 @@ USE eSalon;
     )
     BEGIN
         SELECT 
-			b.*, 
+			b.*,  
+            c.`Title` as 'clientTitle', 
             c.`Name` as 'clientFName', 
             c.`Surname` as 'clientLName',
             e.`Name` as 'employeeFName',
@@ -709,11 +726,20 @@ USE eSalon;
 	)
     BEGIN
         SELECT
-            *
+            bs.*, 
+            hls.`HairLength_id` AS hlid, 
+            hls.`Service_id`AS sid, 
+            hls.`HairLengthService_id` AS hlsid,
+            hls.`Duration` AS duration,
+            s.`Price` AS price
         FROM 
-			`Booking_Service`
+			`Booking_Service` bs, `Hair_Length_Service` hls, `Service` s
         WHERE
-            `Booking_id` = bid;
+            bs.`Booking_id` = bid
+            AND
+            hls.`HairLengthService_id` = bs.`HairLengthService_id`
+            AND
+            hls.`Service_id` = s.`Service_id`;
     END //
     DELIMITER ;
     
@@ -734,5 +760,71 @@ USE eSalon;
                 bid,
 				hlsid
                 );
+    END //
+    DELIMITER ;
+    
+    DELIMITER //
+    CREATE PROCEDURE spBookingServices_Delete
+    (
+        IN bid INT
+	)
+    BEGIN
+        DELETE 
+			FROM 
+				`Booking_Service`
+			WHERE
+				`Booking_id` = bid;
+    END //
+    DELIMITER ;
+    
+-- Vouchers
+
+    DELIMITER //
+    CREATE PROCEDURE spVoucher_Read
+    (
+        IN barcode VARCHAR(50)
+	)
+    BEGIN
+        SELECT 
+			*
+		FROM 
+			`Voucher`
+		WHERE
+			`Voucher_ID` = barcode;
+    END //
+    DELIMITER ;
+    
+    DELIMITER //
+    CREATE PROCEDURE spVoucher_Create
+    (
+        IN iamount DECIMAL(8,2),
+        IN ibarcode VARCHAR(50)
+	)
+    BEGIN
+		DECLARE insertId INT;
+        
+        INSERT INTO
+			`Voucher` (`Amount`, `Barcode`)
+		VALUES
+			(iamount, ibarcode);
+            
+		SET insertId = LAST_INSERT_ID();
+            SELECT insertId;
+    END //
+    DELIMITER ;
+    
+    DELIMITER //
+    CREATE PROCEDURE spVoucher_Update
+    (
+		IN id INT,
+        IN iamount DECIMAL(8,2)
+	)
+    BEGIN
+        UPDATE
+			`Voucher`
+		SET
+			`Amount` = iamount
+		WHERE
+			`Voucher_ID` = id;
     END //
     DELIMITER ;

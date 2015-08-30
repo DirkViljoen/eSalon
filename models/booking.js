@@ -120,12 +120,12 @@ module.exports = function BookingModel() {
                 .then(
                     function (result){
                         console.log('Booking updated. Updating services.');
-                        db.execute('CALL spBookingServices_Delete()')
+                        db.execute('CALL spBookingServices_Delete(' + obj.bid + ')')
                             .then(
                                 function (result){
                                     console.log('Booking services deleted. Creating new services');
                                     for (var i = 0; i < obj.services.length; i++) {
-                                        db.execute('CALL spBookingServices_Create(' + obj.services[i].bid + ',' + obj.services[i].hlsid + ')')
+                                        db.execute('CALL spBookingServices_Create(' + obj.bid + ',' + obj.services[i].hlsid + ')')
                                             .then(
                                                 function (result){
                                                     services = services + 1;
@@ -142,14 +142,14 @@ module.exports = function BookingModel() {
                                 },
                                 function (err){
                                     console.error(new Error('Unable to delete Booking Services.'))
-                                    deferred.reject(err);
+                                    deferred.reject({err: 'Unable to delete employee services.'});
                                 }
                             )
                         deferred.resolve(result);
                     },
                     function (err){
                         console.error(new Error('Unable to update Booking.'))
-                        deferred.reject(err);
+                        deferred.reject({err: 'Unable to update Booking.' + err});
                     }
                 );
 
@@ -166,9 +166,10 @@ module.exports = function BookingModel() {
         console.log('Module - Booking - Delete');
 
         var deferred = q.defer();
+        console.log(obj);
 
         if (obj.bid) {
-            console.log('Deleteing Client.');
+            console.log('Deleteing Client ' + obj.bid + '.');
             db.execute('CALL spBooking_Delete (' +
                     obj.bid + ')'
                 )
@@ -182,7 +183,12 @@ module.exports = function BookingModel() {
                         deferred.reject(err);
                     }
                 );
-        };
+        }
+        else
+        {
+            console.error(new Error('Unable to delete Booking. No ID'))
+            deferred.reject({err: 'No booking id provided to model'});
+        }
 
         return deferred.promise;
     };

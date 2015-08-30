@@ -44,7 +44,7 @@ var db = function() {
                     console.log('Query completed.');
                     result = {"rows": rows[0], "SQLstats": rows[1]};
 
-                    console.log(result);
+                    // console.log(result);
                     deferred.resolve(result);
                 }
             });
@@ -75,7 +75,7 @@ var db = function() {
                         result = {"rows": [], "SQLstats": rows}
                     };
 
-                    console.log(result);
+                    // console.log(result);
                     deferred.resolve(result);
                 };
             });

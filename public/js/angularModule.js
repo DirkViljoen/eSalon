@@ -356,6 +356,7 @@ myModule.controller('ClientController', function($scope, $http, $window) {
     $scope.getCities = function() {
         if ($scope.client.provinceId) {
             $scope.loading = true;
+            $scope.suburbs = [];
             $http.get('/api/lookups/cities/' + $scope.client.provinceId).then(function(response) {
                 $scope.loading = false;
                 console.log(response.data);
@@ -727,7 +728,7 @@ myModule.controller('ClientController', function($scope, $http, $window) {
 
   });
 
-myModule.controller('BookingController', function($scope, $http, $window,$compile,uiCalendarConfig) {
+myModule.controller('BookingController', function($scope, $http, $window, $compile,uiCalendarConfig) {
     $scope.alertMessage = {};
 
     $scope.events = {};
@@ -736,6 +737,7 @@ myModule.controller('BookingController', function($scope, $http, $window,$compil
 
     $scope.booking = {};
     $scope.bookings = [];
+    $scope.employeeLeave = [];
 
     $scope.clients = [];
     $scope.employees = [];
@@ -758,9 +760,10 @@ myModule.controller('BookingController', function($scope, $http, $window,$compil
             $scope.loading = true;
             $http.get('/api/bookings/' + id).then(function(response) {
                 $scope.loading = false;
+                console.log('Booking details:');
                 console.log(response.data);
                 if (response.data.rows) {
-                    $scope.booking.bid = response.data.rows[0].Booking_ID;
+                    $scope.booking.bid = response.data.rows[0].Booking_id;
                     $scope.booking.datetime = response.data.rows[0].DateTime;
                     $scope.booking.date = moment($scope.booking.datetime).format('dddd, MMMM Do YYYY');
                     $scope.booking.time = moment($scope.booking.datetime).format('HH:mm');
@@ -769,9 +772,10 @@ myModule.controller('BookingController', function($scope, $http, $window,$compil
                     $scope.booking.completed = response.data.rows[0].Completed;
                     $scope.booking.active = response.data.rows[0].Active;
                     $scope.booking.reference = response.data.rows[0].ReferenceNumber;
-                    $scope.booking.cid = response.data.rows[0].Client_ID;
-                    $scope.booking.eid = response.data.rows[0].Employee_ID;
-                    $scope.booking.efullname = 'test';
+                    $scope.booking.cid = response.data.rows[0].Client_id;
+                    $scope.booking.cfullname = response.data.rows[0].clientTitle + ' ' + response.data.rows[0].clientFName + ' ' + response.data.rows[0].clientLName
+                    $scope.booking.eid = response.data.rows[0].Employee_id;
+                    $scope.booking.efullname = response.data.rows[0].employeeFName + ' ' + response.data.rows[0].employeeLName
                     $scope.booking.iid = response.data.rows[0].Invoice_ID;
 
                     $http.get('/api/bookings/' + id + '/services')
@@ -806,6 +810,26 @@ myModule.controller('BookingController', function($scope, $http, $window,$compil
             });
         };
 
+        $scope.getleave = function(id) {
+            $scope.loading = true;
+            $scope.employeeLeave = [];
+
+            if (id) {
+                var path = '/api/employees/' + id + '/leave';
+
+                $http.get(path).then(function(response) {
+                    console.log(response.data);
+                    if (response.data.rows) {
+                        $scope.employeeLeave = response.data.rows;
+                        $scope.colorizeleave();
+                    }
+                }, function(err) {
+                    $scope.loading = false;
+                    $scope.error = err.data;
+                });
+            }
+        }
+
         $scope.getbookinggservices = function() {
             var temp = [];
 
@@ -821,6 +845,7 @@ myModule.controller('BookingController', function($scope, $http, $window,$compil
                                     if (response.data.rows[0].Booking_id == temp[j].bid) {
                                         console.log(temp[j].index);
                                         $scope.bookings[temp[j].index].services = response.data.rows;
+
                                     };
                                 };
                             };
@@ -940,6 +965,28 @@ myModule.controller('BookingController', function($scope, $http, $window,$compil
             };
         };
 
+        $scope.colorizeleave = function() {
+
+            for (index = 0; index < $scope.employeeLeave.length; ++index) {
+                console.log($scope.employeeLeave[index]);
+                $scope.employeeLeave[index].events = [];
+
+                var color = '#888';
+
+                $scope.employeeLeave[index].events.push({
+                    id: $scope.employeeLeave[index].EmployeeLeave_ID,
+                    title: 'Out of office',
+                    start: moment($scope.employeeLeave[index].StartDate),
+                    end: moment($scope.employeeLeave[index].EndDate),
+                    allDay: false,
+                    backgroundColor: color,
+                    color: "#AAA",
+                    textColor: "#FFF"
+                  });
+                $scope.eventSources.push($scope.employeeLeave[index]);
+            };
+        };
+
         $scope.generateReference = function() {
             $scope.booking.reference = $scope.booking.cid + moment($scope.booking.datetime).format('MMDD');
         };
@@ -996,6 +1043,7 @@ myModule.controller('BookingController', function($scope, $http, $window,$compil
             });
         };
 
+
         $scope.changeCalendar = function() {
 
             $scope.getbookings($scope.booking.eid);
@@ -1050,7 +1098,7 @@ myModule.controller('BookingController', function($scope, $http, $window,$compil
                         console.log(res);
                         switch (res){
                             case 'yes':
-                                $http.put('/api/bookings', $scope.booking)
+                                $http.put('/api/bookings/' + $scope.booking.bid, $scope.booking)
                                     .then(function(response) {
                                         if (response.data.err) {
                                             error_Ok('Booking update error', 'An error occured while updating the booking details. Please contact suport with the following details: ' + JSON.stringify(response.data.err), function() {return {}});
@@ -1081,6 +1129,40 @@ myModule.controller('BookingController', function($scope, $http, $window,$compil
             }
             else {
                 error_Ok('Updating booking failed', 'Some fields have not passed validation, please correct before submitting.');
+            }
+        }
+
+        $scope.deleteBooking = function() {
+            if($scope.booking.bid){
+                booking_delete('delete', function(res) {
+                    console.log(res);
+                    switch (res){
+                        case 'yes':
+                            $http.delete('/api/bookings/' + $scope.booking.bid, $scope.booking)
+                                .then(function(response) {
+                                    if (response.data.err) {
+                                        error_Ok('Booking cancel error', 'An error occured while cancelling the booking. Please contact support with the following information: ' + JSON.stringify(response.data.err), function(res) {return {};});
+                                        $scope.error = response.data.err;
+                                    }
+                                    else {
+                                        success_Ok('Booking cancelled', 'The boooking has been cancelled successfully.', function(res) {
+                                            $window.location.href = $scope.home;
+                                        });
+                                    }
+                                });
+                            break;
+                        case 'no':
+                            break;
+                        case 'cancel':
+                            break;
+                        case 'none':
+                            error_Ok('Response error', 'Sorry, we missed that. Please only use a provided button.');
+                            break;
+                    }
+                })
+            }
+            else {
+                error_Ok('Cancel booking failed', 'A booking was not selected');
             }
         }
 
@@ -1118,11 +1200,22 @@ myModule.controller('BookingController', function($scope, $http, $window,$compil
             return color.bg;
         };
 
+        $scope.cancel = function() {
+            $window.location.href = $scope.home;
+        }
+
+    // routing
+
+        $scope.finalizeBooking = function() {
+            $window.location.href = $scope.home + 'finalise/' + $scope.booking.bid;
+        }
+
     // initiating
 
         $scope.initManage = function() {
             $scope.booking.eid = 1;
             $scope.getbookings(1);
+            $scope.getleave(1);
             $scope.getemployees();
         };
 
@@ -1143,8 +1236,8 @@ myModule.controller('BookingController', function($scope, $http, $window,$compil
         };
 
         $scope.initUpdate = function(bid) {
-            $scope.getclients();
-            $scope.getemployees();
+            // $scope.getclients();
+            // $scope.getemployees();
             $scope.getservices();
             $scope.gethairlengths();
             $scope.gethairlengthservices();
@@ -1308,5 +1401,266 @@ myModule.controller('BookingController', function($scope, $http, $window,$compil
 
         /* event sources array*/
         $scope.eventSources = [];
+  });
 
-});
+myModule.controller('InvoiceController', function($scope, $http, $window) {
+    // objects
+        $scope.loading = true;
+        $scope.error = '';
+
+        $scope.invoice = {};
+        $scope.invoice.stock = [];
+        $scope.invoice.services = [];
+        $scope.invoice.vouchers = {};
+        $scope.invoice.vouchers.redeem = [];
+        $scope.invoice.vouchers.buy = [];
+        $scope.booking = {};
+
+        $scope.services = [];
+        $scope.hairlengths = [];
+        $scope.hairlengthservices = [];
+
+        $scope.stock = [];
+
+
+
+    // core tables
+
+        $scope.getbooking = function(id) {
+            $scope.loading = true;
+            $http.get('/api/bookings/' + id).then(function(response) {
+                $scope.loading = false;
+                console.log('Booking details:');
+                console.log(response.data);
+                if (response.data.rows) {
+                    $scope.booking.bid = response.data.rows[0].Booking_id;
+                    $scope.booking.datetime = response.data.rows[0].DateTime;
+                    $scope.booking.date = moment($scope.booking.datetime).format('dddd, MMMM Do YYYY');
+                    $scope.booking.time = moment($scope.booking.datetime).format('HH:mm');
+
+                    $scope.booking.duration = response.data.rows[0].Duration;
+                    $scope.booking.completed = response.data.rows[0].Completed;
+                    $scope.booking.active = response.data.rows[0].Active;
+                    $scope.booking.reference = response.data.rows[0].ReferenceNumber;
+                    $scope.booking.cid = response.data.rows[0].Client_id;
+                    $scope.booking.cfullname = response.data.rows[0].clientTitle + ' ' + response.data.rows[0].clientFName + ' ' + response.data.rows[0].clientLName
+                    $scope.booking.eid = response.data.rows[0].Employee_id;
+                    $scope.booking.efullname = response.data.rows[0].employeeFName + ' ' + response.data.rows[0].employeeLName
+                    $scope.booking.iid = response.data.rows[0].Invoice_ID;
+
+                    $http.get('/api/bookings/' + id + '/services')
+                        .then(
+                            function(response) {
+                                $scope.invoice.services = response.data.rows;
+                            });
+                };
+            }, function(err) {
+                $scope.loading = false;
+                $scope.error = err.data;
+            });
+        };
+
+    // lookups
+
+        $scope.getservices = function() {
+            $scope.loading = true;
+            $http.get('/api/services').then(function(response) {
+                $scope.loading = false;
+                console.log(response.data);
+                if (response.data.rows) {
+                    $scope.services = response.data.rows;
+                };
+            }, function(err) {
+                $scope.loading = false;
+                $scope.error = err.data;
+            });
+        };
+
+        $scope.gethistoricservices = function() {
+            $scope.loading = true;
+            $http.get('/api/historicservices').then(function(response) {
+                $scope.loading = false;
+                console.log(response.data);
+                if (response.data.rows) {
+                    $scope.services = response.data.rows;
+                };
+            }, function(err) {
+                $scope.loading = false;
+                $scope.error = err.data;
+            });
+        };
+
+        $scope.gethairlengths = function() {
+            $scope.loading = true;
+            $http.get('/api/lookups/hairlength').then(function(response) {
+                $scope.loading = false;
+                console.log(response.data);
+                if (response.data.rows) {
+                    $scope.hairlengths = response.data.rows;
+                };
+            }, function(err) {
+                $scope.loading = false;
+                $scope.error = err.data;
+            });
+        };
+
+        $scope.gethairlengthservices = function() {
+            $scope.loading = true;
+            $http.get('/api/services/hairlengthservices').then(function(response) {
+                $scope.loading = false;
+                console.log(response.data);
+                if (response.data.rows) {
+                    $scope.hairlengthservices = response.data.rows;
+                };
+            }, function(err) {
+                $scope.loading = false;
+                $scope.error = err.data;
+            });
+        };
+
+        $scope.getstock = function() {
+            $scope.loading = true;
+            $http.get('/api/stock').then(function(response) {
+                $scope.loading = false;
+                console.log(response.data);
+                if (response.data.rows) {
+                    $scope.stock = response.data.rows;
+                };
+            }, function(err) {
+                $scope.loading = false;
+                $scope.error = err.data;
+            });
+        };
+
+        $scope.calculateVoucherContribution = function() {
+            for (var i = 0; i < $scope.invoice.vouchers.redeem.length; i++) {
+                $scope.invoice.vouchertotal -= $scope.invoice.vouchers.redeem[i].Amount;
+            };
+            for (var j = 0; j < $scope.invoice.vouchers.buy.length; j++) {
+                $scope.invoice.vouchertotal += $scope.invoice.vouchers.buy[j].Amount;
+            };
+        };
+
+        $scope.redeemvoucher = function(barcode) {
+            $scope.loading = true;
+            $http.get('/api/vouchers/' + barcode).then(function(response) {
+                $scope.loading = false;
+                console.log(response.data);
+                if (response.data.rows) {
+                    $scope.invoice.vouchers.redeem.push(response.data.rows[0]);
+                };
+
+                $scope.calculateVoucherContribution();
+
+            }, function(err) {
+                $scope.loading = false;
+                $scope.error = err.data;
+            });
+        };
+
+        $scope.buyvoucher = function(barcode) {
+            // $scope.loading = true;
+            // $http.get('/api/vouchers/' + barcode).then(function(response) {
+            //     $scope.loading = false;
+            //     console.log(response.data);
+            //     if (response.data.rows) {
+            //         $scope.invoice.vouchers.redeem.push(response.data.rows[0]);
+            //     };
+            // }, function(err) {
+            //     $scope.loading = false;
+            //     $scope.error = err.data;
+            // });
+        };
+
+    // functionality
+
+        $scope.addService = function(){
+            var service = {};
+
+            $scope.invoice.services.push(service);
+        };
+
+        $scope.updateService = function(index){
+            if (($scope.invoice.services[index].hlid) && ($scope.invoice.services[index].sid)) {
+                for (i = 0; i < $scope.hairlengthservices.length; ++i) {
+                    if (($scope.hairlengthservices[i].Service_id == $scope.invoice.services[index].sid) &&
+                        ($scope.hairlengthservices[i].HairLength_id == $scope.invoice.services[index].hlid)) {
+
+                        $scope.invoice.services[index].hlsid = $scope.hairlengthservices[i].HairLengthService_id;
+                        $scope.invoice.services[index].duration = $scope.hairlengthservices[i].Duration;
+                    };
+                };
+                for (i = 0; i < $scope.services.length; ++i) {
+                    if (($scope.services[i].Service_id == $scope.invoice.services[index].sid)) {
+
+                        $scope.invoice.services[index].price = $scope.services[i].Price;
+                    };
+                };
+            };
+
+            $scope.invoice.price = 0;
+            for (i = 0; i < $scope.invoice.services.length; ++i) {
+                if ($scope.invoice.services[i].price){
+                    $scope.invoice.serviceprice += $scope.invoice.services[i].price;
+                };
+            }
+        };
+
+        $scope.removeService = function(index){
+            $scope.invoice.services.splice(index, 1);
+        };
+
+        $scope.addStock = function(){
+            var stock = {};
+
+            $scope.invoice.stock.push(stock);
+        };
+
+        $scope.updateStock = function(index){
+            if (($scope.invoice.stock[index].barcode)) {
+                for (i = 0; i < $scope.stock.length; ++i) {
+                    if ($scope.stock[i].Barcode == $scope.invoice.stock[index].barcode) {
+
+                        $scope.invoice.stock[index].sid = $scope.stock[i].Stock_id;
+                        $scope.invoice.stock[index].bname = $scope.stock[i].BrandName;
+                        $scope.invoice.stock[index].pname = $scope.stock[i].ProductName;
+                        $scope.invoice.stock[index].price = $scope.stock[i].Price;
+                        if ($scope.invoice.stock[index].quantity){
+                            $scope.invoice.stock[index].quantity = $scope.invoice.stock[index].quantity;
+                        }
+                        else{
+                            $scope.invoice.stock[index].quantity = 1
+                        }
+                        console.log($scope.stock[i].Quantity - $scope.invoice.stock[index].quantity);
+                        if (($scope.stock[i].Quantity - $scope.invoice.stock[index].quantity) < 0){
+                            alert('Not enough stock left. Please do a stock reconcilliation if this is not the case.')
+                        }
+                    };
+                };
+            };
+
+            $scope.invoice.price = 0;
+            for (i = 0; i < $scope.invoice.stock.length; ++i) {
+                if ($scope.invoice.stock[i].price){
+                    $scope.invoice.stockprice += ($scope.invoice.stock[i].price * $scope.invoice.stock[i].quantity);
+                };
+            }
+        };
+
+        $scope.removeStock = function(index){
+            $scope.invoice.services.splice(index, 1);
+        };
+
+    // initiating
+
+        $scope.finalizeInvoice = function(bid) {
+            console.log(bid);
+            $scope.getbooking(bid);
+            $scope.getservices();
+            $scope.gethairlengths();
+            $scope.gethairlengthservices();
+            $scope.getstock();
+        };
+
+  });
+
