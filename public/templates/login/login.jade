@@ -5,6 +5,6 @@ block content
     form.form-signin.form-horizontal(action='/login',method='post')
         h2 Login details
         br
-        +form-inputbox('text', 'liUsername', 'Username:', 'Enter your username', '')
-        +form-inputbox('password', 'liPassword', 'Password:', 'Enter your password', '')
-        +form-submit('Login', '/booking', 'btnLogin')
+        +form-inputbox('text', 'username', 'Username:', 'Enter your username', '')
+        +form-inputbox('password', 'password', 'Password:', 'Enter your password', '')
+        +form-submit('Login', '/login', 'btnLogin')

@@ -1,27 +1,20 @@
 'use strict';
 
-
-var supplierModel = require('../../models/supplier');
-
-
 module.exports = function (router) {
 
-    var model = new supplierModel();
-
-
     router.get('/', function (req, res) {
-        res.render('supplier', model)
+        res.render('suppliers/supplier', {})
     });
 
-    router.get('/view', function (req, res) {
-        res.render('supplier-view', model)
+    router.get('/view/:id', function (req, res) {
+        res.render('supplier-view', req.params)
     });
 
     router.get('/add', function (req, res) {
-        res.render('supplier-add', model)
+        res.render('suppliers/supplier-add', {})
     });
 
-    router.get('/update', function (req, res) {
-        res.render('supplier-update', model)
+    router.get('/update/:id', function (req, res) {
+        res.render('supplier-update', req.params)
     });
 };

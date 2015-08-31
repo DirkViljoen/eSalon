@@ -45,6 +45,7 @@ var db = function() {
                     result = {"rows": rows[0], "SQLstats": rows[1]};
 
                     // console.log(result);
+
                     deferred.resolve(result);
                 }
             });
@@ -74,6 +75,25 @@ var db = function() {
                     else {
                         result = {"rows": [], "SQLstats": rows}
                     };
+
+                    action = "Other";
+
+                    if (myQuery.indexOf("elete") >= 0) action = "Delete";
+                    if (myQuery.indexOf("nsert") >= 0) action = "Insert";
+                    if (myQuery.indexOf("pdate") >= 0) action = "Update";
+
+                    temp = 'Call sp_audit_create(1,"' + action + '","' + myQuery.replace(/"/g,'\\\"') + '")';
+
+                    console.log(temp);
+                    connection.query(temp, function(err, rows){
+                        if (err) {
+                            console.log('-- -- -- -- Audit log failed. -- -- -- --');
+                        }
+                        else
+                        {
+                            console.log('-- -- -- -- Audit logged. -- -- -- --')
+                        }
+                    })
 
                     // console.log(result);
                     deferred.resolve(result);

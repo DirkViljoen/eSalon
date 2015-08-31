@@ -15,9 +15,9 @@ block content
       h3 Details for !{supName}
       form.form-horizontal(role='form')
         +form-group('Supplier information')
-        +form-inputbox-readonly('text', 'supName', 'Name:', 'Supplier name', supName)
-        +form-inputbox-readonly('text', 'supContactNum', 'Contact No:', 'Supplier contact number', supContactNum)
-        +form-inputbox-readonly('email', 'supEmail', 'Email address:', 'sup@company.co.za', supEmail)
+        +form-inputbox-readonly('text', 'supName', 'Name:', 'Supplier name' )
+        +form-inputbox-readonly('text', 'supContactNum', 'Contact No:', 'Supplier contact number')
+        +form-inputbox-readonly('email', 'supEmail', 'Email address:', 'sup@company.co.za')
         br
         +form-group('Supplier orders')
         .row
@@ -26,10 +26,7 @@ block content
               thead
                 tr
                   th Dates
-              tbody
-                each order in supOrders
-                  tr
-                    td= order.date
+
           .col-xs-8
             table.table.table-hover
               thead
@@ -37,19 +34,14 @@ block content
                   th Product
                   th Quantity
                   th Price
-              tbody
-                each order in supOrders
-                  tr
-                    td= order.product
-                    td= order.quantity
-                    td= order.price
+              t
   +workbreak()
   .row
     .col-sm-1
     .col-sm-10.form-group.workarea
       ul.nav.nav-pills.pull-right
         li(role='presentation')
-          a.btn-primary(href='/supplier/update') Update
+          a.btn-primary(href='/supplier/update/1') Update
         li(role='presentation')
           a.btn-primary(href='/supplier') Delete
         li(role='presentation')

@@ -9,26 +9,29 @@ block loggedIn
 
 block content
 
-  .row
-    .col-sm-1
-    .col-sm-10.workarea
-      h3 Details for !{serName}
-      form.form-horizontal(role='form')
-        +form-group('Service information')
-        +form-inputbox-readonly('text', 'serName', 'Name:', 'Service name', serName)
-        +form-inputbox-readonly('text', 'serAddInfo', 'Additional information:', 'Any additional information about the service', serAddInfo)
-        +form-inputbox-readonly('text', 'serDuration', 'Duration:', '20 minutes', serDuration)
-        +form-inputbox-readonly('text', 'empSalary', 'Price:', '100', serPrice)
-        +form-combobox-readonly('serHairLength', 'Hair length:', arrHairLength, serHairLength)
-        +form-combobox-readonly('serCategory', 'Category:', arrCategory, serCategory)
-  +workbreak()
-  .row
-    .col-sm-1
-    .col-sm-10.form-group.workarea
-      ul.nav.nav-pills.pull-right
-        li(role='presentation')
-          a.btn-primary(href='/service/update') Update
-        li(role='presentation')
-          a.btn-primary(href='/service') Cancel
-          br
+    form.row.col-xs-12.workarea.form-validate(id="finaliseBooking", ng-controller="FixingController")
+        .row
+            .col-sm-1
+            .col-sm-11
+                h3 View service details
+                br
+        .row
+            .col-md-10
+                .grouphead
+                    +form-group('Service Information')
+                .groupbox
+                    +ng-input-text('uname', 'Name:', 'client.title', 'service name', false, false, '1', '50')
+                    +ng-input-text('uname', 'Additional information:', 'client.title', '', false, false, '1', '50')
+                    +ng-input-text('uname', 'Service duration:', 'client.title', '30 minutes', false, false, '1', '50')
+                    +ng-input-text('uname', 'Price:', 'client.title', 'R 200', false, false, '1', '50')
+                    +ng-input-combobox('notifyMethod', 'Hair length:', 'client.notificationMethod', 'Select a role', 'role.Role_ID as role.Name for role in roles', false, false)
+        .row
+            .col-sm-1
+            .col-sm-10.form-group.workarea
+                ul.nav.nav-pills.pull-right
+                    li(role='presentation')
+                        a.btn-primary(href='/service') Update
+                    li(role='presentation')
+                        a.btn-primary(href='/service') Cancel
+                        br
 

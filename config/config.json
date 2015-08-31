@@ -2,7 +2,7 @@
     "db": {
         "host": "localhost",
         "user": "root",
-        "password": "root",
+        "password": null,
         "database": "eSalon"
     },
 
@@ -25,7 +25,9 @@
         "fallback": "en-US"
     },
 
-
+    "bcrypt": {
+        "difficulty": 8
+    },
 
     "middleware": {
 
@@ -38,6 +40,32 @@
         ,"router": {
             "module": {
                 "arguments": [{ "directory": "path:./controllers" }]
+            }
+        },
+
+        "cookieParser": {
+            "module": {
+                "arguments": [ "INF3702015esalon" ]
+            }
+        },
+
+        "session": {
+            "module": {
+                // NB: arrays like 'arguments' are not merged but rather replaced, so you must
+                //     include all required configuration options here.
+                "arguments": [
+                    {
+                        "secret": "INF3702015esalon",
+                        "cookie": {
+                            "path": "/",
+                            "httpOnly": true,
+                            "maxAge": null
+                        },
+                        "resave": true,
+                        "saveUninitialized": true,
+                        "proxy": null
+                    }
+                ]
             }
         },
 

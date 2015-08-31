@@ -188,7 +188,7 @@ CREATE TABLE `Role` (
 CREATE TABLE `User` (
 	`User_ID` INT NOT NULL AUTO_INCREMENT,
     `Username` VARCHAR(30),
-    `Password` VARCHAR(50),
+    `Password` VARCHAR(100),
     `Employee_ID` INT,
     `Role_ID` INT,
     `Active` BOOLEAN,
@@ -205,7 +205,8 @@ CREATE TABLE `User` (
 CREATE TABLE `Audit` (
 	`Audit_ID` INT NOT NULL AUTO_INCREMENT,
     `DateTime` DateTime,
-    `Action` VarChar(300),
+    `Action` VARCHAR(10),
+    `Description` VarChar(300),
     `User_ID` INT,
    
     PRIMARY KEY(`Audit_ID`),

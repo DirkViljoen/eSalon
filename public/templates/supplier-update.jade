@@ -2,30 +2,36 @@ extends layouts/master
 include ../mixins/mixins
 
 block header
-  label Update supplier: !{supName}
+  label Update supplier:
 
 block loggedIn
   a(href='#', class='navbar-link') Signed in as Mark Otto
 
 block content
+    form.row.col-xs-12.workarea.form-validate(id="supplierAdd", ng-controller="SupplierController", ng-init="initAdd()")
+        .row
+            .col-sm-1
+            .col-sm-11
+                h3 Update Supplier details
+                br
 
-  .row
-    .col-sm-1
-    .col-sm-10.workarea
-      h3 Details for !{supName}
-      form.form-horizontal(role='form')
-        +form-group('Supplier information')
-        +form-inputbox('text', 'supName', 'Business name:', 'Supplier name', supName)
-        +form-inputbox('text', 'supContactNum', 'Contact Number:', 'Supplier contact number', supContactNum)
-        +form-inputbox('email', 'supEmail', 'Email address:', 'sup@company.co.za', supEmail)
-  +workbreak()
-  .row
-    .col-sm-1
-    .col-sm-10.form-group.workarea
-      ul.nav.nav-pills.pull-right
-        li(role='presentation')
-          a.btn-primary(href='/supplier') Save
-        li(role='presentation')
-          a.btn-primary(href='/supplier') Cancel
-          br
-
+        .row
+            .col-md-1
+            .col-md-10.form-horizontal
+                .grouphead
+                    +form-group('Supplier information')
+                .groupbox
+                    +ng-input-text('supName', 'Business name:', 'supplier.name', 'Supplier business name', true, false, '3', '50')
+                    +ng-input-text('contactNumber', 'Contact number:', 'supplier.contactNumber', 'South african sell number', true, false, '3', '15')
+                    +ng-input-email('contactEmail', 'Contact email:', 'supplier.contactEmail', 'Supplier email address', true, false, '5', '100')
+                br
+        br
+        .row
+            .col-md-1
+            .col-md-10.form-group.workarea
+                ul.nav.nav-pills.pull-right
+                    li(role='presentation')
+                        input.btn.btn-primary(type="button", value="Save", ng-click='cancel()')
+                    li(role='presentation')
+                        input.btn.btn-default(type="button", value='Cancel', ng-click='cancel()')
+                        br

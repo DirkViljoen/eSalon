@@ -2,6 +2,7 @@
 
 var app = require('./index');
 var http = require('http');
+var passport = require('./config/passport')
 
 
 var server;
@@ -9,6 +10,8 @@ var server;
 /*
  * Create and start HTTP server.
  */
+
+// require('./config/passport')(passport); // pass passport for configuration
 
 server = http.createServer(app);
 server.listen(process.env.PORT || 8000);
