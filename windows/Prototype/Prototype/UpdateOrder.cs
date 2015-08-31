@@ -23,10 +23,16 @@ namespace Prototype
 
         private void button1_Click(object sender, EventArgs e)
         {
-            string str = "Are you sure you want to update this order?";
-            string form = "UpdateOrder";
+            try
+            {
+                string str = "Are you sure you want to update this order?";
+                string form = "UpdateOrder";
 
-            new ConfirmationMessage(str, form).ShowDialog();
+                new ConfirmationMessage(str, form).ShowDialog();
+            }
+            catch(Exception d){
+                MessageBox.Show("ERROR: " + d);
+            }
         }
     }
 }

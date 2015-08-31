@@ -47,28 +47,28 @@
             // 
             // dateTimePicker2
             // 
-            this.dateTimePicker2.Location = new System.Drawing.Point(153, 111);
-            this.dateTimePicker2.Margin = new System.Windows.Forms.Padding(6, 5, 6, 5);
+            this.dateTimePicker2.Location = new System.Drawing.Point(139, 87);
+            this.dateTimePicker2.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.dateTimePicker2.Name = "dateTimePicker2";
-            this.dateTimePicker2.Size = new System.Drawing.Size(282, 29);
+            this.dateTimePicker2.Size = new System.Drawing.Size(257, 26);
             this.dateTimePicker2.TabIndex = 33;
             // 
             // dateTimePicker1
             // 
-            this.dateTimePicker1.Location = new System.Drawing.Point(153, 72);
-            this.dateTimePicker1.Margin = new System.Windows.Forms.Padding(6, 5, 6, 5);
+            this.dateTimePicker1.Location = new System.Drawing.Point(139, 56);
+            this.dateTimePicker1.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.dateTimePicker1.Name = "dateTimePicker1";
-            this.dateTimePicker1.Size = new System.Drawing.Size(282, 29);
+            this.dateTimePicker1.Size = new System.Drawing.Size(257, 26);
             this.dateTimePicker1.TabIndex = 32;
             // 
             // label4
             // 
             this.label4.AutoSize = true;
             this.label4.BackColor = System.Drawing.Color.Transparent;
-            this.label4.Location = new System.Drawing.Point(9, 80);
-            this.label4.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            this.label4.Location = new System.Drawing.Point(8, 63);
+            this.label4.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(104, 23);
+            this.label4.Size = new System.Drawing.Size(101, 18);
             this.label4.TabIndex = 28;
             this.label4.Text = "Date From: ";
             // 
@@ -76,10 +76,10 @@
             // 
             this.label5.AutoSize = true;
             this.label5.BackColor = System.Drawing.Color.Transparent;
-            this.label5.Location = new System.Drawing.Point(9, 119);
-            this.label5.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            this.label5.Location = new System.Drawing.Point(8, 93);
+            this.label5.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(87, 23);
+            this.label5.Size = new System.Drawing.Size(80, 18);
             this.label5.TabIndex = 27;
             this.label5.Text = "Date To: ";
             // 
@@ -91,10 +91,10 @@
             this.dataGridViewTextBoxColumn1,
             this.dataGridViewTextBoxColumn2,
             this.dataGridViewTextBoxColumn3});
-            this.dataGridView2.Location = new System.Drawing.Point(12, 217);
-            this.dataGridView2.Margin = new System.Windows.Forms.Padding(6, 5, 6, 5);
+            this.dataGridView2.Location = new System.Drawing.Point(11, 170);
+            this.dataGridView2.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.dataGridView2.Name = "dataGridView2";
-            this.dataGridView2.Size = new System.Drawing.Size(511, 185);
+            this.dataGridView2.Size = new System.Drawing.Size(511, 145);
             this.dataGridView2.TabIndex = 26;
             this.dataGridView2.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView2_CellContentClick);
             // 
@@ -127,26 +127,28 @@
             // 
             this.label6.AutoSize = true;
             this.label6.BackColor = System.Drawing.Color.Transparent;
-            this.label6.Location = new System.Drawing.Point(9, 36);
-            this.label6.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            this.label6.Location = new System.Drawing.Point(8, 28);
+            this.label6.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(132, 23);
+            this.label6.Size = new System.Drawing.Size(137, 18);
             this.label6.TabIndex = 24;
             this.label6.Text = "Supplier Name: ";
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(327, 150);
-            this.button1.Margin = new System.Windows.Forms.Padding(6, 5, 6, 5);
+            this.button1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(84)))), ((int)(((byte)(51)))), ((int)(((byte)(104)))));
+            this.button1.Location = new System.Drawing.Point(297, 117);
+            this.button1.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(108, 34);
+            this.button1.Size = new System.Drawing.Size(98, 27);
             this.button1.TabIndex = 34;
             this.button1.Text = "Search";
-            this.button1.UseVisualStyleBackColor = true;
+            this.button1.UseVisualStyleBackColor = false;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // groupBox1
             // 
-            this.groupBox1.BackColor = System.Drawing.Color.BlueViolet;
+            this.groupBox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(198)))), ((int)(((byte)(214)))), ((int)(((byte)(204)))));
             this.groupBox1.Controls.Add(this.comboBox1);
             this.groupBox1.Controls.Add(this.button1);
             this.groupBox1.Controls.Add(this.label6);
@@ -154,9 +156,11 @@
             this.groupBox1.Controls.Add(this.label5);
             this.groupBox1.Controls.Add(this.dateTimePicker1);
             this.groupBox1.Controls.Add(this.label4);
-            this.groupBox1.Location = new System.Drawing.Point(12, 12);
+            this.groupBox1.Location = new System.Drawing.Point(11, 9);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(450, 197);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.groupBox1.Size = new System.Drawing.Size(409, 154);
             this.groupBox1.TabIndex = 35;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Search Criteria";
@@ -164,22 +168,23 @@
             // comboBox1
             // 
             this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(150, 33);
+            this.comboBox1.Location = new System.Drawing.Point(136, 26);
+            this.comboBox1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(285, 31);
+            this.comboBox1.Size = new System.Drawing.Size(259, 26);
             this.comboBox1.TabIndex = 35;
             // 
             // SearchOrder
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 23F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.BlueViolet;
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(198)))), ((int)(((byte)(214)))), ((int)(((byte)(204)))));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ClientSize = new System.Drawing.Size(538, 417);
+            this.ClientSize = new System.Drawing.Size(536, 326);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.dataGridView2);
-            this.Font = new System.Drawing.Font("Kristen ITC", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Margin = new System.Windows.Forms.Padding(6, 5, 6, 5);
+            this.Font = new System.Drawing.Font("Lucida Fax", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.Name = "SearchOrder";
             this.Text = "SearchOrder";
             this.Load += new System.EventHandler(this.SearchOrder_Load);

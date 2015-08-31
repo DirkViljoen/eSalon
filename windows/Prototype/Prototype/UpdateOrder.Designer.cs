@@ -43,23 +43,24 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(253, 339);
-            this.button1.Margin = new System.Windows.Forms.Padding(6, 5, 6, 5);
+            this.button1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(84)))), ((int)(((byte)(51)))), ((int)(((byte)(104)))));
+            this.button1.Location = new System.Drawing.Point(230, 265);
+            this.button1.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(147, 41);
+            this.button1.Size = new System.Drawing.Size(134, 32);
             this.button1.TabIndex = 21;
             this.button1.Text = "Update Order";
-            this.button1.UseVisualStyleBackColor = true;
+            this.button1.UseVisualStyleBackColor = false;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // checkBox1
             // 
             this.checkBox1.AutoSize = true;
             this.checkBox1.BackColor = System.Drawing.Color.Transparent;
-            this.checkBox1.Location = new System.Drawing.Point(19, 298);
-            this.checkBox1.Margin = new System.Windows.Forms.Padding(6, 5, 6, 5);
+            this.checkBox1.Location = new System.Drawing.Point(17, 233);
+            this.checkBox1.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(239, 27);
+            this.checkBox1.Size = new System.Drawing.Size(240, 22);
             this.checkBox1.TabIndex = 19;
             this.checkBox1.Text = "Send Supplier Notification";
             this.checkBox1.UseVisualStyleBackColor = false;
@@ -67,28 +68,28 @@
             // comboBox1
             // 
             this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(109, 58);
-            this.comboBox1.Margin = new System.Windows.Forms.Padding(6, 5, 6, 5);
+            this.comboBox1.Location = new System.Drawing.Point(99, 45);
+            this.comboBox1.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(175, 31);
+            this.comboBox1.Size = new System.Drawing.Size(159, 26);
             this.comboBox1.TabIndex = 16;
             // 
             // dateTimePicker1
             // 
-            this.dateTimePicker1.Location = new System.Drawing.Point(109, 19);
-            this.dateTimePicker1.Margin = new System.Windows.Forms.Padding(6, 5, 6, 5);
+            this.dateTimePicker1.Location = new System.Drawing.Point(99, 15);
+            this.dateTimePicker1.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.dateTimePicker1.Name = "dateTimePicker1";
-            this.dateTimePicker1.Size = new System.Drawing.Size(293, 29);
+            this.dateTimePicker1.Size = new System.Drawing.Size(267, 26);
             this.dateTimePicker1.TabIndex = 15;
             // 
             // label4
             // 
             this.label4.AutoSize = true;
             this.label4.BackColor = System.Drawing.Color.Transparent;
-            this.label4.Location = new System.Drawing.Point(15, 61);
-            this.label4.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            this.label4.Location = new System.Drawing.Point(14, 48);
+            this.label4.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(82, 23);
+            this.label4.Size = new System.Drawing.Size(86, 18);
             this.label4.TabIndex = 14;
             this.label4.Text = "Supplier: ";
             // 
@@ -96,10 +97,10 @@
             // 
             this.label1.AutoSize = true;
             this.label1.BackColor = System.Drawing.Color.Transparent;
-            this.label1.Location = new System.Drawing.Point(15, 19);
-            this.label1.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            this.label1.Location = new System.Drawing.Point(14, 15);
+            this.label1.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(60, 23);
+            this.label1.Size = new System.Drawing.Size(54, 18);
             this.label1.TabIndex = 12;
             this.label1.Text = "Date: ";
             // 
@@ -110,10 +111,10 @@
             this.Column3,
             this.Column1,
             this.Column2});
-            this.dataGridView1.Location = new System.Drawing.Point(19, 99);
-            this.dataGridView1.Margin = new System.Windows.Forms.Padding(6, 5, 6, 5);
+            this.dataGridView1.Location = new System.Drawing.Point(17, 77);
+            this.dataGridView1.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(381, 189);
+            this.dataGridView1.Size = new System.Drawing.Size(346, 148);
             this.dataGridView1.TabIndex = 22;
             // 
             // Column3
@@ -145,11 +146,11 @@
             // 
             // UpdateOrder
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 23F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.BlueViolet;
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(198)))), ((int)(((byte)(214)))), ((int)(((byte)(204)))));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ClientSize = new System.Drawing.Size(416, 394);
+            this.ClientSize = new System.Drawing.Size(378, 308);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.checkBox1);
@@ -157,8 +158,8 @@
             this.Controls.Add(this.dateTimePicker1);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label1);
-            this.Font = new System.Drawing.Font("Kristen ITC", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Margin = new System.Windows.Forms.Padding(6, 5, 6, 5);
+            this.Font = new System.Drawing.Font("Lucida Fax", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.Name = "UpdateOrder";
             this.Text = "UpdateOrder";
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();

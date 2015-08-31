@@ -23,26 +23,30 @@ namespace Prototype
         {
             try
             {
-                sl.InsertOrder(new Order(1, Convert.ToDateTime("30 - 12 - 2011"), Convert.ToDateTime("30 - 12 - 2011"), 1));
+                sl.InsertOrder(new Order(1, System.DateTime.Parse("30 - 12 - 2011"), System.DateTime.Parse("30 - 12 - 2011"), 1));
 
-                //supplier notification
-                try
-                {
-                    if (checkBox1.Checked)
-                    {
-                        MessageBox.Show("Email Sent");
-                    }
-                }
-                catch (Exception d)
-                {
-                    MessageBox.Show("ERROR: " + d);
-                }
+                
                 MessageBox.Show("A Product has been added");
             }
             catch(Exception d){
-                MessageBox.Show("ERROR: " + d);
+                MessageBox.Show("INSERT ERROR: " + d);
             }
 
         }
-    }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            //supplier notification
+            try
+            {
+                Form2 a = new Form2();
+                a.ShowDialog();
+                
+            }
+            catch (Exception d)
+            {
+                MessageBox.Show("EMAIL ERROR: " + d);
+            }
+        }
+     }
 }

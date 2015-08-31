@@ -101,3 +101,4 @@ C:\Users\Fatima\Documents\Sites\eSalon\windows\Prototype\Prototype\bin\Debug\New
 C:\Users\Fatima\Documents\Sites\eSalon\windows\Prototype\Prototype\bin\Debug\RestSharp.dll
 C:\Users\Fatima\Documents\Sites\eSalon\windows\Prototype\Prototype\bin\Debug\Newtonsoft.Json.xml
 C:\Users\Fatima\Documents\Sites\eSalon\windows\Prototype\Prototype\bin\Debug\RestSharp.xml
+C:\Users\Fatima\Documents\Sites\eSalon\windows\Prototype\Prototype\obj\x86\Debug\Prototype.Form2.resources

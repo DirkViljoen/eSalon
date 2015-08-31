@@ -62,5 +62,14 @@ namespace Prototype
         {
 
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            try { }
+            
+            catch(Exception d){
+                MessageBox.Show("ERROR: " + d);
+            }
+        }
     }
 }

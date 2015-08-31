@@ -25,24 +25,13 @@ namespace Prototype
         {
             res = "No";
             this.Close();
-            //if (form == "AddOrder")
-            //{
-            //    new AddOrder().ShowDialog();
-            //}
-            //else if (form == "UpdateOrder")
-            //{
-            //    new UpdateOrder().ShowDialog();
-            //    this.Close();
-            //}
+
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
             res = "yes";
             this.Close();
-            //MessageBox.Show("Well Done Son!");
-            //Form1 a = new Form1();
-            //a.ShowDialog();
             
         }
 
@@ -50,8 +39,6 @@ namespace Prototype
         {
             res = "cancel";
             this.Close();
-            //Form1 a = new Form1();
-            //a.ShowDialog();
         }
     }
 }

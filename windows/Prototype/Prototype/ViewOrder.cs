@@ -18,21 +18,36 @@ namespace Prototype
 
         private void button2_Click(object sender, EventArgs e)
         {
-            UpdateOrder a = new UpdateOrder();
+            try{
+                UpdateOrder a = new UpdateOrder();
             a.ShowDialog();
             this.Close();
+            }
+            catch (Exception d)
+            {
+                MessageBox.Show("ERROR: " + d);
+            }
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
-            ReceiveStock a = new ReceiveStock();
-            a.ShowDialog();
-            this.Close();
+            try
+            {
+                ReceiveStock a = new ReceiveStock();
+                a.ShowDialog();
+                this.Close();
+            }
+            catch(Exception d){
+                MessageBox.Show("ERROR: " + d);
+            }
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-
+            try{}
+            catch(Exception d){
+                MessageBox.Show("ERROR: " + d);
+            }
         }
     }
 }

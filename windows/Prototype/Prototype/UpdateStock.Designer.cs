@@ -49,9 +49,9 @@
             // 
             this.button1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(84)))), ((int)(((byte)(51)))), ((int)(((byte)(104)))));
             this.button1.Location = new System.Drawing.Point(204, 224);
-            this.button1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.button1.Margin = new System.Windows.Forms.Padding(4);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(149, 28);
+            this.button1.Size = new System.Drawing.Size(149, 31);
             this.button1.TabIndex = 15;
             this.button1.Text = "Update Product";
             this.button1.UseVisualStyleBackColor = false;
@@ -213,7 +213,7 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.button1);
             this.Font = new System.Drawing.Font("Lucida Fax", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "UpdateStock";
             this.Text = "UpdateProduct";
             this.Load += new System.EventHandler(this.UpdateStock_Load);

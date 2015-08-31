@@ -42,10 +42,10 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(293, 284);
-            this.button1.Margin = new System.Windows.Forms.Padding(6, 5, 6, 5);
+            this.button1.Location = new System.Drawing.Point(266, 222);
+            this.button1.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(173, 38);
+            this.button1.Size = new System.Drawing.Size(157, 30);
             this.button1.TabIndex = 21;
             this.button1.Text = "Receive Stock";
             this.button1.UseVisualStyleBackColor = true;
@@ -53,28 +53,28 @@
             // comboBox1
             // 
             this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(130, 55);
-            this.comboBox1.Margin = new System.Windows.Forms.Padding(6, 5, 6, 5);
+            this.comboBox1.Location = new System.Drawing.Point(118, 43);
+            this.comboBox1.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(160, 31);
+            this.comboBox1.Size = new System.Drawing.Size(146, 26);
             this.comboBox1.TabIndex = 16;
             // 
             // dateTimePicker1
             // 
-            this.dateTimePicker1.Location = new System.Drawing.Point(130, 16);
-            this.dateTimePicker1.Margin = new System.Windows.Forms.Padding(6, 5, 6, 5);
+            this.dateTimePicker1.Location = new System.Drawing.Point(118, 13);
+            this.dateTimePicker1.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.dateTimePicker1.Name = "dateTimePicker1";
-            this.dateTimePicker1.Size = new System.Drawing.Size(279, 29);
+            this.dateTimePicker1.Size = new System.Drawing.Size(254, 26);
             this.dateTimePicker1.TabIndex = 15;
             // 
             // label4
             // 
             this.label4.AutoSize = true;
             this.label4.BackColor = System.Drawing.Color.Transparent;
-            this.label4.Location = new System.Drawing.Point(15, 58);
-            this.label4.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            this.label4.Location = new System.Drawing.Point(14, 45);
+            this.label4.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(82, 23);
+            this.label4.Size = new System.Drawing.Size(86, 18);
             this.label4.TabIndex = 14;
             this.label4.Text = "Supplier: ";
             // 
@@ -82,10 +82,10 @@
             // 
             this.label1.AutoSize = true;
             this.label1.BackColor = System.Drawing.Color.Transparent;
-            this.label1.Location = new System.Drawing.Point(15, 21);
-            this.label1.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            this.label1.Location = new System.Drawing.Point(14, 16);
+            this.label1.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(60, 23);
+            this.label1.Size = new System.Drawing.Size(54, 18);
             this.label1.TabIndex = 12;
             this.label1.Text = "Date: ";
             // 
@@ -96,10 +96,10 @@
             this.Column3,
             this.Column1,
             this.Column2});
-            this.dataGridView1.Location = new System.Drawing.Point(15, 96);
-            this.dataGridView1.Margin = new System.Windows.Forms.Padding(6, 5, 6, 5);
+            this.dataGridView1.Location = new System.Drawing.Point(14, 75);
+            this.dataGridView1.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(451, 178);
+            this.dataGridView1.Size = new System.Drawing.Size(410, 139);
             this.dataGridView1.TabIndex = 23;
             // 
             // Column3
@@ -133,19 +133,19 @@
             // 
             // ReceiveStock
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 23F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.BlueViolet;
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(198)))), ((int)(((byte)(214)))), ((int)(((byte)(204)))));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ClientSize = new System.Drawing.Size(485, 346);
+            this.ClientSize = new System.Drawing.Size(441, 271);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.dateTimePicker1);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label1);
-            this.Font = new System.Drawing.Font("Kristen ITC", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Margin = new System.Windows.Forms.Padding(6, 5, 6, 5);
+            this.Font = new System.Drawing.Font("Lucida Fax", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.Name = "ReceiveStock";
             this.Text = "ReceiveStock";
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
