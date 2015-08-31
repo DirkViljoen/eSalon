@@ -357,6 +357,47 @@ function addSelectionValidation(myForm, formHandler) {
         };
     };
 
+// Supplier
+supplier_add
+    function supplier_add(usrResponse, callback) {
+        switch(usrResponse){
+            case 'save':
+                confirm_YesNoCancel('Add supplier', 'Are you sure you want to add the new supplier?', function(res) {
+                    callback(res);
+                });
+                break;
+            default:
+                callback('none');
+                break;
+        };
+    };
+
+    function supplier_update(usrResponse, callback) {
+        switch(usrResponse){
+            case 'update':
+                confirm_YesNoCancel('Update supplier', 'Are you sure you want to update the supplier?', function(res) {
+                    callback(res);
+                });
+                break;
+            default:
+                callback('none');
+                break;
+        };
+    };
+
+    function supplier_delete(usrResponse, callback) {
+        switch(usrResponse){
+            case 'delete':
+                warning_YesNo('Delete supplier', 'Are you sure you want to delete the selected supplier?', function(res) {
+                    callback(res);
+                });
+                break;
+            default:
+                callback('none');
+                break;
+        };
+    };
+
 // messages
 
     function success_Ok(myTitle, msg, callback) {

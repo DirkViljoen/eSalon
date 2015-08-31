@@ -828,3 +828,43 @@ USE eSalon;
 			`Voucher_ID` = id;
     END //
     DELIMITER ;
+    
+    DELIMITER //
+    CREATE PROCEDURE sp_audit_create
+    (
+		IN uid INT,
+        IN acti VARCHAR(10),
+        IN myQuery VARCHAR(300)
+	)
+    BEGIN
+        INSERT 
+			INTO
+				`Audit`
+                (`DateTime`,`Action`, `Description`,`User_ID`)
+			VALUES
+				(NOW(), acti ,myQuery, uid);
+    END //
+    DELIMITER ;
+    
+    DELIMITER //
+    CREATE PROCEDURE sp_audit_Search
+    (
+		IN iuser VARCHAR(50),
+        IN acti VARCHAR(10),
+        IN dt datetime
+	)
+    BEGIN
+        SELECT 
+			a.*, u.Username
+		FROM 
+			Audit a, `User` u
+		WHERE
+			a.`User_ID` = u.`User_ID`
+            AND
+            u.Username Like iuser
+            AND
+            a.`Action` like acti
+            AND
+            a.`DateTime` > dt;
+    END //
+    DELIMITER ;

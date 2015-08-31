@@ -1,0 +1,51 @@
+extends ../layouts/master
+include ../../mixins/mixins
+
+block header
+  label Audit report
+
+block loggedIn
+  a(href='#', class='navbar-link') Signed in as Mark Otto
+
+block content
+    form.row.col-xs-12.workarea.form-validate(id="auditReport", ng-controller="ReportController", ng-init='initAudit()')
+        .row
+            .col-md-1
+            .col-md-10.form-horizontal
+                .grouphead
+                    +form-group('Search audit log')
+                .groupbox
+                    +ng-input-text('action', 'Action:', 'searchCriteria.action', 'Search on action', false, false, '0', '50')
+                    +ng-input-text('user', 'Username:', 'searchCriteria.uname', 'Search on username', false, false, '0', '50')
+                    +ng-input-calendar('date', 'Action date:', 'searchCriteria.date', '1991-08-23', false, false)
+                    .nav.nav-pills.pull-right
+                        li(role='presentation')
+                            input.btn.btn-primary(type="button", value="Search", ng-click='getAudit()')
+                        li(role='presentation')
+                            input.btn.btn-default(type="button", value='Clear', ng-click='searchClearAudit()')
+
+        br
+        .row
+            .col-md-1
+            .col-md-10.table-responsive
+                table.table.table-hover(id="audit-search" st-table='audit')
+                    thead
+                        tr
+                            th Username
+                            th Date
+                            th Action
+                            th Details
+                    tbody
+                        tr(ng-repeat="row in audit")
+                            td {{row.Username}}
+                            td {{row.DateTime | date: 'yyyy-MM-dd HH:mm:ss'}}
+                            td {{row.Action}}
+                            td {{row.Description }}
+
+        //- Pure functionality objects
+        //- div
+        //-     p(ng-if="loading") Loading&hellip;
+        //-     p searchCriteria:
+        //-         span {{searchCriteria}}
+        //-     p audit:
+        //-         span {{audit}}

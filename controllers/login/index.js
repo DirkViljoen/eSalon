@@ -1,19 +1,23 @@
 'use strict';
 
-
-var LoginModel = require('../../models/login');
-
+var passport = require('passport');
 
 module.exports = function (router) {
 
-    var model = new LoginModel();
+// Navigation
 
     router.get('/', function (req, res) {
-        res.render('login/login',model)
+        res.render('login/login', {})
     });
 
-    router.get('/login', function (req, res) {
-        res.send('<code><pre>test</pre></code>');
-    });
+    router.post('/', function (req, res) {
+            console.log(req.body);
 
+            if (req.body.password == "Admin") {
+              res.redirect('/booking')
+            } else {
+              res.redirect('/login')
+            }
+        ;
+    });
 };

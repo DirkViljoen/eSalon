@@ -12,6 +12,8 @@ var VouchersModel = require('../../models/vouchers');
 
 var LookupsModel = require('../../models/lookups');
 
+var ReportsModel = require('../../models/reports');
+
 var moment = require('moment');
 
 module.exports = function (router) {
@@ -23,6 +25,7 @@ module.exports = function (router) {
     models.employee = new EmployeeModel();
     models.lookup = new LookupsModel();
     models.orders = new OrdersModel();
+    models.reports = new ReportsModel();
     models.services = new ServiceModel();
     // models.specials = new SpecialsModel();
     models.stock = new StockModel();
@@ -986,6 +989,7 @@ module.exports = function (router) {
                   }
               );
             });
+
 //suppliers
     router.get('/supplier', function (req, res) {
         console.log('supplier GET. Parameters: ' + JSON.stringify(req.query))
@@ -993,8 +997,8 @@ module.exports = function (router) {
        var sname = "";
        var pname = "";
 
-        sname = (req.query.sname ? '"' + req.query.sname + '"' : "");
-        pname = (req.query.pname ? '"' + req.query.pname + '"' : "");
+        sname = (req.query.sname ? req.query.sname : "");
+        pname = (req.query.pname ? req.query.pname : "");
 
         models.supplier.find(sname, pname)
             .then(
@@ -1032,9 +1036,9 @@ module.exports = function (router) {
            var obj = {};
            //post
            obj.name = (req.body.name ? '"' + req.body.name + '"' : null);
-           obj.contact = (req.body.contact ? req.body.contact : null);
-           obj.email = (req.body.email ? '"' + req.body.email + '"' : null);
-           obj.active = (req.body.active ? req.body.active : 1);
+           obj.contact = (req.body.contactNumber ? '"' + req.body.contactNumber + '"' : null);
+           obj.email = (req.body.contactEmail ? '"' + req.body.contactEmail + '"' : null);
+           obj.active = 1;
 
             models.supplier.create(obj)
                .then(
@@ -1114,7 +1118,6 @@ module.exports = function (router) {
                 res.send({'err': err});
             }
     });
-
 
 // Vouchers
 
@@ -1259,4 +1262,27 @@ module.exports = function (router) {
             );
     });
 
+// Reports
+    router.get('/reports/audit', function (req, res) {
+        console.log(req);
+        console.log('Audit GET. Parameters: ' + JSON.stringify(req.query))
+
+        var obj = {};
+
+        obj.action = (req.query.action ? '"%' + req.query.action + '%"': '"%"');
+        obj.uname = (req.query.uname ? '"%' + req.query.uname + '%"': '"%"');
+        obj.date = (req.query.date ? moment(req.query.date).format("YYYY-MM-DD") : moment());
+
+        models.reports.audit(obj)
+            .then(
+                function (result){
+                    if (result)
+                        res.send(result);
+                },
+                function (err){
+                    console.log(err);
+                    res.send(err);
+                }
+            );
+    });
 };

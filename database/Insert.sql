@@ -52,7 +52,7 @@ INSERT INTO `Role` VALUES (1, "Admin");
 INSERT INTO `Role` VALUES (2, "Stylist");
 
 INSERT INTO `User` VALUES (1, "Admin", "Admin", 1, 1, TRUE);
-INSERT INTO `User` VALUES (2, "Dirk", "Dirk", 2, 2, TRUE);
+INSERT INTO `User` VALUES (2, "Dirk", "$2a$10$fSZu39e9m2dylGKGr.GifeGTfb6duchRT.Ekq12nsPz6QBOfM5JFW", 2, 2, TRUE);
 INSERT INTO `User` VALUES (3, "Johan", "Johan", 3, 2, TRUE);
 
 INSERT INTO `Supplier` VALUES (1, "John", 08001235674, "maybelline@cosmetics.com", True);

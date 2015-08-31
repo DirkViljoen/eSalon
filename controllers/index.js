@@ -1,11 +1,56 @@
-'use strict';
+// app/routes.js
+module.exports = function(app, passport) {
 
-var IndexModel = require('../models/login');
+  // =====================================
+  // HOME PAGE (with login links) ========
+  // =====================================
+  app.get('/', function(req, res) {
+    res.render('login/login', {}); // load the index.ejs file
+  });
 
-module.exports = function (router) {
-    var model = new IndexModel();
+  // =====================================
+  // LOGIN ===============================
+  // =====================================
+  // show the login form
+  app.get('/login', function(req, res) {
 
-    router.get('/', function (req, res) {
-        res.render('login/login', model);
+    // render the page and pass in any flash data if it exists
+    res.render('login/login', { message: req.flash('loginMessage') });
+  });
+
+  // process the login form
+  app.post('/login', passport.authenticate('local-login', {
+            successRedirect : '/booking', // redirect to the secure profile section
+            failureRedirect : '/login', // redirect back to the signup page if there is an error
+            failureFlash : true // allow flash messages
+    }),
+        function(req, res) {
+            console.log("hello");
+
+            if (req.body.remember) {
+              req.session.cookie.maxAge = 1000 * 60 * 3;
+            } else {
+              req.session.cookie.expires = false;
+            }
+        res.redirect('/');
     });
+
+  // =====================================
+  // LOGOUT ==============================
+  // =====================================
+  app.get('/logout', function(req, res) {
+    req.logout();
+    res.redirect('/');
+  });
 };
+
+// route middleware to make sure
+function isLoggedIn(req, res, next) {
+
+  // if user is authenticated in the session, carry on
+  if (req.isAuthenticated())
+    return next();
+
+  // if they aren't redirect them to the home page
+  res.redirect('/');
+}

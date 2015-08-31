@@ -728,7 +728,7 @@ myModule.controller('ClientController', function($scope, $http, $window) {
 
   });
 
-myModule.controller('BookingController', function($scope, $http, $window, $compile,uiCalendarConfig) {
+myModule.controller('BookingController', function($scope, $http, $window, $compile,uiCalendarConfig, $interval) {
     $scope.alertMessage = {};
 
     $scope.events = {};
@@ -753,6 +753,10 @@ myModule.controller('BookingController', function($scope, $http, $window, $compi
     $scope.badclicks = 0;
 
     $scope.home = '/booking/'
+
+    $scope.timertest = 0;
+
+    var timer;
 
     // core controller tables
 
@@ -1207,12 +1211,29 @@ myModule.controller('BookingController', function($scope, $http, $window, $compi
     // routing
 
         $scope.finalizeBooking = function() {
+            timer = undefined;
             $window.location.href = $scope.home + 'finalise/' + $scope.booking.bid;
         }
 
         $scope.newClient = function() {
+            timer = undefined;
             $window.location.href = '/clients/add';
         }
+
+    // Timer
+
+        $scope.updateCalendar = function() {
+            $scope.currentDate = moment();
+            myCalendar.fullCalendar( 'RemoveEventSource', $scope.eventSources )
+            // console.log($scope.currentDate);
+            $scope.colorize();
+            // uiCalendarConfig.calendars.myCalendar.fullCalendar('render');
+        };
+
+        $scope.$on('$destroy', function() {
+            // Make sure that the interval is destroyed too
+            timer = undefined;
+        });
 
     // initiating
 
@@ -1221,6 +1242,8 @@ myModule.controller('BookingController', function($scope, $http, $window, $compi
             $scope.getbookings(1);
             $scope.getleave(1);
             $scope.getemployees();
+
+            // timer = $interval(function() {$scope.updateCalendar();}, 1000);
         };
 
         $scope.initAdd = function(date,fullname,eid) {
@@ -1381,26 +1404,26 @@ myModule.controller('BookingController', function($scope, $http, $window, $compi
 
         /* config object */
         $scope.uiConfig = {
-          calendar: {
-            // defaultView: 'agendaDay',
-            minTime: '06:00:00',
-            maxTime: '19:00:00',
-            height: 640,
-            editable: true,
-            eventLimit: true, // allow "more" link when too many events
-            theme: true,
-            timezone: 'local',
-            header:{
-              left: 'title',
-              center: 'today',
-              right: 'month agendaWeek agendaDay prev next'
-            },
-            eventClick: $scope.calendar.OnEventClick,
-            eventDrop: $scope.calendar.OnDrop,
-            eventResize: $scope.calendar.OnResize,
-            eventRender: $scope.calendar.eventRender,
-            dayClick: $scope.calendar.dayClick
-        }
+            calendar: {
+                // defaultView: 'agendaDay',
+                minTime: '06:00:00',
+                maxTime: '19:00:00',
+                height: 640,
+                editable: true,
+                eventLimit: true, // allow "more" link when too many events
+                theme: true,
+                timezone: 'local',
+                header:{
+                  left: 'title',
+                  center: 'today',
+                  right: 'month agendaWeek agendaDay prev next'
+                },
+                eventClick: $scope.calendar.OnEventClick,
+                eventDrop: $scope.calendar.OnDrop,
+                eventResize: $scope.calendar.OnResize,
+                eventRender: $scope.calendar.eventRender,
+                dayClick: $scope.calendar.dayClick
+            }
         };
 
         /* event sources array*/
@@ -1664,7 +1687,7 @@ myModule.controller('InvoiceController', function($scope, $http, $window, $q) {
         };
 
         $scope.removeStock = function(index){
-            $scope.invoice.services.splice(index, 1);
+            $scope.invoice.stock.splice(index, 1);
         };
 
         $scope.updateTotal = function(){
@@ -1800,3 +1823,202 @@ myModule.controller('InvoiceController', function($scope, $http, $window, $q) {
         };
   });
 
+myModule.controller('SupplierController', function($scope, $http, $window, $q) {
+    // objects
+        $scope.loading = true;
+        $scope.error = '';
+
+        $scope.supplier = {};
+        $scope.suppliers = {};
+
+        $scope.searchCriteria = {};
+
+        $scope.home = '/supplier'
+
+    // core tables
+
+        $scope.getSuppliers = function(){
+            $http.get('/api/supplier').then(function(response) {
+                $scope.loading = false;
+                console.log(response.data);
+                if (response.data.rows) {
+                    $scope.suppliers = response.data.rows;
+                }
+            }, function(err) {
+                $scope.loading = false;
+                $scope.error = err.data;
+            });
+        };
+
+    // lookups
+
+
+    // Routing
+
+        $scope.addSupplier = function() {
+            $window.location.href = $scope.home + '/add';
+        };
+
+        $scope.viewSupplier = function() {
+            if ($scope.supplier.supplierid) {
+                $window.location.href = $scope.home + '/view/' + $scope.supplier.supplierid;
+            }
+            else
+            {
+                error_Ok('Supplier not selected', 'You have not selected a Supplier to view.');
+            }
+        };
+
+        $scope.cancel = function() {
+            $window.location.href = $scope.home;
+        }
+
+    // functionality
+
+        $scope.searchSupplier = function() {
+            $scope.loading = true;
+            var criteria = '?sname=' + $scope.searchCriteria.sname + '&pname=' + $scope.searchCriteria.pname
+
+            $http.get('/api/supplier' + criteria).then(function(response) {
+                $scope.loading = false;
+                console.log(response.data);
+                if (response.data.rows) {
+                    $scope.suppliers = response.data.rows;
+                }
+            }, function(err) {
+                $scope.loading = false;
+                $scope.error = err.data;
+            });
+        };
+
+        $scope.searchClearSupplier = function() {
+            $scope.searchCriteria.bname = '';
+            $scope.searchCriteria.pname = '';
+            $scope.searchSupplier();
+        };
+
+        $scope.selectRow = function(id) {
+            console.log(id);
+            $scope.supplier.supplierid = id;
+        };
+
+    // Database
+
+        $scope.postSupplier = function() {
+            if($("#supplierAdd").valid()){
+                supplier_add('save', function(res) {
+                    console.log(res);
+                    switch (res){
+                        case 'yes':
+                            $http.post('/api/supplier/', $scope.supplier)
+                                .then(function(response) {
+                                    if (response.data.err) {
+                                        error_Ok('Add supplier error', 'An error occured while saving the new supplier details. Please contact suport with the following details: ' + JSON.stringify(response.data.err), function() {return {}});
+                                        $scope.error = response.data.err;
+                                    }
+                                    else {
+                                        success_Ok('Supplier successfully added', 'The supplier has successfully been captured', function(res) {
+                                            $window.location.href = $scope.home;
+                                        });
+                                    }
+                                });
+                            break;
+                        case 'no':
+                            break;
+                        case 'cancel':
+                            $window.location.href = $scope.home;
+                            break;
+                        default:
+                            error_Ok('Response error', 'Sorry, we missed that. Please only use a provided button.');
+                            break;
+                    }
+                })
+            }
+            else {
+                error_Ok('Add new supplier failed', 'Some fields have not passed validation, please correct before submitting.');
+            }
+        }
+
+    // initiating
+
+        $scope.initManage = function() {
+            $scope.searchCriteria.pname = "";
+            $scope.searchCriteria.bname = "";
+            $scope.getSuppliers();
+        };
+
+        $scope.initAdd = function() {
+            $scope.supplier = {};
+        };
+  });
+
+myModule.controller('ReportController', function($scope, $http, $window, $q) {
+    // objects
+        $scope.loading = true;
+        $scope.error = '';
+
+        $scope.audit = [];
+
+        $scope.searchCriteria = {};
+
+    // core tables
+
+        $scope.getAudit = function(){
+            $scope.loading = true;
+            var criteria = '?action=' + $scope.searchCriteria.action + '&name=' + $scope.searchCriteria.uname + '&date=' + $scope.searchCriteria.date
+
+            $http.get('/api/reports/audit' + criteria).then(function(response) {
+                $scope.loading = false;
+                console.log(response.data);
+                if (response.data.rows) {
+                    $scope.audit = response.data.rows;
+                }
+            }, function(err) {
+                $scope.loading = false;
+                $scope.error = err.data;
+            });
+        };
+
+    // lookups
+
+    // Routing
+
+    // functionality
+
+        $scope.searchClearAudit = function() {
+            $scope.searchCriteria.action = '';
+            $scope.searchCriteria.uname = '';
+            $scope.searchCriteria.date = '';
+            $scope.getAudit();
+        };
+
+    // Database
+
+    // initiating
+
+        $scope.initAudit = function() {
+            $scope.searchCriteria.action = '';
+            $scope.searchCriteria.uname = '';
+            $scope.searchCriteria.date = '';
+            $scope.getAudit();
+        };
+  });
+
+myModule.controller('FixingController', function($scope, $http, $window, $q) {
+    // objects
+        $scope.loading = true;
+        $scope.error = '';
+
+        $scope.employeeManage = function() {
+            $window.location.href = '/employee/';
+        };
+
+        $scope.employeeCancel = function() {
+            $window.location.href = '/employee/';
+        };
+
+        $scope.routehome = function() {
+            $window.location.href = '/booking/';
+        };
+
+  });
