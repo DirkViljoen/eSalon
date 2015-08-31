@@ -18,7 +18,15 @@ namespace Prototype
 
         private void button1_Click(object sender, EventArgs e)
         {
-            
+            if (textBox1.Text == "Admin" && textBox2.Text == "Admin")
+            {
+                Form1 a = new Form1();
+                a.ShowDialog();
+                this.Close();
+            }
+            else
+                MessageBox.Show("Invalid Username or Password");
         }
+
     }
 }

@@ -6,30 +6,42 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using EASendMail;
 
 namespace Prototype
 {
     public partial class AddOrder : Form
     {
+
+        OrderList sl = new OrderList();
         public AddOrder()
         {
             InitializeComponent();
         }
 
-        private void listBox2_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
         private void button1_Click(object sender, EventArgs e)
         {
-            string str = "Are you sure you want to add this order?";
-            string form = "AddOrder";
+            try
+            {
+                sl.InsertOrder(new Order(1, Convert.ToDateTime("30 - 12 - 2011"), Convert.ToDateTime("30 - 12 - 2011"), 1));
 
-            ConfirmationMessage f = new ConfirmationMessage(str, form);
-            f.ShowDialog();
-            MessageBox.Show(f.res);
-
+                //supplier notification
+                try
+                {
+                    if (checkBox1.Checked)
+                    {
+                        MessageBox.Show("Email Sent");
+                    }
+                }
+                catch (Exception d)
+                {
+                    MessageBox.Show("ERROR: " + d);
+                }
+                MessageBox.Show("A Product has been added");
+            }
+            catch(Exception d){
+                MessageBox.Show("ERROR: " + d);
+            }
 
         }
     }

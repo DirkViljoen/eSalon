@@ -114,7 +114,7 @@ namespace Prototype
             return temp;
         }
 
-        public bool InsertStock(Stock s)
+        public void InsertStock(Stock s)
         {
             // POST
             this.Add(s);
@@ -127,14 +127,11 @@ namespace Prototype
             request.AddParameter("productName", s.Product);
             request.AddParameter("price", s.Price);
             request.AddParameter("_size", s.Size);
-            request.AddParameter("active", s.Active);
             request.AddParameter("quantity", s.Quantity);
             request.AddParameter("barcode", s.Barcode);
             request.AddParameter("supplierID", s.SupplierID);
 
             response = stock.Execute(request);
-
-            return true;
         }
 
         public void DeleteStock(Stock s)
@@ -158,15 +155,14 @@ namespace Prototype
             request.Resource = "/api/stock";
 
             request.AddParameter("stockId", s.StockID);
-            request.AddParameter("quantity", s.Brand);
-            request.AddParameter("stockId", s.Product);
-            request.AddParameter("quantity", s.Price);
-            request.AddParameter("stockId", s.Size);
-            request.AddParameter("quantity", s.Active);
-            request.AddParameter("stockId", s.Quantity);
-            request.AddParameter("quantity", s.Barcode);
-            request.AddParameter("stockId", s.CategoryID);
-            request.AddParameter("quantity", s.SupplierID);
+            request.AddParameter("brandName", s.Brand);
+            request.AddParameter("productName", s.Product);
+            request.AddParameter("price", s.Price);
+            request.AddParameter("_size", s.Size);
+            request.AddParameter("active", s.Active);
+            request.AddParameter("quantity", s.Quantity);
+            request.AddParameter("barcode", s.Barcode);
+            request.AddParameter("supplierID", s.SupplierID);
 
             response = stock.Execute(request);
 

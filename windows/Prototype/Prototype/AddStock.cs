@@ -17,16 +17,25 @@ namespace Prototype
         {
             InitializeComponent();
         }
-
         private void button1_Click(object sender, EventArgs e)
         {
-            if (sl.InsertStock(new Stock(0, txtBrand.Text, txtProduct.Text, Convert.ToDouble(txtPrice.Text),
-            Convert.ToInt32(txtSize.Text), true, Convert.ToInt32(txtQuantity.Text), txtBarcode.Text, 0,
-            Convert.ToInt32(txtSupplier.Text))))
+            try
             {
+                sl.InsertStock(new Stock(0, txtBrand.Text, txtProduct.Text, Convert.ToDouble(txtPrice.Text),
+            Convert.ToInt32(txtSize.Text), true, Convert.ToInt32(txtQuantity.Text), txtBarcode.Text, 2,
+            Convert.ToInt32(txtSupplier.Text)));
+
                 MessageBox.Show("A Product has been added");
-                this.Close();
             }
+            catch (Exception d)
+            {
+                MessageBox.Show("ERROR: " + d);
+            }
+        }
+
+        private void AddStock_Load(object sender, EventArgs e)
+        {
+
         }
 
     }
