@@ -48,6 +48,59 @@ label.error {
     color: red;
 }
 
-.testlabel {
-	color:red;
+/* Help file classes*/
+
+.help h1, .help h2, .help h3{
+    color: #543368;
+}
+
+.callout {
+    padding: 20px;
+    padding-top: 15px;
+    margin: 20px 0;
+    border: 0px solid #eee;
+    border-left-width: 5px;
+    border-radius: 3px;
+}
+
+.callout h4 {
+    margin-top: 0;
+    margin-bottom: 5px;
+}
+
+.callout-success {
+    border-left-color: #42D13D;
+}
+
+.callout-success h4 {
+    color: #2D7D2A;
+}
+
+.callout-info {
+    border-left-color: #ABEAFF;
+}
+
+.callout-info h4 {
+    color: #4DAAC9;
+}
+
+.callout-warning {
+    border-left-color: #FF9D2E;
+}
+
+.callout-warning h4 {
+    color: #C77B24;
+}
+
+.callout-danger {
+    border-left-color: #FF2617;
+}
+
+.callout-danger h4 {
+    color: #BA261C;
+}
+
+body{
+    position: relative;
+    padding-top: 70px;
 }

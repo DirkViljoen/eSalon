@@ -1,0 +1,81 @@
+
+html(lang="en", ng-app="app")
+    head
+        title eSalon help
+
+        link(rel="stylesheet", href="/bower_components/bootstrap/dist/css/bootstrap.min.css")
+        link(rel="stylesheet", href="/bower_components/fullcalendar/dist/fullcalendar.min.css")
+        link(rel="stylesheet", href='/bower_components/bootstrap3-dialog/dist/css/bootstrap-dialog.min.css')
+
+        link(rel="stylesheet", href="/css/Markup.css")
+        link(rel='stylesheet', href='/css/Supernice.min.css')
+        script.
+            var shiftWindow = function() { scrollBy(0, -50) };
+            if (location.hash) shiftWindow();
+                window.addEventListener("hashchange", shiftWindow);
+
+    body.container-fluid.help
+
+        nav.navbar.navbar-default.navbar-fixed-top
+            .container-fluid
+                .navbar-header
+                    .navbar-brand
+                        block header
+                .collapse.navbar-collapse.pull-right
+                    ul.nav.navbar-nav
+                        li.active
+                            block loggedIn
+                                a(href="/login") Log in
+                        li
+                            a(href="/login") Log out
+        .row
+            .col-sm-3.hidden-xs
+
+                #accordion.panel-group.affix(role='tablist', aria-multiselectable='true')
+                    .panel.panel-default
+                        #headingBooking.panel-heading(role='tab')
+                            h4.panel-title(role='button', data-toggle='collapse', data-parent='#accordion', href='#collapseBooking', aria-expanded='false', aria-controls='collapseBooking')
+                                    | Bookings
+                        #collapseBooking.panel-collapse.collapse(role='tabpanel', aria-labelledby='headingTwo')
+                            ul.list-group
+                                li
+                                    a(href='#bookings-add') Creating bookings
+                                li
+                                    a(href='#bookings-edit') Editing bookings
+                                li
+                                    a(href='#bookings-cancel') Cancelling bookings
+                                li
+                                    a(href='#bookings-finalise') Completing bookings
+                    .panel.panel-default
+                        #headingThree.panel-heading(role='tab')
+                            h4.panel-title.collapsed(role='button', data-toggle='collapse', data-parent='#accordion', href='#collapseThree', aria-expanded='false', aria-controls='collapseThree')
+                                    | Employees
+                        #collapseThree.panel-collapse.collapse(role='tabpanel', aria-labelledby='headingThree')
+                            ul.list-group
+                                li
+                                    a(href='#employees-add') Adding employees
+                                li
+                                    a(href='#employees-edit') Editing employees
+                                li
+                                    a(href='#employees-delete') Removing employees
+                                li
+                                    a(href='#employees-schedule') Managing an employees leave
+                    .panel.panel-success
+                        .panel-heading(role='tab')
+                            a.h4.panel-title(role='button', href='/booking')
+                                    | I r smart now, i go book
+
+
+            .col-md-7.col-sm-8
+                block content
+
+        script(src="/bower_components/jquery/dist/jquery.min.js")
+        script(src="/bower_components/bootstrap/dist/js/bootstrap.min.js")
+        script(src='/bower_components/angular/angular.min.js')
+
+
+
+
+
+
+

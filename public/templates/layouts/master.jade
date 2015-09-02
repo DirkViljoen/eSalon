@@ -21,7 +21,7 @@ html(lang="en", ng-app="app")
 
     body.container-fluid
 
-        nav.navbar.navbar-default
+        nav.navbar.navbar-default.navbar-fixed-top
             .container-fluid
                 .navbar-header
                     .navbar-brand
@@ -35,8 +35,8 @@ html(lang="en", ng-app="app")
                             a(href="/login") Log out
 
         .row
-            .col-sm-3.col-md-2
-                ul(class='nav nav-pills nav-stacked')
+            .col-sm-3.col-md-2.hidden-xs
+                ul.affix(class='nav nav-pills nav-stacked')
                     li.dropdown
                         a.dropdown-toggle(href='#', data-toggle='dropdown')
                             | Clients
@@ -118,6 +118,9 @@ html(lang="en", ng-app="app")
                                 a(href='#') Expense Report
                             li
                                 a(href='/reports/audit') Audit report
+                    li.dropdown.dropdown-danger
+                        a.dropdown-toggle(href='/help')
+                            | I'm feeling lost. Please help
             .col-sm-9.col-md-10
                 block content
                 .col-xs-12(style="height:100px")

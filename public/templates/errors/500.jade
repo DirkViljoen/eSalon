@@ -1,9 +1,11 @@
-extends ../layouts/master_login
+extends ../layouts/master_error
 include ../../mixins/mixins
 
 block content
-  form.form-signin.form-horizontal(ng-controller="FixingController", ng-init="routehome()")
-      h1 Well this is awkward..
+  form.form-horizontal(ng-controller="FixingController", ng-init="routehome()")
+      h1 Well this is awkward...
       p The server went a little belly-up
-      p= header
+      p
+        code
+            pre= err
       +form-button('Lets go back home', '/booking', 'btnHome')
