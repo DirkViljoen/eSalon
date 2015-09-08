@@ -9,19 +9,6 @@ $('.tmpicker').pickatime({
     max: [18,0]
     });
 
-$(function() {
-    $( "#slider" ).slider({
-        value:30,
-        min: 10,
-        max: 180,
-        step: 5,
-        slide: function( event, ui ) {
-            $( "#amount" ).val( ui.value + ' minutes');
-        }
-    });
-    $( '#amount' ).val( $( "#slider" ).slider( "value" ) + ' minutes' );
-});
-
 $('#frmProductsAll').hide();
 $('#btnShowProducts').click(function(){
     $('#frmProductsAll').show();

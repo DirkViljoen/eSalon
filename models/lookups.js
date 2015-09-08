@@ -101,7 +101,21 @@ module.exports = function LookupsModel() {
         return deferred.promise;
     };
 
+    function roles() {
+        var deferred = q.defer();
 
+        db.query('CALL spRoles_Lookup();')
+            .then(
+                function (result){
+                    deferred.resolve(result);
+                },
+                function (err){
+                    deferred.reject(new Error(err));
+                }
+            );
+
+        return deferred.promise;
+    };
 
     return {
         cities: cities,
@@ -109,6 +123,7 @@ module.exports = function LookupsModel() {
         notificationMethods: notificationMethods,
         paymentMethods: paymentMethods,
         provinces: provinces,
-        suburbs: suburbs
+        suburbs: suburbs,
+        roles: roles
     };
 };

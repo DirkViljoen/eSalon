@@ -15,8 +15,8 @@ html(lang="en", ng-app="app")
 
         link(rel="stylesheet", href="/css/Markup.css")
         link(rel='stylesheet', href='/css/PickaDay.css')
-        link(rel='stylesheet', href='/css/Supernice.min.css')
-        //link(rel="stylesheet", href="/bower_components/carousel-3d/dist/styles/jquery.carousel-3d.default.css")
+        //- link(rel='stylesheet', href='/css/Supernice.min.css')
+        //- link(rel="stylesheet", href="/bower_components/carousel-3d/dist/styles/jquery.carousel-3d.default.css")
 
 
     body.container-fluid
@@ -143,6 +143,7 @@ html(lang="en", ng-app="app")
         script(src='/bower_components/angular-smart-table/dist/smart-table.min.js')
         script(src='/bower_components/angular-ui-calendar/src/calendar.js')
         script(src='/bower_components/angular-moment/angular-moment.min.js')
+        script(src='/bower_components/angular-file-upload/dist/angular-file-upload.min.js')
 
         script(src="/bower_components/javascript-detect-element-resize/jquery.resize.js")
         script(src="/bower_components/waitForImages/dist/jquery.waitforimages.js")
@@ -159,16 +160,29 @@ html(lang="en", ng-app="app")
         script.
             $( document ).ready(function() {
                 $(":submit").click(function () { $("#btnClicked").val(this.value); });
-                addNGValidation('#sub-letterAdd');
-                addNGValidation('#sub-letterPayment');
-                addNGValidation('#sub-letterUpdate');
-                addNGValidation('#clientAdd');
-                addNGValidation('#clientUpdate');
+
+                //Bookings
                 addNGValidation('#bookingAdd');
                 addNGValidation('#bookingUpdate');
                 addNGValidation('#finaliseBooking');
                 addNGValidation('#makeSale');
+
+                //Clients
+                addNGValidation('#clientAdd');
+                addNGValidation('#clientUpdate');
+
+                //Employees
+                addNGValidation('#employeeAdd');
+                addNGValidation('#employeeUpdate');
+
+                //Suppliers
                 addNGValidation('#supplierAdd');
+
+                //Sub-letters
+                addNGValidation('#sub-letterAdd');
+                addNGValidation('#sub-letterPayment');
+                addNGValidation('#sub-letterUpdate');
+
             });
 
 

@@ -1,3 +1,5 @@
+
+
 function addFormValidation(myForm, formHandler) {
     $(myForm).validate({
         submitHandler: function(form){
@@ -315,7 +317,6 @@ function addSelectionValidation(myForm, formHandler) {
         };
     };
 
-
 // Client
 
     function client_add(usrResponse, callback) {
@@ -357,8 +358,48 @@ function addSelectionValidation(myForm, formHandler) {
         };
     };
 
+// Employees
+
+    function employee_add(usrResponse, callback) {
+        switch(usrResponse){
+            case 'save':
+                confirm_YesNoCancel('Add employee', 'Are you sure you want to add the new employee?', function(res) {
+                    callback(res);
+                });
+                break;
+            default:
+                callback('none');
+                break;
+        };
+    };
+
+    function employee_update(usrResponse, callback) {
+        switch(usrResponse){
+            case 'update':
+                confirm_YesNoCancel('Update employee', 'Are you sure you want to update the employee?', function(res) {
+                    callback(res);
+                });
+                break;
+            default:
+                callback('none');
+                break;
+        };
+    };
+
+    function employee_delete(usrResponse, callback) {
+        switch(usrResponse){
+            case 'delete':
+                warning_YesNo('Delete employee', 'Are you sure you want to delete the selected employee?', function(res) {
+                    callback(res);
+                });
+                break;
+            default:
+                callback('none');
+                break;
+        };
+    };
+
 // Supplier
-supplier_add
     function supplier_add(usrResponse, callback) {
         switch(usrResponse){
             case 'save':
@@ -417,6 +458,7 @@ supplier_add
         var btn1 = dialog.getButton('btn-Ok');
         btn1.click({'result': 'ok'}, function(event){
             callback(event.data.result);
+            dialog.close();
         });
 
         dialog.open();
@@ -548,26 +590,27 @@ supplier_add
         dialog.open();
     }
 
-jQuery.validator.addMethod('myCurrency', function(value, element) {
-    return this.optional(element) || /^(?=\(.*\)|[^()]*$)\(?\d{1,3}(,?\d{3})?(\.\d{2}?)?\)?$/.test(value);
-}, 'Please enter a valid currency value. e.g 12,345.67');
+// Rules
+    jQuery.validator.addMethod('myCurrency', function(value, element) {
+        return this.optional(element) || /^(?=\(.*\)|[^()]*$)\(?\d{1,3}(,?\d{3})?(\.\d{2}?)?\)?$/.test(value);
+    }, 'Please enter a valid currency value. e.g 12,345.67');
 
-jQuery.validator.addMethod('myEmail', function(value, element) {
-    return this.optional(element) || /^[A-Za-z0-9._%+-]{1,}@[A-Za-z0-9.-]{1,}\.[A-Za-z]{2,4}$/.test(value);
-}, 'Please enter a valid email address');
+    jQuery.validator.addMethod('myEmail', function(value, element) {
+        return this.optional(element) || /^[A-Za-z0-9._%+-]{1,}@[A-Za-z0-9.-]{1,}\.[A-Za-z]{2,4}$/.test(value);
+    }, 'Please enter a valid email address');
 
-jQuery.validator.addMethod('myContactNumber', function(value, element) {
-    return this.optional(element) || /^[0-9]{3}\s{1}[0-9]{3}\s{1}[0-9]{4}$/.test(value);
-}, 'Please enter a valid South African contact number in the folowing format: 099 999 9999');
+    jQuery.validator.addMethod('myContactNumber', function(value, element) {
+        return this.optional(element) || /^[0-9]{3}\s{1}[0-9]{3}\s{1}[0-9]{4}$/.test(value);
+    }, 'Please enter a valid South African contact number in the folowing format: 099 999 9999');
 
-jQuery.validator.addMethod('myRadioGroup', function(value, element) {
-    return this.optional(element) || /^[0-9]{3}\s{1}[0-9]{3}\s{1}[0-9]{4}$/.test(value);
-}, 'Please enter a valid South African contact number');
+    jQuery.validator.addMethod('myRadioGroup', function(value, element) {
+        return this.optional(element) || /^[0-9]{3}\s{1}[0-9]{3}\s{1}[0-9]{4}$/.test(value);
+    }, 'Please enter a valid South African contact number');
 
-jQuery.validator.addMethod("valueNotEquals", function(value, element, arg){
-    if (arg === undefined) {
-        arg = '';
-    };
+    jQuery.validator.addMethod("valueNotEquals", function(value, element, arg){
+        if (arg === undefined) {
+            arg = '';
+        };
 
-    return arg != value;
-}, "Please select an item.");
+        return arg != value;
+    }, "Please select an item.");

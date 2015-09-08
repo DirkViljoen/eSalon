@@ -11,33 +11,23 @@ module.exports = function (router) {
 
 
     router.get('/', function (req, res) {
-        //You can find me at /employee
-        //res.send('<code><pre>' + JSON.stringify(model, null, 2) + '</pre></code>');
-        res.render('employee', model)
+        res.render('employees/employee', {})
     });
 
     router.get('/add', function (req, res) {
-        //You can find me at /employee/add
-        //res.send('<code><pre>' + JSON.stringify(model, null, 2) + '</pre></code>');
-        model.lastpage = '/employee/add';
-        res.render('employee-add', model)
+        res.render('employees/employee-add', {})
     });
 
-    router.get('/view', function (req, res) {
-        //You can find me at /employee/add-image
-        //res.send('<code><pre>' + JSON.stringify(model, null, 2) + '</pre></code>');
-        res.render('employee-view', model)
+    router.get('/view/:id', function (req, res) {
+        res.render('employees/employee-view', req.params)
     });
 
-    router.get('/update', function (req, res) {
-        //You can find me at /employee/add-image
-        //res.send('<code><pre>' + JSON.stringify(model, null, 2) + '</pre></code>');
-        model.lastpage = '/employee/update';
-        res.render('employee-update', model)
+    router.get('/update/:id', function (req, res) {
+        res.render('employees/employee-update', req.params)
     });
 
-    router.get('/change-password', function (req, res) {
-        res.render('employees/employee-change-password', model)
+    router.get('/change-password/:id', function (req, res) {
+        res.render('employees/employee-change-password', req.params)
     });
 
     router.get('/schedule', function (req, res) {

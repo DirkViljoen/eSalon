@@ -1,4 +1,4 @@
-var myModule = angular.module('app', ['smart-table', 'ui.calendar', 'angularMoment']);
+var myModule = angular.module('app', ['smart-table', 'ui.calendar', 'angularMoment', 'angularFileUpload']);
 
 //Angular app
 myModule.controller('SubLetterController', function($scope, $http, $window) {
@@ -1429,6 +1429,419 @@ myModule.controller('BookingController', function($scope, $http, $window, $compi
         /* event sources array*/
         $scope.eventSources = [];
   });
+
+myModule.controller('EmployeeController', function($scope, $http, $window, FileUploader) {
+    $scope.loading = true;
+    $scope.error = '';
+
+    $scope.employee = {};
+    $scope.address = {};
+    $scope.user = {};
+
+    $scope.employees = [];
+
+    $scope.provinces = [];
+    $scope.cities = [];
+    $scope.suburbs = [];
+
+    $scope.searchCriteria = {};
+
+    $scope.home = '/employee';
+
+    // Image
+        var uploader = $scope.uploader = new FileUploader({
+            // url: 'upload.php'
+        });
+
+    // Lookup tables
+
+        $scope.getRoles = function() {
+            $scope.loading = true;
+            $http.get('/api/lookups/roles').then(function(response) {
+                $scope.loading = false;
+                console.log(response.data);
+                if (response.data.rows) {
+                    $scope.roles = response.data.rows;
+                }
+            }, function(err) {
+                $scope.loading = false;
+                $scope.error = err.data;
+            });
+        };
+
+        $scope.getProvinces = function() {
+            $scope.loading = true;
+            $http.get('/api/lookups/provinces').then(function(response) {
+                $scope.loading = false;
+                console.log(response.data);
+                if (response.data.rows) {
+                    $scope.provinces = response.data.rows;
+                }
+            }, function(err) {
+                $scope.loading = false;
+                $scope.error = err.data;
+            });
+        };
+
+        $scope.getCities = function() {
+            if ($scope.address.provinceId) {
+                $scope.loading = true;
+                $scope.suburbs = [];
+                $http.get('/api/lookups/cities/' + $scope.address.provinceId).then(function(response) {
+                    $scope.loading = false;
+                    console.log(response.data);
+                    if (response.data.rows) {
+                        $scope.cities = response.data.rows;
+                    }
+                }, function(err) {
+                    $scope.loading = false;
+                    $scope.error = err.data;
+                });
+            };
+        };
+
+        $scope.getSuburbs = function() {
+            if ($scope.address.cityId) {
+                $scope.loading = true;
+                $http.get('/api/lookups/suburbs/' + $scope.address.cityId).then(function(response) {
+                    $scope.loading = false;
+                    console.log(response.data);
+                    if (response.data.rows) {
+                        $scope.suburbs = response.data.rows;
+                    }
+                }, function(err) {
+                    $scope.loading = false;
+                    $scope.error = err.data;
+                });
+            };
+        };
+
+    // Core controller tables
+        $scope.getEmployee = function(id) {
+            $scope.loading = true;
+            $http.get('/api/employees/' + id).then(function(response) {
+                $scope.loading = false;
+                console.log(response.data);
+                if (response.data.rows) {
+                    $scope.employee.employeeId = response.data.rows[0].Employee_ID;
+                    $scope.employee.cfname = response.data.rows[0].Name;
+                    $scope.employee.clname = response.data.rows[0].Surname;
+                    $scope.employee.cnumber = response.data.rows[0].ContactNumber;
+                    $scope.employee.cemail = response.data.rows[0].email;
+                    $scope.employee.salary = response.data.rows[0].Salary
+                    $scope.employee.active = response.data.rows[0].Active;
+                    $scope.employee.image = response.data.rows[0].Image;
+                    $scope.employee.addressId = (response.data.rows[0].Address_ID ? response.data.rows[0].Address_ID : null);
+                    $scope.employee.userId = (response.data.rows[0].User_ID ? response.data.rows[0].User_ID : null);
+
+                    if ($scope.employee.addressId){
+                        $scope.getAddress($scope.employee.addressId);
+                    };
+                    if ($scope.employee.userId){
+                        $scope.getUser($scope.employee.userId);
+                    };
+                }
+            }, function(err) {
+                $scope.loading = false;
+                $scope.error = err.data;
+            });
+        };
+
+        $scope.getAddress = function(id) {
+            $scope.loading = true;
+            $http.get('/api/address/' + id).then(function(response) {
+                $scope.loading = false;
+                console.log(response.data);
+                if (response.data.rows) {
+                    $scope.address.id = response.data.rows[0].Address_ID;
+                    $scope.address.line1 = response.data.rows[0].Line1;
+                    $scope.address.line2 = response.data.rows[0].Line2;
+                    $scope.address.suburbId = response.data.rows[0].Surburb_id;
+                    $scope.address.cityId = response.data.rows[0].City_id;
+                    $scope.address.provinceId = response.data.rows[0].Province_id;
+
+                    if ($scope.address.provinceId) {
+                        $scope.getCities();
+                        $scope.getSuburbs();
+                    };
+                }
+            }, function(err) {
+                $scope.loading = false;
+                $scope.error = err.data;
+            });
+        };
+
+        $scope.getUser = function(id) {
+            $scope.loading = true;
+            $http.get('/api/users/' + id).then(function(response) {
+                $scope.loading = false;
+                console.log(response.data);
+                if (response.data.rows) {
+                    $scope.user.userId = response.data.rows[0].User_ID;
+                    $scope.user.roleId = response.data.rows[0].Role_ID;
+                    $scope.user.employeeId = response.data.rows[0].Employee_ID;
+                    $scope.user.name = response.data.rows[0].Username;
+                }
+            }, function(err) {
+                $scope.loading = false;
+                $scope.error = err.data;
+            });
+        };
+
+        $scope.getEmployees = function() {
+            console.log('test');
+            $scope.loading = true;
+            $http.get('/api/employees').then(function(response) {
+                $scope.loading = false;
+                console.log(response.data);
+                if (response.data.rows) {
+                    $scope.employees = response.data.rows;
+                }
+            }, function(err) {
+                $scope.loading = false;
+                $scope.error = err.data;
+            });
+        };
+
+    // Functionality
+
+        $scope.postEmployee = function() {
+            // console.log('Unimplemented')
+            if($("#employeeAdd").valid()){
+                employee_add('save', function(res) {
+                    console.log(res);
+                    switch (res){
+                        case 'yes':
+                            var obj = {}
+                            obj.employee = $scope.employee;
+                            obj.user = $scope.user;
+                            obj.address = $scope.address;
+
+                            $http.post('/api/employees', obj)
+                                .then(function(response) {
+                                    if (response.data.err) {
+                                        error_Ok('Employee add error', 'An error occured while saving the new employee details. Please contact suport with the following details: ' + JSON.stringify(response.data.err), function() {return {}});
+                                        $scope.error = response.data.err;
+                                    }
+                                    else {
+                                        success_Ok('Employee successfully added', 'The details for ' + $scope.employee.cfname + ' ' + $scope.employee.clname + ' has been saved successfully.', function(res) {
+                                            $window.location.href = $scope.home;
+                                        });
+                                    }
+                                });
+                            break;
+                        case 'no':
+                            break;
+                        case 'cancel':
+                            $window.location.href = $scope.home;
+                            break;
+                        default:
+                            error_Ok('Response error', 'Sorry, we missed that. Please only use a provided button.');
+                            break;
+                    }
+                })
+            }
+            else {
+                error_Ok('Add employee validation failed', 'Some fields have not passed validation, please correct before submitting.');
+            }
+        };
+
+        $scope.putEmployee = function() {
+            if($("#employeeUpdate").valid()){
+                employee_update('update', function(res) {
+                    console.log(res);
+                    switch (res){
+                        case 'yes':
+                            var obj = {}
+                            obj.employee = $scope.employee;
+                            obj.user = $scope.user;
+                            obj.address = $scope.address;
+
+                            $http.put('/api/employees/' + $scope.employee.employeeId, obj)
+                                .then(function(response) {
+                                    if (response.data.err) {
+                                        error_Ok('Employee update error', 'An error occured while saving the employee details. Please contact suport with the following details: ' + JSON.stringify(response.data.err), function() {return {}});
+                                        $scope.error = response.data.err;
+                                    }
+                                    else {
+                                        success_Ok('Employee successfully updated', 'The details for ' + $scope.employee.cfname + ' ' + $scope.employee.clname + ' has been updated successfully.', function(res) {
+                                            $window.location.href = $scope.home;
+                                        });
+                                    }
+                                });
+                            break;
+                        case 'no':
+                            break;
+                        case 'cancel':
+                            $window.location.href = $scope.home;
+                            break;
+                        default:
+                            error_Ok('Response error', 'Sorry, we missed that. Please only use a provided button.');
+                            break;
+                    }
+                })
+            }
+            else {
+                error_Ok('Update employee validation failed', 'Some fields have not passed validation, please correct before submitting.');
+            }
+        };
+
+        $scope.deleteEmployee = function() {
+            if($scope.employee.employeeId){
+                var bookings;
+
+
+
+                employee_delete('delete', function(res) {
+                    console.log(res);
+                    switch (res){
+                        case 'yes':
+                            $http.delete('/api/employees/' + $scope.employee.employeeId, $scope.employee)
+                                .then(function(response) {
+                                    if (response.data.err) {
+                                        error_Ok('Employee delete error', 'An error occured while deleting the employee. Please contact support with the following information: ' + JSON.stringify(response.data.err), function(res) {return {};});
+                                        $scope.error = response.data.err;
+                                    }
+                                    else {
+                                        success_Ok('Employee deleted', 'The employee has been deleted successfully.', function(res) {
+                                            $window.location.href = $scope.home;
+                                        });
+                                    }
+                                });
+                            break;
+                        case 'no':
+                            break;
+                        case 'cancel':
+                            break;
+                        case 'none':
+                            error_Ok('Response error', 'Sorry, we missed that. Please only use a provided button.');
+                            break;
+                    }
+                })
+            }
+            else {
+                error_Ok('Delete employee failed', 'An employee was not selected');
+            }
+        };
+
+        $scope.searchEmployee = function() {
+            $scope.loading = true;
+            var criteria = '';
+            criteria = criteria + '?fname=' + $scope.searchCriteria.cfname;
+            criteria = criteria + '&lname=' + $scope.searchCriteria.clname;
+            criteria = criteria + '&role=' + $scope.searchCriteria.role;
+
+            $http.get('/api/employees' + criteria).then(function(response) {
+                $scope.loading = false;
+                console.log(response.data);
+                if (response.data.rows) {
+                    $scope.employees = response.data.rows;
+                }
+            }, function(err) {
+                $scope.loading = false;
+                $scope.error = err.data;
+            });
+        };
+
+        $scope.searchClearEmployee = function() {
+            $scope.searchCriteria.cfname = '';
+            $scope.searchCriteria.clname = '';
+            $scope.searchCriteria.role = '';
+            $scope.searchEmployee();
+        }
+
+        $scope.selectRow = function(eid) {
+            $scope.employee.employeeId = eid;
+        };
+
+    // Helper functions
+
+
+    // Routing
+        $scope.cancel = function() {
+            $window.location.href = $scope.home;
+        };
+
+        $scope.addEmployee = function() {
+            $window.location.href = '/employee/add';
+        };
+
+        $scope.viewEmployee = function() {
+            if($scope.employee.employeeId){
+                $window.location.href = '/employee/view/' + $scope.employee.employeeId;
+            }
+            else {
+                error_Ok('Employee not selected', 'You have not selected an employee to view.');
+            };
+        };
+
+        $scope.updateEmployee = function() {
+            if($scope.employee.employeeId){
+                $window.location.href = '/employee/update/' + $scope.employee.employeeId;
+            }
+            else {
+                error_Ok('Employee not selected', 'You have not selected an employee to update.');
+            };
+        };
+
+        $scope.back = function() {
+            $window.location.href = '/booking';
+        };
+
+    //modals
+
+        $scope.changePassword = function() {
+            if ($scope.user.password == $scope.user.password2) {
+                var obj = {}
+                obj.userId = $scope.user.userId;
+                obj.password = $scope.user.password;
+
+                $http.put('/api/users/' + obj.userId + '/password', obj)
+                    .then(function(response) {
+                        if (response.data.err) {
+                            error_Ok('Password change error', 'An error occured while changing the password. Please contact suport with the following details: ' + JSON.stringify(response.data.err), function() {return {}});
+                            $scope.error = response.data.err;
+                        }
+                        else {
+                            success_Ok('Password changed successfully', 'The password for ' + $scope.employee.cfname + ' ' + $scope.employee.clname + ' has been changed successfully.', function(res) {
+                                return null;
+                            });
+
+                            $scope.user.password = "";
+                            $scope.user.password2 = "";
+                        }
+                    });
+            }
+            else {
+                error_Ok('Passwords do not match', 'Some fields have not passed validation, please correct before submitting.');
+            }
+        };
+
+
+    //Initializing
+        $scope.initAdd = function() {
+            $scope.getProvinces();
+            $scope.getRoles();
+        }
+
+        $scope.initView = function(employee) {
+            $scope.getProvinces();
+            $scope.getRoles();
+            $scope.getEmployee(employee);
+        }
+
+        $scope.initUpdate = function(employee) {
+            $scope.getProvinces();
+            $scope.getRoles();
+            $scope.getEmployee(employee);
+        }
+
+        $scope.initManage = function() {
+            $scope.searchClearEmployee();
+            $scope.getRoles();
+        }
+
+      });
 
 myModule.controller('InvoiceController', function($scope, $http, $window, $q) {
     // objects

@@ -1,0 +1,90 @@
+extends ../layouts/master
+include ../../mixins/mixins
+
+block header
+  label Clients
+
+block loggedIn
+  a(href='#', class='navbar-link') Signed in as Mark Otto
+
+block content
+    form.row.col-xs-12.workarea.form-validate(id="employeeManage", ng-controller="EmployeeController", ng-init='initManage()')
+        .row
+            .col-sm-1
+            .col-sm-11
+                h3 Manage clients
+                br
+
+        .row
+            .col-md-1
+            .col-md-10.form-horizontal
+                .grouphead
+                    +form-group('Search for an employee')
+                .groupbox
+                    .row
+                        .col-md-3
+                            +ng-input-text-alt('fname', 'Name:', 'searchCriteria.cfname', 'Search on employee name', false, false, '0', '50')
+                        .col-md-3
+                            +ng-input-text-alt('lname', 'Surname:', 'searchCriteria.clname', 'Search on employee surname', false, false, '0', '50')
+                        .col-md-3
+                            +ng-input-combobox('role', 'Role:', 'searchCriteria.role', 'Select a role', 'role.Name as role.Name for role in roles', true, false)
+                        .col-md-3
+                            .nav.nav-pills.pull-right
+                                li(role='presentation')
+                                    input.btn.btn-primary(type="button", value="Search", ng-click='searchEmployee()')
+                                li(role='presentation')
+                                    input.btn.btn-default(type="button", value='Clear', ng-click='searchClearEmployee()')
+
+        br
+        .row
+            .col-md-1
+            .col-md-10.table-responsive
+                table.table.table-hover(id="employee-search" st-table='employees')
+                    thead
+                        tr
+                            th
+                            th Name
+                            th Surname
+                            th Role
+                            th Contact number
+                            th Email
+                            th Salary
+                            th Address
+                            th Image
+                    tbody
+                        tr(ng-repeat="row in employees" ng-click="selectRow(row.Employee_ID)")
+                            td
+                                input(type="radio" name="Employee_ID" ng-model="employee.employeeId" value='{{row.Employee_ID}}')
+                            td {{row.Name}}
+                            td {{row.Surname}}
+                            td {{row.Role}}
+                            td {{row.ContactNumber}}
+                            td {{row.email}}
+                            td {{row.Salary}}
+                            td {{row.Address}}
+                            td {{row.Image}}
+
+        br
+        .row
+            .col-md-1
+            .col-md-10.form-group
+                ul.nav.nav-pills.pull-right
+                    li(role='presentation')
+                        input.btn.btn-primary(type="button", value="View", ng-click='viewEmployee()')
+                    li(role='presentation')
+                        input.btn.btn-default(type="button", value='Update', ng-click='updateEmployee()')
+                    li(role='presentation')
+                        input.btn.btn-default(type="button", value='Manage leave', ng-click='manageLeave()')
+                    li(role='presentation')
+                        input.btn.btn-default(type="button", value='Cancel', ng-click='back()')
+                    li(role='presentation')
+                        input.btn.btn-default(type="button", value='Delete', ng-click='deleteEmployee()')
+                        br
+
+        //- Pure functionality objects
+        div
+            p(ng-if="loading") Loading&hellip;
+            p searchCriteria:
+                span {{searchCriteria}}
+            p employee:
+                span {{employee}}
