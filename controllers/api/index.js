@@ -142,9 +142,7 @@ module.exports = function (router) {
         if (JSON.stringify(req.body) != '{}') {
             var obj = {};
             //booking
-            obj.datetime = (req.body.datetime ? '"' + req.body.datetime + '"' : null);
-            obj.datetime = obj.datetime.replace("T"," ");
-            obj.datetime = obj.datetime.replace("Z","");
+            obj.datetime = '"' + moment(req.body.datetime).format('YYYY-MM-DD HH:mm:ss') + '"';
             obj.duration = (req.body.duration ? '"' + req.body.duration + '"' : 30);
             obj.completed = (req.body.completed ? '"' + req.body.completed + '"' : 0);
             obj.active = (req.body.active ? '"' + req.body.active + '"' : 1);

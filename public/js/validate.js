@@ -553,6 +553,57 @@ function addNGValidation(myForm) {
         dialog.open();
     }
 
+    function warning_Ok(myTitle, msg, callback) {
+        var res = 'no value';
+
+        var dialog = new BootstrapDialog({
+            title: myTitle,
+            message: msg,
+            type: BootstrapDialog.TYPE_WARNING,
+            buttons: [{
+                id: 'btn-Ok',
+                label: 'Ok'
+            }]
+        });
+        dialog.realize();
+
+        var btn1 = dialog.getButton('btn-Ok');
+        btn1.click({'result': 'Ok'}, function(event){
+            if (callback) {
+                // alert('Call callback');
+                callback(event.data.result);
+            };
+            dialog.close();
+        });
+
+        dialog.open();
+    }
+
+    function info_Ok(myTitle, msg, callback) {
+        var res = 'no value';
+
+        var dialog = new BootstrapDialog({
+            title: myTitle,
+            message: msg,
+            type: BootstrapDialog.TYPE_INFO,
+            buttons: [{
+                id: 'btn-Ok',
+                label: 'Ok'
+            }]
+        });
+        dialog.realize();
+
+        var btn1 = dialog.getButton('btn-Ok');
+        btn1.click({'result': 'Ok'}, function(event){
+            if (callback) {
+                callback(event.data.result);
+            };
+            dialog.close();
+        });
+
+        dialog.open();
+    }
+
 // Rules
     jQuery.validator.addMethod('myCurrency', function(value, element) {
         return this.optional(element) || /^-{0,1}(?=\(.*\)|[^()]*$)\(?\d{1,3}(,?\d{3})?(\.\d{2}?)?\)?$/.test(value);

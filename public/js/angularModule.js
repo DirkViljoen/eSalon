@@ -848,7 +848,6 @@ myModule.controller('BookingController', function($scope, $modal, $http, $window
                             for (var j = 0; j < temp.length; j++) {
                                 if (response.data.rows.length > 0) {
                                     if (response.data.rows[0].Booking_id == temp[j].bid) {
-                                        console.log(temp[j].index);
                                         $scope.bookings[temp[j].index].services = response.data.rows;
 
                                     };
@@ -968,6 +967,8 @@ myModule.controller('BookingController', function($scope, $modal, $http, $window
                   });
                 $scope.eventSources.push($scope.bookings[index])
             };
+            $scope.changeDate($scope.settings.date,'myCalendar');
+            $scope.changeView($scope.settings.view, 'myCalendar');
         };
 
         $scope.colorizeleave = function() {
@@ -1050,7 +1051,7 @@ myModule.controller('BookingController', function($scope, $modal, $http, $window
 
 
         $scope.changeCalendar = function() {
-            var locat = '/booking?stylist=' + $scope.booking.eid;
+            var locat = '/booking?eid=' + $scope.settings.eid;
             if ($scope.settings.view) {
                 locat = locat + '&view=' + $scope.settings.view;
             }
@@ -1293,14 +1294,16 @@ myModule.controller('BookingController', function($scope, $modal, $http, $window
 
     // initiating
 
-        $scope.initManage = function(eid, view) {
+        $scope.initManage = function(eid, view, date) {
             $scope.getclients();
             $scope.booking.eid = eid;
             $scope.getbookings(eid);
             $scope.getleave(eid);
             $scope.getemployees();
 
-            // $scope.changeView(view, 'myCalendar');
+            $scope.settings.eid = eid;
+            $scope.settings.view = view;
+            $scope.settings.date = moment(date);
 
             // timer = $interval(function() {$scope.updateCalendar();}, 1000);
         };
@@ -1334,37 +1337,46 @@ myModule.controller('BookingController', function($scope, $modal, $http, $window
 
     // calendar
 
-        $scope.calendar.changedate = function() {
-
+        $scope.refresh = function(){
+            $window.location.href = '/booking?date=' + $scope.settings.date + '&view=' + $scope.settings.view + '&eid=' + $scope.settings.eid;
         };
 
         $scope.calendar.dayClick = function(date, jsEvent, view) {
+            $scope.settings.view = view.name;
             // $scope.events.new.date = date;
             // $scope.events.new.view = view.name;
 
             if (view.name == 'month') {
                 console.log(uiCalendarConfig.calendars);
                 // $scope.uiConfig.fullCalendar('changeView', 'agendaWeek')
-                $scope.changeDate(date,'myCalendar')
+                $scope.changeDate(date,'myCalendar');
                 $scope.changeView('agendaDay', 'myCalendar');
-                $scope.settings.view = 'agendaDay';
             }
             else {
                 if (moment(date) > moment()) {
-                    var temp = "";
-                    for (index = 0; index < $scope.employees.length; ++index) {
-                        // $scope.employees[index].fullname = $scope.employees[index].Name + " " + $scope.employees[index].Surname;
-                        if ($scope.booking.eid == $scope.employees[index].Employee_ID) {
-                            temp = $scope.employees[index].fullname;
-                        }
-                    };
-                    $window.location.href = $scope.home + 'add?datetime=' + moment(date) +
-                        '&stylist=' + temp + '&eid=' + $scope.booking.eid;
+                    var mStart = moment(date);
+                    var mEnd = mStart.add(30, 'm');
+
+                    if (bookingLeaveOverlap($scope.booking.eid, mStart, mEnd) == false) {
+                        var temp = "";
+                        for (index = 0; index < $scope.employees.length; ++index) {
+                            // $scope.employees[index].fullname = $scope.employees[index].Name + " " + $scope.employees[index].Surname;
+                            if ($scope.booking.eid == $scope.employees[index].Employee_ID) {
+                                temp = $scope.employees[index].fullname;
+                            }
+                        };
+                        $window.location.href = $scope.home + 'add?datetime=' + moment(date) +
+                            '&stylist=' + temp + '&eid=' + $scope.booking.eid;
+                    }
+                    else
+                    {
+                        warning_Ok('Creating bookings during leave', 'You are not allowed to add a booking during a time allocated as employee leave.', function() {return {}});
+                    }
                 }
                 else
                 {
                     if ($scope.badclicks > 1){
-                        alert('Are you trying to add a booking? You cannot add a booking to a past date.');
+                        info_Ok('Trying to add a booking?', 'Are you trying to add a booking? You cannot add a booking to a past date/time.', function() {return {}});
                     }
                     else
                     {
@@ -1376,26 +1388,43 @@ myModule.controller('BookingController', function($scope, $modal, $http, $window
 
         /* alert on eventClick */
         $scope.calendar.OnEventClick = function( event, jsEvent, view){
+            $scope.settings.view = view.name;
+            $scope.settings.date = event.start;
             $window.location.href = '/booking/update/' + event.id;
         };
 
         bookingLeaveOverlap = function(eid, start, end){
+            var res = false;
+            for (i = 0; i < $scope.employeeLeave.length; i++) {
+                if ($scope.employeeLeave[i].Employee_ID == eid){
+                    if (start > moment($scope.employeeLeave[i].StartDate) && start < moment($scope.employeeLeave[i].EndDate)){
+                        res = true;
+                    }
+                    if (end > moment($scope.employeeLeave[i].StartDate) && end < moment($scope.employeeLeave[i].EndDate)){
+                        res = true;
+                    }
+                }
+            }
 
+            return res;
         };
 
         /* alert on Drop */
         $scope.calendar.OnDrop = function(event, delta, revertFunc, jsEvent, ui, view){
+            $scope.settings.view = view.name;
+            $scope.settings.date = event.start;
             $scope.alertMessage = ('booking ' + event.id + ' was moved by ' + delta/1000/60 + ' minutes');
             for (index = 0; index < $scope.bookings.length; ++index) {
                 if ($scope.bookings[index].Booking_id == event.id){
                     if ($scope.bookings[index].Completed != 1) {
                         $scope.bookings[index].DateTime = $scope.addminutes($scope.bookings[index].DateTime, delta/1000/60);
                         if (moment($scope.bookings[index].DateTime) > moment()) {
-
                             var mStart = moment($scope.bookings[index].DateTime);
-                            var mEnd = $scope.addminutes($scope.bookings[index].DateTime, $scope.bookings[index].Duration);
+                            var mEnd = mStart.add($scope.bookings[index].Duration, 'm');
 
                             if (bookingLeaveOverlap($scope.bookings[index].Employee_id, mStart, mEnd) == false) {
+                                // alert($scope.bookings[index].services);
+
                                 $scope.bookings[index].events[0].start = $scope.bookings[index].DateTime;
                                 $scope.bookings[index].events[0].end = $scope.addminutes($scope.bookings[index].DateTime, $scope.bookings[index].Duration);
 
@@ -1411,28 +1440,23 @@ myModule.controller('BookingController', function($scope, $modal, $http, $window
                                 $scope.booking.eid = $scope.bookings[index].Employee_id;
                                 $scope.booking.iid = $scope.bookings[index].Invoice_id;
                                 $scope.booking.cid = $scope.bookings[index].Client_id
-                                $scope.booking.services = ($scope.bookings[index].Services ? $scope.bookings[index].Services : []);
+                                $scope.booking.services = ($scope.bookings[index].services ? $scope.bookings[index].services : []);
 
                                 $scope.putBookingMovement();
-
-                                $scope.getbookings();
                             }
                             else
                             {
-                                error_Ok('Booking movement error', 'You are not allowed to move a booking into a time allocated as employee leave.', function() {return {}});
-                            $scope.getbookings();
+                                warning_Ok('Moving bookings into time allocated as leave', 'You are not allowed to move a booking into a time allocated as employee leave.', function(res) {$scope.refresh()});
                             }
                         }
                         else
                         {
-                            error_Ok('Booking movement error', 'You are not allowed to move a booking to a past time.', function() {return {}});
-                            $scope.getbookings();
+                            warning_Ok('Moving bookings into past dates', 'You are not allowed to move a booking to a past time.', function(res) {$scope.refresh()});
                         }
                     }
                     else
                     {
-                        error_Ok('Booking update error', 'Updating/Editing of bookings that have been finalised are not allowed.', function() {return {}});
-                        $scope.getbookings();
+                        warning_Ok('Working with finalized bookings', 'Updating/Editing of bookings that have been finalised are not allowed.', function(res) {$scope.refresh()});
                     }
 
                 }
@@ -1441,35 +1465,45 @@ myModule.controller('BookingController', function($scope, $modal, $http, $window
 
         /* alert on Resize */
         $scope.calendar.OnResize = function(event, delta, revertFunc, jsEvent, ui, view ){
-           $scope.alertMessage = ('booking ' + event.id + ' duration was changed by ' + delta/1000/60 + ' minutes');
-           for (index = 0; index < $scope.bookings.length; ++index) {
+            $scope.settings.view = view.name;
+            $scope.settings.date = event.start;
+            $scope.alertMessage = ('booking ' + event.id + ' duration was changed by ' + delta/1000/60 + ' minutes');
+            for (index = 0; index < $scope.bookings.length; ++index) {
                 if ($scope.bookings[index].Booking_id == event.id){
                     if ($scope.bookings[index].Completed != 1) {
                         $scope.bookings[index].Duration = $scope.bookings[index].Duration + (delta/1000/60);
-                        $scope.bookings[index].events[0].start = $scope.bookings[index].DateTime;
-                        $scope.bookings[index].events[0].end = $scope.addminutes($scope.bookings[index].DateTime, $scope.bookings[index].Duration);
 
-                        $scope.booking = {};
-                        $scope.booking.bid = $scope.bookings[index].Booking_id;
-                        $scope.booking.datetime = $scope.bookings[index].DateTime;
-                        $scope.booking.date = moment($scope.bookings[index].DateTime).format('dddd, MMMM Do YYYY');
-                        $scope.booking.time = moment($scope.bookings[index].DateTime).format('HH:mm');
-                        $scope.booking.duration = $scope.bookings[index].Duration;
-                        $scope.booking.completed = $scope.bookings[index].Completed;
-                        $scope.booking.active = $scope.bookings[index].Active;
-                        $scope.booking.reference = $scope.bookings[index].ReferenceNumber;
-                        $scope.booking.eid = $scope.bookings[index].Employee_id;
-                        $scope.booking.iid = $scope.bookings[index].Invoice_id;
-                        $scope.booking.services = ($scope.bookings[index].Services ? $scope.bookings[index].Services : []);
+                        var mStart = moment($scope.bookings[index].DateTime);
+                        var mEnd = mStart.add($scope.bookings[index].Duration, 'm');
 
-                        $scope.putBookingMovement();
+                        if (bookingLeaveOverlap($scope.bookings[index].Employee_id, mStart, mEnd) == false) {
+                            $scope.bookings[index].events[0].start = $scope.bookings[index].DateTime;
+                            $scope.bookings[index].events[0].end = $scope.addminutes($scope.bookings[index].DateTime, $scope.bookings[index].Duration);
 
-                        $scope.getbookings();
+                            $scope.booking = {};
+                            $scope.booking.bid = $scope.bookings[index].Booking_id;
+                            $scope.booking.datetime = $scope.bookings[index].DateTime;
+                            $scope.booking.date = moment($scope.bookings[index].DateTime).format('dddd, MMMM Do YYYY');
+                            $scope.booking.time = moment($scope.bookings[index].DateTime).format('HH:mm');
+                            $scope.booking.duration = $scope.bookings[index].Duration;
+                            $scope.booking.completed = $scope.bookings[index].Completed;
+                            $scope.booking.active = $scope.bookings[index].Active;
+                            $scope.booking.reference = $scope.bookings[index].ReferenceNumber;
+                            $scope.booking.eid = $scope.bookings[index].Employee_id;
+                            $scope.booking.iid = $scope.bookings[index].Invoice_id;
+                            $scope.booking.services = ($scope.bookings[index].services ? $scope.bookings[index].services : []);
+
+                            $scope.putBookingMovement();
+
+                            $scope.getbookings();
+                        }
+                        else {
+                            error_Ok('Booking duration change error', 'A booking can not start or end within a time allocated as employee leave.', function(res) {$scope.refresh()});
+                        }
                     }
                     else
                     {
-                        error_Ok('Booking update error', 'Updating/Editing of bookings that have been finalised are not allowed.', function() {return {}});
-                        $scope.getbookings();
+                        error_Ok('Booking update error', 'Updating/Editing of bookings that have been finalised are not allowed.', function(res) {$scope.refresh()});
                     }
                 }
             };
@@ -1496,6 +1530,7 @@ myModule.controller('BookingController', function($scope, $modal, $http, $window
         /* Change month/week/day shown */
         $scope.changeDate = function(date,calendar) {
           uiCalendarConfig.calendars[calendar].fullCalendar('gotoDate',date);
+          $scope.settings.date = moment(date);
         };
         /* Change View */
         $scope.renderCalender = function(calendar) {
@@ -1507,7 +1542,8 @@ myModule.controller('BookingController', function($scope, $modal, $http, $window
         /* config object */
         $scope.uiConfig = {
             calendar: {
-                // defaultView: 'agendaDay',
+                defaultView: $scope.settings.view,
+                defaultDate: $scope.settings.date,
                 minTime: '06:00:00',
                 maxTime: '19:00:00',
                 height: 640,

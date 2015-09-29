@@ -1,7 +1,8 @@
 'use strict';
 
 
-var BookingModel = require('../../models/booking');
+var BookingModel    = require('../../models/booking');
+var moment          = require('moment');
 
 
 module.exports = function (router) {
@@ -12,8 +13,9 @@ module.exports = function (router) {
     router.get('/', function (req, res) {
         console.log('Bookings - query: ' + JSON.stringify(req.query));
         var obj = {};
-        obj.stylist = (req.query.stylist ? req.query.stylist : 1);
+        obj.eid = (req.query.eid ? req.query.eid : 1);
         obj.view = (req.query.view ? req.query.view : 'month');
+        obj.date = (req.query.date ? req.query.date : moment());
         res.render('bookings/booking', obj)
     });
 
