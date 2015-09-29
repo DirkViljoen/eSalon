@@ -16,6 +16,7 @@ var
 
 var moment          = require('moment');
 var q               = require('q');
+var sms             = require('../../libs/sms');
 
 module.exports = function (router) {
 
@@ -844,6 +845,48 @@ module.exports = function (router) {
         }
     });
 
+// Notifications
+    router.post('/sms', function (req, res) {
+        console.log('sms POST.')
+        console.log(' - Body: ' + JSON.stringify(req.body));
+
+        if (req.body.message && req.body.number) {
+            sms.send(req.body.number, req.body.message)
+                .then(
+                    function (result){
+                        console.log(result);
+                        res.send(result);
+                    },
+                    function (err){
+                        // console.error(err);
+                        res.send({'err': err});
+                    }
+                );
+
+        }
+        else
+        {
+            var err = 'Invalid number or message. Unable to send sms.';
+            console.error(new Error(err));
+            res.send({'err': err});
+        }
+    });
+
+    router.post('/email', function (req, res) {
+        console.log('email POST.')
+        console.log(' - Body: ' + JSON.stringify(req.body));
+
+        if (req.body.message && req.body.email) {
+            // sms.send(req.body.number, req.body.message);
+        }
+        else
+        {
+            var err = 'Invalid email or message. Unable to send email.';
+            console.error(new Error(err));
+            res.send({'err': err});
+        }
+    });
+
 // orders
     router.get('/order', function (req, res) {
         console.log('order GET. Parameters: ' + JSON.stringify(req.query))
@@ -1061,7 +1104,7 @@ module.exports = function (router) {
 // Services
 
     router.get('/services', function (req, res) {
-        console.log('Services GET. Parameters: ' + JSON.stringify(req.query))
+        console.log('Services GET. Query: ' + JSON.stringify(req.query))
 
         var sname = (req.query.service ? req.query.service : "");
 
@@ -1077,6 +1120,225 @@ module.exports = function (router) {
                 }
             );
     });
+
+    router.get('/services/:id', function (req, res) {
+        console.log('Services GET. Parameters: ' + JSON.stringify(req.params))
+
+        models.services.index(req.params.id)
+            .then(
+                function (result){
+                    if (result)
+                        res.send(result);
+                },
+                function (err){
+                    console.log(err);
+                    res.send(err);
+                }
+            );
+     });
+
+    router.get('/services/:id/duration', function (req, res) {
+        console.log('Services GET. Parameters: ' + JSON.stringify(req.params))
+
+        var len = 1
+
+        if (req.query.len) {
+            switch(req.query.len) {
+                case 's':
+                    len = 3;
+                    break;
+                case 'm':
+                    len = 2;
+                    break;
+                default:
+                    len = 1
+            }
+        }
+
+        models.services.duration(req.params.id, len)
+            .then(
+                function (result){
+                    if (result)
+                        res.send(result);
+                },
+                function (err){
+                    console.log(err);
+                    res.send(err);
+                }
+            );
+     });
+
+    router.post('/services', function (req, res) {
+       console.log('Services POST. Parameters: ' + JSON.stringify(req.body));
+       var err = '';
+
+       if (req.body){
+            var obj = {};
+            obj.duration = {};
+
+            //Format attributes correctly for SQL stored procedure
+            if (req.body.name !== undefined){
+                obj.name = '"' + req.body.name + '"';
+            }
+            else {
+                err = 'No name for service';
+                console.error(new Error(err));
+                res.send({'err': err});
+            }
+
+            obj.info = (req.body.info ? '"' + req.body.info + '"' : null);
+
+            if (req.body.price !== undefined){
+                obj.price = req.body.price;
+            }
+            else {
+                err = 'No price for service';
+                console.error(new Error(err));
+                res.send({'err': err});
+            }
+
+            if (req.body.duration.long !== undefined){
+                obj.duration.long = req.body.duration.long;
+            }
+            else {
+                err = 'No long hair duration specified';
+                console.error(new Error(err));
+                res.send({'err': err});
+            }
+
+            obj.duration.medium = (req.body.duration.medium ? req.body.duration.medium : req.body.duration.long);
+            obj.duration.short = (req.body.duration.short ? req.body.duration.short : req.body.duration.long);
+
+            // Call model post function
+            models.services.create(obj)
+                .then(
+                    function (result){
+                        console.log(result);
+                        res.send(result);
+                    },
+                    function (err){
+                        // console.error(err);
+                        res.send({'err': err});
+                    }
+                );
+
+         }
+         else
+         {
+             var err = 'No req.body on service POST';
+             console.error(new Error(err));
+             res.send({'err': err});
+         }
+
+
+     });
+
+    router.put('/services/:id', function (req, res) {
+       console.log('Services PUT. Parameters: ' + JSON.stringify(req.params) + ', Body: ' + JSON.stringify(req.body));
+       var err = '';
+
+       if (req.body){
+            var obj = {};
+            obj.duration = {};
+
+            //Format attributes correctly for SQL stored procedure
+            if (req.body.serviceId !== undefined){
+                obj.serviceId = req.body.serviceId;
+            }
+            else {
+                obj.serviceId = req.params.serviceId;
+            }
+
+            if (req.body.name !== undefined){
+                obj.name = '"' + req.body.name + '"';
+            }
+            else {
+                err = 'No name for service';
+                console.error(new Error(err));
+                res.send({'err': err});
+            }
+
+            obj.info = (req.body.info ? '"' + req.body.info + '"' : null);
+
+            if (req.body.price !== undefined){
+                obj.price = req.body.price;
+            }
+            else {
+                err = 'No price for service';
+                console.error(new Error(err));
+                res.send({'err': err});
+            }
+
+            if (req.body.duration.long !== undefined){
+                obj.duration.long = req.body.duration.long;
+            }
+            else {
+                err = 'No long hair duration specified';
+                console.error(new Error(err));
+                res.send({'err': err});
+            }
+
+            obj.duration.medium = (req.body.duration.medium ? req.body.duration.medium : req.body.duration.long);
+            obj.duration.short = (req.body.duration.short ? req.body.duration.short : req.body.duration.long);
+
+            // Call model post function
+            models.services.update(obj)
+                .then(
+                    function (result){
+                        console.log(result);
+                        res.send(result);
+                    },
+                    function (err){
+                        // console.error(err);
+                        res.send({'err': err});
+                    }
+                );
+
+         }
+         else
+         {
+             var err = 'No req.body on service PUT';
+             console.error(new Error(err));
+             res.send({'err': err});
+         }
+
+
+     });
+
+    router.delete('/services/:id', function (req, res) {
+       console.log('Services DELETE. Parameters: ' + JSON.stringify(req.params) + ', Body: ' + JSON.stringify(req.body));
+       var err = '';
+
+       if (req.body){
+            var obj = {};
+
+            //Format attributes correctly for SQL stored procedure
+
+            obj.serviceId = req.params.id;
+
+            // Call model post function
+            models.services.remove(obj)
+                .then(
+                    function (result){
+                        console.log(result);
+                        res.send(result);
+                    },
+                    function (err){
+                        // console.error(err);
+                        res.send({'err': err});
+                    }
+                );
+
+         }
+         else
+         {
+             var err = 'No req.body on service PUT';
+             console.error(new Error(err));
+             res.send({'err': err});
+         }
+
+
+     });
 
     router.get('/historicservices', function (req, res) {
         console.log('Historic services GET. Parameters: ' + JSON.stringify(req.query))
@@ -1094,11 +1356,9 @@ module.exports = function (router) {
                     res.send(err);
                 }
             );
-    });
+     });
 
-
-
-    router.get('/services/hairlengthservices', function (req, res) {
+    router.get('/hairlengthservices', function (req, res) {
         console.log('hair length services GET. Parameters: ' + JSON.stringify(req.params))
 
         models.services.hairlengthservices()
@@ -1112,7 +1372,7 @@ module.exports = function (router) {
                     res.send(err);
                 }
             );
-    });
+     });
 
 // Specials
 
@@ -1278,12 +1538,10 @@ module.exports = function (router) {
         console.log('supplier GET. Parameters: ' + JSON.stringify(req.query))
 
        var sname = "";
-       var pname = "";
 
         sname = (req.query.sname ? req.query.sname : "");
-        pname = (req.query.pname ? req.query.pname : "");
 
-        models.supplier.find(sname, pname)
+        models.supplier.find(sname)
             .then(
                 function (result){
                     if (result)
@@ -1343,16 +1601,16 @@ module.exports = function (router) {
          }
      });
 
-    router.put('/supplier', function (req, res) {
+    router.put('/supplier/:id', function (req, res) {
       console.log('supplier PUT. Parameters: ' + JSON.stringify(req.body));
 
       if (JSON.stringify(req.body) != '{}') {
           var obj = {};
           //post
-          obj.supplierID = (req.body.supplierID ? req.body.supplierID : null);
+          obj.supplierid = (req.body.supplierid ? req.body.supplierid : req.params.id);
           obj.name = (req.body.name ? '"' + req.body.name + '"' : null);
-          obj.contact = (req.body.contact ? req.body.contact : null);
-          obj.email = (req.body.email ? '"' + req.body.email + '"' : null);
+          obj.contactNumber = (req.body.contactNumber ? '"' + req.body.contactNumber + '"' : null);
+          obj.contactEmail = (req.body.contactEmail ? '"' + req.body.contactEmail + '"' : null);
 
            models.supplier.update(obj)
               .then(

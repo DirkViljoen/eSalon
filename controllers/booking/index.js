@@ -10,7 +10,11 @@ module.exports = function (router) {
 
 
     router.get('/', function (req, res) {
-        res.render('bookings/booking', {})
+        console.log('Bookings - query: ' + JSON.stringify(req.query));
+        var obj = {};
+        obj.stylist = (req.query.stylist ? req.query.stylist : 1);
+        obj.view = (req.query.view ? req.query.view : 'month');
+        res.render('bookings/booking', obj)
     });
 
     router.get('/add', function (req, res) {

@@ -81,33 +81,6 @@ DELIMITER ;
     END //
     DELIMITER ;
     
--- -- SEARCH
-	DELIMITER //
-    CREATE PROCEDURE spSupplier_Search
-    (
-        IN sname VARCHAR(50),
-        IN pname VARCHAR(50)
-    )
-    BEGIN
-        SELECT 
-			* 
-		FROM 
-			`Supplier` sup
-            LEFT OUTER JOIN
-            `Stock` st ON (sup.`Supplier_ID` = st.`Supplier_ID`)
-        WHERE 
-			sup.`Name` Like sname
-            AND
-            (
-				st.`ProductName` Like pname
-                OR
-                st.`ProductName` IS NULL
-			)
-            AND
-            sup.`Active` = true;
-    END //
-    DELIMITER ;
-    
 -- -- UPDATE
 DELIMITER //
 create procedure sp_Update_Supplier

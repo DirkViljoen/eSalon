@@ -34,7 +34,7 @@ module.exports = function supplierModel() {
 
         var deferred = q.defer();
 
-        db.query('CALL spSupplier_Search("%' + sname + '%","%' + pname + '%");')
+        db.query('CALL spSupplier_Search("%' + sname + '%");')
             .then(
                 function (result){
                     deferred.resolve(result);
@@ -87,10 +87,10 @@ module.exports = function supplierModel() {
         if (obj) {
             console.log('Updating supplier Item.');
             db.execute('CALL sp_Update_Supplier (' +
-              obj.supplierID + ',' +
+              obj.supplierid + ',' +
               obj.name + ',' +
-              obj.contact + ',' +
-              obj.email +')'
+              obj.contactNumber + ',' +
+              obj.contactEmail +',true)'
 
             )
                 .then(

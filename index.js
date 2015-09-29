@@ -1,9 +1,9 @@
 'use strict';
 
-var express = require('express');
-var kraken = require('kraken-js');
-var db = require('./libs/db');
-
+var express = require('express'),
+    kraken = require('kraken-js'),
+    db = require('./libs/db'),
+    sms = require('./libs/sms');
 
 var options, app;
 
@@ -18,6 +18,7 @@ options = {
          * `confit` (https://github.com/krakenjs/confit/) configuration object.
          */
          db.config(config.get('db'));
+         sms.config(config.get('sms'));
 
         next(null, config);
     }

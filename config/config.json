@@ -1,4 +1,11 @@
 {
+    "sms": {
+        "mode": "Live",
+        "from": "+12012663036",
+        "accountSid": "ACf29b433ae86c9c293a17ce0bc0fef5bd",
+        "authToken": "2c62e3621529f5b718c5d936d2234502"
+    },
+
     "db": {
         "host": "localhost",
         "user": "root",

@@ -202,7 +202,7 @@ mixin ng-input-text(name, label, model, placeholder, required, readonly, minLen,
             input.form-control(type='text', id=name, name=name, ng-model=model, placeholder=placeholder, readonly=readonly, required=required, minlength=minLen, maxlength=maxLen size='40', ng-change=changeEvent, ng-blur=blurEvent)
             if (required)
                 span.input-group-addon
-                    span.glyphicon.glyphicon-asterisk
+                    span(style="color:red").glyphicon.glyphicon-asterisk
 
 mixin ng-input-text-alt(name, label, model, placeholder, required, readonly, minLen, maxLen, changeEvent, blurEvent)
     .form-group
@@ -211,7 +211,7 @@ mixin ng-input-text-alt(name, label, model, placeholder, required, readonly, min
             input.form-control(type='text', id=name, name=name, ng-model=model, placeholder=placeholder, readonly=readonly, required=required, minlength=minLen, maxlength=maxLen size='40', ng-change=changeEvent, ng-blur=blurEvent)
             if (required)
                 span.input-group-addon
-                    span.glyphicon.glyphicon-asterisk
+                    span(style="color:red").glyphicon.glyphicon-asterisk
 
 mixin ng-input-text-min(name, model, placeholder, required, readonly, minLen, maxLen, changeEvent, blurEvent)
     input.form-control(type='text', id=name, name=name, ng-model=model, placeholder=placeholder, readonly=readonly, required=required, minlength=minLen, maxlength=maxLen size='40', ng-change=changeEvent, ng-blur=blurEvent)
@@ -223,7 +223,7 @@ mixin ng-input-password(name, label, model, placeholder, required, readonly, min
             input.form-control(type='password', id=name, name=name, ng-model=model, placeholder=placeholder, readonly=readonly, required=required, minlength=minLen, maxlength=maxLen size='40', ng-change=changeEvent, ng-blur=blurEvent)
             if (required)
                 span.input-group-addon
-                    span.glyphicon.glyphicon-asterisk
+                    span(style="color:red").glyphicon.glyphicon-asterisk
 
 mixin ng-input-email(name, label, model, placeholder, required, readonly, minLen, maxLen)
     .form-group
@@ -234,7 +234,7 @@ mixin ng-input-email(name, label, model, placeholder, required, readonly, minLen
             input.form-control(type='email', id=name, name=name, ng-model=model, placeholder=placeholder, readonly=readonly, required=required, minlength=minLen, maxlength=maxLen)
             if (required)
                 span.input-group-addon
-                    span.glyphicon.glyphicon-asterisk
+                    span(style="color:red").glyphicon.glyphicon-asterisk
 
 mixin ng-input-currency(name, label, model, placeholder, required, readonly, minLen, maxLen)
     .form-group
@@ -246,7 +246,7 @@ mixin ng-input-currency(name, label, model, placeholder, required, readonly, min
             input.form-control(type='text', id=name, name=name, ng-model=model, placeholder=placeholder, readonly=readonly, required=required, minlength=minLen, maxlength=maxLen)
             if (required)
                 span.input-group-addon
-                    span.glyphicon.glyphicon-asterisk
+                    span(style="color:red").glyphicon.glyphicon-asterisk
 
 mixin ng-input-checkbox(name, label, model, selected, required, readonly)
     .form-group
@@ -279,6 +279,9 @@ mixin ng-input-calendar(name, label, model, placeholder, required, readonly)
     .form-group
         label.control-label.col-md-3.col-sm-4(for=id)= label
         div.input-group
-            input.form-control.dtpicker(type='text', name=name, ng-model=model, placeholder=placeholder, data-value=myValue, required=required, readonly=readonly)
             span.input-group-addon
                 span.glyphicon.glyphicon-calendar
+            input.form-control.dtpicker(type='text', name=name, ng-model=model, placeholder=placeholder, data-value=myValue, required=required, readonly=readonly)
+            if (required)
+                span.input-group-addon
+                    span(style="color:red").glyphicon.glyphicon-asterisk

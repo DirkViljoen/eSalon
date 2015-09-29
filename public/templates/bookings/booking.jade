@@ -8,7 +8,7 @@ block loggedIn
     a(href="#", class="navbar-link") Signed in as Mark Otto
 
 block content
-    form.row.col-xs-12.workarea.form-validate(id="bookings", ng-controller="BookingController", ng-init='initManage()')
+    form.row.col-xs-12.workarea.form-validate(id="bookings", ng-controller="BookingController", ng-init='initManage(' + stylist + ',' + view + ')')
         .row
             .col-md-12
                 .grouphead
@@ -18,7 +18,7 @@ block content
                         .col-md-5
                             +ng-input-combobox-alt('employee', 'View calendar for:', 'booking.eid', 'Select an employee', 'employee.Employee_ID as employee.fullname for employee in employees', false, false, 'changeCalendar()')
                         .col-md-5
-                            +ng-input-text-alt('bookingSearch', 'Search for booking:', 'searchCriteria.booking', 'name, surname or reference', false, false, '0', '50')
+                            +ng-input-text-alt('bookingSearch', 'Search for booking:', 'searchCriteria.clientFName', 'name, surname or reference', false, false, '0', '50')
                         .col-md-2
                             .nav.nav-pills.pull-right
                                 li(role='presentation')
@@ -28,39 +28,46 @@ block content
             .col-sm-12
                 .calendar(ui-calendar="uiConfig.calendar", ng-model="eventSources", calendar="myCalendar")
 
-        //- div(ng-controller="ModalDemoCtrl")
-        //-     script(type="text/ng-template" id="myModalContent.html")
-        //-         .modal-header
-        //-             h3.modal-title I'm a modal!
-        //-         .modal-body
-        //-             ul
-        //-                 li(ng-repeat="item in items")
-        //-                     a(href="#" ng-click="$event.preventDefault(); selected.item = item") {{ item }}
-        //-             p Selected:
-        //-                 b {{ selected.item }}
-        //-         .modal-footer
-        //-             button(class="btn btn-primary" type="button" ng-click="ok()") OK
-        //-             button(class="btn btn-warning" type="button" ng-click="cancel()") Cancel
+        script(type='text/ng-template', id='searchBooking.html').
+            <div class="modal-header">
+                <h3 class="modal-title">Booking Search</h3>
+            </div>
+            <div class="modal-body table-responsive">
+                <table class="table table-hover" id="booking-search" st-table='bookings'>
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th> Business name </th>
+                            <th> Contact number </th>
+                            <th> Email </th>
 
-        //-     button(type="button" class="btn btn-default" ng-click="open()") Open me!
-        //-     button(type="button" class="btn btn-default" ng-click="open('lg')") Large modal
-        //-     button(type="button" class="btn btn-default" ng-click="open('sm')") Small modal
-        //-     button(type="button" class="btn btn-default" ng-click="toggleAnimation()") Toggle Animation ({{ animationsEnabled }})
-        //-     div(ng-show="selected") Selection from a modal: {{ selected }}
+                    <tbody>
+                        <tr class='ng-repeat="row in bookings' ng-click='selectRow(row.Booking_id)'>
+                            <td>
+                                <input type="radio" name="Booking_id" ng-model="booking.bookingid" value='{{row.Booking_id}}'>
+                            </td>
+                            <td> {{row.Client_id}}</td>
+                            <td> {{row.Employee_id}}</td>
+                            <td> {{row.DateTime}}</td>
+            </div>
+            <p>bookings: {{bookings}}</p>
+        button.btn.btn-default(type='button', ng-click='open()') Open me!
+        button.btn.btn-default(type='button', ng-click="open('lg')") Large modal
+        button.btn.btn-default(type='button', ng-click="open('sm')") Small modal
+        button.btn.btn-default(type='button', ng-click='toggleAnimation()') Toggle Animation ({{ animationsEnabled }})
+        div(ng-show='selected') Selection from a modal: {{ selected }}
 
         //- Pure functionality objects
-        //- div
-        //-     p(ng-if="loading") Loading&hellip;
-        //-     p currentDate:
-        //-         span {{currentDate}}
-        //-     p bookings:
-        //-         span {{bookings}}
-        //-     p bookings:
-        //-         span {{bookings}}
-        //-     p booking:
-        //-         span {{booking}}
-        //-     p searchResult:
-        //-         span {{searchResult}}
-        //-     p employees:
-        //-         span {{employees}}
+        div
+            p(ng-if="loading") Loading&hellip;
+            p booking:
+                span {{booking}}
+            p bookings:
+                span {{bookings}}
+            p employee leave: {{employeeLeave}}
+            p searchCriteria: {{searchCriteria}}
+            p searchResult:
+                span {{searchResult}}
+            p employees:
+                span {{employees}}
 

@@ -1,0 +1,37 @@
+extends ../layouts/master
+include ../../mixins/mixins
+
+block header
+  label View supplier
+
+block loggedIn
+  a(href='#', class='navbar-link') Signed in as Mark Otto
+
+block content
+    form.row.col-xs-12.workarea.form-validate(id="supplierView", ng-controller="SupplierController", ng-init="initView(" + id + ")")
+        .row
+            .col-sm-1
+            .col-sm-11
+                h3 View Supplier details
+                br
+
+        .row
+            .col-md-1
+            .col-md-10.form-horizontal
+                .grouphead
+                    +form-group('Supplier information')
+                .groupbox
+                    +ng-input-text('supName', 'Business name:', 'supplier.name', 'Supplier business name', false, true, '3', '50')
+                    +ng-input-text('contactNumber', 'Contact number:', 'supplier.contactNumber', 'South african sell number', false, true, '3', '15')
+                    +ng-input-email('contactEmail', 'Contact email:', 'supplier.contactEmail', 'Supplier email address', false, true, '5', '100')
+                br
+        br
+        .row
+            .col-md-1
+            .col-md-10.form-group.workarea
+                ul.nav.nav-pills.pull-right
+                    li(role='presentation')
+                        input.btn.btn-primary(type="button", value="Update", ng-click='updateSupplier()')
+                    li(role='presentation')
+                        input.btn.btn-default(type="button", value='Cancel', ng-click='cancel()')
+                        br

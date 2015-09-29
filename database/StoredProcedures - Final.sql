@@ -178,6 +178,201 @@ Use esalon;
     END //
     DELIMITER ;
     
+-- Services
+	
+    -- --READ by search
+	DELIMITER //
+    CREATE PROCEDURE spService_Search
+    (
+        IN sname VARCHAR(50)
+    )
+    BEGIN
+        SELECT 
+			s.*
+		FROM 
+			`Service` s
+        WHERE 
+			s.`Name` like sname
+            AND
+            s.`Active` = true
+        ORDER BY 
+			s.`Name`;
+    END //
+    DELIMITER ;
+
+	-- --READ by ID
+    DELIMITER //
+    CREATE PROCEDURE spService_Read
+    (
+        IN id INT
+    )
+    BEGIN
+        SELECT 
+			s.*
+		FROM 
+			`Service` s
+        WHERE 
+			s.`Service_id` = id
+            AND
+            s.`Active` = true;
+    END //
+    DELIMITER ;
+    
+    -- --READ service duration
+    DELIMITER //
+    CREATE PROCEDURE spService_Read_Duration
+    (
+        IN sid INT,
+        IN hlid INT
+    )
+    BEGIN
+        SELECT 
+			hls.*
+		FROM 
+			`Hair_Length_Service` hls
+        WHERE 
+			hls.`Service_id` = sid
+            AND
+            hls.`HairLength_id` = hlid;
+    END //
+    DELIMITER ;
+    
+	-- -- INSERT
+	DELIMITER //
+	CREATE PROCEDURE sp_Insert_Service
+	(
+		IN sname	VARCHAR(50),
+		IN sinfo	VARCHAR(300),
+        IN sprice 	DOUBLE(8,2),
+        IN durS		INT,
+        IN durM		INT,
+        IN durL		INT
+	)
+	BEGIN 
+		DECLARE insertId INT;
+		
+		INSERT 
+			INTO `Service` 
+				(`Name`, `AdditionalInformation`, `Price`, `Active`)
+			VALUES
+				(sname, sinfo, sprice, True);         
+				
+		SET insertId = LAST_INSERT_ID();
+			SELECT insertId;
+				
+		INSERT 
+			INTO `Service_History` 
+				(`Price`, `PriceDateFrom`, `PriceDateTo`, `Service_id`)
+			VALUES
+				(sprice, current_date(), null, insertId);
+		
+        INSERT 
+			INTO `Hair_Length_Service` 
+				(`Duration`, `HairLength_id`, `Service_id`)
+			VALUES
+				(durS, 3, insertId),
+                (durM, 2, insertId),
+                (durL, 1, insertId);
+            
+	END //
+	DELIMITER ;
+    
+	-- -- UPDATE
+	DELIMITER //
+	CREATE PROCEDURE sp_Update_Service
+	(
+		IN sid		INT,
+		IN sname	VARCHAR(50),
+		IN sinfo	VARCHAR(300),
+        IN sprice 	DOUBLE(8,2),
+        IN durS		INT,
+        IN durM		INT,
+        IN durL		INT
+	)
+	BEGIN
+    
+		UPDATE `Service` 
+			SET
+				`Name` = sname,
+				`AdditionalInformation` = sinfo,
+				`Price` = sprice
+			WHERE
+				`Service_id` = sid;
+				
+		UPDATE `Service_History`
+			SET 
+				`PriceDateTo` = current_date()
+			WHERE
+				`Service_id` = sid
+					AND
+				`PriceDateTo` IS NULL;
+				
+		INSERT 
+			INTO `Service_History` 
+				(`Price`, `PriceDateFrom`, `PriceDateTo`, `Service_id`)
+			VALUES
+				(sprice, current_date(), null, sid);
+                
+		UPDATE `Hair_Length_Service`
+			SET 
+				`Duration` = durS
+			WHERE
+				`Service_id` = sid
+					AND
+				`HairLength_id` = 3;
+                
+		UPDATE `Hair_Length_Service`
+			SET 
+				`Duration` = durM
+			WHERE
+				`Service_id` = sid
+					AND
+				`HairLength_id` = 2;
+                
+		UPDATE `Hair_Length_Service`
+			SET 
+				`Duration` = durL
+			WHERE
+				`Service_id` = sid
+					AND
+				`HairLength_id` = 1;
+            
+	END //
+	DELIMITER ;
+    
+	DELIMITER //
+    CREATE PROCEDURE spService_Delete
+    (
+        IN sid INT
+    )
+    BEGIN
+        UPDATE `Service`
+            SET
+                `Active` = false
+            WHERE
+                `Service_ID` = sid;
+    END //
+    DELIMITER ;
+    
+-- Supplier
+	-- -- SEARCH
+	DELIMITER //
+    CREATE PROCEDURE spSupplier_Search
+    (
+        IN sname VARCHAR(50)
+    )
+    BEGIN
+        SELECT 
+			*
+		FROM 
+			`Supplier` sup
+        WHERE 
+			sup.`Name` Like sname
+            AND
+            sup.`Active` = true;
+    END //
+    DELIMITER ;
+    
 -- User
 	-- -- READ
     DELIMITER //

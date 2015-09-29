@@ -1,58 +1,3 @@
-
-
-function addFormValidation(myForm, formHandler) {
-    $(myForm).validate({
-        submitHandler: function(form){
-
-            var usrResponse = $('#btnClicked').val();
-            switch(formHandler) {
-                case 'subletter-manage':
-                    subletter_manage(form, usrResponse);
-                    break;
-                case 'subletter-add':
-                    subletter_add(form, usrResponse);
-                    break;
-                case 'subletter-update':
-                    subletter_update(form, usrResponse);
-                    break;
-                case 'subletter-payment':
-                    subletter_payment(form, usrResponse);
-                    break;
-            };
-
-        },
-        highlight: function(element) {
-            $(element).closest('.form-group').addClass('has-error');
-            $(element).closest('.form-group').removeClass('has-success');
-        },
-        unhighlight: function(element) {
-            $(element).closest('.form-group').removeClass('has-error');
-            $(element).closest('.form-group').addClass('has-success');
-        },
-        errorElement: 'span',
-        errorClass: 'help-block',
-        errorPlacement: function(error, element) {
-            if(element.parent('.input-group').length) {
-                error.insertAfter(element.parent());
-            } else {
-                error.insertAfter(element);
-            }
-        },
-        rules:{
-            Amount: {
-                myCurrency: true,
-                range: [0, 10000]
-            },
-            ContactEmail: {
-                myEmail: true
-            },
-            ContactNumber: {
-                myContactNumber: true
-            }
-        }
-    });
-};
-
 function addNGValidation(myForm) {
     $(myForm).validate({
         highlight: function(element) {
@@ -86,74 +31,51 @@ function addNGValidation(myForm) {
             paymentMethod: {
                 required: true,
                 valueNotEquals: ''
-            }
-
-        }
-    });
-};
-
-function addSelectionValidation(myForm, formHandler) {
-    $(myForm).validate({
-        submitHandler: function(form){
-            if ($("input[type='radio'][name='Sub_Letter_id']:checked").val()) {
-                var usrResponse = $('#btnClicked').val();
-                switch(formHandler) {
-                    case 'subletter-manage':
-                        subletter_manage(form, usrResponse);
-                        break;
-                    case 'subletter-add':
-                        subletter_add(form, usrResponse);
-                        break;
-                    case 'subletter-update':
-                        subletter_update(form, usrResponse);
-                        break;
-                };
-            }
-            else {
-                var usrResponse = $('#btnClicked').val();
-                if (usrResponse == 'Search'){
-                    form.submit();
-                }
-                else
-                {
-                    error_Ok('Not selected', 'You have not selected an item.', function(res) {
-                        switch(res) {
-                            case 'Ok':
-                                break;
-                        };
-                    });
-                };
-            };
-
-        },
-        highlight: function(element) {
-            $(element).closest('.form-group').addClass('has-error');
-            $(element).closest('.form-group').removeClass('has-success');
-        },
-        unhighlight: function(element) {
-            $(element).closest('.form-group').removeClass('has-error');
-            $(element).closest('.form-group').addClass('has-success');
-        },
-        errorElement: 'span',
-        errorClass: 'help-block',
-        errorPlacement: function(error, element) {
-            if(element.parent('.input-group').length) {
-                error.insertAfter(element.parent());
-            } else {
-                error.insertAfter(element);
-            }
-        },
-        rules:{
-            Amount: {
+            },
+            currency_sm_pos: {
                 myCurrency: true,
-                range: [0, 10000]
+                range: [0, 1000]
             },
-            ContactEmail: {
-                myEmail: true
+            currency_md_pos: {
+                myCurrency: true,
+                range: [0, 100000]
             },
-            ContactNumber: {
-                myContactNumber: true
+            currency_lg_pos: {
+                myCurrency: true,
+                range: [0, 10000000]
+            },
+            currency_sm: {
+                myCurrency: true,
+                range: [-1000, 1000]
+            },
+            currency_md: {
+                myCurrency: true,
+                range: [-100000, 100000]
+            },
+            currency_lg: {
+                myCurrency: true,
+                range: [-10000000, 10000000]
+            },
+            number_sm: {
+                range: [-1000, 1000]
+            },
+            number_md: {
+                range: [-100000, 100000]
+            },
+            number_lg: {
+                range: [-10000000, 10000000]
+            },
+            number_sm_pos: {
+                range: [0, 1000]
+            },
+            number_md_pos: {
+                range: [0, 100000]
+            },
+            number_lg_pos: {
+                range: [0, 10000000]
             }
+
+
         }
     });
 };
@@ -399,6 +321,47 @@ function addSelectionValidation(myForm, formHandler) {
         };
     };
 
+// Services
+
+    function service_add(usrResponse, callback) {
+        switch(usrResponse){
+            case 'save':
+                confirm_YesNoCancel('Add service', 'Are you sure you want to add the new service?', function(res) {
+                    callback(res);
+                });
+                break;
+            default:
+                callback('none');
+                break;
+        };
+    };
+
+    function service_update(usrResponse, callback) {
+        switch(usrResponse){
+            case 'update':
+                confirm_YesNoCancel('Update service', 'Are you sure you want to update the service?', function(res) {
+                    callback(res);
+                });
+                break;
+            default:
+                callback('none');
+                break;
+        };
+    };
+
+    function service_delete(usrResponse, callback) {
+        switch(usrResponse){
+            case 'delete':
+                warning_YesNo('Delete service', 'Are you sure you want to delete the selected service? This will only remove the service from dropdown menus', function(res) {
+                    callback(res);
+                });
+                break;
+            default:
+                callback('none');
+                break;
+        };
+    };
+
 // Supplier
     function supplier_add(usrResponse, callback) {
         switch(usrResponse){
@@ -592,7 +555,7 @@ function addSelectionValidation(myForm, formHandler) {
 
 // Rules
     jQuery.validator.addMethod('myCurrency', function(value, element) {
-        return this.optional(element) || /^(?=\(.*\)|[^()]*$)\(?\d{1,3}(,?\d{3})?(\.\d{2}?)?\)?$/.test(value);
+        return this.optional(element) || /^-{0,1}(?=\(.*\)|[^()]*$)\(?\d{1,3}(,?\d{3})?(\.\d{2}?)?\)?$/.test(value);
     }, 'Please enter a valid currency value. e.g 12,345.67');
 
     jQuery.validator.addMethod('myEmail', function(value, element) {

@@ -10,19 +10,19 @@ module.exports = function (router) {
 
 
     router.get('/', function (req, res) {
-        res.render('service', model)
+        res.render('services/service', {})
     });
 
     router.get('/add', function (req, res) {
-        res.render('service-add', model)
+        res.render('services/service-add', {})
     });
 
-    router.get('/view', function (req, res) {
-        res.render('service-view', model)
+    router.get('/view/:id', function (req, res) {
+        res.render('services/service-view', req.params)
     });
 
-    router.get('/update', function (req, res) {
-        res.render('service-update', model)
+    router.get('/update/:id', function (req, res) {
+        res.render('services/service-update', req.params)
     });
 
 };

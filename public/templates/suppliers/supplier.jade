@@ -22,14 +22,11 @@ block content
                     +form-group('Search for a supplier')
                 .groupbox
                     .row
-                        .col-md-4
-                            +ng-input-text-alt('sname', 'Business name:', 'searchCriteria.sname', 'Search on business name', false, false, '0', '50')
                         .col-md-5
-                            +ng-input-text-alt('pname', 'Product name:', 'searchCriteria.pname', 'Search on products', false, false, '0', '50')
+                        .col-md-4
+                            +ng-input-text-alt('sname', 'Business name:', 'searchCriteria.Name', 'Search on business name', false, false, '0', '50')
                         .col-md-3
                             .nav.nav-pills.pull-right
-                                li(role='presentation')
-                                    input.btn.btn-primary(type="button", value="Search", ng-click='searchSupplier()')
                                 li(role='presentation')
                                     input.btn.btn-default(type="button", value='Clear', ng-click='searchClearSupplier()')
 
@@ -44,18 +41,14 @@ block content
                             th Business name
                             th Contact number
                             th Email
-                            th Brand name
-                            th Product name
 
                     tbody
-                        tr(ng-repeat="row in suppliers" ng-click="selectRow(row.Supplier_ID)")
+                        tr(ng-repeat="row in suppliers | filter:searchCriteria" ng-click="selectRow(row.Supplier_ID)")
                             td
                                 input(type="radio" name="Supplier_ID" ng-model="supplier.supplierid" value='{{row.Supplier_ID}}')
                             td {{row.Name}}
                             td {{row.ContactNumber}}
                             td {{row.Email}}
-                            td {{row.BrandName}}
-                            td {{row.ProductName}}
 
         br
         .row
@@ -67,4 +60,7 @@ block content
                     li(role='presentation')
                         input.btn.btn-default(type="button", value='View', ng-click='viewSupplier()')
                         br
+
+        {{suppliers}}
+        {{searchCriteria}}
 

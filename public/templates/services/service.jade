@@ -1,0 +1,67 @@
+extends ../layouts/master
+include ../../mixins/mixins
+
+block header
+  label Services
+
+block loggedIn
+  a(href='#', class='navbar-link') Signed in as Mark Otto
+
+block content
+    form.row.col-xs-12.workarea.form-validate(id="serviceManage", ng-controller="ServiceController", ng-init='initManage()')
+        .row
+            .col-sm-1
+            .col-sm-11
+                h3 Manage services
+                br
+
+        .row
+            .col-md-1
+            .col-md-10.form-horizontal
+                .grouphead
+                    +form-group('Search for a service')
+                .groupbox
+                    .row
+                        .col-md-4
+                        .col-md-5
+                            +ng-input-text-alt('name', 'Service Name:', 'searchCriteria.name', 'Search on service name', false, false, '0', '50')
+                        .col-md-3
+                            .nav.nav-pills.pull-right
+                                li(role='presentation')
+                                    input.btn.btn-primary(type="button", value="Search", ng-click='searchServices()')
+                                li(role='presentation')
+                                    input.btn.btn-default(type="button", value='Clear', ng-click='searchClearServices()')
+
+        br
+        .row
+            .col-md-1
+            .col-md-10.table-responsive
+                table.table.table-hover(id="service-search" st-table='services')
+                    thead
+                        tr
+                            th
+                            th Name
+                            th Additional Information
+                            th Price
+                    tbody
+                        tr(ng-repeat="row in services" ng-click="selectRow(row.Service_id)")
+                            td
+                                input(type="radio" name="Service_ID" ng-model="service.serviceId" value='{{row.Service_id}}')
+                            td {{row.Name}}
+                            td {{row.AdditionalInformation}}
+                            td {{row.Price | currency: "R"}}
+
+        br
+        .row
+            .col-md-1
+            .col-md-10.form-group
+                ul.nav.nav-pills.pull-right
+                    li(role='presentation')
+                        input.btn.btn-primary(type="button", value="Update", ng-click='updateService()')
+                    li(role='presentation')
+                        input.btn.btn-default(type="button", value='View', ng-click='viewService()')
+                    li(role='presentation')
+                        input.btn.btn-default(type="button", value='Delete', ng-click='deleteService()')
+                    li(role='presentation')
+                        input.btn.btn-default(type="button", value='Export service list', ng-click='exportServices()')
+                        br

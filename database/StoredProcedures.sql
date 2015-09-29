@@ -17,40 +17,6 @@ USE eSalon;
     END //
     DELIMITER ;
     
--- Service
-
-    DELIMITER //
-    CREATE PROCEDURE spService_Search
-    (
-        IN sname VARCHAR(50)
-    )
-    BEGIN
-        SELECT 
-			s.*
-		FROM 
-			`Service` s
-        WHERE 
-			s.`Name` like sname
-        ORDER BY 
-			s.`Name`;
-    END //
-    DELIMITER ;
-
-    DELIMITER //
-    CREATE PROCEDURE spService_Read
-    (
-        IN id INT
-    )
-    BEGIN
-        SELECT 
-			s.*
-		FROM 
-			`Service` s
-        WHERE 
-			s.`Service_id` = id;
-    END //
-    DELIMITER ;
-    
 -- Hair Length Service
 
     DELIMITER //

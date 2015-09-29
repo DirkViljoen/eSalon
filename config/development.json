@@ -1,4 +1,10 @@
 {
+    "sms": {
+        "mode": "Testing",
+        "from": "+15005550006",
+        "accountSid": "AC420d4ff63ebad3de86e2f5ecba75f155",
+        "authToken": "b280c2d1299389d535b3404d5f480469"
+    },
 
     "express": {
         "view cache": false,
