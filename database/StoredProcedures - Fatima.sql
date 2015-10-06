@@ -1,55 +1,5 @@
 -- ---- ---- ---- ----- USER -- ---- ---- ---- -----
 use esalon;    
--- -- READ
-    DELIMITER //
-    CREATE PROCEDURE spUser_Read
-    (
-        IN uUsername VARCHAR(40)
-    )
-    BEGIN
-        SELECT * FROM `User`
-        WHERE `Username` = uUsername;
-    END //
-    DELIMITER ;  
-    
--- -- UPDATE
-DELIMITER //
-create procedure sp_Update_User 
-(
-	IN uUser_id	INT,
-	IN uUsername	VARCHAR(40),
-	IN uPassword	BLOB,
-    IN uEmployee_ID INT,
-    IN uRole_ID INT
-)
-BEGIN  
-
-UPDATE `User` SET 
-	Username = uUsername,
-	`Password` = uPassword,
-    Employee_ID = uEmployee_ID,
-    Role_ID = uRole_ID
-    
-WHERE User_id = uUser_id;
-
-END //
-DELIMITER ;
-
--- -- INSERT
-DELIMITER //
-create procedure sp_Insert_User 
-(
-	IN uUsername	VARCHAR(40),
-	IN uPassword	BLOB,
-	IN uEmployee_ID INT,
-    IN uRole_ID INT
-)
-BEGIN 
-INSERT INTO `User` 
-	(`Username`, `Password`, `Employee_ID`, `Role_ID`, `Active`)
-VALUES(uUsername,uPassword, uEmployee_ID, uRole_ID, True);
-END //
-DELIMITER ;
 
 -- -- DELETE
 DELIMITER //
@@ -128,33 +78,6 @@ DELIMITER ;
     BEGIN
         SELECT * FROM `Supplier`
         WHERE `Supplier_id` = sSupplier_id;
-    END //
-    DELIMITER ;
-    
--- -- SEARCH
-	DELIMITER //
-    CREATE PROCEDURE spSupplier_Search
-    (
-        IN sname VARCHAR(50),
-        IN pname VARCHAR(50)
-    )
-    BEGIN
-        SELECT 
-			* 
-		FROM 
-			`Supplier` sup
-            LEFT OUTER JOIN
-            `Stock` st ON (sup.`Supplier_ID` = st.`Supplier_ID`)
-        WHERE 
-			sup.`Name` Like sname
-            AND
-            (
-				st.`ProductName` Like pname
-                OR
-                st.`ProductName` IS NULL
-			)
-            AND
-            sup.`Active` = true;
     END //
     DELIMITER ;
     

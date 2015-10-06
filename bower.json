@@ -33,7 +33,8 @@
     "angular-smart-table": "~2.1.2",
     "angular-ui-calendar": "~1.0.1",
     "angular-moment": "~0.10.2",
-    "angular-bootstrap": "~0.13.3"
+    "angular-bootstrap": "~0.13.3",
+    "angular-file-upload": "~2.1.3"
   },
   "resolutions": {
     "angular": "~1.4.2",

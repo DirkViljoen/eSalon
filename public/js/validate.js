@@ -1,56 +1,3 @@
-function addFormValidation(myForm, formHandler) {
-    $(myForm).validate({
-        submitHandler: function(form){
-
-            var usrResponse = $('#btnClicked').val();
-            switch(formHandler) {
-                case 'subletter-manage':
-                    subletter_manage(form, usrResponse);
-                    break;
-                case 'subletter-add':
-                    subletter_add(form, usrResponse);
-                    break;
-                case 'subletter-update':
-                    subletter_update(form, usrResponse);
-                    break;
-                case 'subletter-payment':
-                    subletter_payment(form, usrResponse);
-                    break;
-            };
-
-        },
-        highlight: function(element) {
-            $(element).closest('.form-group').addClass('has-error');
-            $(element).closest('.form-group').removeClass('has-success');
-        },
-        unhighlight: function(element) {
-            $(element).closest('.form-group').removeClass('has-error');
-            $(element).closest('.form-group').addClass('has-success');
-        },
-        errorElement: 'span',
-        errorClass: 'help-block',
-        errorPlacement: function(error, element) {
-            if(element.parent('.input-group').length) {
-                error.insertAfter(element.parent());
-            } else {
-                error.insertAfter(element);
-            }
-        },
-        rules:{
-            Amount: {
-                myCurrency: true,
-                range: [0, 10000]
-            },
-            ContactEmail: {
-                myEmail: true
-            },
-            ContactNumber: {
-                myContactNumber: true
-            }
-        }
-    });
-};
-
 function addNGValidation(myForm) {
     $(myForm).validate({
         highlight: function(element) {
@@ -84,74 +31,51 @@ function addNGValidation(myForm) {
             paymentMethod: {
                 required: true,
                 valueNotEquals: ''
-            }
-
-        }
-    });
-};
-
-function addSelectionValidation(myForm, formHandler) {
-    $(myForm).validate({
-        submitHandler: function(form){
-            if ($("input[type='radio'][name='Sub_Letter_id']:checked").val()) {
-                var usrResponse = $('#btnClicked').val();
-                switch(formHandler) {
-                    case 'subletter-manage':
-                        subletter_manage(form, usrResponse);
-                        break;
-                    case 'subletter-add':
-                        subletter_add(form, usrResponse);
-                        break;
-                    case 'subletter-update':
-                        subletter_update(form, usrResponse);
-                        break;
-                };
-            }
-            else {
-                var usrResponse = $('#btnClicked').val();
-                if (usrResponse == 'Search'){
-                    form.submit();
-                }
-                else
-                {
-                    error_Ok('Not selected', 'You have not selected an item.', function(res) {
-                        switch(res) {
-                            case 'Ok':
-                                break;
-                        };
-                    });
-                };
-            };
-
-        },
-        highlight: function(element) {
-            $(element).closest('.form-group').addClass('has-error');
-            $(element).closest('.form-group').removeClass('has-success');
-        },
-        unhighlight: function(element) {
-            $(element).closest('.form-group').removeClass('has-error');
-            $(element).closest('.form-group').addClass('has-success');
-        },
-        errorElement: 'span',
-        errorClass: 'help-block',
-        errorPlacement: function(error, element) {
-            if(element.parent('.input-group').length) {
-                error.insertAfter(element.parent());
-            } else {
-                error.insertAfter(element);
-            }
-        },
-        rules:{
-            Amount: {
+            },
+            currency_sm_pos: {
                 myCurrency: true,
-                range: [0, 10000]
+                range: [0, 1000]
             },
-            ContactEmail: {
-                myEmail: true
+            currency_md_pos: {
+                myCurrency: true,
+                range: [0, 100000]
             },
-            ContactNumber: {
-                myContactNumber: true
+            currency_lg_pos: {
+                myCurrency: true,
+                range: [0, 10000000]
+            },
+            currency_sm: {
+                myCurrency: true,
+                range: [-1000, 1000]
+            },
+            currency_md: {
+                myCurrency: true,
+                range: [-100000, 100000]
+            },
+            currency_lg: {
+                myCurrency: true,
+                range: [-10000000, 10000000]
+            },
+            number_sm: {
+                range: [-1000, 1000]
+            },
+            number_md: {
+                range: [-100000, 100000]
+            },
+            number_lg: {
+                range: [-10000000, 10000000]
+            },
+            number_sm_pos: {
+                range: [0, 1000]
+            },
+            number_md_pos: {
+                range: [0, 100000]
+            },
+            number_lg_pos: {
+                range: [0, 10000000]
             }
+
+
         }
     });
 };
@@ -315,7 +239,6 @@ function addSelectionValidation(myForm, formHandler) {
         };
     };
 
-
 // Client
 
     function client_add(usrResponse, callback) {
@@ -357,8 +280,89 @@ function addSelectionValidation(myForm, formHandler) {
         };
     };
 
+// Employees
+
+    function employee_add(usrResponse, callback) {
+        switch(usrResponse){
+            case 'save':
+                confirm_YesNoCancel('Add employee', 'Are you sure you want to add the new employee?', function(res) {
+                    callback(res);
+                });
+                break;
+            default:
+                callback('none');
+                break;
+        };
+    };
+
+    function employee_update(usrResponse, callback) {
+        switch(usrResponse){
+            case 'update':
+                confirm_YesNoCancel('Update employee', 'Are you sure you want to update the employee?', function(res) {
+                    callback(res);
+                });
+                break;
+            default:
+                callback('none');
+                break;
+        };
+    };
+
+    function employee_delete(usrResponse, callback) {
+        switch(usrResponse){
+            case 'delete':
+                warning_YesNo('Delete employee', 'Are you sure you want to delete the selected employee?', function(res) {
+                    callback(res);
+                });
+                break;
+            default:
+                callback('none');
+                break;
+        };
+    };
+
+// Services
+
+    function service_add(usrResponse, callback) {
+        switch(usrResponse){
+            case 'save':
+                confirm_YesNoCancel('Add service', 'Are you sure you want to add the new service?', function(res) {
+                    callback(res);
+                });
+                break;
+            default:
+                callback('none');
+                break;
+        };
+    };
+
+    function service_update(usrResponse, callback) {
+        switch(usrResponse){
+            case 'update':
+                confirm_YesNoCancel('Update service', 'Are you sure you want to update the service?', function(res) {
+                    callback(res);
+                });
+                break;
+            default:
+                callback('none');
+                break;
+        };
+    };
+
+    function service_delete(usrResponse, callback) {
+        switch(usrResponse){
+            case 'delete':
+                warning_YesNo('Delete service', 'Are you sure you want to delete the selected service? This will only remove the service from dropdown menus', function(res) {
+                    callback(res);
+                });
+                break;
+            default:
+                callback('none');
+                break;
+        };
+    };
+
 // Supplier
-supplier_add
     function supplier_add(usrResponse, callback) {
         switch(usrResponse){
             case 'save':
@@ -417,6 +421,7 @@ supplier_add
         var btn1 = dialog.getButton('btn-Ok');
         btn1.click({'result': 'ok'}, function(event){
             callback(event.data.result);
+            dialog.close();
         });
 
         dialog.open();
@@ -548,26 +553,78 @@ supplier_add
         dialog.open();
     }
 
-jQuery.validator.addMethod('myCurrency', function(value, element) {
-    return this.optional(element) || /^(?=\(.*\)|[^()]*$)\(?\d{1,3}(,?\d{3})?(\.\d{2}?)?\)?$/.test(value);
-}, 'Please enter a valid currency value. e.g 12,345.67');
+    function warning_Ok(myTitle, msg, callback) {
+        var res = 'no value';
 
-jQuery.validator.addMethod('myEmail', function(value, element) {
-    return this.optional(element) || /^[A-Za-z0-9._%+-]{1,}@[A-Za-z0-9.-]{1,}\.[A-Za-z]{2,4}$/.test(value);
-}, 'Please enter a valid email address');
+        var dialog = new BootstrapDialog({
+            title: myTitle,
+            message: msg,
+            type: BootstrapDialog.TYPE_WARNING,
+            buttons: [{
+                id: 'btn-Ok',
+                label: 'Ok'
+            }]
+        });
+        dialog.realize();
 
-jQuery.validator.addMethod('myContactNumber', function(value, element) {
-    return this.optional(element) || /^[0-9]{3}\s{1}[0-9]{3}\s{1}[0-9]{4}$/.test(value);
-}, 'Please enter a valid South African contact number in the folowing format: 099 999 9999');
+        var btn1 = dialog.getButton('btn-Ok');
+        btn1.click({'result': 'Ok'}, function(event){
+            if (callback) {
+                // alert('Call callback');
+                callback(event.data.result);
+            };
+            dialog.close();
+        });
 
-jQuery.validator.addMethod('myRadioGroup', function(value, element) {
-    return this.optional(element) || /^[0-9]{3}\s{1}[0-9]{3}\s{1}[0-9]{4}$/.test(value);
-}, 'Please enter a valid South African contact number');
+        dialog.open();
+    }
 
-jQuery.validator.addMethod("valueNotEquals", function(value, element, arg){
-    if (arg === undefined) {
-        arg = '';
-    };
+    function info_Ok(myTitle, msg, callback) {
+        var res = 'no value';
 
-    return arg != value;
-}, "Please select an item.");
+        var dialog = new BootstrapDialog({
+            title: myTitle,
+            message: msg,
+            type: BootstrapDialog.TYPE_INFO,
+            buttons: [{
+                id: 'btn-Ok',
+                label: 'Ok'
+            }]
+        });
+        dialog.realize();
+
+        var btn1 = dialog.getButton('btn-Ok');
+        btn1.click({'result': 'Ok'}, function(event){
+            if (callback) {
+                callback(event.data.result);
+            };
+            dialog.close();
+        });
+
+        dialog.open();
+    }
+
+// Rules
+    jQuery.validator.addMethod('myCurrency', function(value, element) {
+        return this.optional(element) || /^-{0,1}(?=\(.*\)|[^()]*$)\(?\d{1,3}(,?\d{3})?(\.\d{2}?)?\)?$/.test(value);
+    }, 'Please enter a valid currency value. e.g 12,345.67');
+
+    jQuery.validator.addMethod('myEmail', function(value, element) {
+        return this.optional(element) || /^[A-Za-z0-9._%+-]{1,}@[A-Za-z0-9.-]{1,}\.[A-Za-z]{2,4}$/.test(value);
+    }, 'Please enter a valid email address');
+
+    jQuery.validator.addMethod('myContactNumber', function(value, element) {
+        return this.optional(element) || /^[0-9]{3}\s{1}[0-9]{3}\s{1}[0-9]{4}$/.test(value);
+    }, 'Please enter a valid South African contact number in the folowing format: 099 999 9999');
+
+    jQuery.validator.addMethod('myRadioGroup', function(value, element) {
+        return this.optional(element) || /^[0-9]{3}\s{1}[0-9]{3}\s{1}[0-9]{4}$/.test(value);
+    }, 'Please enter a valid South African contact number');
+
+    jQuery.validator.addMethod("valueNotEquals", function(value, element, arg){
+        if (arg === undefined) {
+            arg = '';
+        };
+
+        return arg != value;
+    }, "Please select an item.");

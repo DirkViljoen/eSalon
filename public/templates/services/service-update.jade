@@ -1,0 +1,44 @@
+extends ../layouts/master
+include ../../mixins/mixins
+
+block header
+  label Update service
+
+block loggedIn
+  a(href='#', class='navbar-link') Signed in as Mark Otto
+
+block content
+
+    form.row.col-xs-12.workarea.form-validate(id="serviceUpdate", ng-controller="ServiceController" , ng-init="initUpdate(" + id + ")")
+        .row
+            .col-sm-1
+            .col-sm-11
+                h3 Update service details
+                br
+        .row
+            .col-md-1
+            .col-md-10.form-horizontal
+                .grouphead
+                    +form-group('Service Information')
+                .groupbox
+                    +ng-input-text('sname', 'Name:', 'service.name', 'service name', true, false, '1', '50')
+                    +ng-input-text('sinfo', 'Additional information:', 'service.info', '', false, false, '1', '300')
+                    +ng-input-text('number_sm_pos', 'Duration (Short):', 'service.duration.short', 'Duaration for short hair in minutes', false, false, '1', '4')
+                    +ng-input-text('number_sm_pos', 'Duration (Medium):', 'service.duration.medium', 'Duaration for medium hair in minutes', false, false, '1', '4')
+                    +ng-input-text('number_sm_pos', 'Duration (Long):', 'service.duration.long', 'Duaration for long hair in minutes', true, false, '1', '4')
+                    +ng-input-currency('currency_sm_pos', 'Service price:', 'service.price', 'Service price for all lengths', true, false, '1', '11')
+        br
+        .row
+            .col-md-1
+            .col-md-10.form-group.workarea
+                ul.nav.nav-pills.pull-right
+                    li(role='presentation')
+                        input.btn.btn-primary(type="button", value="Save", ng-click='putService()')
+                    li(role='presentation')
+                        input.btn.btn-default(type="button", value='Cancel', ng-click='cancel()')
+                        br
+
+        br
+        p service: {{service}}
+        p services: {{services}}
+

@@ -1,0 +1,192 @@
+extends ../layouts/master_help
+include ../../mixins/mixins
+
+block header
+  label Welcome to the help file
+
+block loggedIn
+  a(href='#', class='navbar-link') Signed in as Mark Otto
+
+block content
+
+    h1(id="subsystem") Subsystem
+    h4 A short description of what you can do in the sub system
+    h3(id="subsystem-sub1") 1st thing you can do in the sub system
+    p
+        | A pipe symbol (|) allows you to type lots of stuff in the paragraph without
+        | needing to type it out in one long line. Good to know right? Obviously this would
+        | not have been long enough to break without
+        | talking some crap over here.
+    p
+        | As you could imagine, this will add a nice second little paragraph
+        | to the document.
+    p
+        | Please remember to escape special characters like greater than and
+        | smaller than. Here is a list of common escape character values (also
+        | showing you how to create a table):
+
+    table.table.table-responsive
+        thead
+            tr
+                td
+                    b Symbol name
+                td
+                    b Symbol
+                td
+                    b Symbol code
+        tbody
+            tr
+                td Greater than
+                td &gt;
+                td &amp;gt;
+            tr
+                td Less than
+                td &lt;
+                td &amp;lt;
+            tr
+                td Double quote
+                td &quot;
+                td &amp;quote;
+            tr
+                td Ampersand
+                td &amp;
+                td &amp;amp;
+            tr
+                td
+                    a(href="http://www.theukwebdesigncompany.com/articles/entity-escape-characters.php?PHPSESSID=8cbbddde9a9c9825467546f1c98fe119") follow this link for more.
+
+    p You can use 'a' to create links like the one above. Try to only link to parts within he documentation, you can do this by specifying a # and then the ID of the header you want to link to. for example <b><a href='#bookings'>this</a></b> will link to bookings.
+
+    .callout
+        h4 Callouts
+        p
+            | Please use these guys sparingly. most of the content should be in
+            | nice paragraphs. Only really, really important stuff should be highlighted
+            | with these.
+
+    .callout.callout-success
+        h4 Success
+        p
+            | Use 'callout-success' to... I can't think of a scenario to use this as of yet.
+            | Most right ways of doing something should be obvious from the paragraphs content.
+            | Remember you are explaining how a system works to 2 year olds.
+
+    .callout.callout-info
+        h4 Information
+        p
+            | Use 'callout-info' for useful tips and hints. Stuff you may not know is there,
+            | or for shortcuts.
+
+    .callout.callout-warning
+        h4 Warning
+        p
+            | Use 'callout-warning' for things to look out for. Things that may not be obvious,
+            | and can lead to mistakes. Like trying to make a booking for a past date. A warning message will not pop up immediately.
+
+    .callout.callout-danger
+        h4 Danger
+        p
+            | Use 'callout-danger' for things that should never be done. Before adding a danger
+            | item to the help file we should consider trying to avoid it from a coding side. As an example
+            | bookings can be cancelled at the moment after they have been completed. We can add it as a danger
+            | item in the help file, but we should rather not allow it to happen at all.
+
+    p.mark
+        | If unsure of something and you want to have a look at it later, you can use the .mark class to highlight the text
+
+    h3 Oh yes! and cat
+    img(src="/images/i-b-graphix.jpeg" class="img-responsive" alt="I be graphics cat")
+    br
+    p
+        | This super duper awesome graphics cat shows how to add images to the help file.
+        | Put all of you image files in the public/images folder and please give it a nice human friendly name.
+        | You can then reference the image like so: /images/my-epic-image.png
+
+    .callout
+        h4 Last thing
+        p There are loads more stuff we can do for the help documentation and I'm deliberately not sending you guys out to go and see whats possible in CSS and HTML, purely because we need some way of keeping everything looking the same. This does not mean we can't add anything else, just tell me if you need something, or what you want to do, we can standardize it and then everyone else can also use it :)
+
+
+    br
+
+    //- #########################
+    //- ### Bookings
+    //- #########################
+
+    h1(id="bookings") Bookings
+    h4.mark -- Needs editing --
+    h3(id="bookings-add") Making a booking
+    p
+        | This explains how to add bookings. So nice, much learn.
+
+
+    .callout.callout-info
+        h4 Making a booking for a new client when in a hurry
+        p
+            | Remember you only need to provide a name, surname and contact number when creating a new client.
+
+    .callout.callout-warning
+        h4 Making multiple bookings in the same timeslot
+        p
+            | The system does not limit the amount of bookings that can be made during a single timeslot. Make sure that that you will be able to handle the multiple bookings
+
+    .callout.callout-warning
+        h4 Bookings cannot be made for a time that had past
+        p
+            | The system does not allow you to make a booking for a past date or time. A warning message will not be shown immediately when attempting to do so.
+
+    h3(id="bookings-edit") Editing a booking
+    p
+        | This explains how to edit bookings. So nice, much learn.
+
+    h3(id="bookings-cancel") Cancelling bookings
+    p
+        | This explains how to cancel bookings. So nice, much learn.
+
+    h3(id="bookings-finalise") Finalizing a booking
+    p
+        | This explains how to finalize bookings. So nice, much learn.
+
+    br
+    //- #########################
+    //- ### Employees
+    //- #########################
+
+    h1(id="employees") Employees
+    h4.mark -- Needs editing --
+    h3(id="employees-add") Adding a new employee
+    p
+        | This explains how to add employees. So nice, much learn.
+
+    h3(id="employees-edit") Editing employee details
+    p
+        | This explains how to edit employee details. So nice, much learn.
+
+    h3(id="employees-delete") Removing employees
+    p
+        | This explains how to remove employees. So nice, much learn.
+
+    h3(id="employees-schedule") Managing an employees leave
+    p
+        | This explains how to manage employee leave. So nice, much learn.
+
+    .callout.callout-info
+        h4 Identifying employee leave
+        p
+            | Employee leave shows up as grey blocks in the booking calendar.
+    .callout.callout-warning
+        h4 Making bookings for a timeslot that falls within a leave period
+        p
+            | You will not be able to make bookings for a timeslot that falls within an employees leave period
+
+    //- #########################
+    //- ### Client
+    //- #########################
+
+    h1(id="clients") Clients
+    h4.mark -- Needs editing --
+
+    h3(id="client-main") Client Main screen
+    img(src="/images/Client-Main.png" class="img-responsive" alt="Client main screen")
+    br
+    p hello client main

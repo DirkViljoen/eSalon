@@ -7,7 +7,7 @@ module.exports = function (router) {
     });
 
     router.get('/view/:id', function (req, res) {
-        res.render('supplier-view', req.params)
+        res.render('suppliers/supplier-view', req.params)
     });
 
     router.get('/add', function (req, res) {
@@ -15,6 +15,6 @@ module.exports = function (router) {
     });
 
     router.get('/update/:id', function (req, res) {
-        res.render('supplier-update', req.params)
+        res.render('suppliers/supplier-update', req.params)
     });
 };

@@ -1,36 +1,59 @@
 'use strict';
 
-var BookingModel = require('../../models/booking');
-var ClientModel = require('../../models/client');
-var EmployeeModel = require('../../models/employee');
-var OrdersModel = require('../../models/orders');
-var ServiceModel = require('../../models/service');
-// var SpecialsModel = require('../../models/specials');
-var StockModel = require('../../models/stock');
-var SupplierModel = require('../../models/supplier');
-var VouchersModel = require('../../models/vouchers');
+var
+    AddressModel    = require('../../models/address'),
+    BookingModel    = require('../../models/booking'),
+    ClientModel     = require('../../models/client'),
+    EmployeeModel   = require('../../models/employee'),
+    OrdersModel     = require('../../models/orders'),
+    ServiceModel    = require('../../models/service'),
+    StockModel      = require('../../models/stock'),
+    SupplierModel   = require('../../models/supplier'),
+    UserModel       = require('../../models/user'),
+    VouchersModel   = require('../../models/vouchers'),
+    LookupsModel    = require('../../models/lookups'),
+    ReportsModel    = require('../../models/reports');
 
-var LookupsModel = require('../../models/lookups');
-
-var ReportsModel = require('../../models/reports');
-
-var moment = require('moment');
+var moment          = require('moment');
+var q               = require('q');
+var sms             = require('../../libs/sms');
 
 module.exports = function (router) {
 
     var models = {};
 
-    models.booking = new BookingModel();
-    models.client = new ClientModel();
+    models.address  = new AddressModel();
+    models.booking  = new BookingModel();
+    models.client   = new ClientModel();
     models.employee = new EmployeeModel();
-    models.lookup = new LookupsModel();
-    models.orders = new OrdersModel();
-    models.reports = new ReportsModel();
+    models.lookup   = new LookupsModel();
+    models.orders   = new OrdersModel();
+    models.reports  = new ReportsModel();
     models.services = new ServiceModel();
     // models.specials = new SpecialsModel();
-    models.stock = new StockModel();
+    models.stock    = new StockModel();
     models.supplier = new SupplierModel();
     models.vouchers = new VouchersModel();
+    models.user     = new UserModel();
+
+// Address
+
+    router.get('/address/:id', function (req, res) {
+        console.log('Employee address GET w/ ID. Parameters: ' + JSON.stringify(req.params))
+
+        models.address.index(req.params.id)
+            .then(
+                function (result){
+                    if (result) {
+                        res.send(result);
+                    }
+                },
+                function (err){
+                    console.log(err);
+                    res.send(err);
+                }
+            );
+     });
 
 // Bookings
 
@@ -119,9 +142,7 @@ module.exports = function (router) {
         if (JSON.stringify(req.body) != '{}') {
             var obj = {};
             //booking
-            obj.datetime = (req.body.datetime ? '"' + req.body.datetime + '"' : null);
-            obj.datetime = obj.datetime.replace("T"," ");
-            obj.datetime = obj.datetime.replace("Z","");
+            obj.datetime = '"' + moment(req.body.datetime).format('YYYY-MM-DD HH:mm:ss') + '"';
             obj.duration = (req.body.duration ? '"' + req.body.duration + '"' : 30);
             obj.completed = (req.body.completed ? '"' + req.body.completed + '"' : 0);
             obj.active = (req.body.active ? '"' + req.body.active + '"' : 1);
@@ -449,7 +470,7 @@ module.exports = function (router) {
                     res.send(err);
                 }
             );
-    });
+     });
 
     router.get('/employees/:id', function (req, res) {
         console.log('Employees GET w/ ID. Parameters: ' + JSON.stringify(req.params))
@@ -457,15 +478,276 @@ module.exports = function (router) {
         models.employee.index(req.params.id)
             .then(
                 function (result){
-                    if (result)
+                    if (result) {
+                        console.log(result);
                         res.send(result);
+                    }
                 },
                 function (err){
                     console.log(err);
                     res.send(err);
                 }
             );
-    });
+     });
+
+    router.post('/employees', function (req, res) {
+       console.log('Employees POST. Parameters: ' + JSON.stringify(req.body));
+
+       if (req.body){
+            var obj = req.body;
+
+            //Format attributes correctly for SQL stored procedure
+            obj.address.line1 = (obj.address.line1 ? '"' + obj.address.line1 + '"' : null);
+            obj.address.line2 = (obj.address.line2 ? '"' + obj.address.line2 + '"' : null);
+            obj.address.suburbId = (obj.address.suburbId ? obj.address.suburbId : null);
+
+            obj.employee.cfname = (obj.employee.cfname ? '"' + obj.employee.cfname + '"' : null);
+            obj.employee.clname = (obj.employee.clname ? '"' + obj.employee.clname + '"' : null);
+            obj.employee.cnumber = (obj.employee.cnumber ? '"' + obj.employee.cnumber + '"' : null);
+            obj.employee.cemail = (obj.employee.cemail ? '"' + obj.employee.cemail + '"' : null);
+            obj.employee.image = (obj.employee.image ? obj.employee.image : null);
+            obj.employee.salary = (obj.employee.salary ? obj.employee.salary : null);
+            obj.employee.addressId = null;
+
+            obj.user.name = (obj.user.name ? '"' + obj.user.name + '"' : null);
+            obj.user.password = (obj.user.password ? '"' + obj.user.password + '"' : null);
+            obj.user.roleId = (obj.user.roleId ? obj.user.roleId : null);
+
+            var deferred = q.defer();
+            var promise;
+            if ((obj.address.suburbId != null) || (obj.address.line2 != null) || (obj.address.line2 != null)) {
+                console.log('Creating address');
+                promise = models.address.create(obj.address);
+            } else {
+                console.log('No address to create');
+                deferred.resolve({err: 'No Address'});
+                promise = deferred.promise;
+            }
+
+            promise.then(
+                    function (result){
+                        if (result.err == 'No Address'){
+                            obj.employee.addressId = null;
+                            console.log('address create: No address information for new create');
+                        }
+                        else {
+                            obj.employee.addressId = result.SQLstats.insertId;
+                            console.log('address create: Success');
+                        }
+                    },
+                    function (err){
+                        obj.employee.addressId = null;
+                        console.log('address create: Fail');
+                    }
+                )
+                .then(
+                    function (result){
+                        console.log('Creating Employee');
+                        return models.employee.create(obj.employee)
+                            .then(
+                                function (result){
+                                    obj.user.employeeId = result.SQLstats.insertId;
+                                    console.log('employee create: Success');
+                                },
+                                function (err){
+                                    obj.user.employeeId = null;
+                                    console.log('employee create: Fail');
+                                }
+                            )
+                    }
+                )
+                .then(
+                    function (result) {
+                        if (obj.user.employeeId == null){
+                            console.log('Critical error. Cannot create user.');
+                            res.send({err: 'Unable to create user details. The employee has not been created'});
+                        }
+                        else {
+                            console.log('Creating User');
+
+                            models.user.create(obj.user)
+                                .then(
+                                    function (result){
+                                        console.log('user create: Success');
+                                        res.send(result);
+                                    },
+                                    function (err){
+                                        console.log('user create: Fail');
+                                        res.send({err: 'Unable to create user details. The employee has been created'});
+                                    }
+                                )
+                        }
+
+                    }
+                );
+
+         }
+         else
+         {
+             var err = 'No req.body on employee POST';
+             console.error(new Error(err));
+             res.send({'err': err});
+         }
+
+
+     });
+
+    router.put('/employees/:id', function (req, res) {
+       console.log('Employees PUT. Parameters: ' + JSON.stringify(req.body));
+
+       if (req.body){
+            var obj = req.body;
+
+            //Format attributes correctly for SQL stored procedure
+            obj.address.addressId = (obj.employee.addressId ? obj.employee.addressId : null);
+            obj.address.line1 = (obj.address.line1 ? '"' + obj.address.line1 + '"' : null);
+            obj.address.line2 = (obj.address.line2 ? '"' + obj.address.line2 + '"' : null);
+            obj.address.suburbId = (obj.address.suburbId ? obj.address.suburbId : null);
+
+            obj.employee.cfname = (obj.employee.cfname ? '"' + obj.employee.cfname + '"' : null);
+            obj.employee.clname = (obj.employee.clname ? '"' + obj.employee.clname + '"' : null);
+            obj.employee.cnumber = (obj.employee.cnumber ? '"' + obj.employee.cnumber + '"' : null);
+            obj.employee.cemail = (obj.employee.cemail ? '"' + obj.employee.cemail + '"' : null);
+            obj.employee.image = (obj.employee.image ? obj.employee.image : null);
+            obj.employee.salary = (obj.employee.salary ? obj.employee.salary : null);
+            obj.employee.addressId = (obj.employee.addressId ? obj.employee.addressId : null);
+
+            obj.user.name = (obj.user.name ? '"' + obj.user.name + '"' : null);
+            obj.user.password = (obj.user.password ? '"' + obj.user.password + '"' : null);
+            obj.user.roleId = (obj.user.roleId ? obj.user.roleId : null);
+            obj.user.employeeId = (obj.employee.employeeId ? obj.employee.employeeId : null);
+            obj.user.userId = (obj.user.userId ? obj.user.userId : null);
+
+            var deferred = q.defer();
+            var promise;
+
+            if (obj.employee.addressId){
+                console.log('Updating address');
+                promise = models.address.update(obj.address);
+            }
+            else{
+                if ((obj.address.suburbId != null) || (obj.address.line2 != null) || (obj.address.line2 != null)) {
+                    console.log('Creating address');
+                    promise = models.address.create(obj.address);
+                } else {
+                    console.log('No address to create or update');
+                    deferred.resolve({err: 'No Info'});
+                    promise = deferred.promise;
+                }
+            }
+
+            promise.then(
+                    function (result){
+                        if (result.err == 'No Info'){
+                            obj.employee.addressId = null;
+                            console.log('address create: No address information for create');
+                        }
+                        else {
+                            obj.employee.addressId = (result.SQLstats.insertId ? result.SQLstats.insertId : obj.employee.addressId);
+                            console.log('address update/create: Success');
+                        }
+                    },
+                    function (err){
+                        obj.employee.addressId = (obj.employee.addressId ? obj.employee.addressId : null);
+                        console.log('address update/create: Fail');
+                    }
+                )
+                .then(
+                    function (result){
+                        console.log('Updating Employee');
+                        return models.employee.update(obj.employee)
+                            .then(
+                                function (result){
+                                    console.log('employee update: Success');
+                                },
+                                function (err){
+                                    console.log('employee update: Fail');
+                                }
+                            )
+                    }
+                )
+                .then(
+                    function (result) {
+                        if (obj.user.employeeId == null){
+                            console.log('Critical error. Cannot create/update user.');
+                            res.send({err: 'Unable to create/update user details. An employee has not been specified.'});
+                        }
+                        else {
+                            if (obj.user.userId){
+                                models.user.update(obj.user)
+                                    .then(
+                                        function (result){
+                                            console.log('user update: Success');
+                                            res.send(result);
+                                        },
+                                        function (err){
+                                            console.log('user update: Fail');
+                                            res.send({err: 'Unable to update user details. The employee has been created/updated'});
+                                        }
+                                    )
+                            }
+                            else {
+                                console.log('Creating User');
+
+                                models.user.create(obj.user)
+                                    .then(
+                                        function (result){
+                                            console.log('user create: Success');
+                                            res.send(result);
+                                        },
+                                        function (err){
+                                            console.log('user create: Fail');
+                                            res.send({err: 'Unable to create user details. The employee has been created/updated'});
+                                        }
+                                    )
+                            }
+                        }
+
+                    }
+                );
+
+         }
+         else
+         {
+             var err = 'No req.body on employee POST';
+             console.error(new Error(err));
+             res.send({'err': err});
+         }
+
+
+     });
+
+    router.delete('/employees/:id', function (req, res) {
+       console.log('Employees DELETE. Body: ' + JSON.stringify(req.params));
+
+       if (req.params){
+            var obj = {};
+
+            //Format attributes correctly for SQL stored procedure
+            obj.employeeId = (req.params.id ? req.params.id : null);
+
+            models.employee.remove(obj)
+                .then(
+                    function (result){
+                        console.log('employee delete: Success');
+                        res.send({result: 'Success'})
+                    },
+                    function (err){
+                        console.log('employee delete: Fail');
+                        res.error(err)
+                    }
+                )
+
+         }
+         else
+         {
+             var err = 'No req.body on employee POST';
+             console.error(new Error(err));
+             res.send({'err': err});
+         }
+
+
+     });
 
 // Employee_Leave
 
@@ -556,6 +838,48 @@ module.exports = function (router) {
         else
         {
             var err = 'No req.body on booking POST';
+            console.error(new Error(err));
+            res.send({'err': err});
+        }
+    });
+
+// Notifications
+    router.post('/sms', function (req, res) {
+        console.log('sms POST.')
+        console.log(' - Body: ' + JSON.stringify(req.body));
+
+        if (req.body.message && req.body.number) {
+            sms.send(req.body.number, req.body.message)
+                .then(
+                    function (result){
+                        console.log(result);
+                        res.send(result);
+                    },
+                    function (err){
+                        // console.error(err);
+                        res.send({'err': err});
+                    }
+                );
+
+        }
+        else
+        {
+            var err = 'Invalid number or message. Unable to send sms.';
+            console.error(new Error(err));
+            res.send({'err': err});
+        }
+    });
+
+    router.post('/email', function (req, res) {
+        console.log('email POST.')
+        console.log(' - Body: ' + JSON.stringify(req.body));
+
+        if (req.body.message && req.body.email) {
+            // sms.send(req.body.number, req.body.message);
+        }
+        else
+        {
+            var err = 'Invalid email or message. Unable to send email.';
             console.error(new Error(err));
             res.send({'err': err});
         }
@@ -780,7 +1104,7 @@ module.exports = function (router) {
 // Services
 
     router.get('/services', function (req, res) {
-        console.log('Services GET. Parameters: ' + JSON.stringify(req.query))
+        console.log('Services GET. Query: ' + JSON.stringify(req.query))
 
         var sname = (req.query.service ? req.query.service : "");
 
@@ -796,6 +1120,225 @@ module.exports = function (router) {
                 }
             );
     });
+
+    router.get('/services/:id', function (req, res) {
+        console.log('Services GET. Parameters: ' + JSON.stringify(req.params))
+
+        models.services.index(req.params.id)
+            .then(
+                function (result){
+                    if (result)
+                        res.send(result);
+                },
+                function (err){
+                    console.log(err);
+                    res.send(err);
+                }
+            );
+     });
+
+    router.get('/services/:id/duration', function (req, res) {
+        console.log('Services GET. Parameters: ' + JSON.stringify(req.params))
+
+        var len = 1
+
+        if (req.query.len) {
+            switch(req.query.len) {
+                case 's':
+                    len = 3;
+                    break;
+                case 'm':
+                    len = 2;
+                    break;
+                default:
+                    len = 1
+            }
+        }
+
+        models.services.duration(req.params.id, len)
+            .then(
+                function (result){
+                    if (result)
+                        res.send(result);
+                },
+                function (err){
+                    console.log(err);
+                    res.send(err);
+                }
+            );
+     });
+
+    router.post('/services', function (req, res) {
+       console.log('Services POST. Parameters: ' + JSON.stringify(req.body));
+       var err = '';
+
+       if (req.body){
+            var obj = {};
+            obj.duration = {};
+
+            //Format attributes correctly for SQL stored procedure
+            if (req.body.name !== undefined){
+                obj.name = '"' + req.body.name + '"';
+            }
+            else {
+                err = 'No name for service';
+                console.error(new Error(err));
+                res.send({'err': err});
+            }
+
+            obj.info = (req.body.info ? '"' + req.body.info + '"' : null);
+
+            if (req.body.price !== undefined){
+                obj.price = req.body.price;
+            }
+            else {
+                err = 'No price for service';
+                console.error(new Error(err));
+                res.send({'err': err});
+            }
+
+            if (req.body.duration.long !== undefined){
+                obj.duration.long = req.body.duration.long;
+            }
+            else {
+                err = 'No long hair duration specified';
+                console.error(new Error(err));
+                res.send({'err': err});
+            }
+
+            obj.duration.medium = (req.body.duration.medium ? req.body.duration.medium : req.body.duration.long);
+            obj.duration.short = (req.body.duration.short ? req.body.duration.short : req.body.duration.long);
+
+            // Call model post function
+            models.services.create(obj)
+                .then(
+                    function (result){
+                        console.log(result);
+                        res.send(result);
+                    },
+                    function (err){
+                        // console.error(err);
+                        res.send({'err': err});
+                    }
+                );
+
+         }
+         else
+         {
+             var err = 'No req.body on service POST';
+             console.error(new Error(err));
+             res.send({'err': err});
+         }
+
+
+     });
+
+    router.put('/services/:id', function (req, res) {
+       console.log('Services PUT. Parameters: ' + JSON.stringify(req.params) + ', Body: ' + JSON.stringify(req.body));
+       var err = '';
+
+       if (req.body){
+            var obj = {};
+            obj.duration = {};
+
+            //Format attributes correctly for SQL stored procedure
+            if (req.body.serviceId !== undefined){
+                obj.serviceId = req.body.serviceId;
+            }
+            else {
+                obj.serviceId = req.params.serviceId;
+            }
+
+            if (req.body.name !== undefined){
+                obj.name = '"' + req.body.name + '"';
+            }
+            else {
+                err = 'No name for service';
+                console.error(new Error(err));
+                res.send({'err': err});
+            }
+
+            obj.info = (req.body.info ? '"' + req.body.info + '"' : null);
+
+            if (req.body.price !== undefined){
+                obj.price = req.body.price;
+            }
+            else {
+                err = 'No price for service';
+                console.error(new Error(err));
+                res.send({'err': err});
+            }
+
+            if (req.body.duration.long !== undefined){
+                obj.duration.long = req.body.duration.long;
+            }
+            else {
+                err = 'No long hair duration specified';
+                console.error(new Error(err));
+                res.send({'err': err});
+            }
+
+            obj.duration.medium = (req.body.duration.medium ? req.body.duration.medium : req.body.duration.long);
+            obj.duration.short = (req.body.duration.short ? req.body.duration.short : req.body.duration.long);
+
+            // Call model post function
+            models.services.update(obj)
+                .then(
+                    function (result){
+                        console.log(result);
+                        res.send(result);
+                    },
+                    function (err){
+                        // console.error(err);
+                        res.send({'err': err});
+                    }
+                );
+
+         }
+         else
+         {
+             var err = 'No req.body on service PUT';
+             console.error(new Error(err));
+             res.send({'err': err});
+         }
+
+
+     });
+
+    router.delete('/services/:id', function (req, res) {
+       console.log('Services DELETE. Parameters: ' + JSON.stringify(req.params) + ', Body: ' + JSON.stringify(req.body));
+       var err = '';
+
+       if (req.body){
+            var obj = {};
+
+            //Format attributes correctly for SQL stored procedure
+
+            obj.serviceId = req.params.id;
+
+            // Call model post function
+            models.services.remove(obj)
+                .then(
+                    function (result){
+                        console.log(result);
+                        res.send(result);
+                    },
+                    function (err){
+                        // console.error(err);
+                        res.send({'err': err});
+                    }
+                );
+
+         }
+         else
+         {
+             var err = 'No req.body on service PUT';
+             console.error(new Error(err));
+             res.send({'err': err});
+         }
+
+
+     });
 
     router.get('/historicservices', function (req, res) {
         console.log('Historic services GET. Parameters: ' + JSON.stringify(req.query))
@@ -813,11 +1356,9 @@ module.exports = function (router) {
                     res.send(err);
                 }
             );
-    });
+     });
 
-
-
-    router.get('/services/hairlengthservices', function (req, res) {
+    router.get('/hairlengthservices', function (req, res) {
         console.log('hair length services GET. Parameters: ' + JSON.stringify(req.params))
 
         models.services.hairlengthservices()
@@ -831,7 +1372,7 @@ module.exports = function (router) {
                     res.send(err);
                 }
             );
-    });
+     });
 
 // Specials
 
@@ -992,17 +1533,15 @@ module.exports = function (router) {
               );
             });
 
-//suppliers
+// suppliers
     router.get('/supplier', function (req, res) {
         console.log('supplier GET. Parameters: ' + JSON.stringify(req.query))
 
        var sname = "";
-       var pname = "";
 
         sname = (req.query.sname ? req.query.sname : "");
-        pname = (req.query.pname ? req.query.pname : "");
 
-        models.supplier.find(sname, pname)
+        models.supplier.find(sname)
             .then(
                 function (result){
                     if (result)
@@ -1062,16 +1601,16 @@ module.exports = function (router) {
          }
      });
 
-    router.put('/supplier', function (req, res) {
+    router.put('/supplier/:id', function (req, res) {
       console.log('supplier PUT. Parameters: ' + JSON.stringify(req.body));
 
       if (JSON.stringify(req.body) != '{}') {
           var obj = {};
           //post
-          obj.supplierID = (req.body.supplierID ? req.body.supplierID : null);
+          obj.supplierid = (req.body.supplierid ? req.body.supplierid : req.params.id);
           obj.name = (req.body.name ? '"' + req.body.name + '"' : null);
-          obj.contact = (req.body.contact ? req.body.contact : null);
-          obj.email = (req.body.email ? '"' + req.body.email + '"' : null);
+          obj.contactNumber = (req.body.contactNumber ? '"' + req.body.contactNumber + '"' : null);
+          obj.contactEmail = (req.body.contactEmail ? '"' + req.body.contactEmail + '"' : null);
 
            models.supplier.update(obj)
               .then(
@@ -1119,6 +1658,44 @@ module.exports = function (router) {
                 console.error(new Error(err));
                 res.send({'err': err});
             }
+    });
+
+// Users
+
+    router.get('/users/:id', function (req, res) {
+        console.log('user GET w/ ID. Parameters: ' + JSON.stringify(req.params))
+
+        models.user.index(req.params.id)
+              .then(
+                  function (result){
+                      if (result)
+                          res.send(result);
+                  },
+                  function (err){
+                      console.log(err);
+                      res.send(err);
+                  }
+              );
+    });
+
+    router.put('/users/:id/password', function (req, res) {
+        console.log('user GET w/ ID. Body: ' + JSON.stringify(req.body))
+
+        var obj = req.body;
+
+        obj.password = '"' + obj.password + '"';
+
+        models.user.changePassword(obj)
+            .then(
+                function (result){
+                    console.log(result);
+                    res.send(result);
+                },
+                function (err){
+                    // console.error(err);
+                    res.send({'err': err});
+                }
+            );
     });
 
 // Vouchers
@@ -1256,6 +1833,19 @@ module.exports = function (router) {
         console.log('request body: ' + JSON.stringify(req.params));
 
         models.lookup.notificationMethods(req.params.cityID)
+            .then(
+                function (result){
+                    console.log(result);
+                    res.send(result);
+                }
+            );
+    });
+
+    router.get('/lookups/roles', function (req, res) {
+        console.log('get roles');
+        console.log('request body: ' + JSON.stringify(req.params));
+
+        models.lookup.roles()
             .then(
                 function (result){
                     console.log(result);

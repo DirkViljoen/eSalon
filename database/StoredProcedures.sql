@@ -1,75 +1,6 @@
 USE eSalon;
 
 -- Employee
-
-    DELIMITER //
-    CREATE PROCEDURE spEmployee_Read_Search
-    (
-        IN fname VARCHAR(50),
-        IN lname VARCHAR(50),
-        IN role VARCHAR(30)
-    )
-    BEGIN
-        SELECT 
-			e.* 
-		FROM 
-			`Employee`e, `User` u, `Role` r
-        WHERE 
-			e.`Name` Like fname
-			AND 
-			e.`Surname` Like lname
-			AND
-            r.`Name` Like Role
-            AND
-            e.`Employee_ID` = u.`Employee_ID`
-            AND
-            u.`Role_ID` = r.`Role_ID`
-        ORDER BY 
-			e.`Name`;
-    END //
-    DELIMITER ;
-
-    DELIMITER //
-    CREATE PROCEDURE spEmployee_Read_ID
-    (
-        IN id INT
-    )
-    BEGIN
-        SELECT 
-			* 
-        FROM 
-			`Employee`
-        WHERE 
-			`Employee_ID` = id;
-    END //
-    DELIMITER ;
-    
-    DELIMITER //
-    CREATE PROCEDURE spEmployeeBookings_Read_ID
-    (
-        IN id INT
-    )
-    BEGIN
-        SELECT 
-			b.*, 
-            c.`Name` as 'clientFName', 
-            c.`Surname` as 'clientLName',
-            e.`Name` as 'employeeFName',
-            e.`Surname` as 'employeeLName'
-		FROM 
-			`Booking` b, 
-            `Client` c, 
-            `Employee` e
-        WHERE 
-			e.`Employee_id` = id
-            AND
-            b.`Client_id` = c.`Client_id`
-            AND
-            b.`Employee_id` = e.`Employee_id`
-            AND
-            b.`Active` = true;
-    END //
-    DELIMITER ;
     
     DELIMITER //
     CREATE PROCEDURE spEmployee_Leave_ID
@@ -83,40 +14,6 @@ USE eSalon;
 			`Employee_Leave`
         WHERE 
 			`Employee_ID` = id;
-    END //
-    DELIMITER ;
-    
--- Service
-
-    DELIMITER //
-    CREATE PROCEDURE spService_Search
-    (
-        IN sname VARCHAR(50)
-    )
-    BEGIN
-        SELECT 
-			s.*
-		FROM 
-			`Service` s
-        WHERE 
-			s.`Name` like sname
-        ORDER BY 
-			s.`Name`;
-    END //
-    DELIMITER ;
-
-    DELIMITER //
-    CREATE PROCEDURE spService_Read
-    (
-        IN id INT
-    )
-    BEGIN
-        SELECT 
-			s.*
-		FROM 
-			`Service` s
-        WHERE 
-			s.`Service_id` = id;
     END //
     DELIMITER ;
     
@@ -367,9 +264,6 @@ USE eSalon;
                             )
             VALUES
                 (title, fname, lname, contactNumber, contactEmail, dateOfBirth, reminders, notifications, true, notificationMethod_ID, address_ID);
-
-        SET insertId = LAST_INSERT_ID();
-            SELECT insertId;
     END //
     DELIMITER ;
 
