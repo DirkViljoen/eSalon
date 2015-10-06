@@ -2,48 +2,43 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Newtonsoft.Json;
 
 namespace BusinessTier
 {
+    public class JsonResponseOrderLine
+    {
+        [JsonProperty(PropertyName = "rows")]
+        public List<OrderLine> Rows { get; set; }
+
+        /*[JsonProperty(PropertyName = "SQLstats")]
+        public Stats sqlstats { get; set; }
+    */}
+
     public class OrderLine
     {
-        private int mOrderLineLID;
-        private int mQuantity;
-        private int mStockID;
-        private int mOrderID;
+        [JsonProperty(PropertyName = "OrderLine_id")]
+        public int OrderLineLID { get; set; }
+
+        [JsonProperty(PropertyName = "Quantity")]
+        public int Quantity { get; set; }
+
+        [JsonProperty(PropertyName = "Stock_ID")]
+        public int StockID { get; set; }
+
+        [JsonProperty(PropertyName = "Order_ID")]
+        public int OrderID { get; set; }
 
         public OrderLine()
         {
-
         }
 
         public OrderLine(int oID, int oQuan, int oSt, int oOrder)
         {
-            mOrderLineLID = oID;
-            mQuantity = oQuan;
-            mStockID = oSt;
-            mOrderID = oOrder;
-        }
-
-        public int OrderLineID
-        {
-            get { return OrderLineID; }
-            set { OrderLineID = value; }
-        }
-        public int Quantity
-        {
-            get { return mQuantity; }
-            set { mQuantity = value; }
-        }
-        public int StockID
-        {
-            get { return mStockID; }
-            set { mStockID = value; }
-        }
-        public int OrderID
-        {
-            get { return mOrderID; }
-            set { mOrderID = value; }
+            OrderLineLID = oID;
+            Quantity = oQuan;
+            StockID = oSt;
+            OrderID = oOrder;
         }
     }
 }

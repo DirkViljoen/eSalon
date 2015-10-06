@@ -148,6 +148,7 @@
             this.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.Name = "ReceiveStock";
             this.Text = "ReceiveStock";
+            this.Load += new System.EventHandler(this.ReceiveStock_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

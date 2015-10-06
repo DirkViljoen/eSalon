@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using BusinessTier;
 
 namespace Prototype
 {
@@ -74,6 +75,26 @@ namespace Prototype
                 sl.GetStock(txtSName.Text, txtBName.Text, txtPName.Text);
 
                 dataGridView1.DataSource = sl;
+            }
+            catch (Exception d)
+            {
+                MessageBox.Show("ERROR: " + d);
+            }
+        }
+
+        private void pnlTrack_Paint(object sender, PaintEventArgs e)
+        {
+            try
+            {
+                string str = "Are you sure you want to update this order?";
+                string form = "UpdateStock";
+
+                //sl.UpdateStock(new Stock(0, txtBrand.Text, txtProduct.Text, Convert.ToDouble(txtPrice.Text),
+                //Convert.ToInt32(txtSize.Text), true, Convert.ToInt32(txtQuantity.Text), txtBarcode.Text, 0,
+                //Convert.ToInt32(txtSupplier.Text)));
+                ConfirmationMessage a = new ConfirmationMessage(str, form);
+                a.ShowDialog();
+                MessageBox.Show("A Product has been updated");
             }
             catch (Exception d)
             {

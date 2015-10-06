@@ -90,54 +90,5 @@ namespace BusinessTier
             return temp;
         }
 
-        /*public void InsertSupplier(Supplier s)
-        {
-            // POST
-
-            IRestResponse response = Supplier.Execute(request);
-            request = new RestRequest(Method.POST);
-            request.Resource = "/api/Supplier";
-
-            request.AddParameter("quantity", s.Brand);
-            request.AddParameter("SupplierId", s.Product);
-            request.AddParameter("quantity", s.Price);
-            request.AddParameter("SupplierId", s.Size);
-            request.AddParameter("quantity", s.Active);
-            request.AddParameter("SupplierId", s.Quantity);
-            request.AddParameter("quantity", s.Barcode);
-            request.AddParameter("SupplierId", s.CategoryID);
-            request.AddParameter("quantity", s.SupplierID);
-
-            response = Supplier.Execute(request);
-        }
-
-        public void DeleteSupplier(Supplier s)
-        {
-            IRestResponse response = Supplier.Execute(request);
-
-            request = new RestRequest(Method.PUT);
-            request.Resource = "/api/Supplier/:id";
-
-            request.AddParameter("SupplierId", s.SupplierID);
-            request.AddParameter("quantity", s.Active);
-
-            response = Supplier.Execute(request);
-        }
-
-        public void UpdateSupplier(Supplier s)
-        {
-            IRestResponse response = Supplier.Execute(request);
-
-            request = new RestRequest(Method.PUT);
-            request.Resource = "/api/supplier";
-
-            request.AddParameter("supplierID", s.SupplierID);
-            request.AddParameter("name", s.Name);
-            request.AddParameter("contact", s.Contact);
-            request.AddParameter("email", s.Email);
-
-            response = Supplier.Execute(request);
-
-        }*/
     }
 }

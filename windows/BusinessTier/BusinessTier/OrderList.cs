@@ -11,42 +11,37 @@ using Newtonsoft.Json;
 
 namespace BusinessTier
 {
-   public class OrderList : System.ComponentModel.BindingList<Order>
+    public class OrderList : List<Order>
     {
- RestRequest request = new RestRequest();
+        RestRequest request = new RestRequest();
         RestClient Order = new RestClient();
-        
+
         public OrderList()
         {
-            //Create an object for each Order in the dataset and add to list
+            Order.BaseUrl = new Uri("http://localhost:8000");
+            request.Resource = "/api/order";
+            IRestResponse response = Order.Execute(request);
+            string temp = response.Content.Replace("\"", "'");
+            JsonResponseOrder test = JsonConvert.DeserializeObject<JsonResponseOrder>(temp);
 
-            foreach (Order OrderRow in GetOrder())
+            for (int k = 0; k < test.Rows.Count; k++)
             {
-                Order Order = new Order(
-                    OrderRow.OrderID,
-                    OrderRow.Place,
-                    OrderRow.Receive,
-                    OrderRow.SupplierID);
-
-                this.Add(Order);
+                this.Add(test.Rows[k]);
             }
 
         }
 
         public OrderList(int OrderID)
         {
-
-            //Create an object for each Order in dataset and add to list
-            foreach (Order OrderRow in GetOrder(OrderID))
+            foreach (Order o in GetOrder(OrderID))
             {
-                if (OrderID == OrderRow.OrderID)
+                if (OrderID == o.OrderID)
                 {
                     Order Order =
-                        new Order(OrderRow.OrderID,
-                                    OrderRow.Place,
-                                    OrderRow.Receive,
-                                    OrderRow.SupplierID);
-
+                        new Order(o.OrderID,
+                                    o.dPlaced,
+                                    o.dReceived,
+                                    o.SupplierID);
                     this.Add(Order);
                     break;
                 }
@@ -69,7 +64,7 @@ namespace BusinessTier
             string temp = response.Content.Replace("\"", "'");
             //List<Client> list = JsonConvert.DeserializeObject<List<Client>>(temp);
             Order test = JsonConvert.DeserializeObject<Order>(temp);
-           
+
             return this;
         }
 
@@ -94,33 +89,19 @@ namespace BusinessTier
         public void InsertOrder(Order s)
         {
             // POST
+            this.Add(s);
 
             IRestResponse response = Order.Execute(request);
             request = new RestRequest(Method.POST);
-            request.Resource = "/api/Order";
+            request.Resource = "/api/order";
 
-            request.AddParameter("orderID", s.OrderID);
-            request.AddParameter("dateTo", s.Receive);
-            request.AddParameter("dateFrom", s.Place);
-            request.AddParameter("supplierID", s.SupplierID);
+            request.AddParameter("Order_id", s.OrderID);
+            request.AddParameter("DatePlaced", s.dPlaced);
+            request.AddParameter("DateReceived", s.dReceived);
+            request.AddParameter("Supplier_ID", s.SupplierID);
 
             response = Order.Execute(request);
         }
 
-        public void UpdateOrder(Order s)
-        {
-            IRestResponse response = Order.Execute(request);
-
-            request = new RestRequest(Method.PUT);
-            request.Resource = "/api/Order";
-
-            request.AddParameter("orderID", s.OrderID);
-            request.AddParameter("dateTo", s.Receive);
-            request.AddParameter("dateFrom", s.Place);
-            request.AddParameter("supplierID", s.SupplierID);
-
-            response = Order.Execute(request);
-
-        }
     }
 }

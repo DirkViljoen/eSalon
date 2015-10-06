@@ -34,6 +34,7 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.View = new System.Windows.Forms.DataGridViewButtonColumn();
             this.txtSName = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.pnlTrack = new System.Windows.Forms.Panel();
@@ -59,7 +60,6 @@
             this.button2 = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.stockListBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.View = new System.Windows.Forms.DataGridViewButtonColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.pnlTrack.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
@@ -118,6 +118,14 @@
             this.dataGridView1.TabIndex = 14;
             this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
             // 
+            // View
+            // 
+            this.View.HeaderText = "View";
+            this.View.Name = "View";
+            this.View.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.View.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.View.Width = 50;
+            // 
             // txtSName
             // 
             this.txtSName.Location = new System.Drawing.Point(162, 32);
@@ -165,6 +173,7 @@
             this.pnlTrack.Size = new System.Drawing.Size(461, 349);
             this.pnlTrack.TabIndex = 22;
             this.pnlTrack.Visible = false;
+            this.pnlTrack.Paint += new System.Windows.Forms.PaintEventHandler(this.pnlTrack_Paint);
             // 
             // label15
             // 
@@ -390,14 +399,6 @@
             // stockListBindingSource
             // 
             this.stockListBindingSource.DataSource = typeof(Prototype.StockList);
-            // 
-            // View
-            // 
-            this.View.HeaderText = "View";
-            this.View.Name = "View";
-            this.View.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.View.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.View.Width = 50;
             // 
             // SearchStock
             // 

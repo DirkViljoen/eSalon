@@ -48,7 +48,7 @@
             // 
             this.button1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(84)))), ((int)(((byte)(51)))), ((int)(((byte)(104)))));
             this.button1.Location = new System.Drawing.Point(338, 277);
-            this.button1.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.button1.Margin = new System.Windows.Forms.Padding(5);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(140, 30);
             this.button1.TabIndex = 28;
@@ -61,7 +61,7 @@
             this.checkBox1.AutoSize = true;
             this.checkBox1.BackColor = System.Drawing.Color.Transparent;
             this.checkBox1.Location = new System.Drawing.Point(16, 247);
-            this.checkBox1.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.checkBox1.Margin = new System.Windows.Forms.Padding(5);
             this.checkBox1.Name = "checkBox1";
             this.checkBox1.Size = new System.Drawing.Size(240, 22);
             this.checkBox1.TabIndex = 27;
@@ -72,7 +72,7 @@
             // 
             this.comboBox1.FormattingEnabled = true;
             this.comboBox1.Location = new System.Drawing.Point(122, 45);
-            this.comboBox1.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.comboBox1.Margin = new System.Windows.Forms.Padding(5);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(139, 26);
             this.comboBox1.TabIndex = 26;
@@ -81,7 +81,7 @@
             // dateTimePicker1
             // 
             this.dateTimePicker1.Location = new System.Drawing.Point(122, 13);
-            this.dateTimePicker1.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.dateTimePicker1.Margin = new System.Windows.Forms.Padding(5);
             this.dateTimePicker1.Name = "dateTimePicker1";
             this.dateTimePicker1.Size = new System.Drawing.Size(261, 26);
             this.dateTimePicker1.TabIndex = 25;
@@ -115,7 +115,7 @@
             this.listBox1.Items.AddRange(new object[] {
             "Shampoo"});
             this.listBox1.Location = new System.Drawing.Point(16, 108);
-            this.listBox1.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.listBox1.Margin = new System.Windows.Forms.Padding(5);
             this.listBox1.Name = "listBox1";
             this.listBox1.Size = new System.Drawing.Size(198, 130);
             this.listBox1.TabIndex = 30;
@@ -127,7 +127,7 @@
             this.listBox2.Items.AddRange(new object[] {
             "Quick Wash"});
             this.listBox2.Location = new System.Drawing.Point(223, 108);
-            this.listBox2.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.listBox2.Margin = new System.Windows.Forms.Padding(5);
             this.listBox2.Name = "listBox2";
             this.listBox2.Size = new System.Drawing.Size(198, 130);
             this.listBox2.TabIndex = 31;
@@ -139,7 +139,7 @@
             this.listBox3.Items.AddRange(new object[] {
             "3"});
             this.listBox3.Location = new System.Drawing.Point(429, 108);
-            this.listBox3.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.listBox3.Margin = new System.Windows.Forms.Padding(5);
             this.listBox3.Name = "listBox3";
             this.listBox3.Size = new System.Drawing.Size(198, 130);
             this.listBox3.TabIndex = 32;
@@ -181,7 +181,7 @@
             // 
             this.button2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(84)))), ((int)(((byte)(51)))), ((int)(((byte)(104)))));
             this.button2.Location = new System.Drawing.Point(487, 277);
-            this.button2.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.button2.Margin = new System.Windows.Forms.Padding(5);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(140, 30);
             this.button2.TabIndex = 36;
@@ -193,7 +193,7 @@
             // 
             this.button3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(84)))), ((int)(((byte)(51)))), ((int)(((byte)(104)))));
             this.button3.Location = new System.Drawing.Point(197, 277);
-            this.button3.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.button3.Margin = new System.Windows.Forms.Padding(5);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(132, 30);
             this.button3.TabIndex = 37;
@@ -223,9 +223,10 @@
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label1);
             this.Font = new System.Drawing.Font("Lucida Fax", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.Margin = new System.Windows.Forms.Padding(5);
             this.Name = "ViewOrder";
             this.Text = "ViewOrder";
+            this.Load += new System.EventHandler(this.ViewOrder_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

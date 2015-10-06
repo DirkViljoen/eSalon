@@ -322,7 +322,7 @@ CREATE TABLE `Special` (
     
 );
 
-CREATE TABLE `Supplier` (
+CREATE TABLE ``order`order_linestocksupplierSupplier` (
 	`Supplier_ID` INT NULL AUTO_iNCREMENT,
     `Name` VARCHAR (50),
     `ContactNumber` VARCHAR(15),

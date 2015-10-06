@@ -13,39 +13,35 @@ namespace BusinessTier
 {
     public class OrderLineList : System.ComponentModel.BindingList<OrderLine>
     {
- RestRequest request = new RestRequest();
+        RestRequest request = new RestRequest();
         RestClient OrderLine = new RestClient();
-        
+
         public OrderLineList()
         {
-            //Create an object for each OrderLine in the dataset and add to list
+            OrderLine.BaseUrl = new Uri("http://localhost:8000");
+            request.Resource = "/api/order";
+            IRestResponse response = OrderLine.Execute(request);
+            string temp = response.Content.Replace("\"", "'");
+            JsonResponseOrderLine test = JsonConvert.DeserializeObject<JsonResponseOrderLine>(temp);
 
-            foreach (OrderLine OrderLineRow in GetOrderLine())
+            for (int k = 0; k < test.Rows.Count; k++)
             {
-                OrderLine OrderLine = new OrderLine(
-                                    OrderLineRow.OrderLineID,
-                                    OrderLineRow.Quantity,
-                                    OrderLineRow.StockID,
-                                    OrderLineRow.OrderID);
-
-                this.Add(OrderLine);
+                this.Add(test.Rows[k]);
             }
 
         }
 
         public OrderLineList(int OrderLineID)
         {
-
-            //Create an object for each OrderLine in dataset and add to list
-            foreach (OrderLine OrderLineRow in GetOrderLine(OrderLineID))
+            foreach (OrderLine o in GetOrderLine(OrderLineID))
             {
-                if (OrderLineID == OrderLineRow.OrderLineID)
+                if (OrderLineID == o.OrderLineLID)
                 {
                     OrderLine OrderLine =
-                        new OrderLine(OrderLineRow.OrderLineID,
-                                    OrderLineRow.Quantity,
-                                    OrderLineRow.StockID,
-                                    OrderLineRow.OrderID);
+                        new OrderLine(o.OrderLineLID,
+                                    o.Quantity,
+                                    o.StockID,
+                                    o.OrderID);
                     this.Add(OrderLine);
                     break;
                 }
@@ -55,6 +51,7 @@ namespace BusinessTier
 
         public OrderLineList GetOrderLine()
         {
+
             // GET
             //RestClient OrderLine = new RestClient();
             OrderLine.BaseUrl = new Uri("http://localhost:8000");
@@ -67,7 +64,7 @@ namespace BusinessTier
             string temp = response.Content.Replace("\"", "'");
             //List<Client> list = JsonConvert.DeserializeObject<List<Client>>(temp);
             OrderLine test = JsonConvert.DeserializeObject<OrderLine>(temp);
-           
+
             return this;
         }
 
@@ -92,11 +89,13 @@ namespace BusinessTier
         public void InsertOrderLine(OrderLine s)
         {
             // POST
+            this.Add(s);
 
             IRestResponse response = OrderLine.Execute(request);
             request = new RestRequest(Method.POST);
             request.Resource = "/api/order";
 
+            request.AddParameter("orderLineID", s.OrderLineLID);
             request.AddParameter("quantity", s.Quantity);
             request.AddParameter("stockID", s.StockID);
             request.AddParameter("orderID", s.OrderID);
@@ -104,33 +103,5 @@ namespace BusinessTier
             response = OrderLine.Execute(request);
         }
 
-       /* public void DeleteOrderLine(OrderLine s)
-        {
-            IRestResponse response = OrderLine.Execute(request);
-
-            request = new RestRequest(Method.PUT);
-            request.Resource = "/api/orders/:id";
-
-            request.AddParameter("OrderLineId", s.OrderLineID);
-            request.AddParameter("quantity", s.Active);
-
-            response = OrderLine.Execute(request);
-        }*/
-
-        public void UpdateOrderLine(OrderLine s)
-        {
-            IRestResponse response = OrderLine.Execute(request);
-
-            request = new RestRequest(Method.PUT);
-            request.Resource = "/api/orders";
-
-            request.AddParameter("OrderLineId", s.OrderLineID);
-            request.AddParameter("quantity", s.Quantity);
-            request.AddParameter("stockID", s.StockID);
-            request.AddParameter("orderID", s.OrderID);
-
-            response = OrderLine.Execute(request);
-
-        }
     }
 }

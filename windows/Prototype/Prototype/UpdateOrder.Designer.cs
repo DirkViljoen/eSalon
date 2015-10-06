@@ -162,6 +162,7 @@
             this.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.Name = "UpdateOrder";
             this.Text = "UpdateOrder";
+            this.Load += new System.EventHandler(this.UpdateOrder_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

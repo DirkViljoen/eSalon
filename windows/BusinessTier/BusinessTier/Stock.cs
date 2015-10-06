@@ -2,90 +2,64 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Newtonsoft.Json;
 
 namespace BusinessTier
 {
+    public class JsonResponseStock
+    {
+        [JsonProperty(PropertyName = "rows")]
+        public List<Stock> Rows { get; set; }
+
+        /*[JsonProperty(PropertyName = "SQLstats")]
+        public Stats sqlstats { get; set; }
+    */}
+
     public class Stock
     {
-        private int mStockID;
-        private string mBrand;
-        private string mProduct;
-        private double mPrice;
-        private int mSize;
-        private bool mActive;
-        private int mQuantity;
-        private string mBarcode;
-        private int mCategoryID;
-        private int mSupplierID;
 
-        public Stock()
-        {
+        [JsonProperty(PropertyName = "Stock_id")]
+        public int StockID { get; set; }
 
-        }
+        [JsonProperty(PropertyName = "BrandName")]
+        public string Brand { get; set; }
+
+        [JsonProperty(PropertyName = "ProductName")]
+        public string Product { get; set; }
+
+        [JsonProperty(PropertyName = "Price")]
+        public double Price { get; set; }
+
+        [JsonProperty(PropertyName = "Size")]
+        public int Size { get; set; }
+
+        [JsonProperty(PropertyName = "Active")]
+        public bool Active { get; set; }
+
+        [JsonProperty(PropertyName = "Quantity")]
+        public int Quantity { get; set; }
+
+        [JsonProperty(PropertyName = "Barcode")]
+        public string Barcode { get; set; }
+
+        [JsonProperty(PropertyName = "Category_ID")]
+        public int CategoryID { get; set; }
+
+        [JsonProperty(PropertyName = "Supplier_ID")]
+        public int SupplierID { get; set; }
 
         public Stock(int oID, string sbrand, string sProduct, double sPrice, int sSize, bool sAct, int sQuan, string sBar, int sCat, int sSupp)
         {
-            mStockID = oID;
-            mBrand = sbrand;
-            mProduct = sProduct;
-            mPrice = sPrice;
-            mSize = sSize;
-            mActive = sAct;
-            mQuantity = sQuan;
-            mBarcode = sBar;
-            mCategoryID = sCat;
-            mSupplierID = sSupp;
-        }
-
-        public int StockID
-        {
-            get { return mStockID; }
-            set { mStockID = value; }
-        }
-        public string Brand
-        {
-            get { return mBrand; }
-            set { mBrand = value; }
-        }
-        public string Product
-        {
-            get { return mProduct; }
-            set { mProduct = value; }
-        }
-        public double Price
-        {
-            get { return mPrice; }
-            set { mPrice = value; }
-        }
-        public int Size
-        {
-            get { return mSize; }
-            set { mSize = value; }
-        }
-        public bool Active
-        {
-            get { return mActive; }
-            set { mActive = value; }
-        }
-        public int Quantity
-        {
-            get { return mQuantity; }
-            set { mQuantity = value; }
-        }
-        public string Barcode
-        {
-            get { return mBarcode; }
-            set { mBarcode = value; }
-        }
-        public int CategoryID
-        {
-            get { return mCategoryID; }
-            set { mCategoryID = value; }
-        }
-        public int SupplierID
-        {
-            get { return mSupplierID; }
-            set { mSupplierID = value; }
+            StockID = oID;
+            Brand = sbrand;
+            Product = sProduct;
+            Price = sPrice;
+            Size = sSize;
+            Active = sAct;
+            Quantity = sQuan;
+            Barcode = sBar;
+            CategoryID = sCat;
+            SupplierID = sSupp;
         }
     }
 }

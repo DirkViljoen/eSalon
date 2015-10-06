@@ -565,11 +565,11 @@ module.exports = function (router) {
     router.get('/order', function (req, res) {
         console.log('order GET. Parameters: ' + JSON.stringify(req.query))
 
-        var sname = "";
+        var sname = 0;
         var dateTo = "";
         var dateFrom = "";
 
-        sname = (req.query.sname ? req.query.sname : "");
+        sname = (req.query.sname ? req.query.sname : 1);
         dateTo = (req.query.dateTo ? '"' + req.query.dateTo + '"' : "2030-01-01");
         dateFrom = (req.query.dateFrom ? '"' + req.query.dateFrom + '"' : "1990-01-01");
 
@@ -608,9 +608,11 @@ module.exports = function (router) {
        if (JSON.stringify(req.body) != '{}') {
            var obj = {};
            //post
-           obj.dateTo = (req.body.dateTo ? '"' + req.body.dateTo + '"' : null);
-           obj.dateFrom = (req.body.dateFrom ? '"' + req.body.dateFrom + '"' : null);
-           obj.sname = (req.body.sname ? req.body.sname : null);
+           obj.datePlaced = (req.body.DatePlaced ? '"' + req.body.DatePlaced + '"' : null);
+           obj.dateReceived = '"2020-01-01"';
+           obj.supplierID = (req.body.Supplier_ID ? req.body.Supplier_ID : null);
+           obj.stock = req.body.Stock;
+           console.log(obj.stock);
 
             models.orders.create(obj)
                .then(
