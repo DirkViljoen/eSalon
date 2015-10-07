@@ -893,9 +893,9 @@ module.exports = function (router) {
         var dateTo = "";
         var dateFrom = "";
 
-        sname = (req.query.sname ? req.query.sname : 1);
-        dateTo = (req.query.dateTo ? '"' + req.query.dateTo + '"' : "2030-01-01");
-        dateFrom = (req.query.dateFrom ? '"' + req.query.dateFrom + '"' : "1990-01-01");
+        sname = (req.query.sid ? req.query.sid : 1);
+        dateTo = (req.query.dateTo ? req.query.dateTo : "2030-01-01");
+        dateFrom = (req.query.dateFrom ? req.query.dateFrom : "1990-01-01");
 
         models.orders.find(sname, dateTo, dateFrom)
             .then(

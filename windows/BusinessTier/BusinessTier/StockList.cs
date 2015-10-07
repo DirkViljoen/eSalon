@@ -40,6 +40,11 @@ namespace BusinessTier
             }
         }
 
+        public StockList(string empty)
+        {
+
+        }
+
         public StockList(int StockID)
         {
 

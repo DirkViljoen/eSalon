@@ -36,7 +36,7 @@
   <ItemGroup>
     <Reference Include="BusinessTier, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\Debug\BusinessTier.dll</HintPath>
+      <HintPath>..\..\BusinessTier\BusinessTier\bin\Debug\BusinessTier.dll</HintPath>
     </Reference>
     <Reference Include="EASendMail40, Version=7.1.0.2, Culture=neutral, PublicKeyToken=88adb80ecd66540b, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>

@@ -13,11 +13,17 @@ namespace Prototype
     public partial class SearchOrder : Form
     {
         OrderList ol = new OrderList();
+        StockList sl = new StockList();
+        SupplierList spl = new SupplierList();
+        int orderId = 1;
 
         public SearchOrder()
         {
             InitializeComponent();
             dataGridView2.DataSource = ol;
+            cmbSupp.DataSource = spl;
+            cmbSupp.DisplayMember = "Name";
+            cmbSupp.ValueMember = "supplierID";
         }
 
        
@@ -29,13 +35,13 @@ namespace Prototype
 
         private void button6_Click(object sender, EventArgs e)
         {
-            UpdateOrder a = new UpdateOrder();
+            UpdateOrder a = new UpdateOrder(orderId);
             a.ShowDialog();
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            ReceiveStock a = new ReceiveStock();
+            ReceiveStock a = new ReceiveStock(orderId);
             a.ShowDialog();
         }
 
@@ -67,14 +73,19 @@ namespace Prototype
         {
             try
             {
-                ol.GetOrder(cmbSupp.Text, dtpFrom.Text, dtpTo.Text);
+                ol.GetOrder(cmbSupp.SelectedValue.ToString(), Convert.ToDateTime(dtpFrom.Value), Convert.ToDateTime(dtpTo.Value));
 
                 dataGridView2.DataSource = ol;
             }
             catch (Exception d)
             {
                 MessageBox.Show("ERROR: " + d);
-            }
+            } 
+        }
+
+        private void cmbSupp_SelectedValueChanged(object sender, EventArgs e)
+        {
+            //this.Text = cmbSupp.SelectedValue.ToString();
         }
     }
 }

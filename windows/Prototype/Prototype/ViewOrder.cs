@@ -35,7 +35,7 @@ namespace Prototype
         private void button2_Click(object sender, EventArgs e)
         {
             try{
-                UpdateOrder a = new UpdateOrder();
+                UpdateOrder a = new UpdateOrder(id);
                 a.ShowDialog();
                 this.Close();
             }
@@ -49,7 +49,7 @@ namespace Prototype
         {
             try
             {
-                ReceiveStock a = new ReceiveStock();
+                ReceiveStock a = new ReceiveStock(id);
                 a.ShowDialog();
                 this.Close();
             }

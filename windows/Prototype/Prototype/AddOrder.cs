@@ -14,17 +14,40 @@ namespace Prototype
     public partial class AddOrder : Form
     {
 
-        OrderList sl = new OrderList();
+        OrderList ol = new OrderList();
+        StockList sl = new StockList();
+        SupplierList spl = new SupplierList();
+
         public AddOrder()
         {
             InitializeComponent();
+            cmbSupplier.DataSource = spl;
+            cmbSupplier.DisplayMember = "Name";
+            cmbSupplier.ValueMember = "supplierID";
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
             try
             {
-                sl.InsertOrder(new Order(1, System.DateTime.Parse("30 - 12 - 2011"), System.DateTime.Parse("30 - 12 - 2011"), 1));
+                //Order Details
+                int sid = Convert.ToInt32(cmbSupplier.SelectedValue);
+
+                //Stock Details
+                string stock = "[{";
+                for (int i = 0; i < 2; i++)
+                {
+                    if (stock != "[{")
+                    {
+                        stock = stock + "},{";
+                    }
+                    string s = "stockID: 1, quantity: 3";
+                    stock = stock + s;
+                }
+                stock = stock + "}]";
+
+
+                ol.InsertOrder(new Order(1, dtpDate.Value, DateTime.Now, sid), stock);
 
                 
                 MessageBox.Show("A Product has been added");
@@ -48,6 +71,21 @@ namespace Prototype
             {
                 MessageBox.Show("EMAIL ERROR: " + d);
             }
+        }
+
+        private void AddOrder_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void cmbSupplier_VisibleChanged(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void cmbSupplier_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
         }
      }
 }

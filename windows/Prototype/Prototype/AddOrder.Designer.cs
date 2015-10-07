@@ -79,6 +79,8 @@
             this.cmbSupplier.Name = "cmbSupplier";
             this.cmbSupplier.Size = new System.Drawing.Size(163, 26);
             this.cmbSupplier.TabIndex = 6;
+            this.cmbSupplier.SelectedIndexChanged += new System.EventHandler(this.cmbSupplier_SelectedIndexChanged);
+            this.cmbSupplier.VisibleChanged += new System.EventHandler(this.cmbSupplier_VisibleChanged);
             // 
             // button1
             // 
@@ -164,6 +166,7 @@
             this.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.Name = "AddOrder";
             this.Text = "AddOrder";
+            this.Load += new System.EventHandler(this.AddOrder_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

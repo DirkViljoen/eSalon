@@ -11,24 +11,23 @@ using Newtonsoft.Json;
 
 namespace BusinessTier
 {
-    class SupplierList : System.ComponentModel.BindingList<Supplier>
+    public class SupplierList : List<Supplier>
     {
- RestRequest request = new RestRequest();
+        RestRequest request = new RestRequest();
         RestClient Supplier = new RestClient();
         
         public SupplierList()
         {
-            //Create an object for each Supplier in the dataset and add to list
 
-            foreach (Supplier SupplierRow in GetSupplier())
+            Supplier.BaseUrl = new Uri("http://localhost:8000");
+            request.Resource = "/api/supplier";
+            IRestResponse response = Supplier.Execute(request);
+            string temp = response.Content.Replace("\"", "'");
+            JsonResponseSupplier test = JsonConvert.DeserializeObject<JsonResponseSupplier>(temp);
+
+            for (int k = 0; k < test.Rows.Count; k++)
             {
-                Supplier Supplier = new Supplier(
-                    SupplierRow.SupplierID,
-                    SupplierRow.Name,
-                    SupplierRow.Contact,
-                    SupplierRow.Email);
-
-                this.Add(Supplier);
+                this.Add(test.Rows[k]);
             }
 
         }

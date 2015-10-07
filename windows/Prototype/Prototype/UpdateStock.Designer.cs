@@ -216,7 +216,7 @@
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "UpdateStock";
             this.Text = "UpdateProduct";
-            this.Load += new System.EventHandler(this.UpdateStock_Load);
+            //this.Load += new System.EventHandler(this.UpdateStock_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

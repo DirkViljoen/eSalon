@@ -14,8 +14,8 @@ namespace BusinessTier
         public List<Order> Rows { get; set; }
 
         /*[JsonProperty(PropertyName = "SQLstats")]
-        public Stats sqlstats { get; set; }
-    */}
+        public Stats sqlstats { get; set; }*/
+    }
 
     
 

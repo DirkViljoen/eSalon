@@ -86,7 +86,40 @@ namespace BusinessTier
             return temp;
         }
 
-        public void InsertOrder(Order s)
+        public void GetOrder(string sid, DateTime from, DateTime to)
+        {
+            // GET
+            //RestClient stock = new RestClient();
+            Order.BaseUrl = new Uri("http://localhost:8000");
+            string tempDate1 = from.ToString("yyyy-MM-dd");
+            string tempDate2 = to.ToString("yyyy-MM-dd");
+
+            //var request = new RestRequest();
+            request.Resource = "/api/order?sid=1?dateTo=2015-01-01&dateFrom=2012-01-01";
+
+            request = new RestRequest("/api/order?sid={sname}&dateTo={dateTo}&dateFrom={dateFrom}", Method.GET);
+            //request.AddParameter("name", "value"); // adds to POST or URL querystring based on Method
+            request.AddUrlSegment("sname", sid); // replaces matching token in request.Resource
+            request.AddUrlSegment("dateTo", tempDate1); // replaces matching token in request.Resource
+            request.AddUrlSegment("dateFrom", tempDate2); // replaces matching token in request.Resource
+
+            IRestResponse response = Order.Execute(request);
+
+            string temp = response.Content.Replace("\"", "'");
+            //List<Client> list = JsonConvert.DeserializeObject<List<Client>>(temp);
+            JsonResponseOrder test = JsonConvert.DeserializeObject<JsonResponseOrder>(temp);
+
+            this.Clear();
+            
+
+            for (int k = 0; k < test.Rows.Count; k++)
+            // foreach (Rows x in test)
+            {
+                this.Add(test.Rows[k]);
+            }
+        }
+
+        public void InsertOrder(Order s, string stock)
         {
             // POST
             this.Add(s);
@@ -95,10 +128,14 @@ namespace BusinessTier
             request = new RestRequest(Method.POST);
             request.Resource = "/api/order";
 
-            request.AddParameter("Order_id", s.OrderID);
-            request.AddParameter("DatePlaced", s.dPlaced);
-            request.AddParameter("DateReceived", s.dReceived);
+            string tempDate = s.dPlaced.ToString("yyyy-MM-dd");
+
+            request.AddParameter("Order_id", null);
+            request.AddParameter("DatePlaced", tempDate);
+            request.AddParameter("DateReceived", "2020-01-01");
+            //say hello
             request.AddParameter("Supplier_ID", s.SupplierID);
+            request.AddParameter("Stock", stock);
 
             response = Order.Execute(request);
         }

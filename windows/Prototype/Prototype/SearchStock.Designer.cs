@@ -398,7 +398,7 @@
             // 
             // stockListBindingSource
             // 
-            this.stockListBindingSource.DataSource = typeof(Prototype.StockList);
+            //this.stockListBindingSource.DataSource = typeof(Prototype.StockList);
             // 
             // SearchStock
             // 

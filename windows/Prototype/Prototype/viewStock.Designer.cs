@@ -238,7 +238,7 @@
             this.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.Name = "viewStock";
             this.Text = "ViewProduct";
-            this.Load += new System.EventHandler(this.viewStock_Load);
+            //this.Load += new System.EventHandler(this.viewStock_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

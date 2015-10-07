@@ -114,7 +114,7 @@
             this.dataGridView1.Location = new System.Drawing.Point(17, 77);
             this.dataGridView1.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(346, 148);
+            this.dataGridView1.Size = new System.Drawing.Size(380, 148);
             this.dataGridView1.TabIndex = 22;
             // 
             // Column3
@@ -150,7 +150,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(198)))), ((int)(((byte)(214)))), ((int)(((byte)(204)))));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ClientSize = new System.Drawing.Size(378, 308);
+            this.ClientSize = new System.Drawing.Size(428, 308);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.checkBox1);
