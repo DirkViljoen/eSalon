@@ -48,6 +48,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Category.cs" />
+    <Compile Include="CategoryList.cs" />
     <Compile Include="Order.cs" />
     <Compile Include="OrderLine.cs" />
     <Compile Include="OrderLineList.cs" />
@@ -59,6 +61,8 @@
     <Compile Include="StockList.cs" />
     <Compile Include="Supplier.cs" />
     <Compile Include="SupplierList.cs" />
+    <Compile Include="User.cs" />
+    <Compile Include="UserList.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -2,55 +2,48 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Newtonsoft.Json;
 
 namespace BusinessTier
 {
+    public class JsonResponseStockHistory
+    {
+        [JsonProperty(PropertyName = "rows")]
+        public List<StockHistory> Rows { get; set; }
+
+        /*[JsonProperty(PropertyName = "SQLstats")]
+        public Stats sqlstats { get; set; }
+    */
+    }
+
     public class StockHistory
     {
-        private int mStockHId;
-        private double mPrice;
-        private DateTime mFrom;
-        private DateTime mTo;
-        private int mStockID;
+        [JsonProperty(PropertyName = "StockHistory_id")]
+        public int StockHistoryID { get; set; }
 
-        public StockHistory()
-        {
+        [JsonProperty(PropertyName = "Price")]
+        public double Price { get; set; }
 
-        }
+        [JsonProperty(PropertyName = "PriceDateFrom")]
+        public DateTime PriceDFrom { get; set; }
 
-        public StockHistory(int oID, double price, DateTime oPlace, DateTime oRec, int oSuppID)
-        {
-            mStockHId = oID;
-            mPrice = price;
-            mFrom = oPlace;
-            mTo = oRec;
-            mStockID = oSuppID;
-        }
+        [JsonProperty(PropertyName = "PriceDateTo")]
+        public DateTime PriceDTo { get; set; }
 
-        public int StockHistoryID
+        [JsonProperty(PropertyName = "Stock_ID")]
+        public int StockID { get; set; }
+
+
+
+        public StockHistory(int oID, double p, DateTime from, DateTime to, int i)
         {
-            get { return StockHistoryID; }
-            set { StockHistoryID = value; }
-        }
-        public double Price
-        {
-            get { return mPrice; }
-            set { mPrice = value; }
-        }
-        public DateTime From
-        {
-            get { return mFrom; }
-            set { mFrom = value; }
-        }
-        public DateTime To
-        {
-            get { return mTo; }
-            set { mTo = value; }
-        }
-        public int StockID
-        {
-            get { return mStockID; }
-            set { mStockID = value; }
+            StockHistoryID = oID;
+            Price = p;
+            PriceDFrom = from;
+            PriceDTo = to;
+            StockID = i;
         }
     }
+
 }
+

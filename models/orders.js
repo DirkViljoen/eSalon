@@ -12,7 +12,7 @@ module.exports = function OrdersModel() {
 
       if (id) {
           console.log('Order get');
-          db.query('CALL spOrder_Read(' + id + ');')
+          db.query('CALL spOrderLine_Read(' + id + ');')
               .then(
                   function (result){
                       deferred.resolve(result);
@@ -34,7 +34,7 @@ module.exports = function OrdersModel() {
 
       var deferred = q.defer();
 
-      db.query('CALL spOrder_Search("' + dateTo + '","' + dateFrom + '", ' + sname + ');')
+      db.query('CALL spOrder_Search(' + sname + ', "' + dateTo + '","' + dateFrom + '");')
           .then(
               function (result){
                   deferred.resolve(result);
@@ -48,33 +48,56 @@ module.exports = function OrdersModel() {
   };
 
   function add(obj) {
-      console.log('Module - Order - Create');
+      console.log('Module - Order - Add');
+      console.log(obj);
 
       var deferred = q.defer();
 
-      if (obj) {
-          console.log('Creating Order Item.');
-          db.execute('CALL sp_Insert_Order (' +
-              obj.dateTo + ',' +
-              obj.dateFrom + ',' +
-              obj.sname + ');'
+      if (obj.stock && obj.stock != []){
+        console.log('Creating Order.');
+        db.execute('CALL sp_Insert_Order (' +
+                obj.datePlaced + ',' +
+                obj.dateReceived + ',' +
+                obj.supplierID + ')'
+            )
+            .then(
+                function (result){
+                    console.log(result);
+                    obj.orderID = result.SQLstats.insertId;
+                    var temp = JSON.parse(obj.stock);
+                    console.log(temp);
+                    console.log('Order created, creating new Order_Line.');
 
-          )
-              .then(
-                  function (result){
-                      console.log('Order created.');
-                      deferred.resolve(result);
-                  },
-                  function (err){
-                      console.error(new Error('Unable to create Order.'))
-                      deferred.reject(err);
-                  }
-              );
+                    for (var i = 0; i < temp.length; i++){
+                        console.log('Adding service ' + i + 'out of ' + temp.length);
 
+                        db.execute('CALL sp_Insert_Order_Line (' +
+                            temp[i].quantity + ',' +
+                            temp[i].stockID + ',' +
+                            obj.orderID + ')'
+                        )
+                        .then(
+                            function (result){
+                                console.log('New Order_Line created.');
+                                if (i + 1 == temp.length){
+                                  deferred.resolve(result);
+                                };
+                            },
+                            function (err){
+                                console.error(new Error('Unable to create new Order_Line.'))
+                                deferred.reject(err);
+                            }
+                        );
+                    }
+                },
+                function (err){
+                    console.error(new Error('Unable to create new Order.'))
+                    deferred.reject(err);
+                }
+            );
       }
       else {
-          console.error(new Error('Unable to create Order item. No object provided.'))
-          deferred.reject(err);
+        deferred.reject(new error("No stock to add to order"));
       }
 
       return deferred.promise;
@@ -88,33 +111,44 @@ module.exports = function OrdersModel() {
       if (obj) {
           console.log('Updating Order Item.');
           db.execute('CALL sp_Update_Order (' +
-            obj.OrderID + ',' +
-            obj.dateTo + ',' +
-            obj.dateFrom + ',' +
-            obj.sname + ',' +
-            obj.quantity + ',' +
-            obj.notify + ',' + ')'
-          )
-              .then(
-                  function (result){
-                      console.log('Order Item updated. Updating History');
-
-                      updateHistory(obj.OrderID, obj.price)
-                        .then(
-                          function(result){
-                            deferred.resolve(result);
-                          },
-                          function(err) {
-                            console.error(new Error('Unable to update Order History.'))
-                            deferred.reject(err);
-                          }
-                        )
-                  },
-                  function (err){
-                      console.error(new Error('Unable to update Order Item.'))
-                      deferred.reject(err);
-                  }
-              );
+            obj.orderID + ',' +
+            obj.orderLID + ',' +
+            obj.date + ',' +
+            obj.quantity + ')'
+          ).then(
+              function (result){
+                  console.log('Order_Line updated.');
+                  deferred.resolve(result);
+              },
+              function (err){
+                  console.error(new Error('Unable to update Order_Line.'))
+                  deferred.reject(err);
+              }
+          );
+          /*.then(
+              function (result){
+                  console.log('Order updated, updating new Order_Line.');
+                  db.execute('CALL sp_Update_Order_Line (' +
+                      obj.quantity + ',' +
+                      obj.stockID + ',' +
+                      obj.orderID + ')'
+                  )
+                  .then(
+                      function (result){
+                          console.log('Order_Line updated.');
+                          deferred.resolve(result);
+                      },
+                      function (err){
+                          console.error(new Error('Unable to update Order_Line.'))
+                          deferred.reject(err);
+                      }
+                  );
+              },
+              function (err){
+                  console.error(new Error('Unable to update Order.'))
+                  deferred.reject(err);
+              }
+          );*/
 
       }
       else {
@@ -130,7 +164,7 @@ module.exports = function OrdersModel() {
 
       var deferred = q.defer();
 
-      if (obj.OrderID) {
+      if (obj.rOrderLine_id == null) {
           console.log('Deleteing Order.');
           db.execute('CALL sp_Delete_Order (' +
                   obj.OrderID + ')'
@@ -145,12 +179,29 @@ module.exports = function OrdersModel() {
                       deferred.reject(err);
                   }
               );
+      }
+      else
+      {
+        console.log('Deleteing Order_line.');
+        db.execute('CALL sp_Delete_Order_Line (' +
+                obj.rOrderLine_id + ')'
+            )
+            .then(
+                function (result){
+                    console.log('Order_line deleted.');
+                    deferred.resolve(result);
+                },
+                function (err){
+                    console.error(new Error('Unable to delete Order_line.'))
+                    deferred.reject(err);
+                }
+            );
       };
 
       return deferred.promise;
   };
 
-  function addLine(obj) {
+  /*function addLine(obj) {
       console.log('Module - Order - Add line');
 
       var deferred = q.defer();
@@ -212,41 +263,38 @@ module.exports = function OrdersModel() {
     return deferred.promise;
 
   }
-  
+
   function readLine(obj){
-	console.log('Module - OrderLine - Get');
+  	console.log('Module - OrderLine - Get');
 
-      var deferred = q.defer();
+        var deferred = q.defer();
 
-      if (obj) {
-          console.log('OrderLine get');
-          db.query('CALL spOrderLine_Read(' + obj.id + ');')
-              .then(
-                  function (result){
-                      deferred.resolve(result);
-                  },
-                  function (err){
-                      deferred.reject(new Error(err));
-                  }
-              );
-      }
-      else{
-          deferred.reject(new Error('No ID'));
-      }
+        if (obj) {
+            console.log('OrderLine get');
+            db.query('CALL spOrderLine_Read(' + obj.id + ');')
+                .then(
+                    function (result){
+                        deferred.resolve(result);
+                    },
+                    function (err){
+                        deferred.reject(new Error(err));
+                    }
+                );
+        }
+        else{
+            deferred.reject(new Error('No ID'));
+        }
 
-      return deferred.promise; 
-	  
-	return {err: 'Not implemented'}
-}
+        return deferred.promise;
+
+  	return {err: 'Not implemented'}
+}*/
 
   return {
       index: get,
       find: search,
       create: add,
       update: update,
-      remove: disable,
-      addLine: addLine,
-      readLine: readLine,
-      updateLine: updateLine
+      remove: disable
   };
 };

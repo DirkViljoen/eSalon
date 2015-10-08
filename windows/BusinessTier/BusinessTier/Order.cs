@@ -2,51 +2,58 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Newtonsoft.Json;
+using System.ComponentModel;
+using System.Collections;
 
 namespace BusinessTier
 {
-    public class Order
+    public class JsonResponseOrder
     {
-        private int orderID;
-        private DateTime Placed;
-        private DateTime Received;
-        private int supplierID;
+        [JsonProperty(PropertyName = "rows")]
+        public List<Order> Rows { get; set; }
 
-        public Order()
-        {
+        /*[JsonProperty(PropertyName = "SQLstats")]
+        public Stats sqlstats { get; set; }*/
+    }
 
-        }
+    
+
+    public class Order : OrderLine
+    {
+        [JsonProperty(PropertyName = "Order_id")]
+        public int OrderID { get; set; }
+
+        [JsonProperty(PropertyName = "DatePlaced")]
+        public DateTime dPlaced { get; set; }
+
+        [JsonProperty(PropertyName = "DateReceived")]
+        public DateTime dReceived { get; set; }
+
+        [JsonProperty(PropertyName = "Supplier_ID")]
+        public int SupplierID { get; set; }
+
+        ArrayList ol = new ArrayList();
 
         public Order(int oID, DateTime oPlace, DateTime oRec, int oSuppID)
         {
-            orderID = oID;
-            Placed = oPlace;
-            Received = oRec;
-            supplierID = oSuppID;
+            OrderID = oID;
+            dPlaced = oPlace;
+            dReceived = oRec;
+            SupplierID = oSuppID;
+
+            OrderLine obj = new OrderLine(OrderLineLID, Quantity, StockID, OrderID);
+            ol.Add(obj);
         }
 
-        public int OrderID
-        {
-            get { return orderID; }
-            set { orderID = value; }
-        }
-        public DateTime Place
-        {
-            get { return Placed; }
-            set { Placed = value; }
-        }
-        public DateTime Receive
-        {
-            get { return Received; }
-            set { Received = value; }
-        }
-        public int SupplierID
-        {
-            get { return supplierID; }
-            set { supplierID = value; }
-        }
-
+        //public Order(int oID, DateTime oPlace, DateTime oRec, int olid, int oquan)
+        //{
+        //    OrderID = oID;
+        //    dPlaced = oPlace;
+        //    dReceived = oRec;
+        //    OrderLineLID = olid;
+        //    Quantity = oquan;
+        //}
     }
 
-   
 }

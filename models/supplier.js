@@ -37,6 +37,7 @@ module.exports = function supplierModel() {
         db.query('CALL spSupplier_Search("%' + sname + '%");')
             .then(
                 function (result){
+                  console.log(result);
                     deferred.resolve(result);
                 },
                 function (err){

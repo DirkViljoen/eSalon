@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using BusinessTier;
 
 namespace Prototype
 {
@@ -43,17 +44,12 @@ namespace Prototype
         {
             try
             {
-
+                sl.DeleteStock(s);
             }
             catch (Exception d)
             {
                 MessageBox.Show("ERROR: " + d);
             }
-        }
-
-        private void button3_Click(object sender, EventArgs e)
-        {
-            
         }
 
         private void viewStock_Load(object sender, EventArgs e)

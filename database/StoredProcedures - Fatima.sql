@@ -143,18 +143,42 @@ DELIMITER ;
     END //
     DELIMITER ;
     
+-- -- SEARCH
+	DELIMITER //
+    CREATE PROCEDURE spOrder_Search
+    (
+		in sid INT,
+        in dateTo DATE,
+        in dateFrom DATE
+    )
+    BEGIN
+        SELECT * FROM `Order`
+        WHERE 
+			`Supplier_ID` = sid
+            AND
+			`DatePlaced` >= dateFrom 
+			AND
+            `DatePlaced` <= dateTo;
+    END //
+    DELIMITER ;
+    
 -- -- UPDATE
 DELIMITER //
 create procedure sp_Update_Order
 (
 	IN oOrder_id  	INT,
-	IN oDatePlaced  	DATE,
-	IN oDateReceived  DATE
+    IN oOrderLine_id  	INT,
+	IN oDatePlaced  DATE,
+	IN oQuantity  INT
 )
-BEGIN  UPDATE `Order` SET 
-	DatePlaced = oDatePlaced,
-	DateReceived = oDateReceived
-WHERE Order_id = oOrder_id;
+BEGIN  
+	UPDATE `Order` SET 
+		DatePlaced = oDatePlaced
+	WHERE Order_id = oOrder_id;
+
+	UPDATE `Order_Line` SET 
+		Quantity = oQuantity
+	WHERE OrderLine_id = oOrderLine_id;
  END //
 DELIMITER ;
 
@@ -168,9 +192,12 @@ create procedure sp_Insert_Order
 	IN sSupplier_id 	INT
 )
 BEGIN 
-INSERT INTO `Order` (`DatePlaced`, `DateReceived`, `Supplier_id`)
-VALUES(oDatePlaced, oDateReceived, sSupplier_id)
-;  END //
+	DECLARE insertId INT;
+	INSERT INTO `Order` (`DatePlaced`, `DateReceived`, `Supplier_id`)
+	VALUES(oDatePlaced, oDateReceived, sSupplier_id);  
+	SET insertId = LAST_INSERT_ID();
+				SELECT insertId;
+END //
 DELIMITER ;
 
 -- -- DELETE
@@ -184,6 +211,64 @@ BEGIN  Update `Order`
 		`Active` = false
 	WHERE 
 		oOrder_id = oOrder_id;
+END //
+DELIMITER ;
+
+-- ---- ---- ---- --- ORDER LINE -- ---- ---- ---- -----
+-- -- READ
+    DELIMITER //
+    CREATE PROCEDURE spOrderLine_Read
+    (
+        IN rOrderLine_id INT
+    )
+    BEGIN
+        SELECT * FROM `Order_Line`
+        WHERE `OrderLine_id` = rOrderLine_id;
+    END //
+    DELIMITER ;
+
+-- -- UPDATE
+DELIMITER //
+create procedure sp_Update_Order_Line
+(
+	IN rOrderLine_id  INT,
+	IN rQuantity INT,
+	IN sStock_id INT,
+	IN oOrder_id INT
+)
+BEGIN  UPDATE `Order_Line` SET 
+	Quantity = rQuantity
+	
+WHERE OrderLine_id = rOrderLine_id
+
+;  END //
+DELIMITER ;
+
+-- -- INSERT
+DELIMITER //
+create procedure sp_Insert_Order_Line
+(
+	IN rQuantity INT,
+	IN sStock_id INT,
+	IN oOrder_id INT
+)
+BEGIN 
+INSERT INTO `Order_Line` (Quantity, Stock_id, Order_id)
+VALUES(rQuantity, sStock_id, oOrder_id)
+
+;  END //
+DELIMITER ;
+
+-- -- DELETE
+DELIMITER //
+create procedure sp_Delete_Order_Line
+(
+	IN rOrderLine_id  INT
+)
+BEGIN  
+DELETE from `Order_Line` 
+	WHERE 
+		rOrderLine_id = rOrderLine_id;
 END //
 DELIMITER ;
 
@@ -364,63 +449,7 @@ VALUES(hPrice, hPriceDateFrom, hPriceDateTo, sStock_id)
 ;  END //
 DELIMITER ;
 
--- ---- ---- ---- --- ORDER LINE -- ---- ---- ---- -----
 
-    DELIMITER //
-    CREATE PROCEDURE spOrderLine_Read
-    (
-        IN rOrderLine_id INT
-    )
-    BEGIN
-        SELECT * FROM `Order_Line`
-        WHERE `OrderLine_id` = rOrderLine_id;
-    END //
-    DELIMITER ;
-
--- -- UPDATE
-DELIMITER //
-create procedure sp_Update_Order_Line
-(
-	IN rOrderLine_id  INT,
-	IN rQuantity INT,
-	IN sStock_id INT,
-	IN oOrder_id INT
-)
-BEGIN  UPDATE `Order_Line` SET 
-	Quantity = rQuantity
-	
-WHERE OrderLine_id = rOrderLine_id
-
-;  END //
-DELIMITER ;
-
--- -- INSERT
-DELIMITER //
-create procedure sp_Insert_Order_Line
-(
-	IN rQuantity INT,
-	IN sStock_id INT,
-	IN oOrder_id INT
-)
-BEGIN 
-INSERT INTO `Order_Line` (Quantity, Stock_id, Order_id)
-VALUES(rQuantity, sStock_id, oOrder_id)
-
-;  END //
-DELIMITER ;
-
--- -- DELETE
-DELIMITER //
-create procedure sp_Delete_Order_Line
-(
-	IN rOrderLine_id  INT
-)
-BEGIN  
-DELETE from `Order_Line` 
-	WHERE 
-		rOrderLine_id = rOrderLine_id;
-END //
-DELIMITER ;
 -- ---- ---- ---- -- INVOICE STOCK LINE -- ---- ---- ---- --
     DELIMITER //
     CREATE PROCEDURE spInvoiceStockLine_Read

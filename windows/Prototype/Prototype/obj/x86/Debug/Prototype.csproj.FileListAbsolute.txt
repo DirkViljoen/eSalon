@@ -102,3 +102,31 @@ C:\Users\Fatima\Documents\Sites\eSalon\windows\Prototype\Prototype\bin\Debug\Res
 C:\Users\Fatima\Documents\Sites\eSalon\windows\Prototype\Prototype\bin\Debug\Newtonsoft.Json.xml
 C:\Users\Fatima\Documents\Sites\eSalon\windows\Prototype\Prototype\bin\Debug\RestSharp.xml
 C:\Users\Fatima\Documents\Sites\eSalon\windows\Prototype\Prototype\obj\x86\Debug\Prototype.Form2.resources
+C:\Users\Fatima\Desktop\THE FINAL PROJECT THINGS\windows\Prototype\Prototype\obj\x86\Debug\Prototype.exe
+C:\Users\Fatima\Desktop\THE FINAL PROJECT THINGS\windows\Prototype\Prototype\obj\x86\Debug\Prototype.pdb
+C:\Users\Fatima\Desktop\THE FINAL PROJECT THINGS\windows\Prototype\Prototype\obj\x86\Debug\Prototype.csprojResolveAssemblyReference.cache
+C:\Users\Fatima\Desktop\THE FINAL PROJECT THINGS\windows\Prototype\Prototype\obj\x86\Debug\Prototype.AddOrder.resources
+C:\Users\Fatima\Desktop\THE FINAL PROJECT THINGS\windows\Prototype\Prototype\obj\x86\Debug\Prototype.AddStock.resources
+C:\Users\Fatima\Desktop\THE FINAL PROJECT THINGS\windows\Prototype\Prototype\obj\x86\Debug\Prototype.ConfirmationMessage.resources
+C:\Users\Fatima\Desktop\THE FINAL PROJECT THINGS\windows\Prototype\Prototype\obj\x86\Debug\Prototype.Form1.resources
+C:\Users\Fatima\Desktop\THE FINAL PROJECT THINGS\windows\Prototype\Prototype\obj\x86\Debug\Prototype.Form2.resources
+C:\Users\Fatima\Desktop\THE FINAL PROJECT THINGS\windows\Prototype\Prototype\obj\x86\Debug\Prototype.Login.resources
+C:\Users\Fatima\Desktop\THE FINAL PROJECT THINGS\windows\Prototype\Prototype\obj\x86\Debug\Prototype.Properties.Resources.resources
+C:\Users\Fatima\Desktop\THE FINAL PROJECT THINGS\windows\Prototype\Prototype\obj\x86\Debug\Prototype.ReceiveStock.resources
+C:\Users\Fatima\Desktop\THE FINAL PROJECT THINGS\windows\Prototype\Prototype\obj\x86\Debug\Prototype.SearchOrder.resources
+C:\Users\Fatima\Desktop\THE FINAL PROJECT THINGS\windows\Prototype\Prototype\obj\x86\Debug\Prototype.SearchStock.resources
+C:\Users\Fatima\Desktop\THE FINAL PROJECT THINGS\windows\Prototype\Prototype\obj\x86\Debug\Prototype.UpdateOrder.resources
+C:\Users\Fatima\Desktop\THE FINAL PROJECT THINGS\windows\Prototype\Prototype\obj\x86\Debug\Prototype.UpdateStock.resources
+C:\Users\Fatima\Desktop\THE FINAL PROJECT THINGS\windows\Prototype\Prototype\obj\x86\Debug\Prototype.ViewOrder.resources
+C:\Users\Fatima\Desktop\THE FINAL PROJECT THINGS\windows\Prototype\Prototype\obj\x86\Debug\Prototype.viewStock.resources
+C:\Users\Fatima\Desktop\THE FINAL PROJECT THINGS\windows\Prototype\Prototype\obj\x86\Debug\Prototype.csproj.GenerateResource.Cache
+C:\Users\Fatima\Desktop\THE FINAL PROJECT THINGS\windows\Prototype\Prototype\bin\Debug\Prototype.exe
+C:\Users\Fatima\Desktop\THE FINAL PROJECT THINGS\windows\Prototype\Prototype\bin\Debug\Prototype.pdb
+C:\Users\Fatima\Desktop\THE FINAL PROJECT THINGS\windows\Prototype\Prototype\bin\Debug\Newtonsoft.Json.dll
+C:\Users\Fatima\Desktop\THE FINAL PROJECT THINGS\windows\Prototype\Prototype\bin\Debug\RestSharp.dll
+C:\Users\Fatima\Desktop\THE FINAL PROJECT THINGS\windows\Prototype\Prototype\bin\Debug\BusinessTier.pdb
+C:\Users\Fatima\Desktop\THE FINAL PROJECT THINGS\windows\Prototype\Prototype\bin\Debug\Newtonsoft.Json.xml
+C:\Users\Fatima\Desktop\THE FINAL PROJECT THINGS\windows\Prototype\Prototype\bin\Debug\RestSharp.xml
+C:\Users\Fatima\Desktop\THE FINAL PROJECT THINGS\windows\Prototype\Prototype\bin\Debug\BusinessTier.dll
+C:\Users\Fatima\Documents\Sites\eSalon\windows\Prototype\Prototype\bin\Debug\BusinessTier.dll
+C:\Users\Fatima\Documents\Sites\eSalon\windows\Prototype\Prototype\bin\Debug\BusinessTier.pdb

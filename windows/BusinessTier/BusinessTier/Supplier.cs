@@ -2,48 +2,45 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Newtonsoft.Json;
 
 namespace BusinessTier
 {
+    public class JsonResponseSupplier
+    {
+        [JsonProperty(PropertyName = "rows")]
+        public List<Supplier> Rows { get; set; }
+
+        /*[JsonProperty(PropertyName = "SQLstats")]
+        public Stats sqlstats { get; set; }
+    */
+    }
+
     public class Supplier
     {
-        private int mSupplierID;
-        private string mName;
-        private string mContact;
-        private string mEmail;
+        [JsonProperty(PropertyName = "Supplier_id")]
+        public int SupplierID { get; set; }
 
-        public Supplier()
-        {
+        [JsonProperty(PropertyName = "Name")]
+        public string Name { get; set; }
 
-        }
+        [JsonProperty(PropertyName = "ContactNumber")]
+        public string Contact { get; set; }
 
-        public Supplier(int oID, string oPlace, string oRec, string oSuppID)
-        {
-            mSupplierID = oID;
-            mName = oPlace;
-            mContact = oRec;
-            mEmail = oSuppID;
-        }
+        [JsonProperty(PropertyName = "Email")]
+        public string Email { get; set; }
 
-        public int SupplierID
+        [JsonProperty(PropertyName = "Active")]
+        public bool active { get; set; }
+
+        public Supplier(int sID, string sName, string sNum, string sEm)
         {
-            get { return mSupplierID; }
-            set { mSupplierID = value; }
-        }
-        public string Name
-        {
-            get { return mName; }
-            set { mName = value; }
-        }
-        public string Contact
-        {
-            get { return mContact; }
-            set { mContact = value; }
-        }
-        public string Email
-        {
-            get { return mEmail; }
-            set { mEmail = value; }
+            SupplierID = sID;
+            Name = sName;
+            Contact = sNum;
+            Email = sEm;
         }
     }
+
 }
+

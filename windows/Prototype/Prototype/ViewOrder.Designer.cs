@@ -34,21 +34,17 @@
             this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
             this.label4 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.listBox1 = new System.Windows.Forms.ListBox();
-            this.listBox2 = new System.Windows.Forms.ListBox();
-            this.listBox3 = new System.Windows.Forms.ListBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
             this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
+            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
             // button1
             // 
             this.button1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(84)))), ((int)(((byte)(51)))), ((int)(((byte)(104)))));
-            this.button1.Location = new System.Drawing.Point(338, 277);
-            this.button1.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.button1.Location = new System.Drawing.Point(481, 349);
+            this.button1.Margin = new System.Windows.Forms.Padding(5);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(140, 30);
             this.button1.TabIndex = 28;
@@ -60,8 +56,8 @@
             // 
             this.checkBox1.AutoSize = true;
             this.checkBox1.BackColor = System.Drawing.Color.Transparent;
-            this.checkBox1.Location = new System.Drawing.Point(16, 247);
-            this.checkBox1.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.checkBox1.Location = new System.Drawing.Point(21, 354);
+            this.checkBox1.Margin = new System.Windows.Forms.Padding(5);
             this.checkBox1.Name = "checkBox1";
             this.checkBox1.Size = new System.Drawing.Size(240, 22);
             this.checkBox1.TabIndex = 27;
@@ -72,7 +68,7 @@
             // 
             this.comboBox1.FormattingEnabled = true;
             this.comboBox1.Location = new System.Drawing.Point(122, 45);
-            this.comboBox1.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.comboBox1.Margin = new System.Windows.Forms.Padding(5);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(139, 26);
             this.comboBox1.TabIndex = 26;
@@ -81,9 +77,9 @@
             // dateTimePicker1
             // 
             this.dateTimePicker1.Location = new System.Drawing.Point(122, 13);
-            this.dateTimePicker1.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.dateTimePicker1.Margin = new System.Windows.Forms.Padding(5);
             this.dateTimePicker1.Name = "dateTimePicker1";
-            this.dateTimePicker1.Size = new System.Drawing.Size(261, 26);
+            this.dateTimePicker1.Size = new System.Drawing.Size(286, 26);
             this.dateTimePicker1.TabIndex = 25;
             // 
             // label4
@@ -108,80 +104,11 @@
             this.label1.TabIndex = 23;
             this.label1.Text = "Date: ";
             // 
-            // listBox1
-            // 
-            this.listBox1.FormattingEnabled = true;
-            this.listBox1.ItemHeight = 18;
-            this.listBox1.Items.AddRange(new object[] {
-            "Shampoo"});
-            this.listBox1.Location = new System.Drawing.Point(16, 108);
-            this.listBox1.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
-            this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(198, 130);
-            this.listBox1.TabIndex = 30;
-            // 
-            // listBox2
-            // 
-            this.listBox2.FormattingEnabled = true;
-            this.listBox2.ItemHeight = 18;
-            this.listBox2.Items.AddRange(new object[] {
-            "Quick Wash"});
-            this.listBox2.Location = new System.Drawing.Point(223, 108);
-            this.listBox2.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
-            this.listBox2.Name = "listBox2";
-            this.listBox2.Size = new System.Drawing.Size(198, 130);
-            this.listBox2.TabIndex = 31;
-            // 
-            // listBox3
-            // 
-            this.listBox3.FormattingEnabled = true;
-            this.listBox3.ItemHeight = 18;
-            this.listBox3.Items.AddRange(new object[] {
-            "3"});
-            this.listBox3.Location = new System.Drawing.Point(429, 108);
-            this.listBox3.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
-            this.listBox3.Name = "listBox3";
-            this.listBox3.Size = new System.Drawing.Size(198, 130);
-            this.listBox3.TabIndex = 32;
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.BackColor = System.Drawing.Color.Transparent;
-            this.label2.Location = new System.Drawing.Point(13, 85);
-            this.label2.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(90, 18);
-            this.label2.TabIndex = 33;
-            this.label2.Text = "Category: ";
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.BackColor = System.Drawing.Color.Transparent;
-            this.label3.Location = new System.Drawing.Point(219, 85);
-            this.label3.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(81, 18);
-            this.label3.TabIndex = 34;
-            this.label3.Text = "Product: ";
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.BackColor = System.Drawing.Color.Transparent;
-            this.label5.Location = new System.Drawing.Point(425, 85);
-            this.label5.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(89, 18);
-            this.label5.TabIndex = 35;
-            this.label5.Text = "Quantity: ";
-            // 
             // button2
             // 
             this.button2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(84)))), ((int)(((byte)(51)))), ((int)(((byte)(104)))));
-            this.button2.Location = new System.Drawing.Point(487, 277);
-            this.button2.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.button2.Location = new System.Drawing.Point(630, 349);
+            this.button2.Margin = new System.Windows.Forms.Padding(5);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(140, 30);
             this.button2.TabIndex = 36;
@@ -192,8 +119,8 @@
             // button3
             // 
             this.button3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(84)))), ((int)(((byte)(51)))), ((int)(((byte)(104)))));
-            this.button3.Location = new System.Drawing.Point(197, 277);
-            this.button3.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.button3.Location = new System.Drawing.Point(340, 349);
+            this.button3.Margin = new System.Windows.Forms.Padding(5);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(132, 30);
             this.button3.TabIndex = 37;
@@ -201,21 +128,25 @@
             this.button3.UseVisualStyleBackColor = false;
             this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
+            // dataGridView1
+            // 
+            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView1.Location = new System.Drawing.Point(14, 80);
+            this.dataGridView1.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
+            this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.Size = new System.Drawing.Size(760, 251);
+            this.dataGridView1.TabIndex = 38;
+            // 
             // ViewOrder
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(198)))), ((int)(((byte)(214)))), ((int)(((byte)(204)))));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ClientSize = new System.Drawing.Size(642, 321);
+            this.ClientSize = new System.Drawing.Size(788, 400);
+            this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.button2);
-            this.Controls.Add(this.label5);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.listBox3);
-            this.Controls.Add(this.listBox2);
-            this.Controls.Add(this.listBox1);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.checkBox1);
             this.Controls.Add(this.comboBox1);
@@ -223,9 +154,11 @@
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label1);
             this.Font = new System.Drawing.Font("Lucida Fax", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.Margin = new System.Windows.Forms.Padding(5);
             this.Name = "ViewOrder";
             this.Text = "ViewOrder";
+            this.Load += new System.EventHandler(this.ViewOrder_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -239,13 +172,8 @@
         private System.Windows.Forms.DateTimePicker dateTimePicker1;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.ListBox listBox1;
-        private System.Windows.Forms.ListBox listBox2;
-        private System.Windows.Forms.ListBox listBox3;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.DataGridView dataGridView1;
     }
 }

@@ -25,8 +25,8 @@ namespace BusinessTier
                 StockHistory StockHistory = new StockHistory(
                                     StockHistoryRow.StockHistoryID,
                                     StockHistoryRow.Price,
-                                    StockHistoryRow.To,
-                                    StockHistoryRow.From,
+                                    StockHistoryRow.PriceDFrom,
+                                    StockHistoryRow.PriceDTo,
                                     StockHistoryRow.StockID);
 
                 this.Add(StockHistory);
@@ -45,8 +45,8 @@ namespace BusinessTier
                     StockHistory StockHistory =
                         new StockHistory(StockHistoryRow.StockHistoryID,
                                     StockHistoryRow.Price,
-                                    StockHistoryRow.To,
-                                    StockHistoryRow.From,
+                                    StockHistoryRow.PriceDFrom,
+                                    StockHistoryRow.PriceDTo,
                                     StockHistoryRow.StockID);
                     this.Add(StockHistory);
                     break;
@@ -101,8 +101,8 @@ namespace BusinessTier
             request.Resource = "/api/stock";
 
             request.AddParameter("price", s.Price);
-            request.AddParameter("startdate", s.From);
-            request.AddParameter("enddate", s.To);
+            request.AddParameter("startdate", s.PriceDFrom);
+            request.AddParameter("enddate", s.PriceDTo);
             request.AddParameter("id", s.StockID);
 
             response = StockHistory.Execute(request);
@@ -117,8 +117,8 @@ namespace BusinessTier
 
             request.AddParameter("stockHistoryId", s.StockHistoryID);
             request.AddParameter("price", s.Price);
-            request.AddParameter("startdate", s.From);
-            request.AddParameter("enddate", s.To);
+            request.AddParameter("startdate", s.PriceDFrom);
+            request.AddParameter("enddate", s.PriceDTo);
             request.AddParameter("id", s.StockID);
 
             response = StockHistory.Execute(request);
@@ -133,8 +133,8 @@ namespace BusinessTier
 
             request.AddParameter("stockHistoryId", s.StockHistoryID);
             request.AddParameter("price", s.Price);
-            request.AddParameter("startdate", s.From);
-            request.AddParameter("enddate", s.To);
+            request.AddParameter("startdate", s.PriceDFrom);
+            request.AddParameter("enddate", s.PriceDTo);
             request.AddParameter("id", s.StockID);
 
             response = StockHistory.Execute(request);

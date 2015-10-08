@@ -11,32 +11,37 @@ using Newtonsoft.Json;
 
 namespace BusinessTier
 {
-    class StockList : System.ComponentModel.BindingList<Stock>
+    public class StockList : System.ComponentModel.BindingList<Stock>
     {
 
         RestRequest request = new RestRequest();
         RestClient stock = new RestClient();
-        
+
         public StockList()
         {
-            //Create an object for each Stock in the dataset and add to list
+            // GET
+            //RestClient stock = new RestClient();
+            stock.BaseUrl = new Uri("http://localhost:8000");
 
-            foreach (Stock StockRow in GetStock())
+            //var request = new RestRequest();
+            request.Resource = "/api/stock";
+
+            IRestResponse response = stock.Execute(request);
+
+            string temp = response.Content.Replace("\"", "'");
+            //List<Client> list = JsonConvert.DeserializeObject<List<Client>>(temp);
+
+            JsonResponseStock test = JsonConvert.DeserializeObject<JsonResponseStock>(temp);
+
+            for (int k = 0; k < test.Rows.Count; k++)
+            // foreach (Rows x in test)
             {
-                Stock Stock = new Stock(
-                    StockRow.StockID,
-                    StockRow.Brand,
-                    StockRow.Product,
-                    StockRow.Price,
-                    StockRow.Size,
-                    StockRow.Active,
-                    StockRow.Quantity,
-                    StockRow.Barcode,
-                    StockRow.CategoryID,
-                    StockRow.SupplierID);
-
-                this.Add(Stock);
+                this.Add(test.Rows[k]);
             }
+        }
+
+        public StockList(string empty)
+        {
 
         }
 
@@ -66,22 +71,34 @@ namespace BusinessTier
             }
         }
 
-        public StockList GetStock()
+        public void GetStock(string sname, string bname, string pname)
         {
             // GET
             //RestClient stock = new RestClient();
             stock.BaseUrl = new Uri("http://localhost:8000");
 
             //var request = new RestRequest();
-            request.Resource = "/api/stock";
+            request.Resource = "/api/stock?sname=stock?pname=c&bname=t";
+
+            request = new RestRequest("/api/stock?sname={sname}&pname={pname}&bname={bname}", Method.GET);
+            //request.AddParameter("name", "value"); // adds to POST or URL querystring based on Method
+            request.AddUrlSegment("pname", pname); // replaces matching token in request.Resource
+            request.AddUrlSegment("sname", sname); // replaces matching token in request.Resource
+            request.AddUrlSegment("bname", bname); // replaces matching token in request.Resource
 
             IRestResponse response = stock.Execute(request);
 
             string temp = response.Content.Replace("\"", "'");
             //List<Client> list = JsonConvert.DeserializeObject<List<Client>>(temp);
-            Stock test = JsonConvert.DeserializeObject<Stock>(temp);
-           
-            return this;
+            JsonResponseStock test = JsonConvert.DeserializeObject<JsonResponseStock>(temp);
+
+            this.ClearItems();
+
+            for (int k = 0; k < test.Rows.Count; k++)
+            // foreach (Rows x in test)
+            {
+                this.Add(test.Rows[k]);
+            }
         }
 
         public StockList GetStock(int inID)
@@ -105,20 +122,19 @@ namespace BusinessTier
         public void InsertStock(Stock s)
         {
             // POST
+            this.Add(s);
 
             IRestResponse response = stock.Execute(request);
             request = new RestRequest(Method.POST);
             request.Resource = "/api/stock";
 
-            request.AddParameter("quantity", s.Brand);
-            request.AddParameter("stockId", s.Product);
-            request.AddParameter("quantity", s.Price);
-            request.AddParameter("stockId", s.Size);
-            request.AddParameter("quantity", s.Active);
-            request.AddParameter("stockId", s.Quantity);
-            request.AddParameter("quantity", s.Barcode);
-            request.AddParameter("stockId", s.CategoryID);
-            request.AddParameter("quantity", s.SupplierID);
+            request.AddParameter("brandName", s.Brand);
+            request.AddParameter("productName", s.Product);
+            request.AddParameter("price", s.Price);
+            request.AddParameter("_size", s.Size);
+            request.AddParameter("quantity", s.Quantity);
+            request.AddParameter("barcode", s.Barcode);
+            request.AddParameter("supplierID", s.SupplierID);
 
             response = stock.Execute(request);
         }
@@ -127,7 +143,7 @@ namespace BusinessTier
         {
             IRestResponse response = stock.Execute(request);
 
-            request = new RestRequest(Method.PUT);
+            request = new RestRequest(Method.DELETE);
             request.Resource = "/api/stock/:id";
 
             request.AddParameter("stockId", s.StockID);
@@ -144,15 +160,14 @@ namespace BusinessTier
             request.Resource = "/api/stock";
 
             request.AddParameter("stockId", s.StockID);
-            request.AddParameter("quantity", s.Brand);
-            request.AddParameter("stockId", s.Product);
-            request.AddParameter("quantity", s.Price);
-            request.AddParameter("stockId", s.Size);
-            request.AddParameter("quantity", s.Active);
-            request.AddParameter("stockId", s.Quantity);
-            request.AddParameter("quantity", s.Barcode);
-            request.AddParameter("stockId", s.CategoryID);
-            request.AddParameter("quantity", s.SupplierID);
+            request.AddParameter("brandName", s.Brand);
+            request.AddParameter("productName", s.Product);
+            request.AddParameter("price", s.Price);
+            request.AddParameter("_size", s.Size);
+            request.AddParameter("active", s.Active);
+            request.AddParameter("quantity", s.Quantity);
+            request.AddParameter("barcode", s.Barcode);
+            request.AddParameter("supplierID", s.SupplierID);
 
             response = stock.Execute(request);
 
