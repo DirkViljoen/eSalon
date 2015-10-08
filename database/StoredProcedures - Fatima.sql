@@ -154,11 +154,11 @@ DELIMITER ;
     BEGIN
         SELECT * FROM `Order`
         WHERE 
-			`DatePlaced` > dateFrom 
-			AND
-            `DatePlaced` < dateTo
+			`Supplier_ID` = sid
             AND
-            `Supplier_ID` = sid;
+			`DatePlaced` >= dateFrom 
+			AND
+            `DatePlaced` <= dateTo;
     END //
     DELIMITER ;
     
@@ -167,13 +167,18 @@ DELIMITER //
 create procedure sp_Update_Order
 (
 	IN oOrder_id  	INT,
+    IN oOrderLine_id  	INT,
 	IN oDatePlaced  DATE,
-	IN oSupplierID  INT
+	IN oQuantity  INT
 )
-BEGIN  UPDATE `Order` SET 
-	DatePlaced = oDatePlaced,
-	Supplier_ID = oSupplierID
-WHERE Order_id = oOrder_id;
+BEGIN  
+	UPDATE `Order` SET 
+		DatePlaced = oDatePlaced
+	WHERE Order_id = oOrder_id;
+
+	UPDATE `Order_Line` SET 
+		Quantity = oQuantity
+	WHERE OrderLine_id = oOrderLine_id;
  END //
 DELIMITER ;
 
@@ -187,9 +192,12 @@ create procedure sp_Insert_Order
 	IN sSupplier_id 	INT
 )
 BEGIN 
-INSERT INTO `Order` (`DatePlaced`, `DateReceived`, `Supplier_id`)
-VALUES(oDatePlaced, oDateReceived, sSupplier_id)
-;  END //
+	DECLARE insertId INT;
+	INSERT INTO `Order` (`DatePlaced`, `DateReceived`, `Supplier_id`)
+	VALUES(oDatePlaced, oDateReceived, sSupplier_id);  
+	SET insertId = LAST_INSERT_ID();
+				SELECT insertId;
+END //
 DELIMITER ;
 
 -- -- DELETE

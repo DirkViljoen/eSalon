@@ -965,9 +965,9 @@ module.exports = function (router) {
           var obj = {};
           //post
           obj.orderID = (req.body.orderID ? req.body.orderID : null);
+          obj.orderLID = (req.body.orderLID ? req.body.orderLID : null);
           obj.dateTo = (req.body.dateTo ? '"' + req.body.dateTo + '"' : null);
-          obj.dateFrom = (req.body.dateFrom ? '"' + req.body.dateFrom + '"' : null);
-          obj.sname = (req.body.sname ? req.body.sname : null);
+          obj.quantity = (req.body.quantity ? req.body.quantity : null);
 
            models.orders.update(obj)
               .then(

@@ -11,8 +11,9 @@ using Newtonsoft.Json;
 
 namespace BusinessTier
 {
-    public class OrderList : List<Order>
+    public class OrderList : System.ComponentModel.BindingList<Order>
     {
+        OrderLineList ol = new OrderLineList();
         RestRequest request = new RestRequest();
         RestClient Order = new RestClient();
 
@@ -100,8 +101,8 @@ namespace BusinessTier
             request = new RestRequest("/api/order?sid={sname}&dateTo={dateTo}&dateFrom={dateFrom}", Method.GET);
             //request.AddParameter("name", "value"); // adds to POST or URL querystring based on Method
             request.AddUrlSegment("sname", sid); // replaces matching token in request.Resource
-            request.AddUrlSegment("dateTo", tempDate1); // replaces matching token in request.Resource
-            request.AddUrlSegment("dateFrom", tempDate2); // replaces matching token in request.Resource
+            request.AddUrlSegment("dateTo", tempDate2); // replaces matching token in request.Resource
+            request.AddUrlSegment("dateFrom", tempDate1); // replaces matching token in request.Resource
 
             IRestResponse response = Order.Execute(request);
 
@@ -109,7 +110,7 @@ namespace BusinessTier
             //List<Client> list = JsonConvert.DeserializeObject<List<Client>>(temp);
             JsonResponseOrder test = JsonConvert.DeserializeObject<JsonResponseOrder>(temp);
 
-            this.Clear();
+            this.ClearItems();
             
 
             for (int k = 0; k < test.Rows.Count; k++)
@@ -138,6 +139,38 @@ namespace BusinessTier
             request.AddParameter("Stock", stock);
 
             response = Order.Execute(request);
+        }
+
+        public void DeleteOrder(Order s)
+        {
+            IRestResponse response = Order.Execute(request);
+
+            request = new RestRequest(Method.DELETE);
+            request.Resource = "/api/order/:id";
+
+            request.AddParameter("OrderID", s.OrderID);
+
+            response = Order.Execute(request);
+        }
+
+        public void UpdateOrder(Order s, OrderLineList oll)
+        {
+            IRestResponse response = Order.Execute(request);
+
+            request = new RestRequest(Method.PUT);
+            request.Resource = "/api/order";
+
+            for (int i = 0; i < oll.Count; i++)
+            {
+                request.AddParameter("date", s.dPlaced);
+                request.AddParameter("orderID", s.OrderID);
+                request.AddParameter("quantity", oll[i].Quantity);
+                request.AddParameter("orderLID", oll[i].OrderLineLID);
+
+                response = Order.Execute(request);
+            }
+            
+
         }
 
     }

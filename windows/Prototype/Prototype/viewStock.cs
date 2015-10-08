@@ -44,12 +44,17 @@ namespace Prototype
         {
             try
             {
-
+                sl.DeleteStock(s);
             }
             catch (Exception d)
             {
                 MessageBox.Show("ERROR: " + d);
             }
+        }
+
+        private void viewStock_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

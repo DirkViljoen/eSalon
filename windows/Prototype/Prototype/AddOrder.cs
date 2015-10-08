@@ -35,13 +35,13 @@ namespace Prototype
 
                 //Stock Details
                 string stock = "[{";
-                for (int i = 0; i < 2; i++)
+                for (int i = 0; i < dataGridView1.RowCount; i++)
                 {
                     if (stock != "[{")
                     {
                         stock = stock + "},{";
                     }
-                    string s = "stockID: 1, quantity: 3";
+                    string s = "\"stockID\": " + dataGridView1.Rows[0].Cells[1].Value + ", \"quantity\": " + dataGridView1.Rows[0].Cells[2].Value + "";
                     stock = stock + s;
                 }
                 stock = stock + "}]";
@@ -84,6 +84,11 @@ namespace Prototype
         }
 
         private void cmbSupplier_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 
         }

@@ -52,5 +52,10 @@ namespace Prototype
             }
         }
 
+        private void UpdateStock_Load(object sender, EventArgs e)
+        {
+
+        }
+
     }
 }

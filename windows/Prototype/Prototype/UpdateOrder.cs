@@ -23,13 +23,9 @@ namespace Prototype
 
             o = ol[id];
 
-            //txtBrand.Text = s.Brand;
-            //txtProduct.Text = s.Product;
-            //txtPrice.Text = Convert.ToString(s.Price);
-            //txtSize.Text = Convert.ToString(s.Size);
-            //txtQuantity.Text = Convert.ToString(s.Quantity);
-            //txtBarcode.Text = s.Barcode;
-            //txtSupplier.Text = Convert.ToString(s.SupplierID);
+            List<Order> nol = new List<Order>();
+            nol.Add(o);
+            dataGridView1.DataSource = nol;
         }
 
         private void listBox2_SelectedIndexChanged(object sender, EventArgs e)
@@ -45,16 +41,25 @@ namespace Prototype
                 string str = "Are you sure you want to update this order?";
                 string form = "UpdateOrder";
 
-                //ol.UpdateOrder(new Stock(0, 
-                //                txtBrand.Text, 
-                //                txtProduct.Text, 
-                //                Convert.ToDouble(txtPrice.Text),
-                //                Convert.ToInt32(txtSize.Text), 
-                //                true, 
-                //                Convert.ToInt32(txtQuantity.Text), 
-                //                txtBarcode.Text, 
-                //                0,
-                //                Convert.ToInt32(txtSupplier.Text)));
+                OrderLineList oll = new OrderLineList();
+                oll.Clear();
+
+                MessageBox.Show(Convert.ToString(dataGridView1.Rows[0].Cells[5].Value));
+                for (int i = 0; i < dataGridView1.RowCount; i++)
+                {
+                    oll.Add(new OrderLine(
+                        Convert.ToInt32(dataGridView1.Rows[0].Cells[4].Value),
+                        Convert.ToInt32(dataGridView1.Rows[0].Cells[5].Value),
+                        Convert.ToInt32(dataGridView1.Rows[0].Cells[6].Value),
+                        Convert.ToInt32(dataGridView1.Rows[0].Cells[0].Value)
+                        ));
+                }
+
+                    ol.UpdateOrder(new Order(Convert.ToInt32(dataGridView1.Rows[0].Cells[0].Value),
+                                            Convert.ToDateTime(dataGridView1.Rows[0].Cells[1].Value),
+                                            dateTimePicker1.Value,
+                                            Convert.ToInt32(dataGridView1.Rows[0].Cells[3].Value)
+                                            ), oll);
 
                 ConfirmationMessage a = new ConfirmationMessage(str, form);
                 a.ShowDialog();

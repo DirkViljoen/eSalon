@@ -62,21 +62,24 @@ module.exports = function OrdersModel() {
             )
             .then(
                 function (result){
+                    console.log(result);
                     obj.orderID = result.SQLstats.insertId;
+                    var temp = JSON.parse(obj.stock);
+                    console.log(temp);
                     console.log('Order created, creating new Order_Line.');
 
-                    for (i = 0; i < obj.stock.length; i++){
-                        console.log('Adding service ' + i + 'out of ' + obj.stock.length);
+                    for (var i = 0; i < temp.length; i++){
+                        console.log('Adding service ' + i + 'out of ' + temp.length);
 
                         db.execute('CALL sp_Insert_Order_Line (' +
-                            obj.stock[i].quantity + ',' +
-                            obj.stock[i].stockID + ',' +
+                            temp[i].quantity + ',' +
+                            temp[i].stockID + ',' +
                             obj.orderID + ')'
                         )
                         .then(
                             function (result){
                                 console.log('New Order_Line created.');
-                                if (i + 1 == obj.stock.length){
+                                if (i + 1 == temp.length){
                                   deferred.resolve(result);
                                 };
                             },
@@ -108,10 +111,21 @@ module.exports = function OrdersModel() {
       if (obj) {
           console.log('Updating Order Item.');
           db.execute('CALL sp_Update_Order (' +
+            obj.orderID + ',' +
+            obj.orderLID + ',' +
             obj.date + ',' +
-            obj.supplierID + ',' + ')'
-          )
-          .then(
+            obj.quantity + ')'
+          ).then(
+              function (result){
+                  console.log('Order_Line updated.');
+                  deferred.resolve(result);
+              },
+              function (err){
+                  console.error(new Error('Unable to update Order_Line.'))
+                  deferred.reject(err);
+              }
+          );
+          /*.then(
               function (result){
                   console.log('Order updated, updating new Order_Line.');
                   db.execute('CALL sp_Update_Order_Line (' +
@@ -134,7 +148,7 @@ module.exports = function OrdersModel() {
                   console.error(new Error('Unable to update Order.'))
                   deferred.reject(err);
               }
-          );
+          );*/
 
       }
       else {

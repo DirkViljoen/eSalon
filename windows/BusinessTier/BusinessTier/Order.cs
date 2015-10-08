@@ -45,6 +45,15 @@ namespace BusinessTier
             OrderLine obj = new OrderLine(OrderLineLID, Quantity, StockID, OrderID);
             ol.Add(obj);
         }
+
+        //public Order(int oID, DateTime oPlace, DateTime oRec, int olid, int oquan)
+        //{
+        //    OrderID = oID;
+        //    dPlaced = oPlace;
+        //    dReceived = oRec;
+        //    OrderLineLID = olid;
+        //    Quantity = oquan;
+        //}
     }
 
 }

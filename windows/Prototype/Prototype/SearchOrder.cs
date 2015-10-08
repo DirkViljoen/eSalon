@@ -15,7 +15,7 @@ namespace Prototype
         OrderList ol = new OrderList();
         StockList sl = new StockList();
         SupplierList spl = new SupplierList();
-        int orderId = 1;
+        int orderId;
 
         public SearchOrder()
         {
@@ -51,9 +51,11 @@ namespace Prototype
             {
                 if (dataGridView2.CurrentCell.ColumnIndex == 0)
                 {
-                    int id = dataGridView2.CurrentCell.RowIndex;
+                    //orderId = Convert.ToInt32(dataGridView2.Rows[dataGridView2.CurrentCell.RowIndex].Cells[1].Value);
+                    orderId = dataGridView2.CurrentCell.RowIndex;
+                    
                     //MessageBox.Show(id);
-                    ViewOrder a = new ViewOrder(id);
+                    ViewOrder a = new ViewOrder(orderId);
                     a.ShowDialog();
 
                 }

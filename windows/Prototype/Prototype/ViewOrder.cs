@@ -16,6 +16,7 @@ namespace Prototype
         Order o;
         int id;
 
+
         public ViewOrder(int _id)
         {
             InitializeComponent();
@@ -23,13 +24,11 @@ namespace Prototype
 
             o = ol[id];
 
-            //txtBrand.Text = s.Brand;
-            //txtProduct.Text = s.Product;
-            //txtPrice.Text = Convert.ToString(s.Price);
-            //txtSize.Text = Convert.ToString(s.Size);
-            //txtQuantity.Text = Convert.ToString(s.Quantity);
-            //txtBarcode.Text = s.Barcode;
-            //txtSupplier.Text = Convert.ToString(s.SupplierID);
+            //MessageBox.Show(Convert.ToString(o));
+            List<Order> nol = new List<Order>();
+            nol.Add(o);
+           // MessageBox.Show(Convert.ToString(o.OrderID));
+            dataGridView1.DataSource = nol;
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -60,10 +59,17 @@ namespace Prototype
 
         private void button1_Click(object sender, EventArgs e)
         {
-            try{}
+            try{
+                ol.DeleteOrder(o);
+            }
             catch(Exception d){
                 MessageBox.Show("ERROR: " + d);
             }
+        }
+
+        private void ViewOrder_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

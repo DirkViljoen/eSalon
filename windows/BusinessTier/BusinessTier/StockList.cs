@@ -143,7 +143,7 @@ namespace BusinessTier
         {
             IRestResponse response = stock.Execute(request);
 
-            request = new RestRequest(Method.PUT);
+            request = new RestRequest(Method.DELETE);
             request.Resource = "/api/stock/:id";
 
             request.AddParameter("stockId", s.StockID);
