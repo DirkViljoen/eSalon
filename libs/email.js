@@ -1,6 +1,7 @@
 //require the Twilio module and create a REST client
 
 var q = require('q');
+var mail = require('nodemailer');
 
 var email = function() {
 

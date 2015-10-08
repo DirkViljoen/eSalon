@@ -1,4 +1,4 @@
-var myModule = angular.module('app', ['smart-table', 'ui.calendar', 'angularMoment', 'angularFileUpload', 'ui.bootstrap']);
+var myModule = angular.module('app', ['smart-table', 'ui.calendar', 'angularMoment', 'ui.bootstrap', 'flow']);
 
 //Angular app
 myModule.controller('SubLetterController', function($scope, $http, $window) {
@@ -1059,7 +1059,7 @@ myModule.controller('BookingController', function($scope, $modal, $http, $window
 
         };
 
-        notifyClient = function(cid, message) {
+        notifyClient = function(cid, message, subject) {
             // console.log(cid);
             // console.log(message);
             for (i = 0; i < $scope.clients.length; i++) {
@@ -1068,6 +1068,7 @@ myModule.controller('BookingController', function($scope, $modal, $http, $window
                     if ($scope.clients[i].Notifications == 1) {
                         var obj = {};
                         obj.message = message;
+                        obj.subject = subject;
 
                         if ($scope.clients[i].NoticationMethod_ID == 1) {
                             // sms
@@ -1101,7 +1102,7 @@ myModule.controller('BookingController', function($scope, $modal, $http, $window
                                             $scope.error = response.data.err;
                                         }
                                         else {
-                                            notifyClient($scope.booking.cid, 'Your booking has been confirmed for ' + $scope.booking.time + ' on ' + $scope.booking.date + ' at Salon Redesign. Your reference number is ' + $scope.booking.reference + '. ');
+                                            notifyClient($scope.booking.cid, 'Your booking has been confirmed for ' + $scope.booking.time + ' on ' + $scope.booking.date + ' at Salon Redesign. Your reference number is ' + $scope.booking.reference + '. ', 'Salon Redesign booking confirmation');
                                             success_Ok('Booking successfully added', 'The booking reference number is: ' + $scope.booking.reference, function(res) {
                                                 $window.location.href = $scope.home;
                                             });
@@ -1144,7 +1145,7 @@ myModule.controller('BookingController', function($scope, $modal, $http, $window
                                                 $scope.error = response.data.err;
                                             }
                                             else {
-                                                notifyClient($scope.booking.cid, 'Your booking slot has been updated for ' + $scope.booking.time + ' on ' + $scope.booking.date + ' at Salon Redesign. Your reference number is ' + $scope.booking.reference + '. ');
+                                                notifyClient($scope.booking.cid, 'Your booking slot has been updated for ' + $scope.booking.time + ' on ' + $scope.booking.date + ' at Salon Redesign. Your reference number is ' + $scope.booking.reference + '. ', 'Salon Redesign booking change confirmation');
                                                 success_Ok('Booking successfully updated', 'The booking reference number is: ' + $scope.booking.reference, function(res) {
                                                     $window.location.href = $scope.home;
                                                 });
@@ -1190,7 +1191,7 @@ myModule.controller('BookingController', function($scope, $modal, $http, $window
                                             $scope.error = response.data.err;
                                         }
                                         else {
-                                            notifyClient($scope.booking.cid, 'Your booking has been CANCELLED for ' + $scope.booking.time + ' on ' + $scope.booking.date + ' at Salon Redesign. Your reference number is ' + $scope.booking.reference + '. ');
+                                            notifyClient($scope.booking.cid, 'Your booking has been CANCELLED for ' + $scope.booking.time + ' on ' + $scope.booking.date + ' at Salon Redesign. Your reference number is ' + $scope.booking.reference + '. ', 'Salon Redesign booking cancelation');
                                             success_Ok('Booking cancelled', 'The boooking has been cancelled successfully.', function(res) {
                                                 $window.location.href = $scope.home;
                                             });
@@ -1226,7 +1227,7 @@ myModule.controller('BookingController', function($scope, $modal, $http, $window
                         $scope.error = response.data.err;
                     }
                     else{
-                        notifyClient($scope.booking.cid, 'Your booking slot has been moved to ' + $scope.booking.time + ' on ' + $scope.booking.date + ' at Salon Redesign. Your reference number is ' + $scope.booking.reference + '. ');
+                        notifyClient($scope.booking.cid, 'Your booking slot has been moved to ' + $scope.booking.time + ' on ' + $scope.booking.date + ' at Salon Redesign. Your reference number is ' + $scope.booking.reference + '. ', 'Salon Redesign booking change confirmation');
                     };
                 });
         };
@@ -1597,7 +1598,7 @@ myModule.controller('BookingController', function($scope, $modal, $http, $window
           };
   });
 
-myModule.controller('EmployeeController', function($scope, $http, $window, FileUploader) {
+myModule.controller('EmployeeController', function($scope, $http, $window) {
     $scope.loading = true;
     $scope.error = '';
 
@@ -1616,9 +1617,7 @@ myModule.controller('EmployeeController', function($scope, $http, $window, FileU
     $scope.home = '/employee';
 
     // Image
-        var uploader = $scope.uploader = new FileUploader({
-            // url: 'upload.php'
-        });
+
 
     // Lookup tables
 
@@ -1921,6 +1920,22 @@ myModule.controller('EmployeeController', function($scope, $http, $window, FileU
             $scope.employee.employeeId = eid;
         };
 
+        $scope.savefile = function(){
+            $http.post('/api/upload', $scope.employee);
+            // Simple GET request example:
+            // $http({
+            //   method: 'POST',
+            //   url: '/api/upload',
+            //   headers: {'Content-Type': 'multipart/form-data'},
+            //   data: $scope.employee
+            // }).then(function successCallback(response) {
+            //     console.log('success');
+            //   }, function errorCallback(response) {
+            //     console.log('failure');
+            //     console.error(respose);
+            //   });
+        }
+
     // Helper functions
 
 
@@ -2121,7 +2136,7 @@ myModule.controller('InvoiceController', function($scope, $http, $window, $q) {
 
         $scope.gethairlengthservices = function() {
             $scope.loading = true;
-            $http.get('/api/services/hairlengthservices').then(function(response) {
+            $http.get('/api/hairlengthservices').then(function(response) {
                 $scope.loading = false;
                 console.log(response.data);
                 if (response.data.rows) {
@@ -2976,3 +2991,22 @@ myModule.controller('ModalInstanceCtrl', function ($scope, $modalInstance, items
     $modalInstance.dismiss('cancel');
   };
 });
+
+myModule.directive("fileread", [function () {
+    return {
+        scope: {
+            fileread: "="
+        },
+        link: function (scope, element, attributes) {
+            element.bind("change", function (changeEvent) {
+                var reader = new FileReader();
+                reader.onload = function (loadEvent) {
+                    scope.$apply(function () {
+                        scope.fileread = loadEvent.target.result;
+                    });
+                }
+                reader.readAsDataURL(changeEvent.target.files[0]);
+            });
+        }
+    }
+}]);

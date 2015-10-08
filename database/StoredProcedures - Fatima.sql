@@ -694,15 +694,9 @@ DELIMITER ;
 
 -- -- STOCK LEVEL
 DELIMITER //
-    CREATE PROCEDURE spStockLevel
-    (
-        IN sProduct VARCHAR(50),
-        IN sBrand VARCHAR(50),
-        IN Quantity INT
-        
-    )
+    CREATE PROCEDURE spStockLevel()
     BEGIN
-        SELECT * FROM `Stock`
+        SELECT BrandName, ProductName, Quantity FROM `Stock`
         WHERE Active = true;
     END //
 DELIMITER ;

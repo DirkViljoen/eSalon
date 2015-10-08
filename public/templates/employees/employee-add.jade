@@ -49,13 +49,24 @@ block content
                 .grouphead
                     +form-group('Upload a picture')
                 .groupbox
-                    div(ng-show="uploader.isHTML5")
-                        <!-- 3. nv-file-over uploader="link" over-class="className" -->
-                        .well.my-drop-zone(nv-file-over="" uploader="uploader")
+                    div(flow-init="{target: '/api/upload'}"
+                     flow-files-submitted="$flow.upload()"
+                     flow-file-success="$file.msg = $message")
+                        .well.my-drop-zone(flow-drop flow-drag-enter="style={border:'4px solid green'}" flow-drag-leave="style={}" ng-style="style")
+                            img(flow-img="$flow.files[0]")
                             p Base drop zone
 
-                    <!-- Example: nv-file-select="" uploader="{Object}" options="{Object}" filters="{String}" -->
-                    input(type="file" nv-file-select="" uploader="uploader" ng-model='employee.image')
+                        table
+                            tr(ng-repeat="file in $flow.files")
+                                td {{$index+1}}
+                                td {{file.name}}
+                                td {{file.msg}}
+
+                        span(flow-btn) Upload file
+
+                    form(id="uploadForm" enctype="multipart/form-data" action="/api/upload" method="post")
+                        input(type="file" name="image" fileread="employee.f")
+                        input(type="button", value='Submit', ng-click='savefile()')
 
         br
         .row
@@ -68,6 +79,6 @@ block content
                         input.btn.btn-default(type="button", value='Cancel', ng-click='cancel()')
                         br
 
-        //- p employee: {{employee}}
-        //- p user: {{user}}
-        //- p address: {{address}}
+        p employee: {{employee}}
+        p user: {{user}}
+        p address: {{address}}

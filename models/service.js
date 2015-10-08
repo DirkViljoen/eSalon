@@ -199,8 +199,6 @@ module.exports = function ServiceModel() {
         return deferred.promise;
     };
 
-
-
     return {
         index: get,
         find: search,

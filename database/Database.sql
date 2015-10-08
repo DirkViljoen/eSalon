@@ -95,6 +95,7 @@ CREATE TABLE `Expense`(
 	`Expense_ID` INT NULL AUTO_INCREMENT,
 	`Name` VARCHAR(50),
 	`Quantity` INT,
+    `Date` DATE,
 	`PricePerItem` DECIMAL(8,2),
 	`ExpenseCategory_ID` INT,
 	`PaymentMethod_ID` INT,

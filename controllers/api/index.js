@@ -5,6 +5,8 @@ var
     BookingModel    = require('../../models/booking'),
     ClientModel     = require('../../models/client'),
     EmployeeModel   = require('../../models/employee'),
+    ExpenseModel    = require('../../models/expenses'),
+    InvoiceModel    = require('../../models/invoice'),
     OrdersModel     = require('../../models/orders'),
     ServiceModel    = require('../../models/service'),
     StockModel      = require('../../models/stock'),
@@ -14,9 +16,16 @@ var
     LookupsModel    = require('../../models/lookups'),
     ReportsModel    = require('../../models/reports');
 
-var moment          = require('moment');
-var q               = require('q');
-var sms             = require('../../libs/sms');
+var
+    moment          = require('moment'),
+    q               = require('q'),
+    sms             = require('../../libs/sms'),
+    Flow            = require('flow'),
+    multer          = require('multer'),
+    upload          = multer({ dest: './uploads/'}),
+    fs              = require('fs'),
+    parse           = require('csv-parse'),
+    nodemailer      = require('nodemailer');
 
 module.exports = function (router) {
 
@@ -26,6 +35,8 @@ module.exports = function (router) {
     models.booking  = new BookingModel();
     models.client   = new ClientModel();
     models.employee = new EmployeeModel();
+    models.expenses = new ExpenseModel();
+    models.invoice  = new InvoiceModel();
     models.lookup   = new LookupsModel();
     models.orders   = new OrdersModel();
     models.reports  = new ReportsModel();
@@ -775,72 +786,328 @@ module.exports = function (router) {
         console.log(' - Parameters: ' + JSON.stringify(req.params));
         console.log(' - Body: ' + JSON.stringify(req.body));
 
-        if (req.body) {
-            var obj = {};
+        var myError = {};
+        myError.code = null;
+        myError.message = '';
 
-            obj.booking = {};
+        if (req.body) {
 
             //booking
-            obj.booking.bid = (req.body.booking.bid ? '"' + req.body.booking.bid + '"' : null);
+            var booking = {};
+            booking.bid = (req.body.booking.bid ? req.body.booking.bid : req.params.id);
+            booking.datetime = '"' + moment(req.body.datetime).format('YYYY-MM-DD HH:mm:ss') + '"';
 
-            obj.booking.datetime = (req.body.booking.datetime ? '"' + req.body.booking.datetime + '"' : null);
-            obj.booking.datetime = obj.booking.datetime.replace("T"," ");
-            obj.booking.datetime = obj.booking.datetime.replace("Z","");
+            booking.duration = (req.body.booking.duration ? '"' + req.body.booking.duration + '"' : 60);
+            booking.completed = 1;
+            booking.active = (req.body.booking.active ? '"' + req.body.booking.active + '"' : 1);
+            booking.reference = (req.body.booking.reference ? '"' + req.body.booking.reference + '"' : null);
+            booking.cid = (req.body.booking.cid ? req.body.booking.cid : null);
+            booking.eid = (req.body.booking.eid ? req.body.booking.eid : null);
+            booking.iid = (req.body.booking.iid ? req.body.booking.iid : null);
 
-            obj.booking.duration = (req.body.booking.duration ? '"' + req.body.booking.duration + '"' : 30);
-            obj.booking.completed = 1;
-            obj.booking.active = (req.body.booking.active ? '"' + req.body.booking.active + '"' : 1);
-            obj.booking.reference = (req.body.booking.reference ? '"' + req.body.booking.reference + '"' : null);
-            obj.booking.cid = (req.body.booking.cid ? req.body.booking.cid : null);
-            obj.booking.eid = (req.body.booking.eid ? req.body.booking.eid : null);
-            obj.booking.iid = (req.body.booking.iid ? req.body.booking.iid : null);
-            obj.booking.services = [];
-
-            if (req.body.booking.services) {
-                for (var i = 0; i < req.body.booking.services.length; i++) {
-                    obj.booking.services.push({hlsid: req.body.booking.services[i].hlsid});
+            booking.services = [];
+            console.log(req.body.invoice.services);
+            if (req.body.invoice.services) {
+                var serv = {};
+                for (var i = 0; i < req.body.invoice.services.length; i++) {
+                    serv = {};
+                    serv.hlsid = req.body.invoice.services[i].hlsid;
+                    serv.bid = booking.bid;
+                    serv.spid = (req.body.invoice.services[i].spid ? req.body.invoice.services[i].spid : null);
+                    serv.price = req.body.invoice.services[i].price;
+                    serv.quantity = 1;
+                    serv.iid = null;
+                    booking.services.push(serv);
                 };
             };
 
-            models.booking.update(obj.booking)
+            booking.stock = [];
+            console.log(req.body.invoice.stock);
+            if (req.body.invoice.stock) {
+                var stk = {};
+                for (var i = 0; i < req.body.invoice.stock.length; i++) {
+                    stk = {};
+                    stk.sid = req.body.invoice.stock[i].sid;
+                    stk.spid = (req.body.invoice.stock[i].spid ? req.body.invoice.stock[i].spid : null);
+                    stk.price = req.body.invoice.stock[i].price;
+                    stk.quantity = req.body.invoice.stock[i].quantity;;
+                    stk.iid = null;
+                    booking.stock.push(stk);
+                };
+            };
+
+            console.log(booking.services);
+
+            models.booking.update(booking)
                 .then(
                     function (result){
-                        console.log(result);
-                        res.send(result);
+                        if (req.body.invoice) {
+                            var invoice = {};
+
+                            console.log('test0');
+                            invoice.id = null;
+                            invoice.datetime = '"' + moment().format('YYYY-MM-DD HH:mm:ss') + '"';
+                            invoice.discount = (req.body.invoice.discount ? req.body.invoice.discount : 0);
+                            invoice.percentage = (req.body.invoice.percentage ? req.body.invoice.percentage : false);
+                            invoice.total = req.body.invoice.total;
+                            invoice.paymentMethod = (req.body.invoice.paymentMethod ? req.body.invoice.paymentMethod : 1);
+                            invoice.cid = (req.body.booking.cid ? req.body.booking.cid : null);
+                            invoice.eid = (req.body.booking.eid ? req.body.booking.eid : null);
+                            invoice.bid = booking.bid;
+
+                            console.log('test1');
+
+                            invoice.services = booking.services;
+                            invoice.stock = booking.stock;
+                            console.log('test2');
+                            var servHistMap = [];
+                            var productHistMap = [];
+
+                            models.invoice.create(invoice)
+                                .then(
+                                    function (result){
+                                        console.log(result);
+                                        console.log('creating invoice services with invoice id:' + result.SQLstats.insertId);
+                                        invoice.iid = result.SQLstats.insertId;
+                                        models.invoice.getServiceHistory()
+                                            .then(
+                                                function (result){
+                                                    servHistMap = result.rows;
+                                                    for (var s = 0; s < invoice.services.length; s++){
+                                                        for (var m = 0; m < servHistMap.length; m++){
+                                                            if (invoice.services[s].hlsid == servHistMap[m].hlsid){
+                                                                invoice.services[s].shid = servHistMap[m].shid;
+                                                                invoice.services[s].iid = invoice.iid;
+                                                            }
+                                                        }
+                                                    }
+                                                    console.log(invoice.services);
+
+                                                    console.log('1');
+                                                    for (var inv = 0; inv < invoice.services.length; inv++){
+                                                        models.invoice.serviceCreate(invoice.services[inv])
+                                                        .then(
+                                                            function(result){
+                                                                console.log('loop:' + inv);
+                                                                if (invoice.services.length == inv){
+                                                                    console.log('2');
+                                                                    return ({'done':'done'});
+                                                                }
+                                                            },
+                                                            function(err){
+                                                                return ({'err':'Could not create services'});
+                                                            }
+                                                        );
+                                                    }
+
+                                                },
+                                                function (err){
+                                                    console.error(err);
+                                                }
+                                            )
+                                    },
+                                    function (err){
+                                        res.send({'err': "Could not create invoice"});
+                                    }
+
+                                )
+                                .then(
+                                    function (result){
+                                        console.log(result);
+                                        console.log('creating invoice products with invoice id:' + invoice.iid);
+                                        models.invoice.getProductHistory()
+                                            .then(
+                                                function (result){
+                                                    productHistMap = result.rows;
+                                                    for (var s = 0; s < invoice.stock.length; s++){
+                                                        for (var m = 0; m < productHistMap.length; m++){
+                                                            if (invoice.stock[s].sid == productHistMap[m].sid){
+                                                                invoice.stock[s].shid = productHistMap[m].shid;
+                                                                invoice.stock[s].iid = invoice.iid;
+                                                            }
+                                                        }
+                                                    }
+                                                    console.log(invoice.stock);
+
+                                                    console.log('1');
+                                                    for (var inv = 0; inv < invoice.stock.length; inv++){
+                                                        models.invoice.stockCreate(invoice.stock[inv])
+                                                        .then(
+                                                            function(result){
+                                                                console.log('loop:' + inv);
+                                                                if (invoice.services.length == inv){
+                                                                    console.log('2');
+                                                                    return ({'done':'done'});
+                                                                }
+                                                            },
+                                                            function(err){
+                                                                return ({'err':'Could not create services'});
+                                                            }
+                                                        );
+                                                    }
+
+                                                },
+                                                function (err){
+                                                    console.error(err);
+                                                }
+                                            )
+                                    },
+                                    function (err){
+                                        res.send({'err': "Could not create invoice"});
+                                    }
+
+                                )
+                                .then(
+                                    function (result){
+                                        res.send(result);
+                                    },
+                                    function (err){
+                                        res.send({'err': "An error occured during the invoice create process."});
+                                    }
+                                );
+
+                        }
+                        else
+                        {
+                            var err = 'No req.body.invoice on invoice POST';
+                            console.error(new Error(err));
+                            res.send({'err': err});
+                        }
                     },
                     function (err){
-                        // console.error(err);
+                        console.error(err);
+                        myError.err = err;
+                        myError.message = 'Unable to update booking';
+                        myError.code = 1;
                         res.send({'err': err});
                     }
                 );
-
-            obj.invoice = {};
         }
         else
         {
-            var err = 'No req.body on booking POST';
+            var err = 'No req.body on invoice POST';
             console.error(new Error(err));
             res.send({'err': err});
         }
     });
 
     router.post('/makesale', function (req, res) {
-        console.log('Bookings Invoice POST.')
+        console.log('Bookings MakeSale POST.')
         console.log(' - Parameters: ' + JSON.stringify(req.params));
         console.log(' - Body: ' + JSON.stringify(req.body));
 
-        if (req.body) {
-            var obj = {};
+        var myError = {};
+        myError.code = null;
+        myError.message = '';
 
-            obj.invoice = {};
-            res.send({done: 'fake'});
+        if (req.body) {
+
+            //booking
+            var booking = {};
+
+            booking.stock = [];
+            console.log(req.body.invoice.stock);
+            if (req.body.invoice.stock) {
+                var stk = {};
+                for (var i = 0; i < req.body.invoice.stock.length; i++) {
+                    stk = {};
+                    stk.sid = req.body.invoice.stock[i].sid;
+                    stk.spid = (req.body.invoice.stock[i].spid ? req.body.invoice.stock[i].spid : null);
+                    stk.price = req.body.invoice.stock[i].price;
+                    stk.quantity = req.body.invoice.stock[i].quantity;;
+                    stk.iid = null;
+                    booking.stock.push(stk);
+                };
+            };
+
+
+            if (req.body.invoice) {
+                var invoice = {};
+
+                console.log('test0');
+                invoice.id = null;
+                invoice.datetime = '"' + moment().format('YYYY-MM-DD HH:mm:ss') + '"';
+                invoice.discount = (req.body.invoice.discount ? req.body.invoice.discount : 0);
+                invoice.percentage = (req.body.invoice.percentage ? req.body.invoice.percentage : false);
+                invoice.total = req.body.invoice.total;
+                invoice.paymentMethod = (req.body.invoice.paymentMethod ? req.body.invoice.paymentMethod : 1);
+                invoice.cid = null;
+                invoice.eid = null;
+                invoice.bid = null;
+
+                console.log('test1');
+
+                invoice.stock = booking.stock;
+                console.log('test2');
+                var productHistMap = [];
+
+                models.invoice.create(invoice)
+                    .then(
+                        function (result){
+                            console.log(result);
+                            invoice.iid = result.SQLstats.insertId;
+                            console.log('creating invoice products with invoice id:' + invoice.iid);
+                            models.invoice.getProductHistory()
+                                .then(
+                                    function (result){
+                                        console.log('test3');
+                                        productHistMap = result.rows;
+                                        console.log(invoice.stock);
+                                        console.log(productHistMap);
+                                        for (var s = 0; s < invoice.stock.length; s++){
+                                            for (var m = 0; m < productHistMap.length; m++){
+                                                if (invoice.stock[s].sid == productHistMap[m].sid){
+                                                    invoice.stock[s].shid = productHistMap[m].shid;
+                                                    invoice.stock[s].iid = invoice.iid;
+                                                }
+                                            }
+                                        }
+                                        console.log(invoice.stock);
+
+                                        console.log('1');
+                                        for (var inv = 0; inv < invoice.stock.length; inv++){
+                                            models.invoice.stockCreate(invoice.stock[inv])
+                                            .then(
+                                                function(result){
+                                                    console.log('loop:' + inv);
+                                                    if (invoice.services.length == inv){
+                                                        console.log('2');
+                                                        return ({'done':'done'});
+                                                    }
+                                                },
+                                                function(err){
+                                                    return ({'err':'Could not create services'});
+                                                }
+                                            );
+                                        }
+
+                                    },
+                                    function (err){
+                                        console.error(err);
+                                    }
+                                )
+                        },
+                        function (err){
+                            res.send({'err': "Could not create invoice"});
+                        }
+
+                    )
+                    .then(
+                        function (result){
+                            res.send(result);
+                        },
+                        function (err){
+                            res.send({'err': "An error occured during the invoice create process."});
+                        }
+                    );
+            };
         }
         else
         {
-            var err = 'No req.body on booking POST';
+            var err = 'No req.body on makesale POST';
             console.error(new Error(err));
             res.send({'err': err});
-        }
+        };
     });
 
 // Notifications
@@ -875,7 +1142,31 @@ module.exports = function (router) {
         console.log(' - Body: ' + JSON.stringify(req.body));
 
         if (req.body.message && req.body.email) {
-            // sms.send(req.body.number, req.body.message);
+            var transporter = nodemailer.createTransport({
+                service: 'Gmail',
+                auth: {
+                    user: 'dirkcharl.viljoen@gmail.com', // Your email id
+                    pass: 'gmLu@xeiri1' // Your password
+                }
+            });
+
+            var mailOptions = {
+                from: 'dirkcharl.viljoen@gmail.com', // sender address
+                to: req.body.email, // list of receivers
+                subject: (req.body.subject ? req.body.subject : 'Notification from Salon Redesign'), // Subject line
+                text: req.body.message //, // plaintext body
+                // html: '<b>Hello world ✔</b>' // You can choose to send an HTML body instead
+            };
+
+            transporter.sendMail(mailOptions, function(error, info){
+                if(error){
+                    console.log(error);
+                    res.json({yo: 'error'});
+                }else{
+                    console.log('Message sent: ' + info.response);
+                    res.json({yo: info.response});
+                };
+            });
         }
         else
         {
@@ -1892,5 +2183,183 @@ module.exports = function (router) {
                     res.send(err);
                 }
             );
+// Uploading files
+
+    router.post('/upload'
+
+        ,function(req,res){
+        console.log('uploading - file:');
+        console.log('body: ' + JSON.stringify(req.body));
+        upload(req,res,function(err) {
+            if(err) {
+                return res.send("Error uploading file.");
+            }
+            res.send("File is uploaded");
+        });
+    });
+    // // Handle uploads through Flow.js
+    // router.post('/upload', function(req, res) {
+    //   flow.post(req, function(status, filename, original_filename, identifier) {
+    //     console.log('POST', status, original_filename, identifier);
+    //     if (ACCESS_CONTROLL_ALLOW_ORIGIN) {
+    //       res.header("Access-Control-Allow-Origin", "*");
+    //     }
+    //     res.status(status).send();
+    //   });
+    // });
+
+    // // Handle cross-domain requests
+    // // NOTE: Uncomment this funciton to enable cross-domain request.
+
+    //   app.options('/upload', function(req, res){
+    //   console.log('OPTIONS');
+    //   res.send(true, {
+    //   'Access-Control-Allow-Origin': '*'
+    //   }, 200);
+    //   });
+
+
+    // // Handle status checks on chunks through Flow.js
+    // router.get('/upload', function(req, res) {
+    //   flow.get(req, function(status, filename, original_filename, identifier) {
+    //     console.log('GET', status);
+
+    //     if (status == 'found') {
+    //       status = 200;
+    //     } else {
+    //       status = 204;
+    //     }
+
+    //     res.status(status).send();
+    //   });
+    // });
+
+    router.get('/download/:identifier', function(req, res) {
+      flow.write(req.params.identifier, res);
+    });
+
+// Reading files
+
+    router.get('/readCSV/:name', function (req, res){
+        console.log('Reading CSV file');
+
+        function validate(data) {
+            console.log('validating file');
+            var e = {};
+            e.err = false;
+            e.message = "";
+
+            var tmpErr = false;
+            var k;
+            var start = 0;
+            if (data[0][0] == "Category"){
+                start = 1;
+            };
+
+            for (k = start; k < data.length; k++){
+                if (tmpErr == false){
+                    if (data[k][0].length > 50){
+                        tmpErr = true;
+                        e.message = e.message + "Some of the Categories in the 1st column are longer than 50 characters, only 50 characters can be stored. Anything more will be cut off. ";
+                        e.err = true;
+                    }
+                }
+            }
+
+            tmpErr = false;
+
+            for (k = start; k < data.length; k++){
+                if (tmpErr == false){
+                    if (data[k][1].length > 50){
+                        tmpErr = true;
+                        e.message = e.message + "Some of the Expense names in the 2nd column are longer than 50 characters, only 50 characters can be stored. Anything more will be cut off. ";
+                        e.err = true;
+                    }
+                }
+            }
+
+            tmpErr = false;
+
+            for (k = start; k < data.length; k++){
+                if (tmpErr == false){
+                    console.log(data[k][2]);
+                    if (data[k][2].length != 10){
+                        tmpErr = true;
+                        e.message = e.message + "Some of the expense dates in the 3rd column are not in the format ‘yyyy/mm/dd’ please correct this before completing the import process. ";
+                        e.err = true;
+                    }
+                }
+            }
+
+            // tmpErr = false;
+
+            // for (k = start; k < data.length; k++){
+            //     if (tmpErr == false){
+            //         console.log(data[k][3]);
+            //         if (data[k][3] === parseInt(data[k][3], 10)){
+            //             tmpErr = true;
+            //             e.message = e.message + "Some of the Quantities in the 4th column are not valid numbers. Please ensure only whole numbers are provided. ";
+            //             e.err = true;
+            //         }
+            //     }
+            // }
+
+            // tmpErr = false;
+
+            // for (k = start; k < data.length; k++){
+            //     if (tmpErr == false){
+            //         console.log(data[k][4]);
+            //         if (data[k][4] === parseInt(data[k][4], 10)){
+            //             tmpErr = true;
+            //             e.message = e.message + "Some of the Quantities in the 4th column are not valid numbers. Please ensure only whole numbers are provided. ";
+            //             e.err = true;
+            //         }
+            //     }
+            // }
+
+            console.log(e.message);
+            return e;
+
+        };
+
+        function writeLine(dataline) {
+            console.log('writing clean line to db');
+            var expense = {};
+            expense.category = null;
+            expense.name = '"' + dataline[1] + '"';
+            expense.quantity = dataline[3];
+            expense.date = '"' + moment(new Date(dataline[2])).format("YYYY-MM-DD") + '"';
+            expense.price = dataline[4];
+            expense.paymentMethod = null;
+
+            models.expenses.create(expense);
+        };
+
+        var parser = parse({delimiter: ';'}, function(err, data){
+            console.log('we are reading everyting!!!');
+
+            var e = validate(data);
+            if (e.err){
+                res.send({err: e.message});
+            }
+            else{
+                for (var k = 1; k < data.length; k++){
+                    writeLine(data[k]);
+                    if (k+1==data.length){
+                        res.send("done");
+                    }
+                }
+            }
+        });
+
+        if (req.params.name){
+            fs.createReadStream(process.cwd() + '/uploads/' + req.params.name + '.csv').pipe(parser);
+        }
+        else
+        {
+            res.send({err: 'No file to read'});
+        }
+
+>>>>>>> dcd3f5cdae8a7889325705418a0049e6573a5de3
     });
 };

@@ -163,6 +163,139 @@ Use esalon;
                 `Employee_ID` = iid;
     END //
     DELIMITER ;
+    
+-- expenses
+
+-- -- INSERT
+	DELIMITER //
+	create procedure sp_Insert_Expense
+	(
+		IN iName VARCHAR(50),
+		IN iQuantity INT,
+        IN iDate DATETIME,
+		IN iPrice DECIMAL(8,2),
+		IN iCategory INT,
+        IN iPMethod INT
+	)
+	BEGIN 
+		DECLARE insertId  INT;
+        
+		INSERT INTO `Expense` 
+			(`Name`, `Quantity`, `Date`, `PricePerItem`, `ExpenseCategory_ID`, `PaymentMethod_ID`)
+		VALUES(iName, iQuantity, iDate, iPrice, iCategory, iPMethod);
+        
+        SET insertId = LAST_INSERT_ID();
+        SELECT insertId;
+	END // 
+	DELIMITER ;
+    
+-- Invoice
+
+	DELIMITER //
+    CREATE PROCEDURE sp_Insert_Invoice
+    (
+        IN iDateTime DATETIME,
+		IN iDiscount DECIMAL(8,2),
+		IN iIsPerc BOOLEAN,
+		IN iTotal DECIMAL(8,2),
+        IN iPaymentMethod INT,
+        IN icid INT,
+		IN ieid INT,
+        IN ibid INT
+    )
+    BEGIN
+		DECLARE insertId  INT;
+        
+        INSERT
+            INTO `Invoice`(
+                `DateTime`,
+                `Discount`,
+                `isPercentage`,
+                `Total`,
+                `PaymentMethod_ID`,
+                `Client_ID`,
+                `Employee_ID`)
+            VALUES
+                (iDateTime, iDiscount, iIsPerc, iTotal, iPaymentMethod, icid, ieid);
+                
+		SET insertId = LAST_INSERT_ID();
+        
+        UPDATE `Booking` 
+			SET
+				`Invoice_id` = insertId
+			WHERE
+				`Booking_id` = ibid;
+                
+		SELECT insertId;
+    END //
+    DELIMITER ;
+
+	DELIMITER //
+    CREATE PROCEDURE sp_Insert_Invoice_Service
+    (
+        IN iPrice DECIMAL(8,2),
+		IN iQuantity INT,
+		IN ishid INT,
+		IN ispid INT,
+        IN iiid INT
+    )
+    BEGIN
+		DECLARE insertId  INT;
+        
+        INSERT
+            INTO `Invoice_Service_Line`(
+                `Price`,
+                `Quantity`,
+                `ServiceHistory_id`,
+                `Special_id`,
+                `Invoice_id`)
+            VALUES
+                (iPrice, iQuantity, ishid, ispid, iiid);
+                
+		SET insertId = LAST_INSERT_ID();                
+		SELECT insertId;
+    END //
+    DELIMITER ;
+    
+    DELIMITER //
+    CREATE PROCEDURE sp_Insert_Invoice_Stock
+    (
+        IN iPrice DECIMAL(8,2),
+		IN iQuantity INT,
+		IN ishid INT,
+		IN ispid INT,
+        IN iiid INT
+    )
+    BEGIN
+		DECLARE insertId  INT;
+        
+        INSERT
+            INTO `Invoice_Stock_Line`(
+                `Price`,
+                `Quantity`,
+                `StockHistory_id`,
+                `Special_id`,
+                `Invoice_id`)
+            VALUES
+                (iPrice, iQuantity, ishid, ispid, iiid);
+                
+		SET insertId = LAST_INSERT_ID(); 
+        
+        UPDATE `Stock`
+			SET 
+				`Quantity` = `Quantity` - iQuantity
+            WHERE
+				`Stock_id` = (
+							SELECT 
+								`Stock_ID` 
+							FROM 
+								`Stock_History` 
+							WHERE 
+								`StockHistory_id` = ishid);
+				
+		SELECT insertId;
+    END //
+    DELIMITER ;
 
 -- Roles
 
@@ -351,6 +484,41 @@ Use esalon;
                 `Active` = false
             WHERE
                 `Service_ID` = sid;
+    END //
+    DELIMITER ;
+    
+    DELIMITER //
+    CREATE PROCEDURE spServiceMap
+    (
+    
+    )
+    BEGIN
+    SELECT 
+		hls.HairLengthService_id as hlsid, 
+		sh.ServiceHistory_id as shid
+	FROM 
+		eSalon.Service_History sh, 
+		eSalon.Hair_Length_Service hls
+	WHERE 
+		sh.Service_id = hls.Service_id
+		AND
+		sh.PriceDateTo is null;
+    END //
+    DELIMITER ;
+    
+    DELIMITER //
+    CREATE PROCEDURE spProductMap
+    (
+    
+    )
+    BEGIN
+    SELECT 
+		sh.Stock_ID as sid, 
+		sh.StockHistory_id as shid
+	FROM 
+		eSalon.Stock_History sh
+	WHERE
+		sh.PriceDateTo is null;
     END //
     DELIMITER ;
     
