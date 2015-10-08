@@ -1877,4 +1877,20 @@ module.exports = function (router) {
                 }
             );
     });
+
+    router.get('/reports/stocklevel', function (req, res) {
+        console.log('Stocklevel GET. Parameters: ' + JSON.stringify(req.query));
+
+        models.reports.stocklevel()
+            .then(
+                function (result){
+                    if (result)
+                        res.send(result);
+                },
+                function (err){
+                    console.log(err);
+                    res.send(err);
+                }
+            );
+    });
 };

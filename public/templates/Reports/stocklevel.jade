@@ -1,0 +1,39 @@
+extends ../layouts/master
+include ../../mixins/mixins
+
+block header
+  label Stock Level report
+
+block loggedIn
+  a(href='#', class='navbar-link') Signed in as Mark Otto
+
+block content
+    form.row.col-xs-12.workarea.form-validate(id="stocklevelReport", ng-controller="ReportController", ng-init='initStocklevel()')
+        .row
+            .col-xs-12
+                h1 Current stock level report
+                h4 {{date}}
+                    
+        br
+        .row
+            .col-md-1
+            .col-md-10.table-responsive
+                table.table(id="stocklevelTable" st-table='stocklevel')
+                    thead
+                        tr
+                            th Brandname
+                            th ProductName
+                            th Quantity
+                    tbody
+                        tr(ng-repeat="row in stocklevel")
+                            td {{row.BrandName}}
+                            td {{row.ProductName}}
+                            td {{row.Quantity}}
+
+        //- Pure functionality objects
+        //- div
+        //-     p(ng-if="loading") Loading&hellip;
+        //-     p searchCriteria:
+        //-         span {{searchCriteria}}
+        //-     p audit:
+        //-         span {{audit}}

@@ -15,4 +15,8 @@ module.exports = function (router) {
         res.render('reports/audit', {})
     });
 
+    router.get('/stocklevel', function (req, res) {
+        res.render('reports/stocklevel', {})
+    });
+
 };

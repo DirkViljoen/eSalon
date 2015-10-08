@@ -10,6 +10,7 @@ html(lang="en", ng-app="app")
         link(rel="stylesheet", href="/bower_components/fullcalendar/dist/fullcalendar.min.css")
         link(rel="stylesheet", href="/bower_components/jstree/dist/themes/default/style.min.css")
         link(rel="stylesheet", href='/bower_components/bootstrap3-dialog/dist/css/bootstrap-dialog.min.css')
+        link(rel="stylesheet", href='/bower_components/chartist/dist/chartist.min.css')
 
         link(rel="stylesheet", href='/esalon_components/angular-slider/angular-slider.min.css')
 
@@ -119,6 +120,8 @@ html(lang="en", ng-app="app")
                                 a(href='#') Expense Report
                             li
                                 a(href='/reports/audit') Audit report
+                            li
+                                a(href='/reports/stocklevel') Stock level report
                     li.dropdown.dropdown-danger
                         a.dropdown-toggle(href='/help')
                             | I'm feeling lost. Please help
@@ -145,6 +148,7 @@ html(lang="en", ng-app="app")
         script(src='/bower_components/angular-ui-calendar/src/calendar.js')
         script(src='/bower_components/angular-moment/angular-moment.min.js')
         script(src='/bower_components/angular-file-upload/dist/angular-file-upload.min.js')
+        script(src='/bower_components/chartist/dist/chartist.min.js')
 
         script(src="/bower_components/javascript-detect-element-resize/jquery.resize.js")
         script(src="/bower_components/waitForImages/dist/jquery.waitforimages.js")
@@ -191,6 +195,3 @@ html(lang="en", ng-app="app")
                 addNGValidation('#sub-letterUpdate');
 
             });
-
-
-

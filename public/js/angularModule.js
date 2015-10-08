@@ -2871,6 +2871,8 @@ myModule.controller('ReportController', function($scope, $http, $window, $q) {
         $scope.error = '';
 
         $scope.audit = [];
+        $scope.stocklevel = [];
+        $scope.date;
 
         $scope.searchCriteria = {};
 
@@ -2885,6 +2887,21 @@ myModule.controller('ReportController', function($scope, $http, $window, $q) {
                 console.log(response.data);
                 if (response.data.rows) {
                     $scope.audit = response.data.rows;
+                }
+            }, function(err) {
+                $scope.loading = false;
+                $scope.error = err.data;
+            });
+        };
+
+        $scope.getStocklevel = function(){
+            $scope.loading = true;
+
+            $http.get('/api/reports/stocklevel').then(function(response) {
+                $scope.loading = false;
+                console.log(response.data);
+                if (response.data.rows) {
+                    $scope.stocklevel = response.data.rows;
                 }
             }, function(err) {
                 $scope.loading = false;
@@ -2914,6 +2931,11 @@ myModule.controller('ReportController', function($scope, $http, $window, $q) {
             $scope.searchCriteria.uname = '';
             $scope.searchCriteria.date = '';
             $scope.getAudit();
+        };
+
+        $scope.initStocklevel = function() {
+            $scope.getStocklevel();
+            $scope.date = moment().format("YYYY-MM-DD");
         };
   });
 

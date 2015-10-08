@@ -689,3 +689,20 @@ VALUES(`DateTime`, PaymentMethod, isPercentage, Total, PaymentMethod_ID, Client_
 ;  END //
 DELIMITER ;
 
+
+-- -- -- -- -- -- -- REPORTS -- -- -- -- -- -- -- -- --
+
+-- -- STOCK LEVEL
+DELIMITER //
+    CREATE PROCEDURE spStockLevel
+    (
+        IN sProduct VARCHAR(50),
+        IN sBrand VARCHAR(50),
+        IN Quantity INT
+        
+    )
+    BEGIN
+        SELECT * FROM `Stock`
+        WHERE Active = true;
+    END //
+DELIMITER ;

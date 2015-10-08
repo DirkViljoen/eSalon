@@ -24,7 +24,26 @@ module.exports = function ReportsModel() {
         return deferred.promise;
     };
 
+    function stocklevel(obj) {
+        console.log('Module - Reports - stocklevel');
+
+        var deferred = q.defer();
+
+        db.query('CALL spStockLevel();')
+            .then(
+                function (result){
+                    deferred.resolve(result);
+                },
+                function (err){
+                    deferred.reject(new Error(err));
+                }
+            );
+
+        return deferred.promise;
+    };
+
     return {
-        audit: auditReport
+        audit: auditReport,
+        stocklevel: stocklevel
     };
 };

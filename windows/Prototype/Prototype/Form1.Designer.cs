@@ -126,7 +126,7 @@
             this.webProgramToolStripMenuItem.Font = new System.Drawing.Font("Lucida Fax", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.webProgramToolStripMenuItem.Name = "webProgramToolStripMenuItem";
             this.webProgramToolStripMenuItem.Padding = new System.Windows.Forms.Padding(5, 7, 5, 7);
-            this.webProgramToolStripMenuItem.Size = new System.Drawing.Size(129, 44);
+            this.webProgramToolStripMenuItem.Size = new System.Drawing.Size(129, 41);
             this.webProgramToolStripMenuItem.Text = "Web Program";
             this.webProgramToolStripMenuItem.Click += new System.EventHandler(this.webProgramToolStripMenuItem_Click);
             // 
@@ -156,7 +156,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(198)))), ((int)(((byte)(214)))), ((int)(((byte)(204)))));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ClientSize = new System.Drawing.Size(434, 164);
+            this.ClientSize = new System.Drawing.Size(883, 456);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.menuStrip1);
