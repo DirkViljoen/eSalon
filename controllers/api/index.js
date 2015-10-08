@@ -2183,6 +2183,7 @@ module.exports = function (router) {
                     res.send(err);
                 }
             );
+    });
 // Uploading files
 
     router.post('/upload'
@@ -2359,7 +2360,5 @@ module.exports = function (router) {
         {
             res.send({err: 'No file to read'});
         }
-
->>>>>>> dcd3f5cdae8a7889325705418a0049e6573a5de3
     });
 };
