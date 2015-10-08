@@ -124,6 +124,7 @@ module.exports = function BookingModel() {
                             .then(
                                 function (result){
                                     console.log('Booking services deleted. Creating new services');
+                                    console.log(obj.services);
                                     for (var i = 0; i < obj.services.length; i++) {
                                         db.execute('CALL spBookingServices_Create(' + obj.bid + ',' + obj.services[i].hlsid + ')')
                                             .then(

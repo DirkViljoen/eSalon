@@ -20,7 +20,7 @@ html(lang="en", ng-app="app")
         //- link(rel="stylesheet", href="/bower_components/carousel-3d/dist/styles/jquery.carousel-3d.default.css")
 
 
-    body.container-fluid
+    body.container-fluid(flow-prevent-drop)
 
         nav.navbar.navbar-default.navbar-fixed-top
             .container-fluid
@@ -145,6 +145,7 @@ html(lang="en", ng-app="app")
         script(src='/bower_components/angular-ui-calendar/src/calendar.js')
         script(src='/bower_components/angular-moment/angular-moment.min.js')
         script(src='/bower_components/angular-file-upload/dist/angular-file-upload.min.js')
+        script(src='/bower_components/ng-flow/dist/ng-flow-standalone.min.js')
 
         script(src="/bower_components/javascript-detect-element-resize/jquery.resize.js")
         script(src="/bower_components/waitForImages/dist/jquery.waitforimages.js")

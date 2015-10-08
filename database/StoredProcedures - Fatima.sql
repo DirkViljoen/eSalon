@@ -641,22 +641,3 @@ DELIMITER ;
     END //
     DELIMITER ;
 
--- -- INSERT
-DELIMITER //
-create procedure sp_Insert_Invoice
-(
-	IN iDateTime DATETIME,
-	IN iDiscount DECIMAL(8, 2),
-	IN iisPercentage INT,
-	IN iTotal DECIMAL(8,2),
-	IN iPaymentMethod_ID  INT,
-	IN iClient_ID  INT,
-	IN iEmployee_ID  INT
-)
-BEGIN 
-INSERT INTO `Invoice` (iDateTime, iPaymentMethod, iisPercentage, iTotal, iPaymentMethod_ID, iClient_ID, iEmployee_ID)
-VALUES(`DateTime`, PaymentMethod, isPercentage, Total, PaymentMethod_ID, Client_ID, Employee_ID)
-
-;  END //
-DELIMITER ;
-
