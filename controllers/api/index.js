@@ -2186,9 +2186,7 @@ module.exports = function (router) {
     });
 // Uploading files
 
-    router.post('/upload'
-
-        ,function(req,res){
+    router.post('/uploadImage',function(req,res){
         console.log('uploading - file:');
         console.log('body: ' + JSON.stringify(req.body));
         upload(req,res,function(err) {
@@ -2198,45 +2196,112 @@ module.exports = function (router) {
             res.send("File is uploaded");
         });
     });
-    // // Handle uploads through Flow.js
-    // router.post('/upload', function(req, res) {
-    //   flow.post(req, function(status, filename, original_filename, identifier) {
-    //     console.log('POST', status, original_filename, identifier);
-    //     if (ACCESS_CONTROLL_ALLOW_ORIGIN) {
-    //       res.header("Access-Control-Allow-Origin", "*");
-    //     }
-    //     res.status(status).send();
-    //   });
-    // });
 
-    // // Handle cross-domain requests
-    // // NOTE: Uncomment this funciton to enable cross-domain request.
-
-    //   app.options('/upload', function(req, res){
-    //   console.log('OPTIONS');
-    //   res.send(true, {
-    //   'Access-Control-Allow-Origin': '*'
-    //   }, 200);
-    //   });
+    router.post('/uploadCSV',function(req,res){
+        console.log('uploading - file:');
+        console.log('body: ' + JSON.stringify(req.files));
 
 
-    // // Handle status checks on chunks through Flow.js
-    // router.get('/upload', function(req, res) {
-    //   flow.get(req, function(status, filename, original_filename, identifier) {
-    //     console.log('GET', status);
+        fs.readFile(req.files.displayImage.path, function (err, data) {
 
-    //     if (status == 'found') {
-    //       status = 200;
-    //     } else {
-    //       status = 204;
-    //     }
+            var newPath = process.cwd() + "/uploads/" + req.files.displayImage.name;
+            fs.writeFile(newPath, data, function (err) {
+                console.log('Reading CSV file');
 
-    //     res.status(status).send();
-    //   });
-    // });
+                function validate(data) {
+                    console.log('validating file');
+                    var e = {};
+                    e.err = false;
+                    e.message = "";
 
-    router.get('/download/:identifier', function(req, res) {
-      flow.write(req.params.identifier, res);
+                    var tmpErr = false;
+                    var k;
+                    var start = 0;
+                    if (data[0][0] == "Category"){
+                        start = 1;
+                    };
+
+                    for (k = start; k < data.length; k++){
+                        if (tmpErr == false){
+                            if (data[k][0].length > 50){
+                                tmpErr = true;
+                                e.message = e.message + "Some of the Categories in the 1st column are longer than 50 characters, only 50 characters can be stored. Anything more will be cut off. ";
+                                e.err = true;
+                            }
+                        }
+                    }
+
+                    tmpErr = false;
+
+                    for (k = start; k < data.length; k++){
+                        if (tmpErr == false){
+                            if (data[k][1].length > 50){
+                                tmpErr = true;
+                                e.message = e.message + "Some of the Expense names in the 2nd column are longer than 50 characters, only 50 characters can be stored. Anything more will be cut off. ";
+                                e.err = true;
+                            }
+                        }
+                    }
+
+                    tmpErr = false;
+
+                    for (k = start; k < data.length; k++){
+                        if (tmpErr == false){
+                            console.log(data[k][2]);
+                            if (data[k][2].length != 10){
+                                tmpErr = true;
+                                e.message = e.message + "Some of the expense dates in the 3rd column are not in the format ‘yyyy/mm/dd’ please correct this before completing the import process. ";
+                                e.err = true;
+                            }
+                        }
+                    }
+
+                    console.log(e.message);
+                    return e;
+
+                };
+
+                function writeLine(dataline) {
+                    console.log('writing clean line to db');
+                    var expense = {};
+                    expense.category = null;
+                    expense.name = '"' + dataline[1] + '"';
+                    expense.quantity = dataline[3];
+                    expense.date = '"' + moment(new Date(dataline[2])).format("YYYY-MM-DD") + '"';
+                    expense.price = dataline[4];
+                    expense.paymentMethod = null;
+
+                    models.expenses.create(expense);
+                };
+
+                var parser = parse({delimiter: ';'}, function(err, data){
+                    console.log('we are reading everyting!!!');
+
+                    var e = validate(data);
+                    if (e.err){
+                        res.send({err: e.message});
+                    }
+                    else{
+                        for (var k = 1; k < data.length; k++){
+                            writeLine(data[k]);
+                            if (k+1==data.length){
+                                res.redirect('/booking');
+                            }
+                        }
+                    }
+                });
+
+                if (req.files.displayImage.name){
+                    fs.createReadStream(process.cwd() + '/uploads/' + req.files.displayImage.name).pipe(parser);
+                }
+                else
+                {
+                    res.redirect('/booking');;
+                }
+            });
+        });
+
+
     });
 
 // Reading files
@@ -2291,32 +2356,6 @@ module.exports = function (router) {
                     }
                 }
             }
-
-            // tmpErr = false;
-
-            // for (k = start; k < data.length; k++){
-            //     if (tmpErr == false){
-            //         console.log(data[k][3]);
-            //         if (data[k][3] === parseInt(data[k][3], 10)){
-            //             tmpErr = true;
-            //             e.message = e.message + "Some of the Quantities in the 4th column are not valid numbers. Please ensure only whole numbers are provided. ";
-            //             e.err = true;
-            //         }
-            //     }
-            // }
-
-            // tmpErr = false;
-
-            // for (k = start; k < data.length; k++){
-            //     if (tmpErr == false){
-            //         console.log(data[k][4]);
-            //         if (data[k][4] === parseInt(data[k][4], 10)){
-            //             tmpErr = true;
-            //             e.message = e.message + "Some of the Quantities in the 4th column are not valid numbers. Please ensure only whole numbers are provided. ";
-            //             e.err = true;
-            //         }
-            //     }
-            // }
 
             console.log(e.message);
             return e;
