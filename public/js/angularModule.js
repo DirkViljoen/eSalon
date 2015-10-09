@@ -2886,6 +2886,8 @@ myModule.controller('ReportController', function($scope, $http, $window, $q) {
         $scope.error = '';
 
         $scope.audit = [];
+        $scope.expense = [];
+        $scope.expenseCategories = [];
         $scope.stocklevel = [];
         $scope.date;
 
@@ -2943,6 +2945,46 @@ myModule.controller('ReportController', function($scope, $http, $window, $q) {
                 });
         };
 
+        $scope.getExpense = function(){
+            $scope.loading = true;
+            var criteria = '?dateFrom=' + $scope.searchCriteria.dateFrom +
+                          '&dateTo=' + $scope.searchCriteria.dateTo
+
+            $http.get('/api/reports/expense' + criteria).then(function(response) {
+                $scope.loading = false;
+                console.log(response.data);
+                if (response.data.rows) {
+                    $scope.expense = response.data.rows;
+
+                    var found = false;
+
+                    for (exp = 0; exp < $scope.expense.length; exp++){
+                        if ($scope.expense[exp].Category == null){
+                          $scope.expense[exp].Category = "No Category"
+                        };
+
+                        found = false
+                        for (cat = 0; cat < $scope.expenseCategories.length; cat++){
+                            if ($scope.expense[exp].Category == $scope.expenseCategories[cat].Category){
+                                found = true;
+                            }
+                        }
+                        if (found == false){
+                            $scope.expenseCategories.push({"Category" : $scope.expense[exp].Category});
+                        }
+                    }
+                    for (cat = 0; cat < $scope.expenseCategories.length; cat++){
+                        if ($scope.expenseCategories[cat].Category == null){
+                            $scope.expenseCategories[cat].Category = "No Category";
+                        }
+                    }
+                }
+            }, function(err) {
+                $scope.loading = false;
+                $scope.error = err.data;
+            });
+        };
+
     // lookups
 
     // Routing
@@ -2954,6 +2996,12 @@ myModule.controller('ReportController', function($scope, $http, $window, $q) {
             $scope.searchCriteria.uname = '';
             $scope.searchCriteria.date = '';
             $scope.getAudit();
+        };
+
+        $scope.searchClearExpense = function() {
+            $scope.searchCriteria.dateFrom = '';
+            $scope.searchCriteria.dateTo = '';
+            $scope.getExpense();
         };
 
         formatStockLevelChartData = function() {
@@ -2984,6 +3032,12 @@ myModule.controller('ReportController', function($scope, $http, $window, $q) {
         $scope.initStocklevel = function() {
             $scope.getStocklevel();
             $scope.date = moment().format("YYYY-MM-DD");
+        };
+
+        $scope.initExpense = function() {
+          $scope.searchCriteria.dateFrom = '';
+          $scope.searchCriteria.dateTo = '';
+          $scope.getExpense();
         };
   });
 

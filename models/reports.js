@@ -42,8 +42,29 @@ module.exports = function ReportsModel() {
         return deferred.promise;
     };
 
+    function expenseReport(obj) {
+        console.log('Module - Reports - Expense');
+
+        var deferred = q.defer();
+
+        db.query('CALL spExpenseReport(' + obj.dateFrom + ','
+                                          + obj.dateTo
+                                          + ');')
+            .then(
+                function (result){
+                    deferred.resolve(result);
+                },
+                function (err){
+                    deferred.reject(new Error(err));
+                }
+            );
+
+        return deferred.promise;
+    };
+
     return {
         audit: auditReport,
-        stocklevel: stocklevel
+        stocklevel: stocklevel,
+        expense: expenseReport
     };
 };

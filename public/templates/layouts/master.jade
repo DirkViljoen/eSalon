@@ -115,14 +115,22 @@ html(lang="en", ng-app="app")
                             b.caret
                         ul.dropdown-menu
                             li
-                                a(href='#') Income Report
+                                a(href='/reports/income') Income Report
                             li.divider
                             li
-                                a(href='#') Expense Report
+                                a(href='/reports/expense') Expense Report
+                            li.divider
                             li
                                 a(href='/reports/audit') Audit report
+                            li.divider
                             li
                                 a(href='/reports/stocklevel') Stock level report
+                            li.divider
+                            li
+                                a(href='/reports/stocktrend') Stock Trends report
+                            li.divider
+                            li
+                                a(href='/reports/client') Client report    
                     li.dropdown.dropdown-danger
                         a.dropdown-toggle(href='/help')
                             | I'm feeling lost. Please help

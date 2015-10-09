@@ -14,6 +14,7 @@ namespace Prototype
     {
         OrderList ol = new OrderList();
         Order o;
+        OrderLine p;
         int id;
 
 
@@ -27,8 +28,11 @@ namespace Prototype
             //MessageBox.Show(Convert.ToString(o));
             List<Order> nol = new List<Order>();
             nol.Add(o);
+            List<OrderLine> Jol = new List<OrderLine>();
+            Jol.Add(p);
            // MessageBox.Show(Convert.ToString(o.OrderID));
             dataGridView1.DataSource = nol;
+            dataGridView2.DataSource = Jol;
         }
 
         private void button2_Click(object sender, EventArgs e)

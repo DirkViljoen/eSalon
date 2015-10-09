@@ -167,7 +167,7 @@
             this.pnlTrack.Controls.Add(this.label8);
             this.pnlTrack.Controls.Add(this.trackBar4);
             this.pnlTrack.Controls.Add(this.label9);
-            this.pnlTrack.Location = new System.Drawing.Point(236, 401);
+            this.pnlTrack.Location = new System.Drawing.Point(378, 13);
             this.pnlTrack.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.pnlTrack.Name = "pnlTrack";
             this.pnlTrack.Size = new System.Drawing.Size(461, 349);
@@ -395,10 +395,6 @@
             this.groupBox1.TabIndex = 24;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Search Criteria";
-            // 
-            // stockListBindingSource
-            // 
-            //this.stockListBindingSource.DataSource = typeof(Prototype.StockList);
             // 
             // SearchStock
             // 

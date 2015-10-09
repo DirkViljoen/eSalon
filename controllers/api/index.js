@@ -2184,6 +2184,28 @@ module.exports = function (router) {
                 }
             );
     });
+
+    router.get('/reports/expense', function (req, res) {
+        console.log('Expense GET. Parameters: ' + JSON.stringify(req.query))
+
+        var obj = {};
+
+        obj.dateFrom = (req.query.dateFrom ? '"' + req.query.dateFrom + '"': '"2000-01-01"');
+        obj.dateTo = (req.query.dateTo ? '"' + req.query.dateTo + '"': '"2020-01-01"');
+
+        models.reports.expense(obj)
+            .then(
+                function (result){
+                    if (result)
+                        res.send(result);
+                },
+                function (err){
+                    console.log(err);
+                    res.send(err);
+                }
+            );
+    });
+
 // Uploading files
 
     router.post('/uploadImage',function(req,res){
@@ -2399,5 +2421,9 @@ module.exports = function (router) {
         {
             res.send({err: 'No file to read'});
         }
+<<<<<<< HEAD
+
+=======
+>>>>>>> 8fc9e8e2d03731e393405f3b5c955c88e579049f
     });
 };

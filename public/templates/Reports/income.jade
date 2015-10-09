@@ -1,0 +1,55 @@
+extends ../layouts/master
+include ../../mixins/mixins
+
+block header
+  label Income report
+
+block loggedIn
+  a(href='#', class='navbar-link') Signed in as Mark Otto
+
+block content
+    form.row.col-xs-12.workarea.form-validate(id="incomeReport", ng-controller="ReportController", ng-init='initIncome()')
+        .row
+            .col-xs-12
+                h1 Income Report
+
+        br
+        .row
+            .col-md-1
+            .col-md-10.form-horizontal
+                .grouphead
+                    +form-group('Search Income Report')
+                .groupbox
+                    +ng-input-calendar('dateFrom', 'Date From:', 'searchCriteria.dateFrom', '1991-08-23', false, false)
+                    +ng-input-calendar('dateTo', 'Date To:', 'searchCriteria.dateTo', '1991-08-23', false, false)
+                    .nav.nav-pills.pull-right
+                        li(role='presentation')
+                            input.btn.btn-primary(type="button", value="Search", ng-click='getAudit()')
+                        li(role='presentation')
+                            input.btn.btn-default(type="button", value='Clear', ng-click='searchClearAudit()')
+
+        br
+        .row
+            .col-md-1
+            .col-md-10.table-responsive
+                table.table(id="incomeTable" st-table='income')
+                    thead
+                        tr
+                            th Price
+                            th Name
+                            th Quantity
+                            th Category
+                    tbody
+                        tr(ng-repeat="row in income")
+                            td {{row.Name}}
+                            td {{row.Quantity}}
+                            td {{row.PricePerItem}}
+                            td {{row.Name}}
+
+        //- Pure functionality objects
+        //- div
+        //-     p(ng-if="loading") Loading&hellip;
+        //-     p searchCriteria:
+        //-         span {{searchCriteria}}
+        //-     p audit:
+        //-         span {{audit}}
