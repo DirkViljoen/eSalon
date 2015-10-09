@@ -11,6 +11,7 @@
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.13.3",
     "bower": "~1.4.0",
+    "connect-flash": "^0.1.1",
     "csv": "^0.4.6",
     "csv-parse": "^1.0.0",
     "dustjs-helpers": "1.6.0",

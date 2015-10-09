@@ -162,12 +162,63 @@ module.exports = function UserModel() {
         return deferred.promise;
     };
 
+    function attemptLogin(user, pwd) {
+        console.log('Module - User - attemptLogin');
+
+        var deferred = q.defer();
+
+        if (user && pwd) {
+            db.query('CALL sp_login_compare("' + user + '","' + pwd + '");')
+                .then(
+                    function (result){
+                        console.log(result);
+                        deferred.resolve(result);
+                    },
+                    function (err){
+                        deferred.reject(new Error(err));
+                    }
+                );
+        }
+        else
+        {
+            deferred.reject(new Error('No ID'));
+        }
+
+        return deferred.promise;
+    };
+
+    function getUserDetails(id) {
+        console.log('Module - User - getUserDetails');
+
+        var deferred = q.defer();
+
+        if (user && pwd) {
+            db.query('CALL sp_getUserDetails(' + id + ');')
+                .then(
+                    function (result){
+                        deferred.resolve(result);
+                    },
+                    function (err){
+                        deferred.reject(new Error(err));
+                    }
+                );
+        }
+        else
+        {
+            deferred.reject(new Error('No ID'));
+        }
+
+        return deferred.promise;
+    };
+
     return {
         index: get,
         find: search,
         create: add,
         update: update,
         remove: disable,
-        changePassword: changePwd
+        changePassword: changePwd,
+        findOne: attemptLogin,
+        getOne: getUserDetails
     };
 };

@@ -618,3 +618,51 @@ Use esalon;
 
 	END //
 	DELIMITER ;
+    
+	-- -- Compare Login Details
+	DELIMITER //
+	create procedure esalon.sp_login_compare 
+	(
+		IN usrName	VARCHAR(50),
+		IN pwd	VARCHAR(40)
+	)
+	BEGIN  
+
+	SELECT
+		u.User_ID as uid, u.Role_ID as rid, e.Name as uname 
+	FROM
+		User u, Employee e
+	WHERE
+		u.`Username` = usrName
+        AND
+        u.`Password` = pwd
+        AND
+        u.`Active` = true
+        AND
+        u.`Employee_ID` = e.`Employee_ID`;
+
+	END //
+	DELIMITER ;
+    
+	-- -- Get logged in users details
+	DELIMITER //
+	create procedure esalon.sp_getUserDetails 
+	(
+		IN id	INT
+	)
+	BEGIN  
+
+	SELECT
+		u.User_ID as uid, u.Role_ID as rid, e.Name as uname 
+	FROM
+		User u, Employee e
+	WHERE
+		u.`User_ID` = id
+        AND
+        u.`Employee_ID` = e.`Employee_ID`;
+
+	END //
+	DELIMITER ;
+    
+    
+    

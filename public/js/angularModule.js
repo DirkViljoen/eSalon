@@ -1,4 +1,4 @@
-var myModule = angular.module('app', ['smart-table', 'ui.calendar', 'angularMoment', 'ui.bootstrap', 'flow']);
+var myModule = angular.module('app', ['smart-table', 'ui.calendar', 'angularMoment', 'ui.bootstrap', 'flow', 'chart.js']);
 
 //Angular app
 myModule.controller('SubLetterController', function($scope, $http, $window) {
@@ -2893,6 +2893,20 @@ myModule.controller('ReportController', function($scope, $http, $window, $q) {
 
         $scope.searchCriteria = {};
 
+
+    // Test report data
+
+        $scope.labels = ["January", "February", "March", "April", "May", "June", "July"];
+        $scope.series = ['Series A', 'Series B'];
+        $scope.data = [
+            [65, 59, 80, 81, 56, 55, 40],
+            [28, 48, 40, 19, 86, 27, 90]
+        ];
+
+        $scope.onClick = function (points, evt) {
+            console.log(points, evt);
+        };
+
     // core tables
 
         $scope.getAudit = function(){
@@ -2914,16 +2928,21 @@ myModule.controller('ReportController', function($scope, $http, $window, $q) {
         $scope.getStocklevel = function(){
             $scope.loading = true;
 
-            $http.get('/api/reports/stocklevel').then(function(response) {
-                $scope.loading = false;
-                console.log(response.data);
-                if (response.data.rows) {
-                    $scope.stocklevel = response.data.rows;
-                }
-            }, function(err) {
-                $scope.loading = false;
-                $scope.error = err.data;
-            });
+            $http.get('/api/reports/stocklevel')
+                .then(function(response) {
+                    $scope.loading = false;
+                    console.log(response.data);
+                    if (response.data.rows) {
+                        $scope.stocklevel = response.data.rows;
+                        console.log('1st');
+                    }
+                }, function(err) {
+                    $scope.loading = false;
+                    $scope.error = err.data;
+                })
+                .then(function() {
+                    formatStockLevelChartData();
+                });
         };
 
         $scope.getExpense = function(){
@@ -2943,7 +2962,7 @@ myModule.controller('ReportController', function($scope, $http, $window, $q) {
                         if ($scope.expense[exp].Category == null){
                           $scope.expense[exp].Category = "No Category"
                         };
-                        
+
                         found = false
                         for (cat = 0; cat < $scope.expenseCategories.length; cat++){
                             if ($scope.expense[exp].Category == $scope.expenseCategories[cat].Category){
@@ -2983,6 +3002,20 @@ myModule.controller('ReportController', function($scope, $http, $window, $q) {
             $scope.searchCriteria.dateFrom = '';
             $scope.searchCriteria.dateTo = '';
             $scope.getExpense();
+        };
+
+        formatStockLevelChartData = function() {
+            console.log('2nd');
+            console.log($scope.stocklevel);
+            $scope.labels = [];
+            $scope.series = ['Products'];
+            $scope.data = [[]];
+
+            for (i = 0; i < $scope.stocklevel.length; i++){
+                $scope.labels.push($scope.stocklevel[i].ProductName);
+
+                $scope.data[0].push($scope.stocklevel[i].Quantity);
+            };
         };
 
     // Database

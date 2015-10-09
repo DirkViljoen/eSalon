@@ -11,10 +11,14 @@ module.exports = function (router) {
 
 
     router.get('/', function (req, res) {
+        console.log(' - session.passport: ' + JSON.stringify(req.session.passport));
+        console.log(' - user: ' + JSON.stringify(req.user));
         res.render('employees/employee', {})
     });
 
     router.get('/add', function (req, res) {
+        console.log(' - session.passport: ' + JSON.stringify(req.session.passport));
+        console.log(' - user: ' + JSON.stringify(req.user));
         res.render('employees/employee-add', {})
     });
 
