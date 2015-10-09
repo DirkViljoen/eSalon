@@ -50,31 +50,31 @@
             }
         },
 
-        "cookieParser": {
-            "module": {
-                "arguments": [ "INF3702015esalon" ]
-            }
-        },
+        // "cookieParser": {
+        //     "module": {
+        //         "arguments": [ "INF3702015esalon" ]
+        //     }
+        // },
 
-        "session": {
-            "module": {
-                // NB: arrays like 'arguments' are not merged but rather replaced, so you must
-                //     include all required configuration options here.
-                "arguments": [
-                    {
-                        "secret": "INF3702015esalon",
-                        "cookie": {
-                            "path": "/",
-                            "httpOnly": true,
-                            "maxAge": null
-                        },
-                        "resave": true,
-                        "saveUninitialized": true,
-                        "proxy": null
-                    }
-                ]
-            }
-        },
+        // "session": {
+        //     "module": {
+        //         // NB: arrays like 'arguments' are not merged but rather replaced, so you must
+        //         //     include all required configuration options here.
+        //         "arguments": [
+        //             {
+        //                 "secret": "INF3702015esalon",
+        //                 "cookie": {
+        //                     "path": "/",
+        //                     "httpOnly": true,
+        //                     "maxAge": null
+        //                 },
+        //                 "resave": true,
+        //                 "saveUninitialized": true,
+        //                 "proxy": null
+        //             }
+        //         ]
+        //     }
+        // },
 
         "appsec": {
             "priority": 110,

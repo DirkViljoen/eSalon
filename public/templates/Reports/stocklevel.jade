@@ -10,10 +10,17 @@ block loggedIn
 block content
     form.row.col-xs-12.workarea.form-validate(id="stocklevelReport", ng-controller="ReportController", ng-init='initStocklevel()')
         .row
-            .col-xs-12
+            .col-md-1
+            .col-md-10
                 h1 Current stock level report
                 h4 {{date}}
-                    
+
+        br
+        .row
+            .col-xs-1.col-sm-3
+            .col-xs-8.col-sm-6
+                canvas.chart.chart-bar(id="line" chart-data="data" chart-labels="labels" chart-legend="true" chart-series="series" chart-click="onClick")
+
         br
         .row
             .col-md-1
@@ -31,9 +38,8 @@ block content
                             td {{row.Quantity}}
 
         //- Pure functionality objects
-        //- div
-        //-     p(ng-if="loading") Loading&hellip;
-        //-     p searchCriteria:
-        //-         span {{searchCriteria}}
-        //-     p audit:
-        //-         span {{audit}}
+        div
+            p(ng-if="loading") Loading&hellip;
+            p labels : {{labels}}
+            p series : {{series}}
+            p data : {{data}}

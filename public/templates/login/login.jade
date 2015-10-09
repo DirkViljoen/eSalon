@@ -2,7 +2,7 @@ extends ../layouts/master_login
 include ../../mixins/mixins
 
 block content
-    form.form-signin.form-horizontal(action='/login',method='post')
+    form.form-signin.form-horizontal(action='/login/',method='post')
         h2 Login details
         br
         +form-inputbox('text', 'username', 'Username:', 'Enter your username', '')

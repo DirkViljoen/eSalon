@@ -12,6 +12,8 @@ module.exports = function (router) {
 
     router.get('/', function (req, res) {
         console.log('Bookings - query: ' + JSON.stringify(req.query));
+        console.log(' - session.passport: ' + JSON.stringify(req.session.passport));
+        console.log(' - user: ' + JSON.stringify(req.user));
         var obj = {};
         obj.eid = (req.query.eid ? req.query.eid : 1);
         obj.view = (req.query.view ? req.query.view : 'month');

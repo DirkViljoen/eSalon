@@ -1,10 +1,12 @@
 'use strict';
 
+var auth = require('../../libs/auth');
+
 module.exports = function (router) {
 
 // Navigation
 
-    router.get('/', function (req, res) {
+    router.get('/', auth.isAuthenticated(), function (req, res) {
         res.render('clients/client', {})
     });
 
