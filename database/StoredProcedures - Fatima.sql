@@ -168,12 +168,12 @@ create procedure sp_Update_Order
 (
 	IN oOrder_id  	INT,
     IN oOrderLine_id  	INT,
-	IN oDatePlaced  DATE,
+	IN oDateReceived  DATE,
 	IN oQuantity  INT
 )
 BEGIN  
 	UPDATE `Order` SET 
-		DatePlaced = oDatePlaced
+		DateReceived = oDateReceived
 	WHERE Order_id = oOrder_id;
 
 	UPDATE `Order_Line` SET 
@@ -670,25 +670,6 @@ DELIMITER ;
     END //
     DELIMITER ;
 
--- -- INSERT
-DELIMITER //
-create procedure sp_Insert_Invoice
-(
-	IN iDateTime DATETIME,
-	IN iDiscount DECIMAL(8, 2),
-	IN iisPercentage INT,
-	IN iTotal DECIMAL(8,2),
-	IN iPaymentMethod_ID  INT,
-	IN iClient_ID  INT,
-	IN iEmployee_ID  INT
-)
-BEGIN 
-INSERT INTO `Invoice` (iDateTime, iPaymentMethod, iisPercentage, iTotal, iPaymentMethod_ID, iClient_ID, iEmployee_ID)
-VALUES(`DateTime`, PaymentMethod, isPercentage, Total, PaymentMethod_ID, Client_ID, Employee_ID)
-
-;  END //
-DELIMITER ;
-
 
 -- -- -- -- -- -- -- REPORTS -- -- -- -- -- -- -- -- --
 
@@ -698,5 +679,148 @@ DELIMITER //
     BEGIN
         SELECT BrandName, ProductName, Quantity FROM `Stock`
         WHERE Active = true;
+    END //
+DELIMITER ;
+
+-- -- EXPENSE REPORT
+DELIMITER //
+    CREATE PROCEDURE spExpenseReport
+    (
+		IN dateFrom date,
+        IN dateTo date
+    )
+    BEGIN
+        SELECT e.`Name`, e.`Quantity`, e.`PricePerItem`, c.`Name` as Category
+        FROM `expense` e
+			LEFT OUTER JOIN `expense_category` c
+				ON e.`ExpenseCategory_ID` = c.`ExpenseCategory_ID`
+		 WHERE 
+			e.`Date` > dateFrom
+			AND
+			e.`Date` < dateTo;
+    END //
+DELIMITER ;
+
+-- -- INCOME REPORT
+DELIMITER //
+    CREATE PROCEDURE spIncomeReport_services
+    (
+		IN dateFrom date,
+        IN dateTo date
+        
+    )
+    BEGIN
+        SELECT i.`DateTime` as incomeDate, isl.`Quantity`, isl.`Price`, s.`Name` 
+        FROM `invoice` i, `invoice_service_line` isl, `service` s, `service_history` sh
+        WHERE 
+			isl.`ServiceHistory_id` = sh.`ServiceHistory_id`
+            AND
+            sh.`Service_id` = s.`Service_id`
+            AND
+            i.`DateTime` > dateFrom
+            AND
+            i.`DateTime` < dateTo;
+
+    END //
+DELIMITER ;
+
+DELIMITER //
+    CREATE PROCEDURE spIncomeReport_stock
+    (
+		IN dateFrom date,
+        IN dateTo date
+        
+    )
+    BEGIN
+        SELECT i.`DateTime` as incomeDate, isl.`Quantity`, isl.`Price`, s.`ProductName` 
+        FROM `invoice` i, `invoice_stock_line` isl, `stock` s, `stock_history` sh
+        WHERE 
+			isl.`StockHistory_id` = sh.`StockHistory_id`
+            AND
+            sh.`Stock_ID` = s.`Stock_id`
+            AND
+            i.`DateTime` > dateFrom
+            AND
+            i.`DateTime` < dateTo;
+
+    END //
+DELIMITER ;
+
+-- -- CLIENT REPORT
+DELIMITER //
+    CREATE PROCEDURE spClient()
+    BEGIN
+        SELECT `DateTime`, `Client_id`
+        FROM `booking`
+        ORDER BY `Client_id`;
+
+    END //
+DELIMITER ;
+
+-- -- STOCK TRENDS
+DELIMITER //
+    CREATE PROCEDURE spStockTrends_sold
+    (
+		IN dateFrom date,
+        IN dateTo date,
+        IN productName VARCHAR(50)
+        
+    )
+    BEGIN
+        SELECT i.`DateTime` as DateSold, isl.`Quantity`, s.`ProductName` 
+        FROM `invoice` i, `invoice_stock_line` isl, `stock` s, `stock_history` sh
+        WHERE 
+			isl.`StockHistory_id` = sh.`StockHistory_id`
+            AND
+            sh.`Stock_id` = s.`Stock_id`
+            AND
+            i.`DateTime` > dateFrom
+            AND
+            i.`DateTime` < dateTo
+            AND
+            s.`ProductName` LIKE productName;
+
+    END //
+DELIMITER ;
+
+DELIMITER //
+    CREATE PROCEDURE spStockTrends_bought
+    (
+		IN dateFrom date,
+        IN dateTo date,
+        IN productName VARCHAR(50)
+        
+    )
+    BEGIN
+        SELECT o.`DateReceived` as DateBought, ol.`Quantity`, s.`ProductName` 
+        FROM `order` o, `order_line` ol, `stock` s
+        WHERE 
+			ol.`Order_ID` = o.`Order_id`
+            AND
+            ol.`Stock_ID` = s.`Stock_id`
+            AND
+            o.`DateReceived` > dateFrom
+            AND
+            o.`DateReceived` < dateTo
+            AND
+            s.`ProductName` LIKE productName;
+
+    END //
+DELIMITER ;
+-- -- EMPLOYEE INCOME
+DELIMITER //
+    CREATE PROCEDURE spEployeeIncome
+    (
+        IN EName VARCHAR(50),
+        IN ESurname VARCHAR(50)
+        
+    )
+    BEGIN
+        SELECT `Name`,`Surname`, `Employee_ID`
+        FROM `employee`
+        WHERE `Name` LIKE EName
+        AND
+        `Surname` LIKE ESurname;
+
     END //
 DELIMITER ;

@@ -1,0 +1,57 @@
+extends ../layouts/master
+include ../../mixins/mixins
+
+block header
+  label Expense report
+
+block loggedIn
+  a(href='#', class='navbar-link') Signed in as Mark Otto
+
+block content
+    form.row.col-xs-12.workarea.form-validate(id="expenseReport", ng-controller="ReportController", ng-init='initExpense()')
+        .row
+            .col-xs-12
+                h1 Expense Report
+        br
+        .row
+            .col-md-1
+            .col-md-10.form-horizontal
+                .grouphead
+                    +form-group('Search Expense Report')
+                .groupbox
+                    +ng-input-calendar('dateFrom', 'Date From:', 'searchCriteria.dateFrom', '1991-08-23', false, false)
+                    +ng-input-calendar('dateTo', 'Date To:', 'searchCriteria.dateTo', '1991-08-23', false, false)
+                    .nav.nav-pills.pull-right
+                        li(role='presentation')
+                            input.btn.btn-primary(type="button", value="Search", ng-click='getExpense()')
+                        li(role='presentation')
+                            input.btn.btn-default(type="button", value='Clear', ng-click='searchClearExpense()')
+
+        br
+        .row
+            .col-md-1
+            .col-md-10.table-responsive
+                table.table(id="categoriesTable" st-table='expenseCategories')
+                    thead
+                        tr
+                            th Category
+                    tbody
+                        tr(ng-repeat="catrow in expenseCategories")
+                            td {{catrow.Category}}
+                            td 
+                                table.table(id="expenseTable" st-table='expense')
+                                    thead
+                                        tr
+                                            th Price
+                                            th Name
+                                            th Quantity
+                                    tbody
+                                        tr(ng-repeat="row in expense | filter:catrow.Category")
+                                            td {{row.PricePerItem}}
+                                            td {{row.Name}}
+                                            td {{row.Quantity}}
+
+        //- Pure functionality objects
+        div
+            p expense: {{expense}}
+            p expenseCategories: {{expenseCategories}}

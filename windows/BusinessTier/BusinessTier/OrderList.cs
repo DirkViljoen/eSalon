@@ -160,17 +160,17 @@ namespace BusinessTier
             request = new RestRequest(Method.PUT);
             request.Resource = "/api/order";
 
+            string tempDate = s.dReceived.ToString("yyyy-MM-dd");
+
             for (int i = 0; i < oll.Count; i++)
             {
-                request.AddParameter("date", s.dPlaced);
+                request.AddParameter("date", tempDate);
                 request.AddParameter("orderID", s.OrderID);
                 request.AddParameter("quantity", oll[i].Quantity);
                 request.AddParameter("orderLID", oll[i].OrderLineLID);
 
                 response = Order.Execute(request);
             }
-            
-
         }
 
     }

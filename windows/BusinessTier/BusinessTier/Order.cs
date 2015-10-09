@@ -33,7 +33,7 @@ namespace BusinessTier
         [JsonProperty(PropertyName = "Supplier_ID")]
         public int SupplierID { get; set; }
 
-        ArrayList ol = new ArrayList();
+        OrderLineList ol = new OrderLineList();
 
         public Order(int oID, DateTime oPlace, DateTime oRec, int oSuppID)
         {
@@ -41,7 +41,7 @@ namespace BusinessTier
             dPlaced = oPlace;
             dReceived = oRec;
             SupplierID = oSuppID;
-
+            
             OrderLine obj = new OrderLine(OrderLineLID, Quantity, StockID, OrderID);
             ol.Add(obj);
         }
