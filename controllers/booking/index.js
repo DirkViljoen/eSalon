@@ -115,7 +115,7 @@ module.exports = function (router) {
     });
 
     router.get('/finalise/:id', function (req, res) {
-        res.render('invoice/finalisebooking', req.params);
+        // res.render('invoice/finalisebooking', req.params);
         var u = {};
 
         auth.grantAccess(req.session.passport, 3, 1, req.header('Referer'))
