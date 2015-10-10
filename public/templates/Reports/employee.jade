@@ -1,0 +1,66 @@
+extends ../layouts/master
+include ../../mixins/mixins
+
+block header
+  label Expense report
+
+block loggedIn
+  a(href='#', class='navbar-link') Signed in as Mark Otto
+
+block content
+    form.row.col-xs-12.workarea.form-validate(id="employeeReport", ng-controller="ReportController", ng-init='initEmployee()')
+        .row
+            .col-xs-12
+                h1 Employee Report
+        br
+        .row
+            .col-md-1
+            .col-md-10.form-horizontal
+                .grouphead
+                    +form-group('Search Employee Report')
+                .groupbox
+                    +ng-input-text('name', 'Name:', 'searchCriteria.name', 'Search on name', false, false, '0', '50')
+                    +ng-input-text('surname', 'Surname:', 'searchCriteria.surname', 'Search on surname', false, false, '0', '50')
+                    +ng-input-calendar('dateFrom', 'Date From:', 'searchCriteria.dateFrom', '1991-08-23', false, false)
+                    +ng-input-calendar('dateTo', 'Date To:', 'searchCriteria.dateTo', '1991-08-23', false, false)
+                    .nav.nav-pills.pull-right
+                        li(role='presentation')
+                            input.btn.btn-primary(type="button", value="Search", ng-click='searchEmployee()')
+                        li(role='presentation')
+                            input.btn.btn-default(type="button", value='Clear', ng-click='searchClearEmployee()')
+
+        br
+        .row
+            .col-md-1
+            .col-md-10.table-responsive
+                table.table(id="employeeTable" st-table='employeeList')
+                    thead
+                        tr
+                            th Name
+                    tbody
+                        tr(ng-repeat="catrow in employeeList")
+                            td {{catrow.name}} {{catrow.surname}}
+                            td 
+                                table.table(id="employeeInfoTable" st-table='catrow')
+                                    thead
+                                        tr
+                                            th Date
+                                            th Category
+                                            th Name
+                                            th Total
+                                    tbody
+                                        tr(ng-repeat="row in catrow.action | filter:catrow.eid")
+                                            td {{row.Date}}
+                                            td {{row.Category}}
+                                            td {{row.Name}}
+                                            td {{row.Total}}
+        //- Pure functionality objects
+        div
+           p employee: {{employee}}
+           p invoice: {{invoice}}
+           p labels: {{labels}}
+           p data: {{data}}
+           p series: {{series}}
+           p invoiceStock: {{invoiceStock}}
+           p employeeList: {{employeeList}}
+           p employeeInitCount: {{employeeInitCount}}

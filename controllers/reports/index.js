@@ -23,4 +23,19 @@ module.exports = function (router) {
         res.render('reports/expense', {})
     });
 
+    router.get('/employee', function (req, res) {
+        res.render('reports/employee', {})
+    });
+
+    router.get('/income', function (req, res) {
+        res.render('reports/income', {})
+    });
+
+    router.get('/stocktrend', function (req, res) {
+        res.render('reports/stocktrend', {})
+    });
+
+    router.get('/client', function (req, res) {
+        res.render('reports/client', {})
+    });
 };

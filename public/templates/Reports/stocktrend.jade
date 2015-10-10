@@ -1,0 +1,69 @@
+extends ../layouts/master
+include ../../mixins/mixins
+
+block header
+  label StockTrend report
+
+block loggedIn
+  a(href='#', class='navbar-link') Signed in as Mark Otto
+
+block content
+    form.row.col-xs-12.workarea.form-validate(id="stocktrendReport", ng-controller="ReportController", ng-init='initStock()')
+        .row
+            .col-xs-12
+                h1 Stock Trends Report
+        br
+        .row
+            .col-md-1
+            .col-md-10.form-horizontal
+                .grouphead
+                    +form-group('Search StockTrend Report')
+                .groupbox
+                    +ng-input-text('name', 'Product Name:', 'searchCriteria.name', 'Search on name', false, false, '0', '50')
+                    +ng-input-calendar('dateFrom', 'Date From:', 'searchCriteria.dateFrom', '1991-08-23', false, false)
+                    +ng-input-calendar('dateTo', 'Date To:', 'searchCriteria.dateTo', '1991-08-23', false, false)
+                    .nav.nav-pills.pull-right
+                        li(role='presentation')
+                            input.btn.btn-primary(type="button", value="Search", ng-click='searchStock()')
+                        li(role='presentation')
+                            input.btn.btn-default(type="button", value='Clear', ng-click='searchClearStock()')
+
+        //- br
+        //- .row
+        //-     .col-xs-1.col-sm-3
+        //-     .col-xs-8.col-sm-6
+        //-         canvas.chart.chart-line(id="line"  chart-data="data"
+        //-           chart-labels="labels" chart-legend="true" chart-series="series")
+        br
+        .row
+            .col-md-1
+            .col-md-10.table-responsive
+                table.table(id="stocktrendTable" st-table='stockList')
+                    thead
+                        tr
+                            th Name
+                    tbody
+                        tr(ng-repeat="catrow in stockList")
+                            td {{catrow.Category}}
+                            td 
+                                table.table(id="stockTable" st-table='stockList')
+                                    thead
+                                        tr
+                                            th Date
+                                            th Name
+                                            th Quantity
+                                    tbody
+                                        tr(ng-repeat="row in stockList | filter:catrow.Category")
+                                            td {{row.Date}}
+                                            td {{row.Name}}
+                                            td {{row.Quantity}}
+        //- Pure functionality objects
+        div
+           p labels: {{labels}}
+           p data: {{data}}
+           p series: {{series}}
+           p stockSold: {{stockSold}}
+           p stockBought: {{stockBought}}
+           p stockInitCount: {{stockInitCount}}
+           p stockList: {{stockList}}
+           p searchCriteria: {{searchCriteria}}
