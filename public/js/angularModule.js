@@ -2887,26 +2887,54 @@ myModule.controller('ReportController', function($scope, $http, $window, $q) {
         $scope.error = '';
 
         $scope.audit = [];
+
         $scope.expense = [];
         $scope.expenseCategories = [];
+
+        $scope.invoice = [];
+
+        $scope.employee = [];
+        $scope.employeeList = [];
+        $scope.invoice.stock = [];
+        $scope.invoice.service = [];
+
+        $scope.incomeList = [];
+        $scope.invoice.istock = [];
+        $scope.invoice.iservice = [];
+        $scope.invoice.isubletter = [];
+
+        $scope.stockList = [];
+        $scope.stockSold = [];
+        $scope.stockBought = [];
+
         $scope.stocklevel = [];
         $scope.date;
 
+        $scope.client = [];
+        $scope.clientList = [];
+        $scope.displayList = [];
+
         $scope.searchCriteria = {};
+
+        $scope.employeeInitCount = 0;
+        $scope.invoiceInitCount = 0;
+        $scope.invoiceBuildCount = 0;
+        $scope.stockInitCount = 0;
+        $scope.StockBuildCount = 0;
 
 
     // Test report data
 
-        $scope.labels = ["January", "February", "March", "April", "May", "June", "July"];
+        //$scope.labels = ['2006', '2007', '2008', '2009', '2010', '2011', '2012'];
         $scope.series = ['Series A', 'Series B'];
-        $scope.data = [
-            [65, 59, 80, 81, 56, 55, 40],
-            [28, 48, 40, 19, 86, 27, 90]
-        ];
 
-        $scope.onClick = function (points, evt) {
-            console.log(points, evt);
-        };
+        // $scope.data = [
+        // [65, 59, 80, 81, 56, 55, 40],
+        // [28, 48, 40, 19, 86, 27, 90]
+        // ];
+        $scope.labels = ["Download Sales", "In-Store Sales", "Mail-Order Sales"];
+          $scope.data = [300, 500, 100];
+
 
     // core tables
 
@@ -2951,7 +2979,8 @@ myModule.controller('ReportController', function($scope, $http, $window, $q) {
             var criteria = '?dateFrom=' + $scope.searchCriteria.dateFrom +
                           '&dateTo=' + $scope.searchCriteria.dateTo
 
-            $http.get('/api/reports/expense' + criteria).then(function(response) {
+            $http.get('/api/reports/expense' + criteria)
+            .then(function(response) {
                 $scope.loading = false;
                 console.log(response.data);
                 if (response.data.rows) {
@@ -2983,8 +3012,338 @@ myModule.controller('ReportController', function($scope, $http, $window, $q) {
             }, function(err) {
                 $scope.loading = false;
                 $scope.error = err.data;
+            })
+            .then(function() {
+                formatExpenseChartData();
+            });;
+        };
+
+        $scope.getEmployee = function(){
+            $scope.loading = true;
+            var criteria = '?name=' + $scope.searchCriteria.name + '&surname=' + $scope.searchCriteria.surname
+
+            $http.get('/api/reports/employee' + criteria).then(function(response) {
+                $scope.loading = false;
+                console.log(response.data);
+                if (response.data.rows) {
+                    $scope.employee = response.data.rows;
+                    $scope.employeeInitCount += 1;
+                    $scope.buildEmployee();
+                }
+            }, function(err) {
+                $scope.loading = false;
+                $scope.error = err.data;
             });
         };
+
+        $scope.getinvoiceStock = function(){
+            $scope.loading = true;
+            var criteria = '?dateFrom=' + $scope.searchCriteria.dateFrom +
+                          '&dateTo=' + $scope.searchCriteria.dateTo
+
+            $http.get('/api/reports/invoiceStock' + criteria).then(function(response) {
+                $scope.loading = false;
+                console.log(response.data);
+                if (response.data.rows) {
+                    $scope.invoice.stock = response.data.rows;
+                    $scope.employeeInitCount += 1;
+                    $scope.buildEmployee();
+                }
+            }, function(err) {
+                $scope.loading = false;
+                $scope.error = err.data;
+            });
+        };
+
+        $scope.getinvoiceService = function(){
+            $scope.loading = true;
+            var criteria = '?dateFrom=' + $scope.searchCriteria.dateFrom +
+                          '&dateTo=' + $scope.searchCriteria.dateTo
+
+            $http.get('/api/reports/invoiceService' + criteria).then(function(response) {
+                $scope.loading = false;
+                console.log(response.data);
+                if (response.data.rows) {
+                    $scope.invoice.service = response.data.rows;
+                    $scope.employeeInitCount += 1;
+                    $scope.buildEmployee();
+                }
+            }, function(err) {
+                $scope.loading = false;
+                $scope.error = err.data;
+            });
+        };
+
+        $scope.getIinvoiceStock = function(){
+            $scope.loading = true;
+            var criteria = '?dateFrom=' + $scope.searchCriteria.dateFrom +
+                          '&dateTo=' + $scope.searchCriteria.dateTo
+
+            $http.get('/api/reports/invoiceIStock' + criteria).then(function(response) {
+                $scope.loading = false;
+                console.log(response.data);
+                if (response.data.rows) {
+                    $scope.invoice.istock = response.data.rows;
+                    $scope.invoiceInitCount += 1;
+                    $scope.buildInvoice();
+                }
+            }, function(err) {
+                $scope.loading = false;
+                $scope.error = err.data;
+            });
+        };
+
+        $scope.getIinvoiceService = function(){
+            $scope.loading = true;
+            var criteria = '?dateFrom=' + $scope.searchCriteria.dateFrom +
+                          '&dateTo=' + $scope.searchCriteria.dateTo
+
+            $http.get('/api/reports/invoiceIService' + criteria).then(function(response) {
+                $scope.loading = false;
+                console.log(response.data);
+                if (response.data.rows) {
+                    $scope.invoice.iservice = response.data.rows;
+                    $scope.invoiceInitCount += 1;
+                    $scope.buildInvoice();
+                }
+            }, function(err) {
+                $scope.loading = false;
+                $scope.error = err.data;
+            });
+        };
+
+        $scope.getinvoiceSubletter = function(){
+            $scope.loading = true;
+            var criteria = '?dateFrom=' + $scope.searchCriteria.dateFrom +
+                          '&dateTo=' + $scope.searchCriteria.dateTo
+
+            $http.get('/api/reports/invoiceSubletter' + criteria).then(function(response) {
+                $scope.loading = false;
+                console.log(response.data);
+                if (response.data.rows) {
+                    $scope.invoice.subletter = response.data.rows;
+                    $scope.invoiceInitCount += 1;
+                    $scope.buildInvoice();
+                }
+            }, function(err) {
+                $scope.loading = false;
+                $scope.error = err.data;
+            });
+        };
+
+        $scope.getstockSold = function(){
+            $scope.loading = true;
+            var criteria = '?dateFrom=' + $scope.searchCriteria.dateFrom +
+                          '&dateTo=' + $scope.searchCriteria.dateTo +
+                          '&name=' + $scope.searchCriteria.name
+
+            $http.get('/api/reports/stockSold' + criteria).then(function(response) {
+                $scope.loading = false;
+                console.log(response.data);
+                if (response.data.rows) {
+                    $scope.stockSold = response.data.rows;
+                    $scope.stockInitCount += 1;
+                    $scope.buildStock();
+                }
+            }, function(err) {
+                $scope.loading = false;
+                $scope.error = err.data;
+            });
+        };
+
+        $scope.getstockBought = function(){
+            $scope.loading = true;
+            var criteria = '?dateFrom=' + $scope.searchCriteria.dateFrom +
+                          '&dateTo=' + $scope.searchCriteria.dateTo+
+                          '&name=' + $scope.searchCriteria.name
+
+            $http.get('/api/reports/stockBought' + criteria).then(function(response) {
+                $scope.loading = false;
+                console.log(response.data);
+                if (response.data.rows) {
+                    $scope.stockBought = response.data.rows;
+                    $scope.stockInitCount += 1;
+                    $scope.buildStock();
+                }
+            }, function(err) {
+                $scope.loading = false;
+                $scope.error = err.data;
+            });
+        };
+
+        $scope.getClient = function(){
+            $scope.loading = true;
+
+            $http.get('/api/reports/client')
+                .then(function(response) {
+                    $scope.loading = false;
+                    console.log(response.data);
+                    if (response.data.rows) {
+                        $scope.client = response.data.rows;
+                        $scope.buildClient();
+                        console.log('1st');
+                    }
+                }, function(err) {
+                    $scope.loading = false;
+                    $scope.error = err.data;
+                })
+                .then(function() {
+                    formatClientChartData();
+                });
+        };
+
+    //objects in a list
+        $scope.buildEmployee = function(){
+            if ($scope.employeeInitCount == 3){
+                $scope.loading = true;
+                var criteria = '?eid=' + $scope.searchCriteria.eid
+
+                var found = false;
+
+                for (emp = 0; emp < $scope.employee.length; emp++){
+                    $scope.employeeList.push({"eid": $scope.employee[emp].Employee_ID,
+                                              "name": $scope.employee[emp].Name,
+                                              "surname": $scope.employee[emp].Surname,
+                                              "action": []})
+
+                    for (st = 0; st < $scope.invoice.service.length; st++){
+                        if ($scope.employee[emp].Employee_ID == $scope.invoice.service[st].Employee_ID){
+                              temp = $scope.invoice.service[st].Price * $scope.invoice.service[st].Quantity;
+
+                              $scope.employeeList[emp].action.push({"Date": moment($scope.invoice.service[st].incomeDate).format("YYYY-MM-DD"),
+                                                                    "Category": "Service",
+                                                                    "Name": $scope.invoice.service[st].Name,
+                                                                    "Total": parseInt(temp,10),
+                                                                    "eid": $scope.employee[emp].Employee_ID});
+                        }
+                    }
+                    for (sv = 0; sv < $scope.invoice.stock.length; sv++){
+                        if ($scope.employee[emp].Employee_ID == $scope.invoice.stock[sv].Employee_ID){
+                          temp = $scope.invoice.stock[sv].Price * $scope.invoice.stock[sv].Quantity;
+
+                          $scope.employeeList[emp].action.push({"Date": moment($scope.invoice.stock[sv].incomeDate).format("YYYY-MM-DD"),
+                                                                "Category": "Stock",
+                                                                "Name": $scope.invoice.stock[sv].ProductName,
+                                                                "Total": parseInt(temp,10),
+                                                                "eid": $scope.employee[emp].Employee_ID});
+                        }
+                    }
+                }
+            }
+        };
+
+        $scope.buildInvoice = function(){
+          console.log($scope.invoiceInitCount);
+          if ($scope.invoiceInitCount == 3){
+                $scope.incomeList.Service = [];
+                $scope.incomeList.Stock = [];
+                $scope.incomeList.Subletter = [];
+
+                if ($scope.invoice.iservice.length == 0){
+                    $scope.invoiceBuildCount++;
+                    formatIncomeChartData();
+                }
+                for (st = 0; st < $scope.invoice.iservice.length; st++){
+                    temp = $scope.invoice.iservice[st].Price * $scope.invoice.iservice[st].Quantity;
+
+                    $scope.incomeList.Service.push({"Date": moment($scope.invoice.iservice[st].DateTime).format("YYYY-MM-DD"),
+                                                    "Name": $scope.invoice.iservice[st].iName,
+                                                    "Total": parseInt(temp,10)});
+                    if (st + 1 == $scope.invoice.iservice.length){
+                      $scope.invoiceBuildCount++;
+                      formatIncomeChartData();
+                    }
+                }
+                if ($scope.invoice.istock.length == 0){
+                    $scope.invoiceBuildCount++;
+                    formatIncomeChartData();
+                }
+                for (sv = 0; sv < $scope.invoice.istock.length; sv++){
+                    temp = $scope.invoice.istock[sv].Price * $scope.invoice.istock[sv].Quantity;
+
+                    $scope.incomeList.Stock.push({"Date": moment($scope.invoice.istock[sv].DateTime).format("YYYY-MM-DD"),
+                                                  "Name": $scope.invoice.istock[sv].iName,
+                                                  "Total": parseInt(temp,10)});
+                    if (sv + 1 == $scope.invoice.istock.length){
+                      $scope.invoiceBuildCount++;
+                      formatIncomeChartData();
+                    }
+
+                }
+                if ($scope.invoice.isubletter.length == 0){
+                    $scope.invoiceBuildCount++;
+                    formatIncomeChartData();
+                }
+                for (sb = 0; sb < $scope.invoice.isubletter.length; sb++){
+                      $scope.incomeList.Subletter.push({"Date": moment($scope.invoice.isubletter[sb].DateTime).format("YYYY-MM-DD"),
+                                                        "Name": $scope.invoice.isubletter[sb].iName,
+                                                        "Total": $scope.invoice.isubletter[sb].Quantity});
+                      if (sb + 1 == $scope.invoice.isubletter.length){
+                        $scope.invoiceBuildCount++;
+                        formatIncomeChartData();
+                      }
+                }
+          }
+        }
+
+        $scope.buildStock = function(){
+
+          if ($scope.stockInitCount == 2){
+                if ($scope.stockSold.length == 0){
+                    $scope.StockBuildCount++;
+                    formatStockChartData();
+                }
+                for (st = 0; st < $scope.stockSold.length; st++){
+
+                    $scope.stockList.push({"Date": moment($scope.stockSold[st].DateSold).format("YYYY-MM-DD"),
+                                            "Name": $scope.stockSold[st].ProductName,
+                                            "Category": "Sold",
+                                            "Quantity":$scope.stockSold[st].Quantity});
+                    $scope.StockBuildCount++;
+                    formatStockChartData();
+                }
+                if ($scope.stockBought.length == 0){
+                    $scope.StockBuildCount++;
+                    formatStockChartData();
+                }
+                for (st = 0; st < $scope.stockBought.length; st++){
+
+                    $scope.stockList.push({"Date": moment($scope.stockBought[st].DateBought).format("YYYY-MM-DD"),
+                                            "Name": $scope.stockBought[st].ProductName,
+                                            "Category": "Bought",
+                                            "Quantity":$scope.stockBought[st].Quantity});
+                    $scope.StockBuildCount++;
+                    formatStockChartData();
+                }
+          }
+        }
+
+        $scope.buildClient = function(){
+            var count = 0;
+            var found = -1;
+
+            for (i = 0; i < $scope.client.length; i++){
+                console.log("i = " + i + " out of " + $scope.client.length);
+                for (j = 0; j < $scope.clientList.length; j++){
+                      console.log("j = " + j + " out of " + $scope.clientList.length);
+                      console.log($scope.client[i].Client_id + " = " + $scope.clientList[j].Client_id);
+                      if($scope.client[i].Client_id == $scope.clientList[j].Client_id){
+                          console.log("jip, found");
+                          found = j;
+                      }
+                }
+                if (found >= 0){
+                    console.log("Update number : " + found);
+                    $scope.clientList[found].Count++;
+                }
+                else {
+                    console.log("NCreate new");
+                    $scope.clientList.push({"Client_id": $scope.client[i].Client_id, "Count":1});
+                }
+                found = -1;
+            }
+            formatClientChartData();
+        }
 
     // lookups
 
@@ -3005,6 +3364,96 @@ myModule.controller('ReportController', function($scope, $http, $window, $q) {
             $scope.getExpense();
         };
 
+        $scope.searchClearEmployee = function() {
+          $scope.searchCriteria.name = '';
+          $scope.searchCriteria.surname = '';
+          $scope.searchCriteria.dateFrom = '';
+          $scope.searchCriteria.dateTo = '';
+
+          $scope.getEmployee();
+          $scope.getinvoiceStock();
+          $scope.getinvoiceService();
+          $scope.buildEmployee();
+        };
+
+        $scope.searchEmployee = function() {
+            $scope.employee = [];
+            $scope.employeeList = [];
+
+            $scope.invoice = {};
+            $scope.invoice.stock = [];
+            $scope.invoice.service = [];
+
+            $scope.employeeInitCount = 0;
+            $scope.getEmployee();
+            $scope.getinvoiceStock();
+            $scope.getinvoiceService();
+            $scope.buildEmployee();
+        };
+
+        $scope.searchInvoice = function() {
+            $scope.incomeList = [];
+            $scope.invoice = [];
+            $scope.invoice.istock = [];
+            $scope.invoice.iservice = [];
+            $scope.invoice.isubletter = [];
+
+            $scope.searchCriteria.dateFrom = '';
+            $scope.searchCriteria.dateTo = '';
+
+            $scope.invoiceInitCount = 0;
+            $scope.invoiceBuildCount = 0;
+
+            $scope.getIinvoiceStock();
+            $scope.getIinvoiceService();
+            $scope.getinvoiceSubletter();
+            $scope.buildInvoice();
+        };
+
+        $scope.searchClearInvoice = function() {
+          $scope.searchCriteria.dateFrom = '';
+          $scope.searchCriteria.dateTo = '';
+          $scope.invoiceBuildCount = 0;
+
+          $scope.getIinvoiceStock();
+          $scope.getIinvoiceService();
+          $scope.getinvoiceSubletter();
+          $scope.buildInvoice();
+        };
+
+        $scope.searchClearStock = function() {
+          $scope.searchCriteria.name = '';
+          $scope.searchCriteria.dateFrom = '';
+          $scope.searchCriteria.dateTo = '';
+          $scope.StockBuildCount = 0;
+
+          $scope.getstockSold();
+          $scope.getstockBought();
+          $scope.buildStock();
+        };
+
+        $scope.searchStock = function() {
+            $scope.stockList = [];
+            $scope.stockSold = [];
+            $scope.stockBought = [];
+
+            $scope.stockInitCount = 0;
+            $scope.StockBuildCount = 0;
+
+            $scope.getstockSold();
+            $scope.getstockBought();
+            $scope.buildStock();
+        };
+
+        $scope.searchClient = function() {
+            $scope.clientList = [];
+            $scope.client = [];
+
+            $scope.getClient();
+            $scope.buildClient();
+        };
+    //chart stuff
+
         formatStockLevelChartData = function() {
             console.log('2nd');
             console.log($scope.stocklevel);
@@ -3019,6 +3468,124 @@ myModule.controller('ReportController', function($scope, $http, $window, $q) {
             };
         };
 
+        formatExpenseChartData = function() {
+
+            $scope.labels = [];
+            $scope.series = ['Category'];
+            $scope.data = [[]];
+            var temp = 0;
+            console.log('1');
+            for (i = 0; i < $scope.expenseCategories.length; i++){
+                $scope.labels.push($scope.expenseCategories[i].Category)
+                $scope.data[0].push(0);
+            };
+            console.log('2');
+            for (i = 0; i < $scope.expense.length; i++){
+                temp = $scope.expense[i].PricePerItem * $scope.expense[i].Quantity;
+
+                for (l = 0; l < $scope.expenseCategories.length; l++){
+                    if ($scope.expenseCategories[l].Category == $scope.expense[i].Category){
+                        $scope.data[0][l] = parseInt($scope.data[0][l], 10) + parseInt(temp,10);
+                    }
+                }
+            };
+            console.log('3');
+            for (i = 0; i < $scope.data.length; i++){
+                if ($scope.data[0][i] == null){
+                    $scope.data[0][i] = 0;
+                }
+            }
+            console.log('4');
+        };
+
+        formatIncomeChartData = function() {
+            console.log("try to chart");
+            if ($scope.invoiceBuildCount == 3){
+                console.log("chart success");
+                $scope.labels = ['Services', 'Stock', 'Subletters'];
+                $scope.series = ['Category'];
+                $scope.data = [[]];
+                var temp = 0;
+                for (i = 0; i < $scope.incomeList.Stock.length; i++){
+                    temp = temp + parseInt($scope.incomeList.Stock[i].Total,10);
+                };
+                $scope.data[0].push(temp);
+
+                var vtemp = 0;
+                for (i = 0; i < $scope.incomeList.Service.length; i++){
+                    vtemp = vtemp + parseInt($scope.incomeList.Service[i].Total,10);
+                };
+                $scope.data[0].push(vtemp);
+
+                var btemp = 0;
+                for (i = 0; i < $scope.incomeList.Subletter.length; i++){
+                    btemp = btemp + parseInt($scope.incomeList.Subletter[i].Total,10);
+                };
+                $scope.data[0].push(btemp);
+            }
+
+        };
+
+        formatStockChartData = function() {
+            if ($scope.StockBuildCount == 2){
+                $scope.labels = []; //months
+                $scope.series = []; //products
+                $scope.data = []; //net influence
+
+                var temp = 0;
+
+                var start = moment($scope.searchCriteria.dateFrom);
+                var end = moment($scope.searchCriteria.dateTo);
+
+                var monthDiff = end.diff(start, 'months');
+
+                //labels
+                $scope.labels.push(start.format("MMM-YY"));
+                for (i = 1; i < monthDiff; i++){
+                    $scope.labels.push(start.add(1, "M").format("MMM-YY"));
+                }
+
+                //series + data initialize
+                console.log($scope.stockList);
+                for (i = 0; i < $scope.stockList.length; i++){
+                    var notfound = true;
+                    for (k = 0;k < $scope.series.length; k++){
+                        if ($scope.stockList[i].Name = $scope.series[k]){
+                            notfound = false;
+                        };
+                        if (notfound) {
+                            $scope.series.push($scope.stockList[i].name);
+                            var dta = [];
+                            for (l = 0; l < monthDiff; l++){
+                                dta.push(0)
+                            }
+                            $scope.data.push(dta);
+                        }
+                    }
+
+
+                };
+
+                //data
+                for (i = 0; i < $scope.stockList.length; i++){
+
+                };
+            }
+        };
+
+        formatClientChartData = function() {
+            $scope.labels = ['New', 'Returning'];
+            $scope.data = [0,0];
+            var temp = 0;
+            for (i = 0; i < $scope.clientList.length; i++){
+                if($scope.clientList[i].Count == 1){
+                    $scope.data[0]++;
+                }
+                else{
+                    $scope.data[1]++;
+                }
+            };
+        };
     // Database
 
     // initiating
@@ -3040,6 +3607,45 @@ myModule.controller('ReportController', function($scope, $http, $window, $q) {
           $scope.searchCriteria.dateTo = '';
           $scope.getExpense();
         };
+
+        $scope.initEmployee = function() {
+          $scope.searchCriteria.name = '';
+          $scope.searchCriteria.surname = '';
+          $scope.searchCriteria.dateFrom = '';
+          $scope.searchCriteria.dateTo = '';
+
+          $scope.getEmployee();
+          $scope.getinvoiceStock();
+          $scope.getinvoiceService();
+          $scope.buildEmployee();
+        };
+
+        $scope.initInvoiceIStock = function() {
+            $scope.searchCriteria.dateFrom = '';
+            $scope.searchCriteria.dateTo = '';
+            $scope.getIinvoiceStock();
+            $scope.getIinvoiceService();
+            $scope.getinvoiceSubletter();
+            $scope.buildInvoice();
+        };
+
+        $scope.initStock = function() {
+          $scope.searchCriteria.name = '';
+          $scope.searchCriteria.dateFrom = '';
+          $scope.searchCriteria.dateTo = '';
+          $scope.getstockSold();
+          $scope.getstockBought();
+          $scope.buildStock();
+        };
+
+        $scope.initClient = function() {
+          $scope.clientList = [];
+          $scope.client = [];
+
+          $scope.getClient();
+          $scope.buildClient();
+        };
+
   });
 
 myModule.controller('FixingController', function($scope, $http, $window, $q) {

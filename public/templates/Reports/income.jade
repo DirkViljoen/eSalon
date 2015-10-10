@@ -8,11 +8,10 @@ block loggedIn
   a(href='#', class='navbar-link') Signed in as Mark Otto
 
 block content
-    form.row.col-xs-12.workarea.form-validate(id="incomeReport", ng-controller="ReportController", ng-init='initIncome()')
+    form.row.col-xs-12.workarea.form-validate(id="incomeReport", ng-controller="ReportController", ng-init='initInvoiceIStock()')
         .row
             .col-xs-12
                 h1 Income Report
-
         br
         .row
             .col-md-1
@@ -24,32 +23,61 @@ block content
                     +ng-input-calendar('dateTo', 'Date To:', 'searchCriteria.dateTo', '1991-08-23', false, false)
                     .nav.nav-pills.pull-right
                         li(role='presentation')
-                            input.btn.btn-primary(type="button", value="Search", ng-click='getAudit()')
+                            input.btn.btn-primary(type="button", value="Search", ng-click='searchInvoice()')
                         li(role='presentation')
-                            input.btn.btn-default(type="button", value='Clear', ng-click='searchClearAudit()')
+                            input.btn.btn-default(type="button", value='Clear', ng-click='searchClearInvoice()')
+
+        br
+        .row
+            .col-xs-1.col-sm-3
+            .col-xs-8.col-sm-6
+                canvas.chart.chart-bar(id="bar" chart-data="data" chart-labels="labels")
 
         br
         .row
             .col-md-1
             .col-md-10.table-responsive
-                table.table(id="incomeTable" st-table='income')
+                table.table(id="StockTable")
                     thead
                         tr
-                            th Price
-                            th Name
-                            th Quantity
-                            th Category
+                            
                     tbody
-                        tr(ng-repeat="row in income")
-                            td {{row.Name}}
-                            td {{row.Quantity}}
-                            td {{row.PricePerItem}}
-                            td {{row.Name}}
-
+                        tr
+                            td Used
+                            td
+                                table.table(id="stockDetailsTable" st-table='stockSold')
+                                    thead
+                                        tr
+                                            th Date
+                                            th Name
+                                            th Quantity
+                                    tbody
+                                        tr(ng-repeat="row in stockSold")
+                                            td {{row.DateTime}}
+                                            td {{row.ProductName}}
+                                            td {{row.Quantity}}
+                        tr
+                            td Bought
+                            td 
+                                table.table(id="stockDetails2Table" st-table='stockBought')
+                                    thead
+                                        tr
+                                            th Date
+                                            th Name
+                                            th Quantity
+                                    tbody
+                                        tr(ng-repeat="row in stockBought")
+                                            td {{row.DateTime}}
+                                            td {{row.ProductName}}
+                                            td {{row.Quantity}}
+      
         //- Pure functionality objects
-        //- div
-        //-     p(ng-if="loading") Loading&hellip;
-        //-     p searchCriteria:
-        //-         span {{searchCriteria}}
-        //-     p audit:
-        //-         span {{audit}}
+        div
+            p invoice: {{invoice}}
+            p invoice.iservice: {{invoice.iservice}}
+            p incomeList.Service: {{incomeList.Service}}
+            p incomeList.Stock: {{incomeList.Stock}}
+            p incomeList.Subletter: {{incomeList.Subletter}}
+            p labels: {{labels}}
+            p data: {{data}}
+            p series: {{series}}

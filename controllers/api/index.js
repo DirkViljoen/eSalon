@@ -2206,6 +2206,204 @@ module.exports = function (router) {
             );
     });
 
+    router.get('/reports/employee', function (req, res) {
+        console.log('Employee GET. Parameters: ' + JSON.stringify(req.query))
+
+        var obj = {};
+
+        obj.name = (req.query.name ? '"%' + req.query.name + '%"': '"%"');
+        obj.surname = (req.query.surname ? '"%' + req.query.surname + '%"': '"%"');
+
+        models.reports.employee(obj)
+            .then(
+                function (result){
+                    if (result)
+                        res.send(result);
+                },
+                function (err){
+                    console.log(err);
+                    res.send(err);
+                }
+            );
+    });
+
+    router.get('/reports/invoiceStock', function (req, res) {
+        console.log('invoiceStock GET. Parameters: ' + JSON.stringify(req.query))
+
+        var obj = {};
+
+        obj.dateFrom = (req.query.dateFrom ? '"' + req.query.dateFrom + '"': '"2000-01-01"');
+        obj.dateTo = (req.query.dateTo ? '"' + req.query.dateTo + '"': '"2020-01-01"');
+
+        models.reports.invoiceStock(obj)
+            .then(
+                function (result){
+                    if (result)
+                        res.send(result);
+                },
+                function (err){
+                    console.log(err);
+                    res.send(err);
+                }
+            );
+    });
+
+    router.get('/reports/invoiceService', function (req, res) {
+        console.log('invoiceService GET. Parameters: ' + JSON.stringify(req.query))
+
+        var obj = {};
+
+        obj.dateFrom = (req.query.dateFrom ? '"' + req.query.dateFrom + '"': '"2000-01-01"');
+        obj.dateTo = (req.query.dateTo ? '"' + req.query.dateTo + '"': '"2020-01-01"');
+
+        console.log(1);
+        models.reports.invoiceService(obj)
+            .then(
+                function (result){
+                  console.log(2);
+                    if (result)
+                        res.send(result);
+                },
+                function (err){
+                    console.log(3);
+                    console.log(err);
+                    res.send(err);
+                }
+            );
+    });
+
+    router.get('/reports/invoiceIStock', function (req, res) {
+        console.log('invoiceIStock GET. Parameters: ' + JSON.stringify(req.query))
+
+        var obj = {};
+        console.log(1);
+        obj.dateFrom = (req.query.dateFrom ? '"' + req.query.dateFrom + '"': '"2000-01-01"');
+        obj.dateTo = (req.query.dateTo ? '"' + req.query.dateTo + '"': '"2020-01-01"');
+        console.log(2);
+        models.reports.invoiceIStock(obj)
+            .then(
+                function (result){
+                console.log(3);
+                    if (result)
+                        res.send(result);
+                },
+                function (err){
+                    console.log(err);
+                    res.send(err);
+                }
+            );
+    });
+
+    router.get('/reports/invoiceIService', function (req, res) {
+        console.log('invoiceIService GET. Parameters: ' + JSON.stringify(req.query))
+
+        var obj = {};
+
+        obj.dateFrom = (req.query.dateFrom ? '"' + req.query.dateFrom + '"': '"2000-01-01"');
+        obj.dateTo = (req.query.dateTo ? '"' + req.query.dateTo + '"': '"2020-01-01"');
+
+        console.log(1);
+        models.reports.invoiceIService(obj)
+            .then(
+                function (result){
+                  console.log(2);
+                    if (result)
+                        res.send(result);
+                },
+                function (err){
+                    console.log(3);
+                    console.log(err);
+                    res.send(err);
+                }
+            );
+    });
+
+    router.get('/reports/invoiceSubletter', function (req, res) {
+        console.log('invoiceSubletter GET. Parameters: ' + JSON.stringify(req.query))
+
+        var obj = {};
+
+        obj.dateFrom = (req.query.dateFrom ? '"' + req.query.dateFrom + '"': '"2000-01-01"');
+        obj.dateTo = (req.query.dateTo ? '"' + req.query.dateTo + '"': '"2020-01-01"');
+
+        console.log(1);
+        models.reports.invoiceSubletter(obj)
+            .then(
+                function (result){
+                  console.log(2);
+                    if (result)
+                        res.send(result);
+                },
+                function (err){
+                    console.log(3);
+                    console.log(err);
+                    res.send(err);
+                }
+            );
+    });
+
+    router.get('/reports/stockSold', function (req, res) {
+        console.log(req);
+        console.log('Stock Sold GET. Parameters: ' + JSON.stringify(req.query))
+
+        var obj = {};
+
+        obj.name = (req.query.name ? '"%' + req.query.name + '%"': '"%"');
+        obj.dateFrom = (req.query.dateFrom ? '"' + req.query.dateFrom + '"': '"2000-01-01"');
+        obj.dateTo = (req.query.dateTo ? '"' + req.query.dateTo + '"': '"2020-01-01"');
+
+
+        models.reports.stockSold(obj)
+            .then(
+                function (result){
+                    if (result)
+                        res.send(result);
+                },
+                function (err){
+                    console.log(err);
+                    res.send(err);
+                }
+            );
+    });
+
+    router.get('/reports/stockBought', function (req, res) {
+        console.log(req);
+        console.log('Audit GET. Parameters: ' + JSON.stringify(req.query))
+
+        var obj = {};
+
+        obj.name = (req.query.name ? '"%' + req.query.name + '%"': '"%"');
+        obj.dateFrom = (req.query.dateFrom ? '"' + req.query.dateFrom + '"': '"2000-01-01"');
+        obj.dateTo = (req.query.dateTo ? '"' + req.query.dateTo + '"': '"2020-01-01"');
+
+        models.reports.stockBought(obj)
+            .then(
+                function (result){
+                    if (result)
+                        res.send(result);
+                },
+                function (err){
+                    console.log(err);
+                    res.send(err);
+                }
+            );
+    });
+
+    router.get('/reports/client', function (req, res) {
+        console.log('Client GET. Parameters: ' + JSON.stringify(req.query));
+
+        models.reports.client()
+            .then(
+                function (result){
+                    if (result)
+                        res.send(result);
+                },
+                function (err){
+                    console.log(err);
+                    res.send(err);
+                }
+            );
+    });
 // Uploading files
 
     router.post('/uploadImage',function(req,res){

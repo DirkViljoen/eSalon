@@ -1,0 +1,26 @@
+extends ../layouts/master
+include ../../mixins/mixins
+
+block header
+  label Client report
+
+block loggedIn
+  a(href='#', class='navbar-link') Signed in as Mark Otto
+
+block content
+    form.row.col-xs-12.workarea.form-validate(id="clientReport", ng-controller="ReportController", ng-init='initClient()')
+        .row
+            .col-xs-12
+                h1 Client Report
+        br
+        .row
+            .col-xs-1.col-sm-3
+            .col-xs-8.col-sm-6
+                canvas.chart.chart-pie(id="pie" chart-data="data" chart-labels="labels")
+
+        //- Pure functionality objects
+        div
+            p client: {{client}}
+            p clientList: {{clientList}}
+            p labels: {{labels}}
+            p data: {{data}}

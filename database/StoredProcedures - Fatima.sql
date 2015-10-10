@@ -703,14 +703,14 @@ DELIMITER ;
 
 -- -- INCOME REPORT
 DELIMITER //
-    CREATE PROCEDURE spIncomeReport_services
+    CREATE PROCEDURE spIncomeReport_Iservices
     (
 		IN dateFrom date,
         IN dateTo date
         
     )
     BEGIN
-        SELECT i.`DateTime` as incomeDate, isl.`Quantity`, isl.`Price`, s.`Name` 
+        SELECT i.`DateTime`, isl.`Quantity`, isl.`Price`, s.`Name` as iName
         FROM `invoice` i, `invoice_service_line` isl, `service` s, `service_history` sh
         WHERE 
 			isl.`ServiceHistory_id` = sh.`ServiceHistory_id`
@@ -725,14 +725,14 @@ DELIMITER //
 DELIMITER ;
 
 DELIMITER //
-    CREATE PROCEDURE spIncomeReport_stock
+    CREATE PROCEDURE spIncomeReport_Istock
     (
 		IN dateFrom date,
         IN dateTo date
         
     )
     BEGIN
-        SELECT i.`DateTime` as incomeDate, isl.`Quantity`, isl.`Price`, s.`ProductName` 
+        SELECT i.`DateTime`, isl.`Quantity`, isl.`Price`, s.`ProductName` as iName
         FROM `invoice` i, `invoice_stock_line` isl, `stock` s, `stock_history` sh
         WHERE 
 			isl.`StockHistory_id` = sh.`StockHistory_id`
@@ -742,6 +742,26 @@ DELIMITER //
             i.`DateTime` > dateFrom
             AND
             i.`DateTime` < dateTo;
+
+    END //
+DELIMITER ;
+
+DELIMITER //
+    CREATE PROCEDURE spSubletterPayment
+    (
+		IN dateFrom date,
+        IN dateTo date
+        
+    )
+    BEGIN
+        SELECT s.`BusinessName` as iName, sp.`DateTime`, sp.`Amount` as Quantity
+        FROM `sub_letter` s, `sub_letter_payment` sp
+        WHERE 
+			sp.`Sub_Letter_id` = s.`Sub_Letter_id`
+            AND
+            sp.`DateTime` > dateFrom
+            AND
+            sp.`DateTime` < dateTo;
 
     END //
 DELIMITER ;
@@ -792,7 +812,7 @@ DELIMITER //
         
     )
     BEGIN
-        SELECT o.`DateReceived` as DateBought, ol.`Quantity`, s.`ProductName` 
+        SELECT o.`DateReceived` as DateBought, ol.`Quantity`, s.`ProductName`
         FROM `order` o, `order_line` ol, `stock` s
         WHERE 
 			ol.`Order_ID` = o.`Order_id`
@@ -821,6 +841,54 @@ DELIMITER //
         WHERE `Name` LIKE EName
         AND
         `Surname` LIKE ESurname;
+
+    END //
+DELIMITER ;
+
+DELIMITER //
+    CREATE PROCEDURE spIncomeReport_services
+    (
+		IN dateFrom date,
+        IN dateTo date
+        
+    )
+    BEGIN
+        SELECT i.`DateTime` as incomeDate, isl.`Quantity`, isl.`Price`, s.`Name`, e. `Employee_ID` 
+        FROM `invoice` i, `invoice_service_line` isl, `service` s, `service_history` sh, `employee` e
+        WHERE 
+			isl.`ServiceHistory_id` = sh.`ServiceHistory_id`
+            AND
+            e.`Employee_ID` = i.`Employee_ID`
+            AND
+            sh.`Service_id` = s.`Service_id`
+            AND
+            i.`DateTime` > dateFrom
+            AND
+            i.`DateTime` < dateTo;
+
+    END //
+DELIMITER ;
+
+DELIMITER //
+    CREATE PROCEDURE spIncomeReport_stock
+    (
+		IN dateFrom date,
+        IN dateTo date
+        
+    )
+    BEGIN
+        SELECT i.`DateTime` as incomeDate, isl.`Quantity`, isl.`Price`, s.`ProductName`, e. `Employee_ID` 
+        FROM `invoice` i, `invoice_stock_line` isl, `stock` s, `stock_history` sh, `employee` e
+        WHERE 
+			isl.`StockHistory_id` = sh.`StockHistory_id`
+            AND
+            e.`Employee_ID` = i.`Employee_ID`
+            AND
+            sh.`Stock_ID` = s.`Stock_id`
+            AND
+            i.`DateTime` > dateFrom
+            AND
+            i.`DateTime` < dateTo;
 
     END //
 DELIMITER ;

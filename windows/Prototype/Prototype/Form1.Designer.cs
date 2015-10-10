@@ -38,6 +38,7 @@
             this.webProgramToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.label1 = new System.Windows.Forms.Label();
             this.textBox1 = new System.Windows.Forms.TextBox();
+            this.feelingABitLostToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -49,12 +50,13 @@
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.mainMenuToolStripMenuItem,
             this.stockToolStripMenuItem1,
-            this.webProgramToolStripMenuItem});
+            this.webProgramToolStripMenuItem,
+            this.feelingABitLostToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(14, 46);
             this.menuStrip1.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(27, 27, 14, 39);
-            this.menuStrip1.Size = new System.Drawing.Size(395, 107);
+            this.menuStrip1.Size = new System.Drawing.Size(653, 107);
             this.menuStrip1.TabIndex = 2;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -135,7 +137,7 @@
             this.label1.AutoSize = true;
             this.label1.BackColor = System.Drawing.Color.Transparent;
             this.label1.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.label1.Location = new System.Drawing.Point(202, 16);
+            this.label1.Location = new System.Drawing.Point(337, 19);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(89, 18);
             this.label1.TabIndex = 2;
@@ -143,12 +145,20 @@
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(306, 13);
+            this.textBox1.Location = new System.Drawing.Point(441, 16);
             this.textBox1.Name = "textBox1";
             this.textBox1.ReadOnly = true;
             this.textBox1.Size = new System.Drawing.Size(116, 26);
             this.textBox1.TabIndex = 3;
             this.textBox1.Text = "Admin";
+            // 
+            // feelingABitLostToolStripMenuItem
+            // 
+            this.feelingABitLostToolStripMenuItem.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(104)))), ((int)(((byte)(100)))));
+            this.feelingABitLostToolStripMenuItem.Font = new System.Drawing.Font("Lucida Fax", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.feelingABitLostToolStripMenuItem.Name = "feelingABitLostToolStripMenuItem";
+            this.feelingABitLostToolStripMenuItem.Size = new System.Drawing.Size(166, 41);
+            this.feelingABitLostToolStripMenuItem.Text = "Feeling A Bit Lost?";
             // 
             // Form1
             // 
@@ -156,7 +166,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(198)))), ((int)(((byte)(214)))), ((int)(((byte)(204)))));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ClientSize = new System.Drawing.Size(883, 456);
+            this.ClientSize = new System.Drawing.Size(584, 249);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.menuStrip1);
@@ -187,6 +197,7 @@
         private System.Windows.Forms.ToolStripMenuItem addStockToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem webProgramToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem addOrderToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem feelingABitLostToolStripMenuItem;
     }
 }
 
