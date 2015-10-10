@@ -2,6 +2,7 @@
 
 
 var SpecialModel = require('../../models/special');
+var auth = require('../../libs/auth.js');
 
 
 module.exports = function (router) {

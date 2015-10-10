@@ -368,7 +368,7 @@ CREATE TABLE `Stock` (
     `Size` INT,
     `Active` BOOLEAN,
     `Quantity` INT,
-    `Barcode` VARCHAR (10),
+    `Barcode` VARCHAR (30),
     `Category_ID` INT,
     `Supplier_ID` INT,
     

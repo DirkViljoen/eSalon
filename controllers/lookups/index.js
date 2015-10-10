@@ -1,6 +1,7 @@
 'use strict';
 
 var LookupsModel = require('../../models/lookups');
+var auth = require('../../libs/auth.js');
 
 
 module.exports = function (router) {

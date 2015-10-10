@@ -1,0 +1,9 @@
+extends ../layouts/master_login
+include ../../mixins/mixins
+
+block content
+    form.form-signin.form-horizontal(action=destination,method='get')
+        h1=header
+        br
+        p=message
+        +form-submit(button, destination, 'btnLogin')

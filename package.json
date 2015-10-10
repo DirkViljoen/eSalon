@@ -21,6 +21,7 @@
     "express-mailer": "^0.3.0",
     "flow": "^0.2.3",
     "jade": "^1.11.0",
+    "jquery": "^2.1.4",
     "kraken-devtools": "^1.0.0",
     "kraken-js": "^1.0.1",
     "less": "~1.7.0",

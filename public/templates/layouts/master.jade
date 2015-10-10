@@ -32,8 +32,7 @@ html(lang="en", ng-app="app")
                 .collapse.navbar-collapse.pull-right
                     ul.nav.navbar-nav
                         li.active
-                            block loggedIn
-                                a(href="/login") Log in
+                            a(href="#", class="navbar-link") Signed in as !{user.name}
                         li
                             a(href="/login") Log out
 
@@ -128,6 +127,7 @@ html(lang="en", ng-app="app")
                                 a(href='/reports/client') Client Report
                             li
                                 a(href='/reports/employee') Employee Report        
+
                     li.dropdown.dropdown-danger
                         a.dropdown-toggle(href='/help')
                             | I'm feeling lost. Please help
