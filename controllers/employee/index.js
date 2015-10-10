@@ -2,6 +2,7 @@
 
 
 var EmployeeModel = require('../../models/employee');
+var auth = require('../../libs/auth.js');
 
 
 module.exports = function (router) {
@@ -11,23 +12,90 @@ module.exports = function (router) {
 
 
     router.get('/', function (req, res) {
-        console.log(' - session.passport: ' + JSON.stringify(req.session.passport));
-        console.log(' - user: ' + JSON.stringify(req.user));
-        res.render('employees/employee', {})
+        var u = {};
+
+        auth.grantAccess(req.session.passport, 6, 4, req.header('Referer'))
+        .then(function (result){
+            u = result.user;
+            console.log(result);
+
+            if (result.granted){
+                res.render('employees/employee', {"user": u})
+            }
+            else
+            {
+                res.render('login/accessDenied', result);
+            }
+        },
+        function (err) {
+            console.log('An error occurred while trying to find the user');
+            res.redirect('/login');
+        });
+
     });
 
     router.get('/add', function (req, res) {
-        console.log(' - session.passport: ' + JSON.stringify(req.session.passport));
-        console.log(' - user: ' + JSON.stringify(req.user));
-        res.render('employees/employee-add', {})
+        var u = {};
+
+        auth.grantAccess(req.session.passport, 6, 1, req.header('Referer'))
+        .then(function (result){
+            u = result.user;
+            console.log(result);
+
+            if (result.granted){
+                res.render('employees/employee-add', {"user": u})
+            }
+            else
+            {
+                res.render('login/accessDenied', result);
+            }
+        },
+        function (err) {
+            console.log('An error occurred while trying to find the user');
+            res.redirect('/login');
+        });
     });
 
     router.get('/view/:id', function (req, res) {
-        res.render('employees/employee-view', req.params)
+        var u = {};
+
+        auth.grantAccess(req.session.passport, 6, 4, req.header('Referer'))
+        .then(function (result){
+            u = result.user;
+
+            if (result.granted){
+                res.render('employees/employee-view', {"user": u, "id": req.params.id})
+            }
+            else
+            {
+                res.render('login/accessDenied', result);
+            }
+        },
+        function (err) {
+            console.log('An error occurred while trying to find the user');
+            res.redirect('/login');
+        });
     });
 
     router.get('/update/:id', function (req, res) {
-        res.render('employees/employee-update', req.params)
+        var u = {};
+
+        auth.grantAccess(req.session.passport, 6, 2, req.header('Referer'))
+        .then(function (result){
+            u = result.user;
+
+            if (result.granted){
+                res.render('employees/employee-update', {"user": u, "id": req.params.id})
+            }
+            else
+            {
+                res.render('login/accessDenied', result);
+            }
+        },
+        function (err) {
+            console.log('An error occurred while trying to find the user');
+            res.redirect('/login');
+        });
     });
 
     router.get('/change-password/:id', function (req, res) {
@@ -35,11 +103,45 @@ module.exports = function (router) {
     });
 
     router.get('/schedule', function (req, res) {
-        res.render('employees/employee-schedule', model)
+        var u = {};
+
+        auth.grantAccess(req.session.passport, 6, 4, req.header('Referer'))
+        .then(function (result){
+            u = result.user;
+
+            if (result.granted){
+                res.render('employees/employee-schedule', {"user": u, "id": req.params.id})
+            }
+            else
+            {
+                res.render('login/accessDenied', result);
+            }
+        },
+        function (err) {
+            console.log('An error occurred while trying to find the user');
+            res.redirect('/login');
+        });
     });
 
     router.get('/schedule-edit', function (req, res) {
-        res.render('employees/employee-schedule-edit', model)
+        var u = {};
+
+        auth.grantAccess(req.session.passport, 6, 2, req.header('Referer'))
+        .then(function (result){
+            u = result.user;
+
+            if (result.granted){
+                res.render('employees/employee-schedule-edit', {"user": u, "id": req.params.id})
+            }
+            else
+            {
+                res.render('login/accessDenied', result);
+            }
+        },
+        function (err) {
+            console.log('An error occurred while trying to find the user');
+            res.redirect('/login');
+        });
     });
 
 

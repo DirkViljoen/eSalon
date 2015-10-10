@@ -192,8 +192,32 @@ module.exports = function UserModel() {
 
         var deferred = q.defer();
 
-        if (user && pwd) {
+        if (id) {
             db.query('CALL sp_getUserDetails(' + id + ');')
+                .then(
+                    function (result){
+                        deferred.resolve(result);
+                    },
+                    function (err){
+                        deferred.reject(new Error(err));
+                    }
+                );
+        }
+        else
+        {
+            deferred.reject(new Error('No ID'));
+        }
+
+        return deferred.promise;
+    };
+
+    function getaccess(id, major, minor) {
+        console.log('Module - User - get access');
+
+        var deferred = q.defer();
+
+        if (id) {
+            db.query('CALL sp_getUserAccess(' + id + ',' + major + ',' + minor + ');')
                 .then(
                     function (result){
                         deferred.resolve(result);
@@ -219,6 +243,7 @@ module.exports = function UserModel() {
         remove: disable,
         changePassword: changePwd,
         findOne: attemptLogin,
-        getOne: getUserDetails
+        getOne: getUserDetails,
+        getaccess: getaccess
     };
 };

@@ -5,10 +5,10 @@ block header
     label Bookings
 
 block loggedIn
-    a(href="#", class="navbar-link") Signed in as Mark Otto
+    a(href="#", class="navbar-link") Signed in as !{user.name}
 
 block content
-    form.row.col-xs-12.workarea.form-validate(id="bookings", ng-controller="BookingController", ng-init='initManage(' + eid + ',"' + view + '",' + date + ')')
+    form.row.col-xs-12.workarea.form-validate(id="bookings", ng-controller="BookingController", ng-init='initManage(' + q.eid + ',"' + q.view + '",' + q.date + ')')
         .row
             .col-md-12
                 .grouphead

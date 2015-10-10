@@ -2421,9 +2421,6 @@ module.exports = function (router) {
         {
             res.send({err: 'No file to read'});
         }
-<<<<<<< HEAD
 
-=======
->>>>>>> 8fc9e8e2d03731e393405f3b5c955c88e579049f
     });
 };

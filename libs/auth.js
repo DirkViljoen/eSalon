@@ -43,46 +43,6 @@ exports.localStrategy = function () {
                 }
             );
 
-
-        // if (username == 'Admin'){
-        //     console.log('correct username')
-        //     if (password == 'test'){
-        //         console.log('correct password')
-
-        //     }
-        //     else
-        //     {
-        //         console.log('wrong password')
-        //         return done(null, false, { message: 'Incorrect Password' });
-        //     }
-        // }
-        // else
-        // {
-        //     console.log('wrong username')
-        //     return done(null, false, { message: 'Login not found' });
-        // }
-        // //Retrieve the user from the database by login
-        // User.findOne({login: username}, function (err, user) {
-
-        //     //If something weird happens, abort.
-        //     if (err) {
-        //         return done(err);
-        //     }
-
-        //     //If we couldn't find a matching user, flash a message explaining what happened
-        //     if (!user) {
-        //         return done(null, false, { message: 'Login not found' });
-        //     }
-
-        //     //Make sure that the provided password matches what's in the DB.
-        //     if (!user.passwordMatches(password)) {
-        //         return done(null, false, { message: 'Incorrect Password' });
-        //     }
-
-        //     //If everything passes, return the retrieved user object.
-        //     done(null, user);
-
-        // });
     });
 }
 
@@ -116,4 +76,136 @@ exports.injectUser = function (req, res, next) {
         res.locals.user = req.user;
     }
     next();
+}
+
+function deserialize(uid) {
+    console.log('Deserializing user');
+    console.log('uid:' + uid);
+
+    var user = {};
+    var deferred = q.defer();
+
+    usermodel.getOne(uid)
+    .then(
+        function (result){
+            if (result.rows.length > 0) {
+                console.log('user found')
+                user.uid = result.rows[0].uid;
+                user.rid = result.rows[0].rid;
+                user.name = result.rows[0].uname;
+                deferred.resolve(user);
+            }
+            else
+            {
+                console.log('user not found');
+                deferred.resolve({});
+            }
+        },
+        function (err){
+            console.error(err);
+            deferred.reject(err);
+        }
+    );
+    return deferred.promise;
+}
+
+function determineAccess(rid, major, minor){
+    console.log('Get access permissions');
+
+    var deferred = q.defer();
+    var r = {};
+    r.access = false;
+
+    usermodel.getaccess(rid, major, minor)
+    .then(
+        function (result){
+
+            if (result.rows.length > 0) {
+                // console.log('have access');
+                r.access = true
+                deferred.resolve(r);
+            }
+            else
+            {
+                // console.log('do not have access');
+                deferred.resolve(r);
+            }
+        },
+        function (err){
+            deferred.reject(err);
+        }
+    );
+
+    return deferred.promise;
+}
+
+exports.grantAccess = function(user, major, minor, source){
+    var r = {};
+    r.granted = false;
+    r.user = {};
+    r.message = "";
+    r.button = "";
+    r.destination = "";
+    r.header = "";
+
+
+    var deferred = q.defer();
+
+    if (user != undefined){
+        deserialize(user.user)
+            .then(function (result){
+                r.user = result;
+                if (r.user != {}){
+                    determineAccess(r.user.rid, major, minor)
+                    .then(
+                        function (result){
+                            console.log(result);
+                            if (result.access == true){
+                                r.granted = true;
+                                deferred.resolve(r);
+                            }
+                            else {
+                                r.header = "Access denied";
+                                r.message = "You do not have permission to access this page";
+                                r.button = "Back";
+                                r.destination = source;
+                                deferred.resolve(r);
+                            }
+                        },
+                        function (err){
+                            r.header = "Access denied";
+                            r.message = "Could not determine if you have access. Please try again.";
+                            r.button = "Back";
+                            r.destination = source;
+                            deferred.resolve(r);
+                        }
+                    )
+                }
+                else
+                {
+                    r.header = "Session expired";
+                    r.message = "Your session has expired. please log in again.";
+                    r.button = "Login";
+                    r.destination = "/login/";
+                    deferred.resolve(r);
+                }
+            },
+            function (err){
+                r.header = "Authentication failed";
+                r.message = "We could not retrieve you authentication details. Please log in again.";
+                r.button = "Login";
+                r.destination = "/login/";
+                deferred.resolve(r);
+            })
+    }
+    else{
+        r.header = "You are not logged in";
+        r.message = "Please log in to gain access to this page.";
+        r.button = "Login";
+        r.destination = "/login/";
+        deferred.resolve(r);
+    };
+
+    return deferred.promise;
+
 }

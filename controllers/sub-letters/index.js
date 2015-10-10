@@ -4,6 +4,7 @@
 var SubLettersModel = require('../../models/sub-letters');
 var app = require('express')();
 var bodyParser = require('body-parser');
+var auth = require('../../libs/auth.js');
 
 module.exports = function (router) {
 

@@ -30,30 +30,30 @@ app = module.exports = express();
 
     passport.deserializeUser(function (id, done) {
         console.log('Deserializing user');
-        // console.log('id');
+        console.log('id');
 
-        // user = {};
+        user = {};
 
-        // usermodel.getOne(id)
-        // .then(
-        //     function (result){
-        //         if (result.rows.length > 0) {
-        //             console.log('user found')
-        //             user.uid = result.rows[0].uid;
-        //             user.rid = result.rows[0].rid;
-        //             user.name = result.rows[0].uname;
-        //             return done(null, user);
-        //         }
-        //         else
-        //         {
-        //             return done(null, false);
-        //         }
-        //     },
-        //     function (err){
-        //         console.log(err);
-        //         return done(err);
-        //     }
-        // );
+        usermodel.getOne(id)
+        .then(
+            function (result){
+                if (result.rows.length > 0) {
+                    console.log('user found')
+                    user.uid = result.rows[0].uid;
+                    user.rid = result.rows[0].rid;
+                    user.name = result.rows[0].uname;
+                    return done(null, user);
+                }
+                else
+                {
+                    return done(null, false);
+                }
+            },
+            function (err){
+                console.log(err);
+                return done(err);
+            }
+        );
     });
 
 

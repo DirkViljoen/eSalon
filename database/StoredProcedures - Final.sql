@@ -664,5 +664,29 @@ Use esalon;
 	END //
 	DELIMITER ;
     
+    DELIMITER //
+	create procedure esalon.sp_getUserAccess 
+	(
+		IN rid INT,
+        IN major INT,
+        IN minor INT
+	)
+	BEGIN  
+
+	SELECT
+		p.Permission_ID
+	FROM
+		Permission p, Role_Permission rp
+	WHERE
+		p.Permission_ID = rp.Permission_ID
+        AND
+        rp.Role_ID = rid
+        AND
+        p.Major_ID = major
+        AND
+        p.Minor_ID = minor;
+
+	END //
+	DELIMITER ;
     
     
