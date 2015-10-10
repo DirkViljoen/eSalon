@@ -217,6 +217,7 @@ USE eSalon;
         SELECT * FROM `Client`
         WHERE `Name` Like fname
         AND `Surname` Like lname
+        AND `Active` = 1
         ORDER BY `Name`;
     END //
     DELIMITER ;

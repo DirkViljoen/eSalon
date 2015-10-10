@@ -22,7 +22,7 @@ block content
                     +form-group('Service Information')
                 .groupbox
                     +ng-input-text('sname', 'Name:', 'service.name', 'service name', true, false, '1', '50')
-                    +ng-input-text('sinfo', 'Additional information:', 'service.info', '', false, false, '1', '300')
+                    +ng-input-textarea('sinfo', 'Additional information:', 'service.info', '', false, false, '1', '300')
                     +ng-input-text('number_sm_pos', 'Duration (Short):', 'service.duration.short', 'Duaration for short hair in minutes', false, false, '1', '4')
                     +ng-input-text('number_sm_pos', 'Duration (Medium):', 'service.duration.medium', 'Duaration for medium hair in minutes', false, false, '1', '4')
                     +ng-input-text('number_sm_pos', 'Duration (Long):', 'service.duration.long', 'Duaration for long hair in minutes', true, false, '1', '4')
@@ -39,6 +39,6 @@ block content
                         br
 
         br
-        p service: {{service}}
-        p services: {{services}}
+        //- p service: {{service}}
+        //- p services: {{services}}
 

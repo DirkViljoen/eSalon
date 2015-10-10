@@ -204,6 +204,15 @@ mixin ng-input-text(name, label, model, placeholder, required, readonly, minLen,
                 span.input-group-addon
                     span(style="color:red").glyphicon.glyphicon-asterisk
 
+mixin ng-input-textarea(name, label, model, placeholder, required, readonly, minLen, maxLen, changeEvent, blurEvent)
+    .form-group
+        label.control-label.col-md-3.col-sm-4(for=name)= label
+        div.input-group
+            textarea.form-control(rows='4', cols='50', id=name, name=name, ng-model=model, placeholder=placeholder, readonly=readonly, required=required, minlength=minLen, maxlength=maxLen size='40', ng-change=changeEvent, ng-blur=blurEvent)
+            if (required)
+                span.input-group-addon
+                    span(style="color:red").glyphicon.glyphicon-asterisk
+
 mixin ng-input-text-alt(name, label, model, placeholder, required, readonly, minLen, maxLen, changeEvent, blurEvent)
     .form-group
         label.control-label.col-sm-6(for=name)= label

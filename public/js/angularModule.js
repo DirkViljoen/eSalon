@@ -1306,7 +1306,7 @@ myModule.controller('BookingController', function($scope, $modal, $http, $window
             $scope.settings.view = view;
             $scope.settings.date = moment(date);
 
-            // timer = $interval(function() {$scope.updateCalendar();}, 1000);
+            timer = $interval(function() {$scope.changeCalendar();}, 30000);
         };
 
         $scope.initAdd = function(date,fullname,eid) {
@@ -1772,7 +1772,8 @@ myModule.controller('EmployeeController', function($scope, $http, $window) {
     // Functionality
 
         $scope.postEmployee = function() {
-            // console.log('Unimplemented')
+
+            console.log('DO something');
             if($("#employeeAdd").valid()){
                 employee_add('save', function(res) {
                     console.log(res);

@@ -31,7 +31,7 @@ block content
                 .grouphead
                     +form-group('Credentials')
                 .groupbox
-                    +ng-input-text('uname', 'Username:', 'user.name', 'Mrs', true, false, '4', '50')
+                    +ng-input-text('uname', 'Username:', 'user.name', 'Enter username', true, false, '4', '50')
                     +ng-input-combobox('role', 'Role:', 'user.roleId', 'Select a role', 'role.Role_ID as role.Name for role in roles', true, false)
                     +ng-input-text('title', 'Password:', 'user.password', 'password', true, false, '4', '50')
                 br
@@ -79,6 +79,6 @@ block content
                         input.btn.btn-default(type="button", value='Cancel', ng-click='cancel()')
                         br
 
-        p employee: {{employee}}
-        p user: {{user}}
-        p address: {{address}}
+        //- p employee: {{employee}}
+        //- p user: {{user}}
+        //- p address: {{address}}
