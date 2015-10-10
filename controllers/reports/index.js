@@ -79,18 +79,90 @@ module.exports = function (router) {
     });
 
     router.get('/employee', function (req, res) {
-        res.render('reports/employee', {})
+        // res.render('reports/employee', {});
+        var u = {};
+
+        auth.grantAccess(req.session.passport, 9, 5, req.header('Referer'))
+        .then(function (result){
+            u = result.user;
+
+            if (result.granted){
+                res.render('reports/employee', {"user": u, "id": req.params.id})
+            }
+            else
+            {
+                res.render('login/accessDenied', result);
+            }
+        },
+        function (err) {
+            console.log('An error occurred while trying to find the user');
+            res.redirect('/login');
+        });
     });
 
     router.get('/income', function (req, res) {
-        res.render('reports/income', {})
+        // res.render('reports/income', {})
+        var u = {};
+
+        auth.grantAccess(req.session.passport, 9, 5, req.header('Referer'))
+        .then(function (result){
+            u = result.user;
+
+            if (result.granted){
+                res.render('reports/income', {"user": u, "id": req.params.id})
+            }
+            else
+            {
+                res.render('login/accessDenied', result);
+            }
+        },
+        function (err) {
+            console.log('An error occurred while trying to find the user');
+            res.redirect('/login');
+        });
     });
 
     router.get('/stocktrend', function (req, res) {
-        res.render('reports/stocktrend', {})
+        // res.render('reports/stocktrend', {})
+        var u = {};
+
+        auth.grantAccess(req.session.passport, 9, 5, req.header('Referer'))
+        .then(function (result){
+            u = result.user;
+
+            if (result.granted){
+                res.render('reports/stocktrend', {"user": u, "id": req.params.id})
+            }
+            else
+            {
+                res.render('login/accessDenied', result);
+            }
+        },
+        function (err) {
+            console.log('An error occurred while trying to find the user');
+            res.redirect('/login');
+        });
     });
 
     router.get('/client', function (req, res) {
-        res.render('reports/client', {})
+        // res.render('reports/client', {})
+        var u = {};
+
+        auth.grantAccess(req.session.passport, 9, 5, req.header('Referer'))
+        .then(function (result){
+            u = result.user;
+
+            if (result.granted){
+                res.render('reports/client', {"user": u, "id": req.params.id})
+            }
+            else
+            {
+                res.render('login/accessDenied', result);
+            }
+        },
+        function (err) {
+            console.log('An error occurred while trying to find the user');
+            res.redirect('/login');
+        });
     });
 };
