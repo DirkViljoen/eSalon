@@ -126,18 +126,12 @@ DELIMITER //
 create procedure sp_Update_Order
 (
 	IN oOrder_id  	INT,
-    IN oOrderLine_id  	INT,
-	IN oDateReceived  DATE,
-	IN oQuantity  INT
+	IN oDateReceived  DATE
 )
 BEGIN  
 	UPDATE `Order` SET 
 		DateReceived = oDateReceived
 	WHERE Order_id = oOrder_id;
-
-	UPDATE `Order_Line` SET 
-		Quantity = oQuantity
-	WHERE OrderLine_id = oOrderLine_id;
  END //
 DELIMITER ;
 
@@ -152,8 +146,8 @@ create procedure sp_Insert_Order
 )
 BEGIN 
 	DECLARE insertId INT;
-	INSERT INTO `Order` (`DatePlaced`, `DateReceived`, `Supplier_id`)
-	VALUES(oDatePlaced, oDateReceived, sSupplier_id);  
+		INSERT INTO `Order` (`DatePlaced`, `DateReceived`, `Supplier_id`)
+		VALUES(oDatePlaced, oDateReceived, sSupplier_id);  
 	SET insertId = LAST_INSERT_ID();
 				SELECT insertId;
 END //
@@ -165,11 +159,14 @@ create procedure sp_Delete_Order
 (
 	IN oOrder_id  	INT
 )
-BEGIN  Update `Order`
-	SET 
-		`Active` = false
+BEGIN  
+DELETE from `Order_Line` 
 	WHERE 
-		oOrder_id = oOrder_id;
+		`Order_id` = oOrder_id;
+delete 
+	FROM `Order`
+	WHERE 
+		`Order_id` = oOrder_id;
 END //
 DELIMITER ;
 
@@ -196,9 +193,9 @@ create procedure sp_Update_Order_Line
 	IN oOrder_id INT
 )
 BEGIN  UPDATE `Order_Line` SET 
-	Quantity = rQuantity
+	`Quantity` = rQuantity
 	
-WHERE OrderLine_id = rOrderLine_id
+WHERE `OrderLine_id` = rOrderLine_id
 
 ;  END //
 DELIMITER ;
@@ -227,7 +224,7 @@ create procedure sp_Delete_Order_Line
 BEGIN  
 DELETE from `Order_Line` 
 	WHERE 
-		rOrderLine_id = rOrderLine_id;
+		`OrderLine_id` = rOrderLine_id;
 END //
 DELIMITER ;
 
@@ -287,19 +284,22 @@ DELIMITER ;
 DELIMITER //
     CREATE PROCEDURE spStock_Search
     (
-		in sname varchar(50),
+		in sname int,
         in bname varchar(50),
         in pname varchar(50)
     )
     BEGIN
         SELECT * FROM `Stock`
-        WHERE `Active` = true;
+        WHERE (`Supplier_ID` = sname
+        OR `BrandName` = bname
+        OR `ProductName` = pname)
+        AND `Active` = true;
     END //
     DELIMITER ;
 
 -- -- UPDATE
 DELIMITER //
-create procedure sp_Update_Stock
+create procedure esalon.sp_Update_Stock
 (
 	IN sStock_id   INT,
 	IN sBrandName    	VARCHAR(50),
@@ -310,18 +310,47 @@ create procedure sp_Update_Stock
 	IN sBarcode   VARCHAR(10),
 	IN sSupplier_id INT
 )
-BEGIN  UPDATE `Stock` SET 
-	BrandName = sBrandName,
-	ProductName = sProductName,
-	Price = sPrice,
-	Size = sSize,
-	Quantity = sQuantity,
-	Barcode = sBarcode,
-	Supplier_id = sSupplier_id
+BEGIN  
+	UPDATE `Stock` SET 
+		`BrandName` = sBrandName,
+		`ProductName` = sProductName,
+		`Price` = sPrice,
+		`Size` = sSize,
+		`Quantity` = sQuantity,
+		`Barcode` = sBarcode,
+		`Supplier_id` = sSupplier_id
 	
-WHERE sStock_id = sStock_id
+	WHERE `Stock_id` = sStock_id;
 
-;  END //
+	UPDATE `stock_history`
+		SET 
+			`PriceDateTo` = current_date()
+		WHERE
+			`Stock_id` = sStock_id
+				AND
+			`PriceDateTo` IS NULL;
+				
+		INSERT 
+			INTO `stock_history` 
+				(`Price`, `PriceDateFrom`, `PriceDateTo`, `Stock_ID`)
+			VALUES
+				(sPrice, current_date(), null, sStock_id);
+END //
+DELIMITER ;
+
+-- -- RECONCILE
+DELIMITER //
+create procedure esalon.sp_Reconcile_Stock
+(
+	IN sStock_id   INT,
+	IN sSum    INT
+)
+BEGIN  
+	UPDATE `Stock` SET 
+		`Quantity` = sSum
+	WHERE `Stock_id` = sStock_id;
+
+END //
 DELIMITER ;
 
 -- -- INSERT
@@ -339,17 +368,26 @@ create procedure sp_Insert_Stock
 	IN sSupplier_id INT
 )
 BEGIN 
-INSERT INTO `Stock` (BrandName, ProductName, Price, Size, 
-						Active, Quantity, Barcode, category_id, supplier_id)
-VALUES(sBrandName, sProductName, sPrice, sSize, 
-						true, sQuantity, sBarcode, cCategory_id, sSupplier_id)
-
-;  END //
+	DECLARE insertId  INT;
+    
+	INSERT INTO `Stock` (BrandName, ProductName, Price, Size, 
+							Active, Quantity, Barcode, category_id, supplier_id)
+	VALUES(sBrandName, sProductName, sPrice, sSize, 
+							true, sQuantity, sBarcode, cCategory_id, sSupplier_id);
+	SET insertId = LAST_INSERT_ID();
+		SELECT insertId;
+        
+	INSERT 
+			INTO `Stock_History` 
+				(`Price`, `PriceDateFrom`, `PriceDateTo`, `Stock_ID`)
+			VALUES
+				(sPrice, current_date(), null, insertId);
+END //
 DELIMITER ;
 
 -- -- DELETE
 DELIMITER //
-create procedure sp_Delete_Stock
+create procedure esalon.sp_Delete_Stock
 (
 	IN sStock_id   INT
 )
@@ -357,7 +395,7 @@ BEGIN  Update `stock`
 	SET 
 		`Active` = false
 	WHERE 
-		sStock_id = sStock_id;
+		sStock_id = Stock_id;
 END //
 DELIMITER ;
 -- ---- ---- ---- STOCK HISTORY -- ---- ---- ---- ---- --
@@ -378,13 +416,11 @@ create procedure sp_Update_Stock_History
 (
 	IN hStockHistory_id  INT,
 	IN hPrice     	DECIMAL(8, 2),
-	IN hPriceDateFrom    DATE,
 	IN hPriceDateTo    DATE,
 	IN sStock_id INT
 )
 BEGIN  UPDATE `Stock_History` SET 
 	Price = hPrice,
-	PriceDateFrom = hPriceDateFrom,
 	PriceDateTo = hPriceDateTo
 	
 WHERE StockHistory_id = hStockHistory_id
@@ -398,12 +434,11 @@ create procedure sp_Insert_Stock_History
 (
 	IN hPrice     	DECIMAL(8, 2),
 	IN hPriceDateFrom    DATE,
-	IN hPriceDateTo    DATE,
 	IN sStock_id INT
 )
 BEGIN 
-INSERT INTO `Stock_History` (Price, PriceDateFrom, PriceDateTo, Stock_id)
-VALUES(hPrice, hPriceDateFrom, hPriceDateTo, sStock_id)
+INSERT INTO `Stock_History` (Price, PriceDateFrom, Stock_id)
+VALUES(hPrice, hPriceDateFrom, sStock_id)
 
 ;  END //
 DELIMITER ;

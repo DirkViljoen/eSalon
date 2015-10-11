@@ -23,8 +23,8 @@ namespace Prototype
             try
             {
                 sl.InsertStock(new Stock(0, txtBrand.Text, txtProduct.Text, Convert.ToDouble(txtPrice.Text),
-            Convert.ToInt32(txtSize.Text), true, Convert.ToInt32(txtQuantity.Text), txtBarcode.Text, 2,
-            Convert.ToInt32(txtSupplier.Text)));
+                Convert.ToInt32(txtSize.Text), true, Convert.ToInt32(txtQuantity.Text), txtBarcode.Text, 2,
+                Convert.ToInt32(txtSupplier.Text)));
 
                 MessageBox.Show("A Product has been added");
             }

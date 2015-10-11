@@ -1,0 +1,21 @@
+Microsoft Visual Studio Solution File, Format Version 8.00
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "htmlmail.vb", "htmlmail.vb.vbproj", "{2BDD7DF6-3C80-443C-9BFE-16A9F9E09941}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfiguration) = preSolution
+		Debug = Debug
+		Release = Release
+	EndGlobalSection
+	GlobalSection(ProjectConfiguration) = postSolution
+		{2BDD7DF6-3C80-443C-9BFE-16A9F9E09941}.Debug.ActiveCfg = Debug|.NET
+		{2BDD7DF6-3C80-443C-9BFE-16A9F9E09941}.Debug.Build.0 = Debug|.NET
+		{2BDD7DF6-3C80-443C-9BFE-16A9F9E09941}.Release.ActiveCfg = Release|.NET
+		{2BDD7DF6-3C80-443C-9BFE-16A9F9E09941}.Release.Build.0 = Release|.NET
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+	EndGlobalSection
+	GlobalSection(ExtensibilityAddIns) = postSolution
+	EndGlobalSection
+EndGlobal

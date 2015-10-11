@@ -12,16 +12,17 @@ namespace Prototype
 {
     public partial class UpdateStock : Form
     {
-        StockList sl = new StockList();
-        Stock s;
+        StockList sl;
+        Stock s = new Stock();
         int id;
 
         public UpdateStock(int _id)
         {
             InitializeComponent();
             id = _id;
+            sl = new StockList(id);
 
-            s = sl[id];
+            s = sl.ViewAStock(sl[0].StockID);
 
             txtBrand.Text = s.Brand;
             txtProduct.Text = s.Product;
@@ -36,14 +37,16 @@ namespace Prototype
         {
             try
             {
-                string str = "Are you sure you want to update this order?";
+                string str = "Are you sure you want\nto update this product? \nYes to confirm,\nNo to edit details,\nCancel to exit";
                 string form = "UpdateStock";
+                //StockList sls = new StockList();
 
-                sl.UpdateStock(new Stock(0, txtBrand.Text, txtProduct.Text, Convert.ToDouble(txtPrice.Text),
+                sl.UpdateStock(new Stock(id, txtBrand.Text, txtProduct.Text, Convert.ToDouble(txtPrice.Text),
                 Convert.ToInt32(txtSize.Text), true, Convert.ToInt32(txtQuantity.Text), txtBarcode.Text, 0,
                 Convert.ToInt32(txtSupplier.Text)));
                 ConfirmationMessage a = new ConfirmationMessage(str, form);
                 a.ShowDialog();
+
                 MessageBox.Show("A Product has been updated");
             }
             catch (Exception d)

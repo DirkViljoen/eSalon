@@ -13,26 +13,32 @@ namespace Prototype
     public partial class ViewOrder : Form
     {
         OrderList ol = new OrderList();
-        Order o;
+        Order o = new Order();
         OrderLine p;
+        OrderLineList pl = new OrderLineList();
         int id;
+        SupplierList sl = new SupplierList();
+        
 
 
         public ViewOrder(int _id)
         {
             InitializeComponent();
             id = _id;
+            string s = "";
+            pl = new OrderLineList(id, s);
+            o = ol.ViewAOrder(id);
 
-            o = ol[id];
+            dataGridView1.DataSource = pl;
 
-            //MessageBox.Show(Convert.ToString(o));
-            List<Order> nol = new List<Order>();
-            nol.Add(o);
-            List<OrderLine> Jol = new List<OrderLine>();
-            Jol.Add(p);
-           // MessageBox.Show(Convert.ToString(o.OrderID));
-            dataGridView1.DataSource = nol;
-            dataGridView2.DataSource = Jol;
+            foreach (Supplier u in sl)
+            {
+                if(o.Supplier_ID == u.Supplier_id){   
+                    textBox2.Text = u.Name;
+                }
+            }
+           textBox1.Text = o.DatePlaced;
+            
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -65,6 +71,7 @@ namespace Prototype
         {
             try{
                 ol.DeleteOrder(o);
+                MessageBox.Show("Order Deleted");
             }
             catch(Exception d){
                 MessageBox.Show("ERROR: " + d);

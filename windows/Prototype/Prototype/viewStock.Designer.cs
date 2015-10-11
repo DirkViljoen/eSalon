@@ -44,15 +44,17 @@
             this.label2 = new System.Windows.Forms.Label();
             this.txtBrand = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.button3 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // button1
             // 
             this.button1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(84)))), ((int)(((byte)(51)))), ((int)(((byte)(104)))));
-            this.button1.Location = new System.Drawing.Point(202, 224);
+            this.button1.ForeColor = System.Drawing.SystemColors.ButtonFace;
+            this.button1.Location = new System.Drawing.Point(184, 224);
             this.button1.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(142, 37);
+            this.button1.Size = new System.Drawing.Size(160, 46);
             this.button1.TabIndex = 46;
             this.button1.Text = "Update Product";
             this.button1.UseVisualStyleBackColor = false;
@@ -61,10 +63,11 @@
             // button2
             // 
             this.button2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(84)))), ((int)(((byte)(51)))), ((int)(((byte)(104)))));
-            this.button2.Location = new System.Drawing.Point(49, 224);
+            this.button2.ForeColor = System.Drawing.SystemColors.ButtonFace;
+            this.button2.Location = new System.Drawing.Point(25, 224);
             this.button2.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(143, 37);
+            this.button2.Size = new System.Drawing.Size(149, 46);
             this.button2.TabIndex = 75;
             this.button2.Text = "Delete Product";
             this.button2.UseVisualStyleBackColor = false;
@@ -210,13 +213,27 @@
             this.label1.TabIndex = 76;
             this.label1.Text = "Brand Name";
             // 
+            // button3
+            // 
+            this.button3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(84)))), ((int)(((byte)(51)))), ((int)(((byte)(104)))));
+            this.button3.ForeColor = System.Drawing.SystemColors.ButtonFace;
+            this.button3.Location = new System.Drawing.Point(184, 278);
+            this.button3.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(158, 46);
+            this.button3.TabIndex = 90;
+            this.button3.Text = "Reconcile Stock";
+            this.button3.UseVisualStyleBackColor = false;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
+            // 
             // viewStock
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(198)))), ((int)(((byte)(214)))), ((int)(((byte)(204)))));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ClientSize = new System.Drawing.Size(356, 269);
+            this.ClientSize = new System.Drawing.Size(356, 349);
+            this.Controls.Add(this.button3);
             this.Controls.Add(this.txtProduct);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.txtPrice);
@@ -262,5 +279,6 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox txtBrand;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button button3;
     }
 }

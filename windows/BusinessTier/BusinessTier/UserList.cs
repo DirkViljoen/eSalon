@@ -8,48 +8,28 @@ using System.Net;
 using System.IO;
 using RestSharp;
 using Newtonsoft.Json;
+using MySql.Data.MySqlClient;
+using System.Configuration;
 
 namespace BusinessTier
 {
     public class UserList : System.ComponentModel.BindingList<User>
     {
-        RestRequest request = new RestRequest();
-        RestClient User = new RestClient();
+        string myConnectionString;
+        MySqlDataReader rdr = null;
+        MySql.Data.MySqlClient.MySqlConnection conn;
 
-        public UserList()
-        {
-            try
-            {
-                User.BaseUrl = new Uri("http://localhost:8000");
-                request.Resource = "/api/User";
-                IRestResponse response = User.Execute(request);
-                string temp = response.Content.Replace("\"", "'");
-                JsonResponseUser test = JsonConvert.DeserializeObject<JsonResponseUser>(temp);
 
-                for (int k = 0; k < test.Rows.Count; k++)
-                {
-                    this.Add(test.Rows[k]);
-                }
-            }
-            catch (Exception d)
-            {
-
-            }
-
-        }
+        public UserList() { this.ViewAllUser(); }
 
         public UserList(int UserID)
         {
-            foreach (User o in GetUser(UserID))
+            foreach (User o in ViewUser(UserID))
             {
-                if (UserID == o.UserID)
+                if (UserID == o.User_ID)
                 {
-                    User User =
-                        new User(o.UserID,
-                                    o.name,
-                                    o.pass,
-                                    o.empID,
-                                    o.roleID);
+                    User User = 
+                        new User(o.User_ID, o.Username, o.Password, o.Login);
                     this.Add(User);
                     break;
                 }
@@ -57,71 +37,119 @@ namespace BusinessTier
             }
         }
 
-        public void GetUser(string sname, string dateTo, string dateFrom)
+        public UserList ViewUser(int inID)
         {
-            // GET
-            //RestClient stock = new RestClient();
-            User.BaseUrl = new Uri("http://localhost:8000");
+            myConnectionString = "server=localhost;uid=root;" +
+                                "pwd=root;database=esalon;";
 
-            //var request = new RestRequest();
-            request.Resource = "/api/User?sname=sname?dateTo=c&dateFrom=t";
-
-            request = new RestRequest("/api/User?sname={sname}&dateTo={dateTo}&dateFrom={dateFrom}", Method.GET);
-            //request.AddParameter("name", "value"); // adds to POST or URL querystring based on Method
-            request.AddUrlSegment("dateTo", dateTo); // replaces matching token in request.Resource
-            request.AddUrlSegment("sname", sname); // replaces matching token in request.Resource
-            request.AddUrlSegment("dateFrom", dateFrom); // replaces matching token in request.Resource
-
-            IRestResponse response = User.Execute(request);
-
-            string temp = response.Content.Replace("\"", "'");
-            //List<Client> list = JsonConvert.DeserializeObject<List<Client>>(temp);
-            JsonResponseUser test = JsonConvert.DeserializeObject<JsonResponseUser>(temp);
-
-            this.ClearItems();
-
-            for (int k = 0; k < test.Rows.Count; k++)
-            // foreach (Rows x in test)
+            try
             {
-                this.Add(test.Rows[k]);
+                conn = new MySql.Data.MySqlClient.MySqlConnection();
+                conn.ConnectionString = myConnectionString;
+                conn.Open();
+
+                string stm = "SELECT * from User WHERE User_ID = " + inID + ";";
+                MySqlCommand cmd = new MySqlCommand(stm, conn);
+                rdr = cmd.ExecuteReader();
+                while (rdr.Read())
+                {
+                    User s = new User(rdr.GetInt32(0), rdr.GetString(1), rdr.GetString(2), rdr.GetString(3));
+
+                    this.Add(s);
+                }
+
             }
-        }
+            catch (MySql.Data.MySqlClient.MySqlException ex)
+            {
+                //return ex.Message;
+            }
+            finally
+            {
+                if (rdr != null)
+                {
+                    rdr.Close();
+                }
 
-        public UserList GetUser()
-        {
+                if (conn != null)
+                {
+                    conn.Close();
+                }
 
-            // GET
-            //RestClient User = new RestClient();
-            User.BaseUrl = new Uri("http://localhost:8000");
-
-            //var request = new RestRequest();
-            request.Resource = "/api/User";
-
-            IRestResponse response = User.Execute(request);
-
-            string temp = response.Content.Replace("\"", "'");
-            //List<Client> list = JsonConvert.DeserializeObject<List<Client>>(temp);
-            User test = JsonConvert.DeserializeObject<User>(temp);
+            }
 
             return this;
-        }
+        } //DONE
 
-        public UserList GetUser(int inID)
+        public UserList ViewAllUser()
         {
-            UserList temp = new UserList(inID);
+            myConnectionString = "server=localhost;uid=root;" +
+                                "pwd=root;database=esalon;";
 
-            // GET
-            User.BaseUrl = new Uri("http://localhost:8000");
+            try
+            {
+                conn = new MySql.Data.MySqlClient.MySqlConnection();
+                conn.ConnectionString = myConnectionString;
+                conn.Open();
 
-            request.Resource = "/api/User/:id";
+                string stm = "SELECT * from User";
+                MySqlCommand cmd = new MySqlCommand(stm, conn);
+                rdr = cmd.ExecuteReader();
+                while (rdr.Read())
+                {
+                    User s = new User(rdr.GetInt32(0), rdr.GetString(1), rdr.GetString(2), rdr.GetString(3));
 
-            IRestResponse response = User.Execute(request);
+                    this.Add(s);
+                }
 
-            string temp2 = response.Content.Replace("\"", "'");
+            }
+            catch (MySql.Data.MySqlClient.MySqlException ex)
+            {
+                //return ex.Message;
+            }
+            finally
+            {
+                if (rdr != null)
+                {
+                    rdr.Close();
+                }
 
-            User test = JsonConvert.DeserializeObject<User>(temp2);
+                if (conn != null)
+                {
+                    conn.Close();
+                }
 
-            return temp;
+            }
+
+            return this;
+        } //DONE
+
+        public User stuff(User u)
+        {
+            myConnectionString = "server=localhost;uid=root;" +
+                                    "pwd=root;database=esalon;";
+
+            try
+            {
+                conn = new MySql.Data.MySqlClient.MySqlConnection();
+                MySqlCommand cmd;
+                conn.ConnectionString = myConnectionString;
+                conn.Open();
+
+                cmd = new MySqlCommand("sp_login_compare", conn); //passing procedure name and connection object
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("usrName", u.Username);
+                cmd.Parameters.AddWithValue("pwd", u.Password);
+
+                int res = cmd.ExecuteNonQuery();
+                this.Add(u);
+
+            }
+            catch (MySql.Data.MySqlClient.MySqlException ex)
+            {
+                string e = ex.Message;
+
+            }
+            return u;
         }
 
     }

@@ -1,0 +1,86 @@
+﻿body
+{
+	font-family: Arial, Tahoma;
+	font-size: 12px;
+	padding: 0px;
+	margin: 0px;
+	line-height: 16px;
+	color:#000000;
+}
+
+a:visited, a:link
+{
+	color: #0011bb;
+	text-decoration: none;
+}
+
+a:hover
+{
+	color: #ee3300;
+	text-decoration: none;
+}
+#div_main
+{
+	padding: 14px;	
+}
+#div_main table 
+{
+	width:95%;	
+}
+
+#div_main table td
+{
+	padding: 6px;	
+}
+
+#s_title
+{
+	padding: 15px;	
+	font-size: 15px;
+	line-height: 21px;
+	color:#000000;
+	font-weight:bold;
+	background-color: #eee;
+	border-bottom: 1px solid #999;
+}
+
+
+#tailer
+{
+	padding: 15px;	
+	color:#000000;
+	
+	border-top: 1px solid #999;
+}
+
+input, textarea, select
+{
+	font-family: Arial, Tahoma;
+	font-size: 12px;
+}
+
+.comments
+{
+	margin-top: 5px;
+	margin-bottom: 5px;
+	padding: 5px;
+	background-color: #fbfbaf;
+	border: 1px solid #aaaaaa;
+	color: #002233;
+	width: 95%;
+}
+
+pre
+{
+	padding: 10px;
+	background-color: #eee;
+	font-size: 12px; 
+	font-family: Courier New, Tahoma;		
+}
+					
+#s_result
+{
+	padding: 6px;	
+	padding-left: 20px;
+	font-size: 14px;
+}

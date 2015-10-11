@@ -40,5 +40,10 @@ namespace Prototype
             res = "cancel";
             this.Close();
         }
+
+        private void ConfirmationMessage_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

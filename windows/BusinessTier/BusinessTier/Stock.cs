@@ -3,50 +3,81 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Newtonsoft.Json;
+using MySql.Data.MySqlClient;
 
 namespace BusinessTier
 {
-    public class JsonResponseStock
-    {
-        [JsonProperty(PropertyName = "rows")]
-        public List<Stock> Rows { get; set; }
-
-        /*[JsonProperty(PropertyName = "SQLstats")]
-        public Stats sqlstats { get; set; }
-    */}
-
     public class Stock
     {
+        private int mStockID;
+        public int StockID
+        {
+            get { return mStockID; }
+            set { mStockID = value; }
+        }
 
-        [JsonProperty(PropertyName = "Stock_id")]
-        public int StockID { get; set; }
+        private string mBrand;
+        public string Brand
+        {
+            get { return mBrand; }
+            set { mBrand = value; }
+        }
 
-        [JsonProperty(PropertyName = "BrandName")]
-        public string Brand { get; set; }
+        private string mProduct;
+        public string Product
+        {
+            get { return mProduct; }
+            set { mProduct = value; }
+        }
 
-        [JsonProperty(PropertyName = "ProductName")]
-        public string Product { get; set; }
+        private double mPrice;
+        public double Price
+        {
+            get { return mPrice; }
+            set { mPrice = value; }
+        }
 
-        [JsonProperty(PropertyName = "Price")]
-        public double Price { get; set; }
+        private int mSize;
+        public int Size
+        {
+            get { return mSize; }
+            set { mSize = value; }
+        }
 
-        [JsonProperty(PropertyName = "Size")]
-        public int Size { get; set; }
+        private bool mActive;
+        public bool Active
+        {
+            get { return mActive; }
+            set { mActive = value; }
+        }
 
-        [JsonProperty(PropertyName = "Active")]
-        public bool Active { get; set; }
+        private int mQuantity;
+        public int Quantity
+        {
+            get { return mQuantity; }
+            set { mQuantity = value; }
+        }
 
-        [JsonProperty(PropertyName = "Quantity")]
-        public int Quantity { get; set; }
+        private string mBarcode;
+        public string Barcode
+        {
+            get { return mBarcode; }
+            set { mBarcode = value; }
+        }
 
-        [JsonProperty(PropertyName = "Barcode")]
-        public string Barcode { get; set; }
+        private int mCategoryID;
+        public int CategoryID
+        {
+            get { return mCategoryID; }
+            set { mCategoryID = value; }
+        }
 
-        [JsonProperty(PropertyName = "Category_ID")]
-        public int CategoryID { get; set; }
-
-        [JsonProperty(PropertyName = "Supplier_ID")]
-        public int SupplierID { get; set; }
+        private int mSupplierID;
+        public int SupplierID
+        {
+            get { return mSupplierID; }
+            set { mSupplierID = value; }
+        }
 
         public Stock(int oID, string sbrand, string sProduct, double sPrice, int sSize, bool sAct, int sQuan, string sBar, int sCat, int sSupp)
         {
@@ -61,5 +92,8 @@ namespace BusinessTier
             CategoryID = sCat;
             SupplierID = sSupp;
         }
+
+        public Stock()
+        {}
     }
 }

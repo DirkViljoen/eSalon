@@ -1,0 +1,118 @@
+﻿<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>Html Editor</title>
+    <style>
+        body
+        {
+            margin: 0px;
+            padding: 0px;
+            background-color: #1d1d1d;
+        }
+
+        #html_c
+        {
+            border: none;
+            margin: 0px;
+            padding: 0px;
+            overflow: scroll;
+            background-color: #fff;
+        }
+    </style>
+    <script type="text/jscript">
+        var Editor;
+
+        function init_gui() {
+            Editor = document.getElementById("html_c").contentWindow;
+            Editor.document.designMode = "On";
+            Editor.document.contentEditable = true;
+            Editor.document.open();
+            Editor.document.write("<div>&nbsp;</div>");
+            Editor.document.close();
+            Editor.document.body.style.fontFamily = "Calibri"
+            Editor.document.body.style.fontSize = "15px";
+            Editor.document.charset = "utf-8";
+            ResizeAuto();
+        }
+
+        function getHtml() {
+            return Editor.document.body.innerHTML;
+        }
+
+        function getText() {
+            return Editor.document.body.innerText;
+        }
+
+        function setText(v) {
+            Editor.document.body.innerText = v;
+        }
+
+        function setHtml(v) {
+            Editor.document.body.innerHTML = v;
+        }
+
+        function ResizeAuto() {
+            document.getElementById("html_c").style.pixelWidth = document.body.clientWidth - 5;
+            document.getElementById("html_c").style.pixelHeight = document.documentElement.clientHeight - 5;
+        }
+
+        function execEditorCommand(cmd, opt) {
+            Editor.focus();
+            Editor.document.execCommand(cmd, false, opt);
+            Editor.focus();
+        }
+
+        function strnicmp(s1, s2, len) {
+            if (s1.length < len && s2.length < len) {
+                return false;
+            }
+        }
+        function insertImage(filepath, file, data, ct) {
+            Editor.focus();
+            Editor.document.execCommand("insertImage", false, filepath);
+            Editor.focus();
+
+            var images = Editor.document.getElementsByTagName("img");
+            
+            for (var i = 0; i < images.length; i++) {
+                var img = images[i];
+
+                var src = img.src;
+                src = src.replace(/\%20/g, " ").toLowerCase();                
+                src = src.replace(/file:[/]+/, "");
+                src = src.replace(/\//g, "\\");
+
+                if (src == filepath.replace(/\//g, "\\").toLowerCase()) {
+                    img.src = "data:" + ct + ";base64," + data;
+                    img.alt = file;
+                    break;
+                }
+               
+            }
+        }
+
+        function OnViewHtmlSource(v) {
+            Editor.focus();
+            var text = "";
+            if (v == "true") {
+                text = Editor.document.body.innerHTML;
+                Editor.document.body.innerText = text;
+                Editor.document.body.innerHTML = "<div style=\"font-size:12px;font-family:Courier New\">" + Editor.document.body.innerHTML + "</div>";
+            }
+            else {
+                Editor.document.body.innerHTML = Editor.document.body.innerText;
+            }
+            Editor.focus();
+
+        }
+
+    </script>
+</head>
+<body>
+    <iframe id="html_c" name="html_c"></iframe>
+    <script>
+        init_gui();
+    </script>
+</body>
+</html>

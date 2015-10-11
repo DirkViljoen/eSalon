@@ -66,6 +66,9 @@ INSERT INTO `Category` (`Category_id`, `Name`) VALUES (3, "Wash");
 INSERT INTO `Stock` VALUES (1, "Maybelline", "Shampoo", 150.00 , 150, True, 100, "10581643", 1, 1);
 INSERT INTO `Stock` VALUES (2, "Tresemme", "Conditioner", 275.00 , 150, True, 40, "90492853", 2, 1);
 INSERT INTO `Stock` VALUES (3, "Wella", "Hair Dye", 100.00 , 100, False, 10, "6053422344", 3, 2);  
+INSERT INTO `Stock` VALUES (4, "Maybelline", "Shampoo", 150.00 , 150, True, 100, "10581643", 1, 1);
+INSERT INTO `Stock` VALUES (5, "Tresemme", "Conditioner", 275.00 , 150, True, 40, "90492853", 2, 1);
+INSERT INTO `Stock` VALUES (6, "Wella", "Hair Dye", 100.00 , 100, False, 10, "6053422344", 3, 2);  
 
 INSERT INTO `Stock_History` VALUES (1,100,"2014-01-01","2014-06-01",1);
 INSERT INTO `Stock_History` VALUES (2,150,"2014-06-01",null,1);
@@ -100,7 +103,7 @@ INSERT INTO `Booking` VALUES (1,"2015-07-22 08:00:00",30,true,1,"booking1",1,1,1
 INSERT INTO `Booking` VALUES (2,"2015-08-22 08:00:00",30,false,1,"booking2",1,1,null);
 INSERT INTO `Booking` VALUES (3,"2015-09-04 08:30:00",60,false,1,"booking3",2,1,null);
 
-INSERT INTO `Order` VALUES (2, "2015-01-01", "2012-01-01", 1);
+INSERT INTO `Order` VALUES (1, "2015-01-01", "2012-01-01", 1);
 
 INSERT INTO `Voucher` VALUES (1, 500, "1");
 

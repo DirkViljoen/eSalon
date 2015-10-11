@@ -101,7 +101,6 @@ C:\Users\Fatima\Documents\Sites\eSalon\windows\Prototype\Prototype\bin\Debug\New
 C:\Users\Fatima\Documents\Sites\eSalon\windows\Prototype\Prototype\bin\Debug\RestSharp.dll
 C:\Users\Fatima\Documents\Sites\eSalon\windows\Prototype\Prototype\bin\Debug\Newtonsoft.Json.xml
 C:\Users\Fatima\Documents\Sites\eSalon\windows\Prototype\Prototype\bin\Debug\RestSharp.xml
-C:\Users\Fatima\Documents\Sites\eSalon\windows\Prototype\Prototype\obj\x86\Debug\Prototype.Form2.resources
 C:\Users\Fatima\Desktop\THE FINAL PROJECT THINGS\windows\Prototype\Prototype\obj\x86\Debug\Prototype.exe
 C:\Users\Fatima\Desktop\THE FINAL PROJECT THINGS\windows\Prototype\Prototype\obj\x86\Debug\Prototype.pdb
 C:\Users\Fatima\Desktop\THE FINAL PROJECT THINGS\windows\Prototype\Prototype\obj\x86\Debug\Prototype.csprojResolveAssemblyReference.cache
@@ -130,3 +129,10 @@ C:\Users\Fatima\Desktop\THE FINAL PROJECT THINGS\windows\Prototype\Prototype\bin
 C:\Users\Fatima\Desktop\THE FINAL PROJECT THINGS\windows\Prototype\Prototype\bin\Debug\BusinessTier.dll
 C:\Users\Fatima\Documents\Sites\eSalon\windows\Prototype\Prototype\bin\Debug\BusinessTier.dll
 C:\Users\Fatima\Documents\Sites\eSalon\windows\Prototype\Prototype\bin\Debug\BusinessTier.pdb
+C:\Users\Fatima\Documents\Sites\eSalon\windows\Prototype\Prototype\obj\x86\Debug\Prototype.Form3.resources
+C:\Users\Fatima\Documents\Sites\eSalon\windows\Prototype\Prototype\bin\Debug\Prototype.exe.config
+C:\Users\Fatima\Documents\Sites\eSalon\windows\Prototype\Prototype\bin\Debug\MySql.Data.dll
+C:\Users\Fatima\Documents\Sites\eSalon\windows\Prototype\Prototype\bin\Debug\MySqlBackup.dll
+C:\Users\Fatima\Documents\Sites\eSalon\windows\Prototype\Prototype\bin\Debug\Microsoft.Office.Project.Schema.dll
+C:\Users\Fatima\Documents\Sites\eSalon\windows\Prototype\Prototype\obj\x86\Debug\Prototype.ReconcileStock.resources
+C:\Users\Fatima\Documents\Sites\eSalon\windows\Prototype\Prototype\obj\x86\Debug\Prototype.Lookups.resources
