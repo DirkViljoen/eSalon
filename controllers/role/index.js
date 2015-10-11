@@ -12,14 +12,18 @@ module.exports = function (router) {
 
     router.get('/add', function (req, res) {
         // res.render('role/role-add', model);
-        var u = {};
+        var m = {};
+        m.p = req.params;
+        m.q = req.query;
+        m.user = {};
+        m.h = '/help#roles-add';
 
         auth.grantAccess(req.session.passport, 8, 5, req.header('Referer'))
         .then(function (result){
-            u = result.user;
+            m.user = result.user;
 
             if (result.granted){
-                res.render('role/role-add', {"user": u, "id": req.params.id})
+                res.render('role/role-add', m)
             }
             else
             {
@@ -34,14 +38,18 @@ module.exports = function (router) {
 
     router.get('/maintain', function (req, res) {
         // res.render('role/role-maintain', model);
-        var u = {};
+        var m = {};
+        m.p = req.params;
+        m.q = req.query;
+        m.user = {};
+        m.h = '/help#roles-edit';
 
         auth.grantAccess(req.session.passport, 8, 5, req.header('Referer'))
         .then(function (result){
-            u = result.user;
+            m.user = result.user;
 
             if (result.granted){
-                res.render('role/role-maintain', {"user": u, "id": req.params.id})
+                res.render('role/role-maintain', m)
             }
             else
             {

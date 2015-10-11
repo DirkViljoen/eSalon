@@ -14,14 +14,18 @@ module.exports = function (router) {
 
     router.get('/audit', function (req, res) {
         // res.render('reports/audit', {})
-        var u = {};
+        var m = {};
+        m.p = req.params;
+        m.q = req.query;
+        m.user = {};
+        m.h = '/help#reports';
 
         auth.grantAccess(req.session.passport, 9, 5, req.header('Referer'))
         .then(function (result){
-            u = result.user;
+            m.user = result.user;
 
             if (result.granted){
-                res.render('reports/audit', {"user": u, "id": req.params.id})
+                res.render('reports/audit', m)
             }
             else
             {
@@ -36,14 +40,18 @@ module.exports = function (router) {
 
     router.get('/stocklevel', function (req, res) {
         // res.render('reports/stocklevel', {})
-        var u = {};
+        var m = {};
+        m.p = req.params;
+        m.q = req.query;
+        m.user = {};
+        m.h = '/help#reports';
 
         auth.grantAccess(req.session.passport, 9, 5, req.header('Referer'))
         .then(function (result){
-            u = result.user;
+            m.user = result.user;
 
             if (result.granted){
-                res.render('reports/stocklevel', {"user": u, "id": req.params.id})
+                res.render('reports/stocklevel', m)
             }
             else
             {
@@ -58,14 +66,18 @@ module.exports = function (router) {
 
     router.get('/expense', function (req, res) {
         // res.render('reports/expense', {})
-        var u = {};
+        var m = {};
+        m.p = req.params;
+        m.q = req.query;
+        m.user = {};
+        m.h = '/help#reports';
 
         auth.grantAccess(req.session.passport, 9, 5, req.header('Referer'))
         .then(function (result){
-            u = result.user;
+            m.user = result.user;
 
             if (result.granted){
-                res.render('reports/expense', {"user": u, "id": req.params.id})
+                res.render('reports/expense', m)
             }
             else
             {
@@ -80,14 +92,18 @@ module.exports = function (router) {
 
     router.get('/employee', function (req, res) {
         // res.render('reports/employee', {});
-        var u = {};
+        var m = {};
+        m.p = req.params;
+        m.q = req.query;
+        m.user = {};
+        m.h = '/help#reports';
 
         auth.grantAccess(req.session.passport, 9, 5, req.header('Referer'))
         .then(function (result){
-            u = result.user;
+            m.user = result.user;
 
             if (result.granted){
-                res.render('reports/employee', {"user": u, "id": req.params.id})
+                res.render('reports/employee', m)
             }
             else
             {
@@ -102,14 +118,18 @@ module.exports = function (router) {
 
     router.get('/income', function (req, res) {
         // res.render('reports/income', {})
-        var u = {};
+        var m = {};
+        m.p = req.params;
+        m.q = req.query;
+        m.user = {};
+        m.h = '/help#reports';
 
         auth.grantAccess(req.session.passport, 9, 5, req.header('Referer'))
         .then(function (result){
-            u = result.user;
+            m.user = result.user;
 
             if (result.granted){
-                res.render('reports/income', {"user": u, "id": req.params.id})
+                res.render('reports/income', m)
             }
             else
             {
@@ -124,14 +144,18 @@ module.exports = function (router) {
 
     router.get('/stocktrend', function (req, res) {
         // res.render('reports/stocktrend', {})
-        var u = {};
+        var m = {};
+        m.p = req.params;
+        m.q = req.query;
+        m.user = {};
+        m.h = '/help#reports';
 
         auth.grantAccess(req.session.passport, 9, 5, req.header('Referer'))
         .then(function (result){
-            u = result.user;
+            m.user = result.user;
 
             if (result.granted){
-                res.render('reports/stocktrend', {"user": u, "id": req.params.id})
+                res.render('reports/stocktrend', m)
             }
             else
             {
@@ -146,14 +170,18 @@ module.exports = function (router) {
 
     router.get('/client', function (req, res) {
         // res.render('reports/client', {})
-        var u = {};
+        var m = {};
+        m.p = req.params;
+        m.q = req.query;
+        m.user = {};
+        m.h = '/help#reports';
 
         auth.grantAccess(req.session.passport, 9, 5, req.header('Referer'))
         .then(function (result){
-            u = result.user;
+            m.user = result.user;
 
             if (result.granted){
-                res.render('reports/client', {"user": u, "id": req.params.id})
+                res.render('reports/client', m)
             }
             else
             {

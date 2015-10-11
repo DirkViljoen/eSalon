@@ -26,47 +26,6 @@ DELIMITER ;
         WHERE `Name` = rName;
     END //
     DELIMITER ;  
-    
--- -- UPDATE
-DELIMITER //
-create procedure sp_Update_Role 
-(
-	IN rRole_ID 	INT,
-	IN rName		VARCHAR(50)
-)
-BEGIN  UPDATE `Role` SET 
-	`Name` = rName
-    
-WHERE Role_ID = rRole_ID
-
-; END //
-DELIMITER ;
-
--- -- INSERT
-DELIMITER //
-create procedure sp_Insert_Role 
-(
-	IN rName		VARCHAR(50)
-)
-BEGIN 
-INSERT INTO `Role` (`Name`)
-VALUES(rName)
-; END //
-DELIMITER ;
-
--- -- DELETE
-DELIMITER //
-create procedure sp_Delete_Role
-(
-	IN rRole_ID 	INT
-)
-BEGIN  Update `Role`
-	SET 
-		`Active` = false
-	WHERE 
-		Role_ID = rRole_ID;
-END //
-DELIMITER ;
 
 -- ---- ---- ----- SUPPLIER -- ---- ---- ---- ---- ---
 -- --READ
@@ -745,9 +704,11 @@ DELIMITER //
         
     )
     BEGIN
-        SELECT i.`DateTime`, isl.`Quantity`, isl.`Price`, s.`Name` as iName
+        SELECT i.`DateTime`, isl.`Quantity`, sh.`Price`, s.`Name` as iName
         FROM `invoice` i, `invoice_service_line` isl, `service` s, `service_history` sh
         WHERE 
+			i.Invoice_ID = isl.Invoice_id
+            AND
 			isl.`ServiceHistory_id` = sh.`ServiceHistory_id`
             AND
             sh.`Service_id` = s.`Service_id`
@@ -770,6 +731,8 @@ DELIMITER //
         SELECT i.`DateTime`, isl.`Quantity`, isl.`Price`, s.`ProductName` as iName
         FROM `invoice` i, `invoice_stock_line` isl, `stock` s, `stock_history` sh
         WHERE 
+			i.Invoice_ID = isl.Invoice_id
+            AND
 			isl.`StockHistory_id` = sh.`StockHistory_id`
             AND
             sh.`Stock_ID` = s.`Stock_id`

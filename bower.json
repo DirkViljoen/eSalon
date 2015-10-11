@@ -38,7 +38,9 @@
     "waitForImages": "~2.1.0",
     "ng-flow": "~2.6.1",
     "Chart.js": "~1.0.2",
-    "angular-chart.js": "~0.8.4"
+    "angular-chart.js": "~0.8.4",
+    "ng-js-tree": "~0.0.6",
+    "angular-upload": "~1.0.12"
   },
   "resolutions": {
     "angular": "~1.4.2",

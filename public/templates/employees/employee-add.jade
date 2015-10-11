@@ -8,7 +8,7 @@ block loggedIn
   a(href='#', class='navbar-link') Signed in as Mark Otto
 
 block content
-    form.row.col-xs-12.workarea.form-validate(id="employeeAdd", ng-controller="EmployeeController", ng-init="initAdd()")
+    form.row.col-xs-12.workarea.form-validate(id="employeeAdd", ng-controller="EmployeeController", ng-init="initAdd("+user.uid+")")
         .row
             .col-sm-1
             .col-sm-11
@@ -31,7 +31,7 @@ block content
                 .grouphead
                     +form-group('Credentials')
                 .groupbox
-                    +ng-input-text('uname', 'Username:', 'user.name', 'Mrs', true, false, '4', '50')
+                    +ng-input-text('uname', 'Username:', 'user.name', 'Enter username', true, false, '4', '50')
                     +ng-input-combobox('role', 'Role:', 'user.roleId', 'Select a role', 'role.Role_ID as role.Name for role in roles', true, false)
                     +ng-input-text('title', 'Password:', 'user.password', 'password', true, false, '4', '50')
                 br
@@ -49,24 +49,31 @@ block content
                 .grouphead
                     +form-group('Upload a picture')
                 .groupbox
-                    div(flow-init="{target: '/api/upload'}"
-                     flow-files-submitted="$flow.upload()"
-                     flow-file-success="$file.msg = $message")
-                        .well.my-drop-zone(flow-drop flow-drag-enter="style={border:'4px solid green'}" flow-drag-leave="style={}" ng-style="style")
-                            img(flow-img="$flow.files[0]")
-                            p Base drop zone
+                    input(name="myFile", type="file", ng-model="image")
+                    input.btn.btn-default(type="button", value='Cancel', ng-click='doUpload()')
 
-                        table
-                            tr(ng-repeat="file in $flow.files")
-                                td {{$index+1}}
-                                td {{file.name}}
-                                td {{file.msg}}
+                    upload-button.btn.btn-primary.btn-upload(url="/api/uploadimage"
+                        on-success="onGlobalSuccess(response)"
+                    ) Fileupload
 
-                        span(flow-btn) Upload file
+                //-     div(flow-init="{target: '/api/upload'}"
+                //-      flow-files-submitted="$flow.upload()"
+                //-      flow-file-success="$file.msg = $message")
+                //-         .well.my-drop-zone(flow-drop flow-drag-enter="style={border:'4px solid green'}" flow-drag-leave="style={}" ng-style="style")
+                //-             img(flow-img="$flow.files[0]")
+                //-             p Base drop zone
 
-                    form(id="uploadForm" enctype="multipart/form-data" action="/api/upload" method="post")
-                        input(type="file" name="image" fileread="employee.f")
-                        input(type="button", value='Submit', ng-click='savefile()')
+                //-         table
+                //-             tr(ng-repeat="file in $flow.files")
+                //-                 td {{$index+1}}
+                //-                 td {{file.name}}
+                //-                 td {{file.msg}}
+
+                //-         span(flow-btn) Upload file
+
+                //-     form(id="uploadForm" enctype="multipart/form-data" action="/api/upload" method="post")
+                //-         input(type="file" name="image" fileread="employee.f")
+                //-         input(type="button", value='Submit', ng-click='savefile()')
 
         br
         .row

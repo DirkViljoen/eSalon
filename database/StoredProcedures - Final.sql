@@ -689,4 +689,153 @@ Use esalon;
 	END //
 	DELIMITER ;
     
+-- Permissions
+
+	DELIMITER //
+	create procedure esalon.sp_getRolePermissions
+	(
+		IN rid INT
+	)
+	BEGIN 
+		SELECT 
+			p.Permission_ID as pid
+		FROM
+			Permission p, Role_Permission rp
+		WHERE
+			p.Permission_ID = rp.Permission_ID
+			AND
+			rp.Role_ID = rid;
+	END //
+	DELIMITER ;
+
+	DELIMITER //
+	create procedure esalon.sp_getPermissions
+	(
+
+	)
+	BEGIN 
+		SELECT 
+			p.Permission_ID as pid, 
+			mj.`Name` as Major, 
+			mj.Major_ID as mjid, 
+			mn.`Name` as Minor, 
+			mn.Minor_ID as mnid
+		FROM
+			Permission p, Major mj, Minor mn
+		WHERE
+			p.Major_ID = mj.Major_ID
+			AND
+			p.Minor_ID = mn.Minor_ID
+		ORDER BY 
+			mj.Major_ID, mn.Minor_ID;
+
+	END //
+	DELIMITER ;
+    
+	DELIMITER //
+	create procedure esalon.sp_getRoles
+	(
+
+	)
+	BEGIN 
+		SELECT 
+			r.Role_ID as rid, r.`Name` as Role, p.Permission_ID as pid
+		FROM
+			Role r, Role_Permission rp, Permission p, Major mj, Minor mn
+		WHERE
+			r.Role_ID = rp.Role_ID
+			AND
+			rp.Permission_ID = p.Permission_ID
+			AND
+			p.Major_ID = mj.Major_ID
+			AND
+			p.Minor_ID = mn.Minor_ID;
+
+	END //
+	DELIMITER ;
+    
+    -- -- INSERT
+	DELIMITER //
+	create procedure spSub_Letter_Payments_Create 
+	(
+		IN isid	INT,
+		IN idate	DATETIME,
+		IN iamount DECIMAL(8,2),
+		IN ipid INT
+	)
+	BEGIN 
+	INSERT INTO `Sub_Letter_Payment` 
+		(`DateTime`, `Amount`, `Sub_Letter_id`, `PaymentMethod_ID`)
+	VALUES(idate , iamount, isid, ipid);
+	END //
+	DELIMITER ;
+    
+-- Role
+
+	-- -- INSERT
+	DELIMITER //
+	create procedure sp_Insert_Role 
+	(
+		IN rname VARCHAR(50)
+	)
+	BEGIN 
+    DECLARE insertId INT;
+    
+	INSERT INTO `Role` 
+		(`Name`)
+	VALUES
+		(rname);
+        
+	SET insertId = LAST_INSERT_ID();
+			SELECT insertId;
+	END //
+	DELIMITER ;
+    
+    
+    
+    DELIMITER //
+	create procedure sp_Update_Role 
+	(
+		IN rid	INT,
+		IN iname VARCHAR(50)
+	)
+	BEGIN  
+
+	UPDATE `Role` SET 
+		`Name` = iname
+	WHERE Role_ID = rid;
+
+	END //
+	DELIMITER ;
+    
+    DELIMITER //
+	create procedure sp_Delete_RolePermissions
+	(
+		IN rid	INT
+	)
+	BEGIN  
+
+	DELETE FROM Role_Permission
+	WHERE Role_ID = rid;
+
+	END //
+	DELIMITER ;
+    
+	-- -- INSERT
+	DELIMITER //
+	create procedure sp_Insert_RolePermission 
+	(
+		IN rid INT,
+        IN pid INT
+	)
+	BEGIN 
+	INSERT INTO `Role_Permission`
+	VALUES
+		(rid,pid);
+	END //
+	DELIMITER ;
+    
+
+
+    
     

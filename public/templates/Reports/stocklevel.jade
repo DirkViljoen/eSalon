@@ -15,11 +15,11 @@ block content
                 h1 Current stock level report
                 h4 {{date}}
 
-        br
-        .row
-            .col-xs-1.col-sm-3
-            .col-xs-8.col-sm-6
-                canvas.chart.chart-bar(id="bar" chart-data="data" chart-labels="labels" chart-legend="true" chart-series="series" chart-click="onClick")
+        //- br
+        //- .row
+        //-     .col-xs-1.col-sm-3
+        //-     .col-xs-8.col-sm-6
+        //-         canvas.chart.chart-bar(id="bar" chart-data="data" chart-labels="labels" chart-legend="true" chart-series="series" chart-click="onClick")
 
         br
         .row
@@ -38,8 +38,8 @@ block content
                             td {{row.Quantity}}
 
         //- Pure functionality objects
-        div
-            p(ng-if="loading") Loading&hellip;
-            p labels : {{labels}}
-            p series : {{series}}
-            p data : {{data}}
+        //- div
+        //-     p(ng-if="loading") Loading&hellip;
+        //-     p labels : {{labels}}
+        //-     p series : {{series}}
+        //-     p data : {{data}}

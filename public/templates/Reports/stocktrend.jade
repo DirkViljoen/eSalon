@@ -45,7 +45,7 @@ block content
                     tbody
                         tr(ng-repeat="catrow in stockList")
                             td {{catrow.Category}}
-                            td 
+                            td
                                 table.table(id="stockTable" st-table='stockList')
                                     thead
                                         tr
@@ -58,12 +58,12 @@ block content
                                             td {{row.Name}}
                                             td {{row.Quantity}}
         //- Pure functionality objects
-        div
-           p labels: {{labels}}
-           p data: {{data}}
-           p series: {{series}}
-           p stockSold: {{stockSold}}
-           p stockBought: {{stockBought}}
-           p stockInitCount: {{stockInitCount}}
-           p stockList: {{stockList}}
-           p searchCriteria: {{searchCriteria}}
+        //- div
+        //-    p labels: {{labels}}
+        //-    p data: {{data}}
+        //-    p series: {{series}}
+        //-    p stockSold: {{stockSold}}
+        //-    p stockBought: {{stockBought}}
+        //-    p stockInitCount: {{stockInitCount}}
+        //-    p stockList: {{stockList}}
+        //-    p searchCriteria: {{searchCriteria}}

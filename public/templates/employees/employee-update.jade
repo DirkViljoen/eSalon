@@ -8,7 +8,7 @@ block loggedIn
   a(href='#', class='navbar-link') Signed in as Mark Otto
 
 block content
-    form.row.col-xs-12.workarea.form-validate(id="employeeUpdate", ng-controller="EmployeeController", ng-init="initUpdate(" + id + ")")
+    form.row.col-xs-12.workarea.form-validate(id="employeeUpdate", ng-controller="EmployeeController", ng-init="initUpdate(" + p.id + ","+user.uid+")")
         .row
             .col-sm-1
             .col-sm-11
@@ -31,7 +31,7 @@ block content
                 .grouphead
                     +form-group('Credentials')
                 .groupbox
-                    +ng-input-text('uname', 'Username:', 'user.name', 'Mrs', true, false, '4', '50')
+                    +ng-input-text('uname', 'Username:', 'user.name', 'Enter username', true, false, '4', '50')
                     +ng-input-combobox('role', 'Role:', 'user.roleId', 'Select a role', 'role.Role_ID as role.Name for role in roles', true, false)
                     //- +ng-input-text('title', 'Password:', 'user.password', 'password', false, true, '4', '50')
                     .row

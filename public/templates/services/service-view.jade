@@ -9,7 +9,7 @@ block loggedIn
 
 block content
 
-    form.row.col-xs-12.workarea.form-validate(id="serviceUpdate", ng-controller="ServiceController" , ng-init="initView(" + id + ")")
+    form.row.col-xs-12.workarea.form-validate(id="serviceUpdate", ng-controller="ServiceController" , ng-init="initView(" + p.id + ","+user.uid+")")
         .row
             .col-sm-1
             .col-sm-11
@@ -22,7 +22,7 @@ block content
                     +form-group('Service Information')
                 .groupbox
                     +ng-input-text('sname', 'Name:', 'service.name', 'service name', false, true, '1', '50')
-                    +ng-input-text('sinfo', 'Additional information:', 'service.info', '', false, true, '1', '300')
+                    +ng-input-textarea('sinfo', 'Additional information:', 'service.info', '', false, true, '1', '300')
                     +ng-input-text('number_sm_pos', 'Duration (Short):', 'service.duration.short', 'Duaration for short hair in minutes', false, true, '1', '4')
                     +ng-input-text('number_sm_pos', 'Duration (Medium):', 'service.duration.medium', 'Duaration for medium hair in minutes', false, true, '1', '4')
                     +ng-input-text('number_sm_pos', 'Duration (Long):', 'service.duration.long', 'Duaration for long hair in minutes', false, true, '1', '4')

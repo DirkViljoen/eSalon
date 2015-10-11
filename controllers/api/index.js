@@ -8,6 +8,8 @@ var
     ExpenseModel    = require('../../models/expenses'),
     InvoiceModel    = require('../../models/invoice'),
     OrdersModel     = require('../../models/orders'),
+    OtherModel      = require('../../models/other'),
+    RoleModel       = require('../../models/role'),
     ServiceModel    = require('../../models/service'),
     StockModel      = require('../../models/stock'),
     SupplierModel   = require('../../models/supplier'),
@@ -39,6 +41,8 @@ module.exports = function (router) {
     models.invoice  = new InvoiceModel();
     models.lookup   = new LookupsModel();
     models.orders   = new OrdersModel();
+    models.other    = new OtherModel();
+    models.roles    = new RoleModel();
     models.reports  = new ReportsModel();
     models.services = new ServiceModel();
     // models.specials = new SpecialsModel();
@@ -46,6 +50,18 @@ module.exports = function (router) {
     models.supplier = new SupplierModel();
     models.vouchers = new VouchersModel();
     models.user     = new UserModel();
+
+String.prototype.hexEncode = function(){
+    var hex, i;
+
+    var result = "";
+    for (i=0; i<this.length; i++) {
+        hex = this.charCodeAt(i).toString(16);
+        result += ("000"+hex).slice(-4);
+    }
+
+    return result
+};
 
 // Address
 
@@ -65,6 +81,62 @@ module.exports = function (router) {
                 }
             );
      });
+
+// Audit
+
+    router.get('/audit', function (req, res) {
+        console.log('Audit POST. Query: ' + JSON.stringify(req.query));
+
+        if (JSON.stringify(req.query) != '{}') {
+            var obj = {};
+            obj.id = req.query.id ? req.query.id : null;
+            obj.action = req.query.a ? req.query.a : "None";
+            obj.description = req.query.d ? req.query.d : "None";
+
+            models.other.log(obj)
+                .then(
+                    function (result){
+                        res.send(result);
+                    },
+                    function (err){
+                        res.send({'err': err});
+                    }
+                );
+        }
+        else
+        {
+            var err = 'No req.body on audit POST';
+            console.error(new Error(err));
+            res.send({'err': err});
+        }
+    });
+
+    router.post('/audit', function (req, res) {
+        console.log('Audit POST. Body: ' + JSON.stringify(req.body));
+
+        if (JSON.stringify(req.body) != '{}') {
+            var obj = {};
+            obj.id = req.body.id ? req.body.id : null;
+            obj.action = req.body.action;
+            obj.description = req.body.description;
+
+            models.other.log(obj)
+                .then(
+                    function (result){
+                        res.send(result);
+                    },
+                    function (err){
+                        res.send({'err': err});
+                    }
+                );
+        }
+        else
+        {
+            var err = 'No req.body on audit POST';
+            console.error(new Error(err));
+            res.send({'err': err});
+        }
+    });
 
 // Bookings
 
@@ -521,7 +593,7 @@ module.exports = function (router) {
             obj.employee.addressId = null;
 
             obj.user.name = (obj.user.name ? '"' + obj.user.name + '"' : null);
-            obj.user.password = (obj.user.password ? '"' + obj.user.password + '"' : null);
+            obj.user.password = (obj.user.password ? '"' + obj.user.password.hexEncode() + '"' : null);
             obj.user.roleId = (obj.user.roleId ? obj.user.roleId : null);
 
             var deferred = q.defer();
@@ -624,7 +696,7 @@ module.exports = function (router) {
             obj.employee.addressId = (obj.employee.addressId ? obj.employee.addressId : null);
 
             obj.user.name = (obj.user.name ? '"' + obj.user.name + '"' : null);
-            obj.user.password = (obj.user.password ? '"' + obj.user.password + '"' : null);
+            obj.user.password = (obj.user.password ? '"' + obj.user.password.hexEncode() + '"' : null);
             obj.user.roleId = (obj.user.roleId ? obj.user.roleId : null);
             obj.user.employeeId = (obj.employee.employeeId ? obj.employee.employeeId : null);
             obj.user.userId = (obj.user.userId ? obj.user.userId : null);
@@ -795,7 +867,7 @@ module.exports = function (router) {
             //booking
             var booking = {};
             booking.bid = (req.body.booking.bid ? req.body.booking.bid : req.params.id);
-            booking.datetime = '"' + moment(req.body.datetime).format('YYYY-MM-DD HH:mm:ss') + '"';
+            booking.datetime = '"' + moment(req.body.booking.datetime).format('YYYY-MM-DD HH:mm:ss') + '"';
 
             booking.duration = (req.body.booking.duration ? '"' + req.body.booking.duration + '"' : 60);
             booking.completed = 1;
@@ -1145,8 +1217,8 @@ module.exports = function (router) {
             var transporter = nodemailer.createTransport({
                 service: 'Gmail',
                 auth: {
-                    user: 'dirkcharl.viljoen@gmail.com', // Your email id
-                    pass: 'gmLu@xeiri1' // Your password
+                    user: 'salonredesignesalon@gmail.com', // Your email id
+                    pass: 'esLuaxeiri1' // Your password
                 }
             });
 
@@ -1391,6 +1463,163 @@ module.exports = function (router) {
             res.send({'err': err});
         }
     });
+
+// roles
+
+    router.get('/permissions', function (req, res) {
+        console.log('Permissions GET.')
+
+        models.roles.permissions()
+            .then(
+                function (result){
+                    if (result)
+                        res.send(result);
+                },
+                function (err){
+                    console.log(err);
+                    res.send(err);
+                }
+            );
+    });
+
+    router.get('/role/:id', function (req, res) {
+        console.log('Role GET. Params : ' + JSON.stringify(req.params));
+
+        models.roles.getRole(req.params.id)
+            .then(
+                function (result){
+                    if (result)
+                        res.send(result);
+                },
+                function (err){
+                    console.log(err);
+                    res.send(err);
+                }
+            );
+    });
+
+    router.post('/role', function (req, res) {
+       console.log('Supplier POST. Body: ' + JSON.stringify(req.body));
+
+       if (JSON.stringify(req.body) != '{}') {
+           var obj = {};
+           //post
+           obj.name = (req.body.name ? '"' + req.body.name + '"' : '"new role"');
+           // obj.permissions = req.body.permissions;
+
+            models.roles.create(obj)
+               .then(
+                    function (result){
+                        obj.roleId = result.SQLstats.insertId;
+                        obj.permissions = req.body.permissions;
+                        console.log('Role created');
+                        console.log(result);
+                        console.log('Creating ' + obj.permissions.length + ' permissions');
+
+                        console.log(obj.permissions);
+
+                        for (var i = 0; i < obj.permissions.length; i++) {
+                            console.log('Creating ' + i);
+                            models.roles.createPermission({'rid': obj.roleId, 'pid': obj.permissions[i]})
+                            .then(
+                                function (result){
+                                    return result
+                                },
+                                function (err){
+                                    res.send({'err': err})
+                                }
+                            );
+                        }
+
+
+
+
+                        res.send({"done":"done"});
+                    },
+                    function (err){
+                        console.error(err);
+                        res.send({'err': err});
+                    }
+               )
+         }
+         else
+         {
+             var err = 'No req.body on supplier POST';
+             console.error(new Error(err));
+             res.send({'err': err});
+         }
+     });
+
+    router.put('/role', function (req, res) {
+       console.log('Supplier POST. Body: ' + JSON.stringify(req.body));
+
+       if (JSON.stringify(req.body) != '{}') {
+           var obj = {};
+           //post
+           obj.id = req.body.roleId;
+           obj.name = (req.body.name ? '"' + req.body.name + '"' : '"new role"');
+           console.log(obj);
+           // obj.permissions = req.body.permissions;
+
+            models.roles.update(obj)
+                .then(
+                    function (result){
+                        console.log('Role updated, Deleting permissions');
+                            models.roles.deletePermission({'rid': obj.id})
+                            .then(
+                                function (result){
+                                    return result
+                                },
+                                function (err){
+                                    res.send({'err': err})
+                                }
+                            );
+                    },
+                    function (err){
+                        console.error(err);
+                        res.send({'err': err});
+                    }
+                )
+                .then(
+                    function (result){
+                        obj.permissions = req.body.permissions;
+                        console.log('Permissions Deleted, Creating new.');
+                        console.log(result);
+                        console.log('Creating ' + obj.permissions.length + ' permissions');
+
+                        console.log(obj.permissions);
+
+                        for (var i = 0; i < obj.permissions.length; i++) {
+                            console.log('Creating ' + i);
+                            models.roles.createPermission({'rid': obj.id, 'pid': obj.permissions[i]})
+                            .then(
+                                function (result){
+                                    return result
+                                },
+                                function (err){
+                                    res.send({'err': err})
+                                }
+                            );
+                        }
+
+
+
+
+                        res.send({"done":"done"});
+                    },
+                    function (err){
+                        console.error(err);
+                        res.send({'err': err});
+                    }
+                )
+         }
+         else
+         {
+             var err = 'No req.body on supplier POST';
+             console.error(new Error(err));
+             res.send({'err': err});
+         }
+     });
 
 // Services
 
@@ -1974,7 +2203,7 @@ module.exports = function (router) {
 
         var obj = req.body;
 
-        obj.password = '"' + obj.password + '"';
+        obj.password = '"' + obj.password.hexEncode() + '"';
 
         models.user.changePassword(obj)
             .then(
@@ -2404,17 +2633,46 @@ module.exports = function (router) {
                 }
             );
     });
+
 // Uploading files
 
     router.post('/uploadImage',function(req,res){
-        console.log('uploading - file:');
+        // console.log('uploading - file:');
+        // console.log('body: ' + JSON.stringify(req.body));
+        // upload(req,res,function(err) {
+        //     if(err) {
+        //         return res.send("Error uploading file.");
+        //     }
+        //     res.send("File is uploaded");
+        // });
+
+        console.log('uploading - image:');
+        console.log('files: ' + JSON.stringify(req.files));
         console.log('body: ' + JSON.stringify(req.body));
-        upload(req,res,function(err) {
-            if(err) {
-                return res.send("Error uploading file.");
-            }
-            res.send("File is uploaded");
+        console.log('params: ' + JSON.stringify(req.params));
+
+
+        var files = util.isArray(req.files.file) ? req.files.file : [req.files.file];
+
+        console.log(files);
+
+        files.forEach(function (file) {
+            fs.rename(file.path, path.resolve(uploadPath, file.name), function(err) {
+                if (err) throw err;
+                fs.unlink(file.path, function() {
+                    if (err) throw err;
+                });
+            });
         });
+
+        // Force response type to text/html otherwise IE will try to open the returned json response.
+        res.contentType('text/html');
+
+        // Really should return json when all files have been saved, but we are simplifying things a bit here.
+        // We also delay it a bit, so we can see the nice loader
+        setTimeout((function() {
+            res.json({files: files.map(function (file) { return file.name; }) });
+        }), 2000);
     });
 
     router.post('/uploadCSV',function(req,res){

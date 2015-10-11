@@ -23,6 +23,7 @@ module.exports = function (router) {
         m.p = req.params;
         m.q = obj;
         m.user = {};
+        m.h = '/help#bookings';
 
         console.log(m);
 
@@ -50,6 +51,7 @@ module.exports = function (router) {
         m.p = req.params;
         m.q = req.query;
         m.user = {};
+        m.h = '/help#bookings-add';
 
         console.log(m);
 
@@ -73,14 +75,18 @@ module.exports = function (router) {
 
     router.get('/update/:id', function (req, res) {
         console.log('Booking add with params: ' + JSON.stringify(req.params))
-        var u = {};
+        var m = {};
+        m.p = req.params;
+        m.q = req.query;
+        m.user = {};
+        m.h = '/help#bookings-edit';
 
         auth.grantAccess(req.session.passport, 2, 2, req.header('Referer'))
         .then(function (result){
-            u = result.user;
+            m.user = result.user;
 
             if (result.granted){
-                res.render('bookings/booking-update', {"user": u, "id": req.params.id})
+                res.render('bookings/booking-update', m)
             }
             else
             {
@@ -116,14 +122,18 @@ module.exports = function (router) {
 
     router.get('/finalise/:id', function (req, res) {
         // res.render('invoice/finalisebooking', req.params);
-        var u = {};
+        var m = {};
+        m.p = req.params;
+        m.q = req.query;
+        m.user = {};
+        m.h = '/help#bookings-finalise';
 
         auth.grantAccess(req.session.passport, 3, 1, req.header('Referer'))
         .then(function (result){
-            u = result.user;
+            m.user = result.user;
 
             if (result.granted){
-                res.render('invoice/finalisebooking', {"user": u, "id": req.params.id})
+                res.render('invoice/finalisebooking', m)
             }
             else
             {

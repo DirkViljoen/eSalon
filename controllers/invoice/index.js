@@ -15,14 +15,18 @@ module.exports = function (router) {
 
     router.get('/makesale', function (req, res) {
         // res.render('invoice/makesale', model)
-        var u = {};
+        var m = {};
+        m.p = req.params;
+        m.q = req.query;
+        m.user = {};
+        m.h = '/help#makesale';
 
         auth.grantAccess(req.session.passport, 3, 1, req.header('Referer'))
         .then(function (result){
-            u = result.user;
+            m.user = result.user;
 
             if (result.granted){
-                res.render('invoice/makesale', {"user": u, "id": req.params.id})
+                res.render('invoice/makesale', m)
             }
             else
             {

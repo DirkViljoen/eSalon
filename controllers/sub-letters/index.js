@@ -94,31 +94,154 @@ module.exports = function (router) {
     router.get('/manage/sl', function (req, res) {
         console.log('Sub-Letter Search Get');
         console.log('request body: ' + JSON.stringify(req.params));
-        res.render('subletters/subletter', req.params);
+        // res.render('subletters/subletter', req.params);
+        var m = {};
+        m.p = req.params;
+        m.q = req.query;
+        m.user = {};
+        m.h = '/help#subletters';
+
+        console.log(m);
+
+        auth.grantAccess(req.session.passport, 5, 4, req.header('Referer'))
+        .then(function (result){
+            m.user = result.user;
+
+            if (result.granted){
+                res.render('subletters/subLetter', m)
+            }
+            else
+            {
+                res.render('login/accessDenied', result);
+            }
+        },
+        function (err) {
+            console.log('An error occurred while trying to find the user');
+            res.redirect('/login');
+        });
     });
 
     router.get('/add/new', function (req, res) {
         console.log('Sub-Letter Add Get');
         console.log('request body: ' + JSON.stringify(req.params));
-        res.render('subletters/subletter-add', req.params);
+        // res.render('subletters/subletter-add', req.params);
+
+        var m = {};
+        m.p = req.params;
+        m.q = req.query;
+        m.user = {};
+        m.h = '/help#subletters-add';
+
+        console.log(m);
+
+        auth.grantAccess(req.session.passport, 5, 1, req.header('Referer'))
+        .then(function (result){
+            m.user = result.user;
+
+            if (result.granted){
+                res.render('subletters/subLetter-add', m)
+            }
+            else
+            {
+                res.render('login/accessDenied', result);
+            }
+        },
+        function (err) {
+            console.log('An error occurred while trying to find the user');
+            res.redirect('/login');
+        });
     });
 
     router.get('/view/:id', function (req, res) {
         console.log('Sub-Letter View Get');
         console.log(req.params);
         res.render('subletters/subletter-view', req.params);
+
+        var m = {};
+        m.p = req.params;
+        m.q = req.query;
+        m.user = {};
+        m.h = '/help#subletters-view';
+
+        console.log(m);
+
+        auth.grantAccess(req.session.passport, 5, 4, req.header('Referer'))
+        .then(function (result){
+            m.user = result.user;
+
+            if (result.granted){
+                res.render('subletters/subLetter-view', m)
+            }
+            else
+            {
+                res.render('login/accessDenied', result);
+            }
+        },
+        function (err) {
+            console.log('An error occurred while trying to find the user');
+            res.redirect('/login');
+        });
     });
 
     router.get('/update/:id', function (req, res) {
         console.log('Sub-Letter Update Get');
         console.log(req.params);
-        res.render('subletters/subletter-update', req.params);
+        // res.render('subletters/subletter-update', req.params);
+
+        var m = {};
+        m.p = req.params;
+        m.q = req.query;
+        m.user = {};
+        m.h = '/help#subletters-update';
+
+        console.log(m);
+
+        auth.grantAccess(req.session.passport, 5, 2, req.header('Referer'))
+        .then(function (result){
+            m.user = result.user;
+
+            if (result.granted){
+                res.render('subletters/subLetter-update', m)
+            }
+            else
+            {
+                res.render('login/accessDenied', result);
+            }
+        },
+        function (err) {
+            console.log('An error occurred while trying to find the user');
+            res.redirect('/login');
+        });
     });
 
     router.get('/RecievePayment/:id', function (req, res) {
         console.log('Router - Sub-Letter - RecievePayment - ' + req.params.id);
         console.log(req.params);
-        res.render('subletters/subletter-payment', req.params);
+        // res.render('subletters/subletter-payment', req.params);
+        var m = {};
+        m.p = req.params;
+        m.q = req.query;
+        m.user = {};
+        m.h = '/help#subletters-payment';
+
+        console.log(m);
+
+        auth.grantAccess(req.session.passport, 5, 2, req.header('Referer'))
+        .then(function (result){
+            m.user = result.user;
+
+            if (result.granted){
+                res.render('subletters/subLetter-payment', m)
+            }
+            else
+            {
+                res.render('login/accessDenied', result);
+            }
+        },
+        function (err) {
+            console.log('An error occurred while trying to find the user');
+            res.redirect('/login');
+        });
     });
 
     router.post('/payment', function (req, res) {

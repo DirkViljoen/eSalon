@@ -12,6 +12,7 @@ html(lang="en", ng-app="app")
         link(rel="stylesheet", href='/bower_components/bootstrap3-dialog/dist/css/bootstrap-dialog.min.css')
         link(rel="stylesheet", href='/bower_components/chartist/dist/chartist.min.css')
         link(rel="stylesheet", href='/bower_components/angular-chart.js/dist/angular-chart.css')
+        //- link(rel="stylesheet", href='/bower_components/angular-upload/src/directives/btnUpload.min.css')
 
         link(rel="stylesheet", href='/esalon_components/angular-slider/angular-slider.min.css')
 
@@ -107,6 +108,9 @@ html(lang="en", ng-app="app")
                                 a(href='/special/add') Add special
                             li
                                 a(href='/special/birthday') Send birthday message
+                            li.divider
+                            li
+                                a(href='/other/expenses') Import expenses document
 
                     li.dropdown
                         a.dropdown-toggle(href='#', data-toggle='dropdown')
@@ -126,11 +130,16 @@ html(lang="en", ng-app="app")
                             li
                                 a(href='/reports/client') Client Report
                             li
-                                a(href='/reports/employee') Employee Report        
+                                a(href='/reports/employee') Employee Report
 
                     li.dropdown.dropdown-danger
-                        a.dropdown-toggle(href='/help')
-                            | I'm feeling lost. Please help
+                        if h
+                            a.dropdown-toggle(href=h)
+                                | I'm feeling lost. Please help
+                        else
+                            a.dropdown-toggle(href="/help")
+                                | I'm feeling lost. Please help
+
             .col-sm-9.col-md-10
                 block content
                 .col-xs-12(style="height:100px")
@@ -158,6 +167,7 @@ html(lang="en", ng-app="app")
         script(src='/bower_components/ng-flow/dist/ng-flow-standalone.min.js')
         script(src='/bower_components/Chart.js/Chart.min.js')
         script(src='/bower_components/angular-chart.js/dist/angular-chart.js')
+        script(src='/bower_components/angular-upload/angular-upload.min.js')
 
         script(src="/bower_components/javascript-detect-element-resize/jquery.resize.js")
         script(src="/bower_components/waitForImages/dist/jquery.waitforimages.js")

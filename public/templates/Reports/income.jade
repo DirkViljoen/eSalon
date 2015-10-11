@@ -40,43 +40,74 @@ block content
                 table.table(id="StockTable")
                     thead
                         tr
-                            
+
                     tbody
                         tr
-                            td Used
+                            td Services
                             td
-                                table.table(id="stockDetailsTable" st-table='stockSold')
+                                table.table(id="stockDetailsTable" st-table='incomeList.Service')
                                     thead
                                         tr
                                             th Date
                                             th Name
-                                            th Quantity
+                                            th Price
                                     tbody
-                                        tr(ng-repeat="row in stockSold")
-                                            td {{row.DateTime}}
-                                            td {{row.ProductName}}
-                                            td {{row.Quantity}}
+                                        tr(ng-repeat="row in incomeList.Service")
+                                            td {{row.Date}}
+                                            td {{row.Name}}
+                                            td {{row.Total | currency : 'R'}}
+                                        tr
+                                            td
+                                            td
+                                            td
+                                                b {{data[0][0] | currency : 'R'}}
                         tr
-                            td Bought
-                            td 
-                                table.table(id="stockDetails2Table" st-table='stockBought')
+                            td Stock
+                            td
+                                table.table(id="stockDetails2Table" st-table='incomeList.Stock')
                                     thead
                                         tr
                                             th Date
                                             th Name
-                                            th Quantity
+                                            th Price
                                     tbody
-                                        tr(ng-repeat="row in stockBought")
-                                            td {{row.DateTime}}
-                                            td {{row.ProductName}}
-                                            td {{row.Quantity}}
-      
+                                        tr(ng-repeat="row in incomeList.Stock")
+                                            td {{row.Date}}
+                                            td {{row.Name}}
+                                            td {{row.Total | currency : 'R'}}
+                                        tr
+                                            td
+                                            td
+                                            td
+                                                b {{data[0][1] | currency : 'R'}}
+
+                        tr
+                            td Subletters
+                            td
+                                table.table(id="sublettersDetailsTable" st-table='incomeList.Subletter')
+                                    thead
+                                        tr
+                                            th Date
+                                            th Name
+                                            th Price
+                                    tbody
+                                        tr(ng-repeat="row in incomeList.Subletter")
+                                            td {{row.Date}}
+                                            td {{row.Name}}
+                                            td {{row.Total | currency : 'R'}}
+                                        tr
+                                            td
+                                            td
+                                            td
+                                                b {{data[0][2] | currency : 'R'}}
+
         //- Pure functionality objects
         div
             p invoice: {{invoice}}
             p invoice.iservice: {{invoice.iservice}}
             p incomeList.Service: {{incomeList.Service}}
             p incomeList.Stock: {{incomeList.Stock}}
+            p invoice.isubletter: {{invoice.isubletter}}
             p incomeList.Subletter: {{incomeList.Subletter}}
             p labels: {{labels}}
             p data: {{data}}
