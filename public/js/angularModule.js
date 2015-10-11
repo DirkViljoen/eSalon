@@ -3609,7 +3609,6 @@ myModule.controller('ReportController', function($scope, $http, $window, $q) {
         };
 
         $scope.buildInvoice = function(){
-          console.log($scope.invoiceInitCount);
           if ($scope.invoiceInitCount == 3){
                 $scope.incomeList.Service = [];
                 $scope.incomeList.Stock = [];
@@ -3646,15 +3645,16 @@ myModule.controller('ReportController', function($scope, $http, $window, $q) {
                     }
 
                 }
-                if ($scope.invoice.isubletter.length == 0){
+                console.log($scope.invoice.subletter.length)
+                if ($scope.invoice.subletter.length == 0){
                     $scope.invoiceBuildCount++;
                     formatIncomeChartData();
                 }
-                for (sb = 0; sb < $scope.invoice.isubletter.length; sb++){
-                      $scope.incomeList.Subletter.push({"Date": moment($scope.invoice.isubletter[sb].DateTime).format("YYYY-MM-DD"),
-                                                        "Name": $scope.invoice.isubletter[sb].iName,
-                                                        "Total": $scope.invoice.isubletter[sb].Quantity});
-                      if (sb + 1 == $scope.invoice.isubletter.length){
+                for (sb = 0; sb < $scope.invoice.subletter.length; sb++){
+                      $scope.incomeList.Subletter.push({"Date": moment($scope.invoice.subletter[sb].DateTime).format("YYYY-MM-DD"),
+                                                        "Name": $scope.invoice.subletter[sb].iName,
+                                                        "Total": $scope.invoice.subletter[sb].Quantity});
+                      if (sb + 1 == $scope.invoice.subletter.length){
                         $scope.invoiceBuildCount++;
                         formatIncomeChartData();
                       }

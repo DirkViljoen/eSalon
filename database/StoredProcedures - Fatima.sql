@@ -669,9 +669,11 @@ DELIMITER //
         
     )
     BEGIN
-        SELECT i.`DateTime`, isl.`Quantity`, isl.`Price`, s.`Name` as iName
+        SELECT i.`DateTime`, isl.`Quantity`, sh.`Price`, s.`Name` as iName
         FROM `invoice` i, `invoice_service_line` isl, `service` s, `service_history` sh
         WHERE 
+			i.Invoice_ID = isl.Invoice_id
+            AND
 			isl.`ServiceHistory_id` = sh.`ServiceHistory_id`
             AND
             sh.`Service_id` = s.`Service_id`
@@ -694,6 +696,8 @@ DELIMITER //
         SELECT i.`DateTime`, isl.`Quantity`, isl.`Price`, s.`ProductName` as iName
         FROM `invoice` i, `invoice_stock_line` isl, `stock` s, `stock_history` sh
         WHERE 
+			i.Invoice_ID = isl.Invoice_id
+            AND
 			isl.`StockHistory_id` = sh.`StockHistory_id`
             AND
             sh.`Stock_ID` = s.`Stock_id`
