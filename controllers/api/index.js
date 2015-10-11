@@ -693,7 +693,7 @@ String.prototype.hexEncode = function(){
             obj.employee.clname = (obj.employee.clname ? '"' + obj.employee.clname + '"' : null);
             obj.employee.cnumber = (obj.employee.cnumber ? '"' + obj.employee.cnumber + '"' : null);
             obj.employee.cemail = (obj.employee.cemail ? '"' + obj.employee.cemail + '"' : null);
-            obj.employee.image = (obj.employee.image ? obj.employee.image : null);
+            obj.employee.image = (obj.employee.image ? '"' + obj.employee.image + '"' : null);
             obj.employee.salary = (obj.employee.salary ? obj.employee.salary : null);
             obj.employee.addressId = (obj.employee.addressId ? obj.employee.addressId : null);
 

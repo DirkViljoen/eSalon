@@ -55,6 +55,9 @@ block content
                 .grouphead
                     +form-group('Upload a picture')
                 .groupbox
+                    upload-button.btn.btn-primary.btn-upload(url="/api/uploadimage"
+                        on-success="onGlobalSuccess(response)"
+                    ) Fileupload
                     img(ng-src="/images/{{employee.image}}" class="img-responsive" alt="No file uploaded" width=300)
 
         br
@@ -83,6 +86,6 @@ block content
                             li(role='presentation')
                                 input.btn.btn-default(type="button", value="Cancel", data-dismiss="modal")
 
-        //- p employee: {{employee}}
+        p employee: {{employee}}
         //- p user: {{user}}
         //- p address: {{address}}
