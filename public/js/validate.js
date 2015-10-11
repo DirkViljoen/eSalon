@@ -113,22 +113,15 @@ function addNGValidation(myForm) {
         };
     };
 
-    function subletter_add(form, usrResponse) {
+    function subletter_add(usrResponse, callback) {
         switch(usrResponse){
-            case 'Save':
-                confirm_YesNoCancel('Add new sub-letter', 'Are you sure you want to add the new sub-letter?', function(res) {
-                    switch(res) {
-                        case 'Yes':
-                            form.submit();
-                            break;
-                        case 'Cancel':
-                            window.location='/sub-letters';
-                            break;
-                    };
+            case 'save':
+                confirm_YesNoCancel('Create sub-letter', 'Are you sure you want to add the new sub-letter?', function(res) {
+                    callback(res);
                 });
                 break;
             default:
-                alert('unknown submit action: ' + usrResponse)
+                callback('none');
                 break;
         };
     };

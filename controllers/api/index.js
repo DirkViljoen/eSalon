@@ -1217,8 +1217,8 @@ String.prototype.hexEncode = function(){
             var transporter = nodemailer.createTransport({
                 service: 'Gmail',
                 auth: {
-                    user: 'dirkcharl.viljoen@gmail.com', // Your email id
-                    pass: 'gmLu@xeiri1' // Your password
+                    user: 'salonredesignesalon@gmail.com', // Your email id
+                    pass: 'esLuaxeiri1' // Your password
                 }
             });
 

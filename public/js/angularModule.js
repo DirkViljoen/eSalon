@@ -136,7 +136,7 @@ myModule.controller('SubLetterController', function($scope, $http, $window, audi
 
     $scope.postSubLetter = function() {
         if($("#sub-letterAdd").valid()){
-            subletter_update('save', function(res) {
+            subletter_add('save', function(res) {
                 console.log(res);
                 switch (res){
                     case 'yes':
