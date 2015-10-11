@@ -55,13 +55,7 @@ block content
                 .grouphead
                     +form-group('Upload a picture')
                 .groupbox
-                    div(ng-show="uploader.isHTML5")
-                        <!-- 3. nv-file-over uploader="link" over-class="className" -->
-                        .well.my-drop-zone(nv-file-over="" uploader="uploader")
-                            p Base drop zone
-
-                    <!-- Example: nv-file-select="" uploader="{Object}" options="{Object}" filters="{String}" -->
-                    input(type="file" nv-file-select="" uploader="uploader" ng-model='employee.image')
+                    img(ng-src="/images/{{employee.image}}" class="img-responsive" alt="No file uploaded" width=300)
 
         br
         .row

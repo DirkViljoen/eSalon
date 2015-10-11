@@ -157,7 +157,7 @@ CREATE TABLE `Employee` (
     `email`VARCHAR(100),
     `Salary` DECIMAL(8,2),
     `Active` BOOLEAN,
-    `Image` BLOB,
+    `Image` VARCHAR(200),
     `Address_ID` INT,
     
     PRIMARY KEY(`Employee_ID`),

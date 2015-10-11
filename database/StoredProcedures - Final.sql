@@ -92,7 +92,7 @@ Use esalon;
 		IN icnumber VARCHAR(15),
 		IN icemail VARCHAR(100),
         IN isalary DECIMAL(8,2),
-        IN iimage BLOB,
+        IN iimage VARCHAR(200),
 		IN iaddressid INT
     )
     BEGIN
@@ -126,7 +126,7 @@ Use esalon;
         IN icemail VARCHAR(100),
         IN isalary DECIMAL(8,2),
         IN iactive BOOLEAN,
-        IN iimage BLOB,
+        IN iimage VARCHAR(200),
         IN iaddressid INT
     )
     BEGIN
@@ -653,7 +653,7 @@ Use esalon;
 	BEGIN  
 
 	SELECT
-		u.User_ID as uid, u.Role_ID as rid, e.Name as uname 
+		u.User_ID as uid, u.Role_ID as rid, e.Name as uname, e.Image as image
 	FROM
 		User u, Employee e
 	WHERE

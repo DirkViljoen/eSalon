@@ -36,7 +36,7 @@ module.exports = function (router) {
         m.p = req.params;
         m.q = req.query;
         m.user = {};
-        m.h = '/help#clients-add';
+        m.h = '/help#clients-Add';
 
         auth.grantAccess(req.session.passport, 1, 1, req.header('Referer'))
         .then(function (result){
@@ -62,7 +62,7 @@ module.exports = function (router) {
         m.p = req.params;
         m.q = req.query;
         m.user = {};
-        m.h = '/help#clients-view';
+        m.h = '/help#clients';
 
         auth.grantAccess(req.session.passport, 1, 4, req.header('Referer'))
         .then(function (result){
@@ -88,7 +88,7 @@ module.exports = function (router) {
         m.p = req.params;
         m.q = req.query;
         m.user = {};
-        m.h = '/help#clients-edit';
+        m.h = '/help#clients-Update';
 
         auth.grantAccess(req.session.passport, 1, 2, req.header('Referer'))
         .then(function (result){

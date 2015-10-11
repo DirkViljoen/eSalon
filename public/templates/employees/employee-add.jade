@@ -49,12 +49,10 @@ block content
                 .grouphead
                     +form-group('Upload a picture')
                 .groupbox
-                    input(name="myFile", type="file", ng-model="image")
-                    input.btn.btn-default(type="button", value='Cancel', ng-click='doUpload()')
-
                     upload-button.btn.btn-primary.btn-upload(url="/api/uploadimage"
                         on-success="onGlobalSuccess(response)"
                     ) Fileupload
+                    img(ng-src="/images/{{employee.image}}" class="img-responsive" alt="No file uploaded" width=300)
 
                 //-     div(flow-init="{target: '/api/upload'}"
                 //-      flow-files-submitted="$flow.upload()"

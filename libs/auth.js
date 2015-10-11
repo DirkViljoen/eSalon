@@ -104,6 +104,7 @@ function deserialize(uid) {
                 user.uid = result.rows[0].uid;
                 user.rid = result.rows[0].rid;
                 user.name = result.rows[0].uname;
+                user.image = result.rows[0].image;
                 deferred.resolve(user);
             }
             else

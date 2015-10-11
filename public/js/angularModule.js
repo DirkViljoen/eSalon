@@ -1684,6 +1684,11 @@ myModule.controller('EmployeeController', function($scope, $http, $window, audit
         );
     }
 
+    $scope.onGlobalSuccess = function(response){
+        alert(JSON.stringify(response.data.files[0]));
+        $scope.employee.image = response.data.files[0];
+    }
+
     // Lookup tables
 
         $scope.getRoles = function() {

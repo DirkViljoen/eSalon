@@ -79,7 +79,7 @@ module.exports = function (router) {
         m.p = req.params;
         m.q = req.query;
         m.user = {};
-        m.h = '/help#bookings-edit';
+        m.h = '/help#bookings-edit/Cancel';
 
         auth.grantAccess(req.session.passport, 2, 2, req.header('Referer'))
         .then(function (result){
@@ -107,7 +107,7 @@ module.exports = function (router) {
             u = result.user;
 
             if (result.granted){
-                res.render('invoice/makesale', {"user": u, "id": req.params.id})
+                res.render('invoice/makesale', {"user": u, "id": req.params.id, "h":"bookings-View/Search Booking"})
             }
             else
             {

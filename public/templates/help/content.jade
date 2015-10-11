@@ -9,143 +9,245 @@ block loggedIn
 
 block content
 
-    h1(id="subsystem") Subsystem
-    h4 A short description of what you can do in the sub system
-    h3(id="subsystem-sub1") 1st thing you can do in the sub system
-    p
-        | A pipe symbol (|) allows you to type lots of stuff in the paragraph without
-        | needing to type it out in one long line. Good to know right? Obviously this would
-        | not have been long enough to break without
-        | talking some crap over here.
-    p
-        | As you could imagine, this will add a nice second little paragraph
-        | to the document.
-    p
-        | Please remember to escape special characters like greater than and
-        | smaller than. Here is a list of common escape character values (also
-        | showing you how to create a table):
-
-    table.table.table-responsive
-        thead
-            tr
-                td
-                    b Symbol name
-                td
-                    b Symbol
-                td
-                    b Symbol code
-        tbody
-            tr
-                td Greater than
-                td &gt;
-                td &amp;gt;
-            tr
-                td Less than
-                td &lt;
-                td &amp;lt;
-            tr
-                td Double quote
-                td &quot;
-                td &amp;quote;
-            tr
-                td Ampersand
-                td &amp;
-                td &amp;amp;
-            tr
-                td
-                    a(href="http://www.theukwebdesigncompany.com/articles/entity-escape-characters.php?PHPSESSID=8cbbddde9a9c9825467546f1c98fe119") follow this link for more.
-
-    p You can use 'a' to create links like the one above. Try to only link to parts within he documentation, you can do this by specifying a # and then the ID of the header you want to link to. for example <b><a href='#bookings'>this</a></b> will link to bookings.
-
-    .callout
-        h4 Callouts
-        p
-            | Please use these guys sparingly. most of the content should be in
-            | nice paragraphs. Only really, really important stuff should be highlighted
-            | with these.
-
-    .callout.callout-success
-        h4 Success
-        p
-            | Use 'callout-success' to... I can't think of a scenario to use this as of yet.
-            | Most right ways of doing something should be obvious from the paragraphs content.
-            | Remember you are explaining how a system works to 2 year olds.
-
-    .callout.callout-info
-        h4 Information
-        p
-            | Use 'callout-info' for useful tips and hints. Stuff you may not know is there,
-            | or for shortcuts.
-
-    .callout.callout-warning
-        h4 Warning
-        p
-            | Use 'callout-warning' for things to look out for. Things that may not be obvious,
-            | and can lead to mistakes. Like trying to make a booking for a past date. A warning message will not pop up immediately.
-
-    .callout.callout-danger
-        h4 Danger
-        p
-            | Use 'callout-danger' for things that should never be done. Before adding a danger
-            | item to the help file we should consider trying to avoid it from a coding side. As an example
-            | bookings can be cancelled at the moment after they have been completed. We can add it as a danger
-            | item in the help file, but we should rather not allow it to happen at all.
-
-    p.mark
-        | If unsure of something and you want to have a look at it later, you can use the .mark class to highlight the text
-
-    h3 Oh yes! and cat
-    img(src="/images/i-b-graphix.jpeg" class="img-responsive" alt="I be graphics cat")
-    br
-    p
-        | This super duper awesome graphics cat shows how to add images to the help file.
-        | Put all of you image files in the public/images folder and please give it a nice human friendly name.
-        | You can then reference the image like so: /images/my-epic-image.png
-
-    .callout
-        h4 Last thing
-        p There are loads more stuff we can do for the help documentation and I'm deliberately not sending you guys out to go and see whats possible in CSS and HTML, purely because we need some way of keeping everything looking the same. This does not mean we can't add anything else, just tell me if you need something, or what you want to do, we can standardize it and then everyone else can also use it :)
-
-
-    br
-
     //- #########################
     //- ### Bookings
     //- #########################
 
     h1(id="bookings") Bookings
-    h4.mark -- Needs editing --
-    h3(id="bookings-add") Making a booking
+
+    h3(id="bookings-add") Add Booking
     p
-        | This explains how to add bookings. So nice, much learn.
+        |After the date is selected the following screen will display.
+        |To go to the add booking screen select the appropriate time.
 
+    br
+    img(src="/images/AddBooking.png" class="img-responsive" alt="Booking main screen")
+    br
+    p
+        |The add booking screen will display:
+    br
+    img(src="/images/AB1.png" class="img-responsive" alt="Booking main screen")
+    br
+    table.table.table-responsive
+        thead
+            tr
+                td
+                    b #
+                td
+                    b Component
+                td
+                    b Description
+        tbody
+            tr
+                td 1
+                td
+                    img(src="/images/AB2.png" class="img-responsive" alt="I be graphics cat")
+                td If the client is new select this button to add a new client.
+            tr
+                td 2
+                td
+                    img(src="/images/AB3.png" class="img-responsive" alt="I be graphics cat")
+                td Use the dropdown box to select the client.
+            tr
+                td 3
+                td
+                   img(src="/images/AB4.png" class="img-responsive" alt="I be graphics cat")
+                td Use the button on the left and dropdown box to
+                   |add the services the client would like to book for.
+            tr
+                td 4
+                td
+                    img(src="/images/AB5.png" class="img-responsive" alt="I be graphics cat")
+                td The system will automatically update the booking duration
+            tr
+            tr
+                td 5
+                td
+                    img(src="/images/AB6.png" class="img-responsive" alt="I be graphics cat")
+                td The system will automatically generate a reference number.
+            tr
+            td 6
+               td
+                   img(src="/images/AB7.png" class="img-responsive" alt="I be graphics cat")
+               td Select the save button to add the booking
+                  |and save it or select the cancel button to cancel adding the booking.
 
-    .callout.callout-info
-        h4 Making a booking for a new client when in a hurry
-        p
-            | Remember you only need to provide a name, surname and contact number when creating a new client.
+    br
 
-    .callout.callout-warning
-        h4 Making multiple bookings in the same timeslot
-        p
-            | The system does not limit the amount of bookings that can be made during a single timeslot. Make sure that that you will be able to handle the multiple bookings
-
-    .callout.callout-warning
-        h4 Bookings cannot be made for a time that had past
-        p
-            | The system does not allow you to make a booking for a past date or time. A warning message will not be shown immediately when attempting to do so.
-
-    h3(id="bookings-edit") Editing a booking
+    h3(id="bookings-edit/Cancel") Updating a Booking
     p
         | This explains how to edit bookings. So nice, much learn.
+    br
+    img(src="/images/UpdateBooking.png" class="img-responsive" alt="Booking main screen")
+    br
 
-    h3(id="bookings-cancel") Cancelling bookings
+    table.table.table-responsive
+        thead
+            tr
+                td
+                    b #
+                td
+                    b Component
+                td
+                    b Description
+        tbody
+            tr
+                td 1
+                td
+                    img(src="/images/UB1.png" class="img-responsive" alt="I be graphics cat")
+                td Update the booking by adding or removing services.
+            tr
+                td 2
+                td
+                    img(src="/images/UB2.png" class="img-responsive" alt="I be graphics cat")
+                td Select this button to cancel the booking.
+
+    br
+    h3(id="bookings-View/Search Booking") View/Search Booking
     p
-        | This explains how to cancel bookings. So nice, much learn.
+        | This explains how to Make Sale . So nice, much learn.
+    br
+    br
+    img(src="/images/Booking.png" class="img-responsive" alt="Booking main screen")
+    br
+
+    table.table.table-responsive
+        thead
+            tr
+                td
+                    b #
+                td
+                    b Component
+                td
+                    b Description
+        tbody
+            tr
+                td 1
+                td
+                    img(src="/images/B1.png" class="img-responsive" alt="I be graphics cat")
+                td Dropdown box to allow the system user
+                   |to select the stylist calendar that they want to view
+            tr
+                td 2
+                td
+                    img(src="/images/B2.png" class="img-responsive" alt="I be graphics cat")
+                td Edit box to allow the system user to enter one of the following information to search for a booking:
+                   |•	Name
+                   |•	Surname
+                   |•	Reference number
+                   |(Received upon making a booking)
+
+            tr
+                td 3
+                td
+                    img(src="/images/B3.png" class="img-responsive" alt="I be graphics cat")
+                td Select this button after the search information is entered.
+
+            tr
+                td 4
+                td
+                    img(src="/images/B4.png" class="img-responsive" alt="I be graphics cat")
+                td Information that will show when a employee
+                   |is on leave and not available for bookings.
+            tr
+                td 5
+                td
+                    img(src="/images/B5.png" class="img-responsive" alt="I be graphics cat")
+                td A booking that is still outstanding will be in this yellow colour.
+            tr
+                td 6
+                td
+                    img(src="/images/B6.png" class="img-responsive" alt="I be graphics cat")
+                td After a booking is finalized it will turn green.
+            tr
+                td 7
+                td
+                   img(src="/images/B8.png" class="img-responsive" alt="I be graphics cat")
+                td Bookings that were missed and not finalised will turn red.
+            tr
+                td 8
+                td
+                   img(src="/images/B7.png" class="img-responsive" alt="I be graphics cat")
+                td These controls will allow the user to move around on the calendar.
+
+    br
+    h3(id="bookings-MakeSale") Make Sale
+    p
+        | This explains how to Make Sale . So nice, much learn.
+    br
+    br
+    img(src="/images/MakeSale.png" class="img-responsive" alt="Subletter main screen")
+    br
+
+    table.table.table-responsive
+        thead
+            tr
+                td
+                    b #
+                td
+                    b Component
+                td
+                    b Description
+        tbody
+            tr
+                td 1
+                td
+                    img(src="/images/MS1.png" class="img-responsive" alt="I be graphics cat")
+                td Use the barcode scanner to add products.
+            tr
+                td 2
+                td
+                    img(src="/images/MS2.png" class="img-responsive" alt="I be graphics cat")
+                td Use the barcode scanner to redeem or buy a voucher.
+            tr
+                td 3
+                td
+                    img(src="/images/MS3.png" class="img-responsive" alt="I be graphics cat")
+                td Select the save button to finalize the sales.
+
+    br
 
     h3(id="bookings-finalise") Finalizing a booking
     p
         | This explains how to finalize bookings. So nice, much learn.
+
+    br
+    img(src="/images/FI.png" class="img-responsive" alt="Subletter main screen")
+    br
+
+    table.table.table-responsive
+        thead
+            tr
+                td
+                    b #
+                td
+                    b Component
+                td
+                    b Description
+        tbody
+            tr
+                td 1
+                td
+                    img(src="/images/FI1.png" class="img-responsive" alt="I be graphics cat")
+                td If extra services were done during service delivery, add the extra service here.
+            tr
+                td 2
+                td
+                    img(src="/images/FI2.png" class="img-responsive" alt="I be graphics cat")
+                td If the client wants products after the service
+                   |use the barcode scanner to add them over here.
+            tr
+                td 3
+                td
+                    img(src="/images/FI3.png" class="img-responsive" alt="I be graphics cat")
+                td Use the barcode scanner to redeem a voucher or to let the customer buy a voucher.
+
+
+            tr
+                td 4
+                td
+                    img(src="/images/FI4.png" class="img-responsive" alt="I be graphics cat")
+                td Use the save button to finalize the booking when done.
 
     br
     //- #########################
@@ -153,18 +255,169 @@ block content
     //- #########################
 
     h1(id="employees") Employees
-    h4.mark -- Needs editing --
+
     h3(id="employees-add") Adding a new employee
     p
         | This explains how to add employees. So nice, much learn.
 
+    br
+    img(src="/images/AddEmployee.png" class="img-responsive" alt="Booking main screen")
+    br
+
+    table.table.table-responsive
+        thead
+            tr
+                td
+                    b #
+                td
+                    b Component
+                td
+                    b Description
+        tbody
+            tr
+                td 1
+                td
+                    img(src="/images/AE1.png" class="img-responsive" alt="I be graphics cat")
+                td Enter employee personal information in the edit boxes.
+            tr
+                td 2
+                td
+                    img(src="/images/AE2.png" class="img-responsive" alt="I be graphics cat")
+                td Enter employee username and password along with their role
+                   |within the business to give them limited or full access.
+
+            tr
+                td 3
+                td
+                    img(src="/images/AE3.png" class="img-responsive" alt="I be graphics cat")
+                td Enter employee address information in the dropdown and edit boxes.
+
+            tr
+                td 4
+                td
+                    img(src="/images/AE4.png" class="img-responsive" alt="I be graphics cat")
+                td Upload employee picture by either dragging
+                   |it to the drop zone or by clicking on the browse button.
+            tr
+                td 5
+                td
+                    img(src="/images/AE5.png" class="img-responsive" alt="I be graphics cat")
+                td Select the save button to add the employee to the system.
+
     h3(id="employees-edit") Editing employee details
     p
         | This explains how to edit employee details. So nice, much learn.
+    br
+    img(src="/images/UpdateEmployee.png" class="img-responsive" alt="Booking main screen")
+    br
+
+    table.table.table-responsive
+        thead
+            tr
+                td
+                    b #
+                td
+                    b Component
+                td
+                    b Description
+        tbody
+            tr
+                td 1
+                td
+                    img(src="/images/UE1.png" class="img-responsive" alt="I be graphics cat")
+                td Use the edit boxes to update any information about the employee that changed.
+            tr
+                td 2
+                td
+                    img(src="/images/UE2.png" class="img-responsive" alt="I be graphics cat")
+                td Change the employee username or password or role within the business if necessary.
+
+            tr
+                td 3
+                td
+                    img(src="/images/UE3.png" class="img-responsive" alt="I be graphics cat")
+                td If employee address changed use the dropdown boxes or edit boxes to make the changes.
+
+            tr
+                td 4
+                td
+                    img(src="/images/UE4.png" class="img-responsive" alt="I be graphics cat")
+                td Select the save button to update the changes and save It in the system.
+    br
 
     h3(id="employees-delete") Removing employees
     p
         | This explains how to remove employees. So nice, much learn.
+    br
+    img(src="/images/DeleteEmployee.png" class="img-responsive" alt="Booking main screen")
+    br
+
+    table.table.table-responsive
+        thead
+            tr
+                td
+                    b #
+                td
+                    b Component
+                td
+                    b Description
+        tbody
+            tr
+                td 1
+                td
+                    img(src="/images/DE1.png" class="img-responsive" alt="I be graphics cat")
+                td Select the employee to delete.
+            tr
+                td 2
+                td
+                    img(src="/images/DE2.png" class="img-responsive" alt="I be graphics cat")
+                td Select the delete button to remove the employee from the system.
+
+            tr
+                td 3
+                td
+                    img(src="/images/DE3.png" class="img-responsive" alt="I be graphics cat")
+                td Use the employee name, surname or role to search for an employee.
+    br
+    //- #########################
+    //- ### Login/Logout Web
+    //- #########################
+
+    h3(id="employees-Login") Login/LogOut
+    p
+      | This explains how to Login/LogOut. So nice, much learn.
+    br
+    img(src="/images/Login2.png" class="img-responsive" alt="Booking main screen")
+    br
+    table.table.table-responsive
+        thead
+              tr
+                  td
+                      b #
+                  td
+                      b Component
+                  td
+                        b Description
+        tbody
+              tr
+                  td 1
+                  td
+                      img(src="/images/L1.png" class="img-responsive" alt="I be graphics cat")
+                  td Use the edit boxes to enter the username and password
+              tr
+                  td 2
+                  td
+                      img(src="/images/L2.png" class="img-responsive" alt="I be graphics cat")
+                  td Select the login button to login to the system.
+
+              tr
+                  td 3
+                  td
+                      img(src="/images/L3.png" class="img-responsive" alt="I be graphics cat")
+                  td The logout button will be visible thought-out the program
+                       |which can be selected anytime to logout of the system.
+        br
+
 
     h3(id="employees-schedule") Managing an employees leave
     p
@@ -184,9 +437,1398 @@ block content
     //- #########################
 
     h1(id="clients") Clients
-    h4.mark -- Needs editing --
 
-    h3(id="client-main") Client Main screen
-    img(src="/images/Client-Main.png" class="img-responsive" alt="Client main screen")
+
+    h3(id="clients-Add") Add Clients
     br
-    p hello client main
+    img(src="/images/AC.png" class="img-responsive" alt="Clients main screen")
+    br
+    table.table.table-responsive
+        thead
+            tr
+                td
+                    b #
+                td
+                    b Component
+                td
+                    b Description
+        tbody
+            tr
+                td 1
+                td
+                    img(src="/images/AC1.png" class="img-responsive" alt="I be graphics cat")
+                td This is used to input the information of a new client. The user inputs Client title,
+                   |name, surname, contact number, email address and the client date of birth.
+            tr
+                td 2
+                td
+                    img(src="/images/AC2.png" class="img-responsive" alt="I be graphics cat")
+                td This is used to select and input the new client’s address information.
+                   |The combo boxes are used to select the province, city and suburb.
+                   |Line 1 and Line 2 are used to input the address of the new client.
+
+            tr
+                td 3
+                td
+                   img(src="/images/AC3.png" class="img-responsive" alt="I be graphics cat")
+                td This allows a new client to choose whether they would like to receive reminders of their appointments and notifications about specials and such. The combo box allows
+                   |the new client to choose a method of communication they prefer, i.e. Email or SMS. ;
+            tr
+                td 4
+                td
+                    img(src="/images/AC4.png" class="img-responsive" alt="I be graphics cat")
+                td These buttons are used to SAVE the new
+                   |client details to the system or to CANCEL the action altogether.
+            tr
+                td 5
+                td
+                    img(src="/images/AC5.png" class="img-responsive" alt="I be graphics cat")
+                td This confirmation message is displayed for
+                   |the user to confirm addition of a new client.
+           tr
+                td 4
+                td
+                    img(src="/images/AC6.png" class="img-responsive" alt="I be graphics cat")
+                td This message is displayed upon the successful addition of a client.
+
+    br
+    h3(id="clients-Update") Update Clients
+    br
+    img(src="/images/UpdateClient.png" class="img-responsive" alt="Clients main screen")
+    br
+    table.table.table-responsive
+        thead
+            tr
+                td
+                    b #
+                td
+                    b Component
+                td
+                    b Description
+        tbody
+            tr
+                td 1
+                td
+                    img(src="/images/UC1.png" class="img-responsive" alt="I be graphics cat")
+                td This is used to search for a client. The search a criterion is inputted
+                   |(NAME/SURNAME) and the SEARCH button is clicked to display the searched client.
+
+            tr
+                td 2
+                td
+                    img(src="/images/UC2.png" class="img-responsive" alt="I be graphics cat")
+                td The clients with the entered criterion are displayed on this data grid view with the
+                   |details of the client on display. The system user selects the appropriate client
+
+            tr
+                td 3
+                td
+                   img(src="/images/AC3.png" class="img-responsive" alt="I be graphics cat")
+                td This allows a new client to choose whether they would like to receive reminders
+                   |of their appointments and notifications about specials and such.
+                   |The combo box allows
+                   |the new client to choose a method of communication they prefer, i.e. Email or SMS. ;
+            tr
+                td 4
+                td
+                    img(src="/images/UC4.png" class="img-responsive" alt="I be graphics cat")
+                td The VIEW button allows the system user to view the client in more detail.
+            tr
+                td 5
+                td
+                    img(src="/images/UC5.png" class="img-responsive" alt="I be graphics cat")
+                td When the VIEW button is clicked after the client was selected, this screen opens up to allow the user
+                   |to view the client information in order to decide what needs editing.
+            tr
+                td 6
+                td
+                    img(src="/images/UC6.png" class="img-responsive" alt="I be graphics cat")
+                td This control allows the system user to update client personal information,
+                   |address information and notification and reminder settings.
+            tr
+                td 7
+                td
+                    img(src="/images/UC7.png" class="img-responsive" alt="I be graphics cat")
+                td The SAVE button will update the client information on the system.
+            tr
+                td 8
+                td
+                    img(src="/images/UC8.png" class="img-responsive" alt="I be graphics cat")
+                td This confirmation message allows the user to confirm updating of a client.
+            tr
+                td 9
+                td
+                    img(src="/images/UC9.png" class="img-responsive" alt="I be graphics cat")
+                td This message is displayed upon the success of updating client information.
+    br
+
+    h3(id="clients-Delete") Delete Clients
+    br
+    img(src="/images/DeleteClient.png" class="img-responsive" alt="Clients main screen")
+    br
+    table.table.table-responsive
+        thead
+            tr
+                td
+                    b #
+                td
+                    b Component
+                td
+                    b Description
+        tbody
+            tr
+                td 1
+                td
+                    img(src="/images/DC1.png" class="img-responsive" alt="I be graphics cat")
+                td This is used to search for a client. The search a criterion is inputted
+                   |(NAME/SURNAME) and the SEARCH button is clicked to display the searched client.
+
+            tr
+                td 2
+                td
+                    img(src="/images/DC2.png" class="img-responsive" alt="I be graphics cat")
+                td The clients with the entered criterion are displayed on this data grid view with
+                   |the details of the client on display. The system user selects the appropriate client.
+
+            tr
+                td 3
+                td
+                   img(src="/images/DC3.png" class="img-responsive" alt="I be graphics cat")
+                td The VIEW button allows the system user to view the client in more detail.
+            tr
+                td 4
+                td
+                    img(src="/images/DC4.png" class="img-responsive" alt="I be graphics cat")
+                td When the VIEW button is clicked after the client was selected, this screen
+                   |opens up to allow the user to view the client information.
+            tr
+                td 5
+                td
+                    img(src="/images/DC5.png" class="img-responsive" alt="I be graphics cat")
+                td	The DELETE button allows the user to remove the client from the system.
+            tr
+                td 6
+                td
+                    img(src="/images/DC6.png" class="img-responsive" alt="I be graphics cat")
+                td This control allows the system user to confirm the deletion
+                   |of a client from the system with the options of YES/NO
+            tr
+                td 7
+                td
+                    img(src="/images/DC7.png" class="img-responsive" alt="I be graphics cat")
+                td This message is displayed upon the successful deletion of a client.
+    br
+    h3(id="clients-Search") Search Clients
+    br
+    img(src="/images/SearchClient.png" class="img-responsive" alt="Clients main screen")
+    br
+    table.table.table-responsive
+        thead
+            tr
+                td
+                    b #
+                td
+                    b Component
+                td
+                    b Description
+        tbody
+            tr
+                td 1
+                td
+                    img(src="/images/SC1.png" class="img-responsive" alt="I be graphics cat")
+                td This is used to search for a client. The search a criterion is inputted
+                   |(NAME/SURNAME) and the SEARCH button is clicked to display the searched client.
+                   |The CLEAR button deletes the search criterion inputted. client.
+
+            tr
+                td 2
+                td
+                    img(src="/images/SC2.png" class="img-responsive" alt="I be graphics cat")
+                td The searched client is displayed on this
+                   |data grid view with the details of the client on display.
+
+            tr
+                td 3
+                td
+                   img(src="/images/SC3.png" class="img-responsive" alt="I be graphics cat")
+                td The ADD button allows the system user to add a client to the system if the searched for client is not already on the system.
+                   |The VIEW button allows the system user to view the client in more detail.
+                   |The EXPORT CLIENT LIST button allows the system user to export the client list.
+
+
+    br
+    h3(id="clients-SendSpecialMessage") Send Special Message
+    br
+    img(src="/images/SendSpecialsMessage.png" class="img-responsive" alt="Clients main screen")
+    br
+    table.table.table-responsive
+        thead
+            tr
+                td
+                    b #
+                td
+                    b Component
+                td
+                    b Description
+        tbody
+            tr
+                td 1
+                td
+                    img(src="/images/SSM1.png" class="img-responsive" alt="I be graphics cat")
+                td This allows the system user to select the start and end date for
+                   |the special in order to indicate how long it will run for.
+
+            tr
+                td 2
+                td
+                    img(src="/images/SSM2.png" class="img-responsive" alt="I be graphics cat")
+                td This control allows the user to select the start and end date for the special.
+
+            tr
+                td 3
+                td
+                   img(src="/images/SSM3.png" class="img-responsive" alt="I be graphics cat")
+                td This is the conditional items on which the special runs on.
+                   |E.g. Buy one shampoo, get a conditioner free.
+            tr
+                td 4
+                td
+                    img(src="/images/SSM4.png" class="img-responsive" alt="I be graphics cat")
+                td This indicates the result of the special,
+                   |e.g. Buy one shampoo, and get a conditioner free.
+            tr
+                td 5
+                td
+                    img(src="/images/SSM5.png" class="img-responsive" alt="I be graphics cat")
+                td This allows the system user to input the message to be sent out to customers to notify them.
+                   |The checkbox allows the system user select whether to send the notifications
+                   |immediately after creating the special or not.
+           tr
+                td 6
+                td
+                    img(src="/images/SSM6.png" class="img-responsive" alt="I be graphics cat")
+                td The CAPTURE SPECIAL button allows the system user to save the Special on the system.
+                   |The CANCEL button erases the actions altogether.
+    br
+    h3(id="clients-SendBirthdayMessage") Send Birthday Message
+    br
+    img(src="/images/SendBirthdayMessage.png" class="img-responsive" alt="Clients main screen")
+    br
+    table.table.table-responsive
+        thead
+            tr
+                td
+                    b #
+                td
+                    b Component
+                td
+                    b Description
+        tbody
+            tr
+                td 1
+                td
+                    img(src="/images/SBM1.png" class="img-responsive" alt="I be graphics cat")
+                td This allows the system user to input the message to be sent out to customers on their birthdays.
+                   |The checkbox allows the system user select whether to send the message immediately after drafting the message or not.
+
+
+            tr
+                td 2
+                td
+                    img(src="/images/SBM2.png" class="img-responsive" alt="I be graphics cat")
+                td The SAVE button allows the system user to save the birthday message on the system.
+                   |The CANCEL button erases the actions altogether.
+
+
+
+    //- #########################
+    //- ### Subletter
+    //- #########################
+
+    h1(id="SubLetter") Sub-Letter
+    br
+
+    h3(id="sub-letter-Add") Add Sub-Letter
+    br
+    img(src="/images/AddSubletter.png" class="img-responsive" alt="Subletter main screen")
+    br
+    table.table.table-responsive
+        thead
+            tr
+                td
+                    b #
+                td
+                    b Component
+                td
+                    b Description
+        tbody
+            tr
+                td 1
+                td
+                    img(src="/images/ASL1.png" class="img-responsive" alt="I be graphics cat")
+                td This allows the system user to add a new sub-letter. The user inputs the business name,
+                   |contact name, contact surname, contact number, email address, the rent amount and the date the contract begins.
+            tr
+                td 2
+                td
+                    img(src="/images/ASL2.png" class="img-responsive" alt="I be graphics cat")
+                td The SAVE button saves the sub-letter information on the system
+                   |and the CANCEL button erases all the actions altogether.
+            tr
+                td 3
+                td
+                   img(src="/images/ASL3.png" class="img-responsive" alt="I be graphics cat")
+                td This message is displayed upon the successful addition of a sub-letter.
+    br
+    h3(id="sub-letter-Update") Update Sub-Letter
+    br
+    img(src="/images/AddSubletter.png" class="img-responsive" alt="Subletter main screen")
+    br
+    table.table.table-responsive
+        thead
+            tr
+                td
+                    b #
+                td
+                    b Component
+                td
+                    b Description
+        tbody
+            tr
+                td 1
+                td
+                    img(src="/images/USL1.png" class="img-responsive" alt="I be graphics cat")
+                td This allows the user to enter search criterion if
+                   |sub- letter needs to be searched for to be updated.
+            tr
+                td 2
+                td
+                    img(src="/images/USL2.png" class="img-responsive" alt="I be graphics cat")
+                td This control is populated with sub-letters information. If the sub-letter is selected,
+                   |the View, Update, Delete and Capture Payment buttons will be enabled.
+            tr
+                td 3
+                td
+                   img(src="/images/USL3.png" class="img-responsive" alt="I be graphics cat")
+                td When the VIEW button is clicked, the user will be directed to a screen that
+                   |will enable them to update sub-letter information.
+            tr
+                td 4
+                td
+                    img(src="/images/USL4.png" class="img-responsive" alt="I be graphics cat")
+                td This window is displayed if the user chooses to view the sub-letter details before updating the information.
+                   |The user can then make any changes to the information displayed.
+
+            tr
+                td 5
+                td
+                    img(src="/images/USL5.png" class="img-responsive" alt="I be graphics cat")
+                td The UPDATE button will save the changes made to the sub-letter information.
+           tr
+                td 6
+                td
+                    img(src="/images/USL6.png" class="img-responsive" alt="I be graphics cat")
+                td This confirmation message allows the user to confirm updating the information of a sub-letter.
+           tr
+                td 7
+                td
+                    img(src="/images/USL7.png" class="img-responsive" alt="I be graphics cat")
+                td This message is displayed upon the successful updating of a sub-letter.
+
+    h3(id="sub-letter-Delete") Delete Sub-Letter
+    br
+    img(src="/images/DeleteSubletter.png" class="img-responsive" alt="Subletter main screen")
+    br
+    table.table.table-responsive
+        thead
+            tr
+                td
+                    b #
+                td
+                    b Component
+                td
+                    b Description
+        tbody
+            tr
+                td 1
+                td
+                    img(src="/images/1.png" class="img-responsive" alt="I be graphics cat")
+                td This control allows the user to enter search criteria if
+                   |sub- letter needs to be searched before it can be deleted
+            tr
+                td 2
+                td
+                    img(src="/images/2.png" class="img-responsive" alt="I be graphics cat")
+                td This control is populated with sub letter information.
+                  |If the sub letter is selected the name will be enable the buttons
+                  |(View,  Update, Delete and Capture Payment);
+            tr
+                td 3
+                td
+                   img(src="/images/3.png" class="img-responsive" alt="I be graphics cat")
+                td When button view is selected the user will view the sub-letter
+                  |before they can remove from system.
+                  |When delete button is clicked it will remove the sub-letter from the system ;
+            tr
+                td 4
+                td
+                    img(src="/images/4.png" class="img-responsive" alt="I be graphics cat")
+                td This message is for the user to confirm if he/she wants
+                  | to delete sub-letter from the system.)
+            tr
+            tr
+                td 5
+                td
+                    img(src="/images/5.png" class="img-responsive" alt="I be graphics cat")
+                td This window is displayed if the user chooses to
+                   |view the sub-letter details before deleting them.
+            tr
+            td 6
+               td
+                   img(src="/images/6.png" class="img-responsive" alt="I be graphics cat")
+               td Update button will take the user to update sub-letter window.
+                  |Delete button will display confirmation message for delete.
+                  | Back button will take the user back to Manage sub-letter window
+
+    br
+
+    h3(id="Subletter-Search") Search Sub-Letter
+    br
+    img(src="/images/SearchSubletter.png" class="img-responsive" alt="Subletter main screen")
+    br
+    table.table.table-responsive
+        thead
+            tr
+                td
+                    b #
+                td
+                    b Component
+                td
+                    b Description
+        tbody
+            tr
+                td 1
+                td
+                    img(src="/images/7.png" class="img-responsive" alt="I be graphics cat")
+                td This control allows the user to enter search criteria
+                   |if sub- letter needs to be searched before it can be deleted;
+            tr
+                td 2
+                td
+                    img(src="/images/8.png" class="img-responsive" alt="I be graphics cat")
+                td This control is populated with sub letter information.
+                   | If the sub letter is selected the name will be enable the buttons
+                   |(View,  Update, Delete and Capture Payment);
+            tr
+                td 3
+                td
+                   img(src="/images/9.png" class="img-responsive" alt="I be graphics cat")
+                td When button view is selected the user will view the
+                   |sub-letter before they can remove from system.
+                   |When delete button is clicked it will remove the sub-letter from the system
+
+            br
+    h3(id="Subletter-CapturePayment") Capture Subletter Payment
+    br
+    img(src="/images/10.png" class="img-responsive" alt="Subletter main screen")
+    br
+    table.table.table-responsive
+        thead
+            tr
+                 td
+                     b #
+                 td
+                     b Component
+                 td
+                     b Description
+        tbody
+            tr
+                 td 1
+                 td
+                    img(src="/images/11.png" class="img-responsive" alt="I be graphics cat")
+                 td This control allows the user to select the payment date
+            tr
+                 td 2
+                 td
+                    img(src="/images/12.png" class="img-responsive" alt="I be graphics cat")
+                 td This control is displayed when the user clicks on the payment date control.
+                    |This control allows the user to select the date.
+
+            tr
+                 td 3
+                 td
+                    img(src="/images/13.png" class="img-responsive" alt="I be graphics cat")
+                 td This control must be populated with sub-letter payment amount
+            tr
+                 td 4
+                 td
+                    img(src="/images/14.png" class="img-responsive" alt="I be graphics cat")
+                 td This control allows the user to select payment method
+            tr
+                 td 5
+                 td
+                    img(src="/images/15.png" class="img-responsive" alt="I be graphics cat")
+                 td Capture button saves sub letter payment information
+            tr
+                 td 6
+                 td
+                    img(src="/images/16.png" class="img-responsive" alt="I be graphics cat")
+                 td This message is for the user to confirm if he/she wants to capture the payment details.
+                    |The user can click yes to capture the payment details or click No button not to save
+                    |the sub letter payment and/or click Cancel if the user wants to abort the process
+
+    br
+
+    //- #########################
+    //- ### supplier
+    //- #########################
+    h1(id="Supplier") Supplier
+    br
+    h3(id="Supplier-Add") Add Supplier
+    br
+    img(src="/images/AddSupplier.png" class="img-responsive" alt="Subletter main screen")
+    br
+    table.table.table-responsive
+        thead
+            tr
+                 td
+                     b #
+                 td
+                     b Component
+                 td
+                     b Description
+        tbody
+            tr
+                 td 1
+                 td
+                    img(src="/images/AS1.png" class="img-responsive" alt="I be graphics cat")
+                 td The SAVE button allows the system user to save the supplier details on the system.
+                    |The CANCEL button erases the actions altogether.
+            tr
+                 td 2
+                 td
+                    img(src="/images/AS2.png" class="img-responsive" alt="I be graphics cat")
+                 td This confirmation message allows the user to confirmation addition of a new supplier.
+            tr
+                 td 3
+                 td
+                     img(src="/images/AS3.png" class="img-responsive" alt="I be graphics cat")
+                 td This message is displayed upon the successful addition of a supplier.
+    br
+    h3(id="Supplier-Update") Update Supplier
+    br
+    img(src="/images/UpdateSupplier.png" class="img-responsive" alt="Subletter main screen")
+    br
+    table.table.table-responsive
+        thead
+            tr
+                 td
+                     b #
+                 td
+                     b Component
+                 td
+                     b Description
+        tbody
+            tr
+                 td 1
+                 td
+                    img(src="/images/US1.png" class="img-responsive" alt="I be graphics cat")
+                 td This is used to search for a supplier. The search a criterion is inputted
+                    |(Business Name) to display the searched client.
+                    |The CLEAR button deletes the search criterion inputted.
+            tr
+                 td 2
+                 td
+                    img(src="/images/US2.png" class="img-responsive" alt="I be graphics cat")
+                 td The suppliers with the entered criterion are displayed on this data grid view with the details of the supplier on display.
+                    |The system user selects the appropriate supplier.
+            tr
+                 td 3
+                 td
+                     img(src="/images/US3.png" class="img-responsive" alt="I be graphics cat")
+                 td The VIEW button allows the system user to view the selected supplier in more detail.
+            tr
+                 td 4
+                 td
+                     img(src="/images/US4.png" class="img-responsive" alt="I be graphics cat")
+                 td When the VIEW button is clicked after the supplier was selected, this screen opens up to allow the user
+                    |to view the supplier information in order to decide what needs editing.
+            tr
+                 td 5
+                 td
+                     img(src="/images/US5.png" class="img-responsive" alt="I be graphics cat")
+                 td When the UPDATE button is clicked, the update page is opened in order
+                    |to allow the user to update the supplier information.
+            tr
+                 td 6
+                 td
+                     img(src="/images/US6.png" class="img-responsive" alt="I be graphics cat")
+                 td The SAVE button will update the supplier information on the system.
+            tr
+                 td 7
+                 td
+                     img(src="/images/US7.png" class="img-responsive" alt="I be graphics cat")
+                 td This message is displayed upon the success of updating supplier information
+    br
+    h3(id="Supplier-Delete") Delete Supplier
+    br
+    img(src="/images/DeleteSupplier.png" class="img-responsive" alt="Subletter main screen")
+    br
+    table.table.table-responsive
+        thead
+            tr
+                 td
+                     b #
+                 td
+                     b Component
+                 td
+                     b Description
+        tbody
+            tr
+                 td 1
+                 td
+                    img(src="/images/DS1.png" class="img-responsive" alt="I be graphics cat")
+                 td This is used to search for a supplier. The search a criterion is inputted (Business Name) to display the searched client.
+                    |The CLEAR button deletes the search criterion inputted.
+            tr
+                 td 2
+                 td
+                    img(src="/images/DS2.png" class="img-responsive" alt="I be graphics cat")
+                 td The suppliers with the entered criterion are displayed on this data grid view with the details of the supplier on display.
+                    |The system user selects the appropriate supplier.
+            tr
+                 td 3
+                 td
+                     img(src="/images/DS3.png" class="img-responsive" alt="I be graphics cat")
+                 td The VIEW button allows the system user to view the selected supplier in more detail.
+            tr
+                 td 4
+                 td
+                     img(src="/images/DS4.png" class="img-responsive" alt="I be graphics cat")
+                 td The VIEW button allows the system user to view the selected supplier in more detail.
+            tr
+                 td 5
+                 td
+                     img(src="/images/DS5.png" class="img-responsive" alt="I be graphics cat")
+                 td When the VIEW button is clicked after the supplier was selected.
+            tr
+                 td 6
+                 td
+                     img(src="/images/DS5.png" class="img-responsive" alt="I be graphics cat")
+                 td When the DELETE button is clicked, the supplier information is erased from the system.
+    br
+    h3(id="Supplier-Search") Search Supplier
+    br
+    img(src="/images/SearchSupplier.png" class="img-responsive" alt="Subletter main screen")
+    br
+    table.table.table-responsive
+        thead
+            tr
+                 td
+                     b #
+                 td
+                     b Component
+                 td
+                     b Description
+        tbody
+            tr
+                 td 1
+                 td
+                    img(src="/images/SS1.png" class="img-responsive" alt="I be graphics cat")
+                 td This is used to search for a supplier. The search a criterion is inputted (Business Name) to display the searched supplier.
+                    |The CLEAR button deletes the search criterion inputted.
+            tr
+                 td 2
+                 td
+                    img(src="/images/SS2.png" class="img-responsive" alt="I be graphics cat")
+                 td The searched supplier is displayed on this data grid view
+                    |with the details of the supplier on display.
+            tr
+                 td 3
+                 td
+                     img(src="/images/SS3.png" class="img-responsive" alt="I be graphics cat")
+                 td The ADD button allows the system user to add a supplier to the system if the searched for supplier is not already on the system.
+                    |The VIEW button allows the system user to view the supplier in more detail.
+    br
+    //- #########################
+    //- ### service
+    //- #########################
+    h1(id="services") Services
+    br
+    h3(id="services-Add") Add service
+    br
+    img(src="/images/AddService.png" class="img-responsive" alt="services main screen")
+    br
+    table.table.table-responsive
+        thead
+            tr
+                 td
+                     b #
+                 td
+                     b Component
+                 td
+                     b Description
+        tbody
+            tr
+                 td 1
+                 td
+                    img(src="/images/AS1.png" class="img-responsive" alt="I be graphics cat")
+                 td This allows the system user to add a new service that the salon provides on the system. The user inputs the name of the service, any additional information pertaining to the service,
+                    |the duration for short, medium and long hair and the price for the service.
+            tr
+                 td 2
+                 td
+                    img(src="/images/AS2.png" class="img-responsive" alt="I be graphics cat")
+                 td The SAVE button saves the service information on the system and
+                    |the CANCEL button erases all the actions altogether.
+            tr
+                 td 3
+                 td
+                     img(src="/images/AS3.png" class="img-responsive" alt="I be graphics cat")
+                 td This confirmation message allows the user to confirm addition of a new service.
+            tr
+                 td 3
+                 td
+                     img(src="/images/AS4.png" class="img-responsive" alt="I be graphics cat")
+                 td This message is displayed upon the successful addition of a new service.
+    br
+    h3(id="services-Update") Update service
+    br
+    img(src="/images/UpdateService.png" class="img-responsive" alt="services main screen")
+    br
+    table.table.table-responsive
+        thead
+            tr
+                 td
+                     b #
+                 td
+                     b Component
+                 td
+                     b Description
+        tbody
+            tr
+                 td 1
+                 td
+                    img(src="/images/USV1.png" class="img-responsive" alt="I be graphics cat")
+                 td This allows the user to search for a service by inputting the criterion (Service Name).
+                    |The SEARCH button when clicked, displays the service information.
+                    |The CLEAR button erases the search criterion.
+
+            tr
+                 td 2
+                 td
+                    img(src="/images/USV2.png" class="img-responsive" alt="I be graphics cat")
+                 td The SAVE button saves the service information on the system and
+                    |the CANCEL button erases all the actions altogether.
+            tr
+                 td 3
+                 td
+                     img(src="/images/USV3.png" class="img-responsive" alt="I be graphics cat")
+                 td This datagridview displays services with the inputted criterion.
+            tr
+                 td 4
+                 td
+                     img(src="/images/USV4.png" class="img-responsive" alt="I be graphics cat")
+                 td The UPDATE button allows the system user to update the service information.
+            tr
+                 td 5
+                 td
+                    img(src="/images/USV5.png" class="img-responsive" alt="I be graphics cat")
+                 td This allows the user to edit the required information for the service.
+            tr
+                 td 6
+                 td
+                    img(src="/images/USV6.png" class="img-responsive" alt="I be graphics cat")
+                 td The SAVE button saves the updated information of a service on the system.
+            tr
+                 td 7
+                 td
+                    img(src="/images/USV7.png" class="img-responsive" alt="I be graphics cat")
+                 td This confirmation message allows the user to
+                    |confirm updating the service information
+    br
+    h3(id="services-Delete") Delete service
+    br
+    img(src="/images/DeleteService.png" class="img-responsive" alt="services main screen")
+    br
+    table.table.table-responsive
+        thead
+            tr
+                 td
+                     b #
+                 td
+                     b Component
+                 td
+                     b Description
+        tbody
+            tr
+                 td 1
+                 td
+                    img(src="/images/DSV1.png" class="img-responsive" alt="I be graphics cat")
+                 td This allows the user to search for a service by inputting the criterion (Service Name).
+                    |The SEARCH button when clicked, displays the service information.
+                    |The CLEAR button erases the search criterion.
+
+            tr
+                 td 2
+                 td
+                    img(src="/images/DSV2.png" class="img-responsive" alt="I be graphics cat")
+                 td This datagridview displays services with the inputted criterion.
+            tr
+                 td 3
+                 td
+                     img(src="/images/DSV3.png" class="img-responsive" alt="I be graphics cat")
+                 td The DELETE button allows the system user to delete the service information.
+            tr
+                 td 4
+                 td
+                     img(src="/images/DSV4.png" class="img-responsive" alt="I be graphics cat")
+                 td This confirmation message allows the user to confirm the deletion of a service.
+
+            tr
+                 td 5
+                 td
+                     img(src="/images/DSV5.png" class="img-responsive" alt="I be graphics cat")
+                 td This message is displayed upon the successful deletion of a service.
+    br
+    h3(id="services-Search") Search service
+    br
+    img(src="/images/SearchService.png" class="img-responsive" alt="services main screen")
+    br
+    table.table.table-responsive
+        thead
+            tr
+                 td
+                     b #
+                 td
+                     b Component
+                 td
+                     b Description
+        tbody
+            tr
+                 td 1
+                 td
+                    img(src="/images/SSV1.png" class="img-responsive" alt="I be graphics cat")
+                 td This allows the user to search for a service by inputting the criterion (Service Name).
+                    |The SEARCH button when clicked, displays the service information.
+                    |The CLEAR button erases the search criterion.
+
+
+            tr
+                 td 2
+                 td
+                    img(src="/images/SSV2.png" class="img-responsive" alt="I be graphics cat")
+                 td This datagridview displays the searched service.
+            tr
+                 td 3
+                 td
+                     img(src="/images/SSV3.png" class="img-responsive" alt="I be graphics cat")
+                 td This datagridview displays services with the inputted criterion.
+            tr
+                 td 4
+                 td
+                     img(src="/images/SSV4.png" class="img-responsive" alt="I be graphics cat")
+                 td The UPDATE button allows the system user to update the service information. The VIEW button allows the system user to view the service in more detail.
+                    |The DELETE button allows the system user to delete a service from the system.
+                    |The EXPORT SERVICE LIST button allows the system user to export the list of services rendered.
+
+
+    //- #########################
+    //- ### orders
+    //- #########################
+    h1(id="Orders") Orders
+    br
+
+    h3(id="Orders-Add") Add Order
+    br
+    img(src="/images/AddOrder.png" class="img-responsive" alt="Order main screen")
+    br
+    table.table.table-responsive
+        thead
+            tr
+                 td
+                     b #
+                 td
+                     b Component
+                 td
+                     b Description
+        tbody
+            tr
+                 td 1
+                 td
+                    img(src="/images/24.png" class="img-responsive" alt="I be graphics cat")
+                 td The date time picker is used to show the date the order is made
+            tr
+                 td 2
+                 td
+                    img(src="/images/25.png" class="img-responsive" alt="I be graphics cat")
+                 td User can select the supplier he/she wants to order from this control.
+
+            tr
+                 td 3
+                 td
+                    img(src="/images/26.png" class="img-responsive" alt="I be graphics cat")
+                 td This grid is used to make a new order to supplier
+                    |and display a list of the orders.
+            tr
+                 td 4
+                 td
+                    img(src="/images/27.png" class="img-responsive" alt="I be graphics cat")
+                 td Select ’ Notify supplier ’button if you want to send
+                    |email of order made  to suppliers
+            tr
+                 td 5
+                 td
+                    img(src="/images/28.png" class="img-responsive" alt="I be graphics cat")
+                 td Select Add Order button to capture new order details to the system.
+
+    br
+    h3(id="Orders-Update") Update Order
+    br
+    img(src="/images/UpdateOrder.png" class="img-responsive" alt="Order main screen")
+    br
+    table.table.table-responsive
+        thead
+            tr
+                 td
+                     b #
+                 td
+                     b Component
+                 td
+                     b Description
+        tbody
+            tr
+                 td 1
+                 td
+                    img(src="/images/24.png" class="img-responsive" alt="I be graphics cat")
+                 td The date time picker is used to show the date the order is made
+            tr
+                 td 2
+                 td
+                    img(src="/images/25.png" class="img-responsive" alt="I be graphics cat")
+                 td User can select the supplier he/she wants to order from this control.
+
+            tr
+                 td 3
+                 td
+                    img(src="/images/37.png" class="img-responsive" alt="I be graphics cat")
+                 td This grid is used to view list of orders searched
+            tr
+                 td 4
+                 td
+                    img(src="/images/38.png" class="img-responsive" alt="I be graphics cat")
+                 td User select ‘send supplier notification’ to send email to supplier.
+            tr
+                 td 5
+                 td
+                    img(src="/images/39.png" class="img-responsive" alt="I be graphics cat")
+                 td User selects button make changes to order.
+
+    br
+    h3(id="Orders-Search") Search Order
+    br
+    img(src="/images/SearchOrder.png" class="img-responsive" alt="Order main screen")
+    br
+    table.table.table-responsive
+        thead
+            tr
+                 td
+                     b #
+                 td
+                     b Component
+                 td
+                     b Description
+        tbody
+            tr
+                 td 1
+                 td
+                    img(src="/images/29.png" class="img-responsive" alt="I be graphics cat")
+                 td The search component is used to capture search criteria from the user
+                    |and filter records according to the criteria provided.
+            tr
+                 td 2
+                 td
+                    img(src="/images/30.png" class="img-responsive" alt="I be graphics cat")
+                 td This grid is used to display a list of the
+                    |orders that matches the search criteria provided.
+
+    br
+    h3(id="Orders-Delete") Delete Order
+    br
+    img(src="/images/ViewOrder.png" class="img-responsive" alt="Order main screen")
+    br
+    table.table.table-responsive
+        thead
+            tr
+                 td
+                     b #
+                 td
+                     b Component
+                 td
+                     b Description
+        tbody
+            tr
+                 td 1
+                 td
+                    img(src="/images/31.png" class="img-responsive" alt="I be graphics cat")
+                 td The date time picker is used to show the date the order is made
+            tr
+                 td 2
+                 td
+                    img(src="/images/32.png" class="img-responsive" alt="I be graphics cat")
+                 td User selects the supplier he/she needs to view
+           tr
+                 td 3
+                 td
+                    img(src="/images/33.png" class="img-responsive" alt="I be graphics cat")
+                 td User selects the supplier he/she needs to view
+           tr
+                 td 4
+                 td
+                    img(src="/images/34.png" class="img-responsive" alt="I be graphics cat")
+                 td User selects the supplier he/she needs to view
+
+    br
+    //- #########################
+    //- ### Stock
+    //- #########################
+    h1(id="Stock") Stock
+    br
+    h3(id="Stock-Add") Add Stock
+    br
+    img(src="/images/AddStock.png" class="img-responsive" alt="Order main screen")
+    br
+    table.table.table-responsive
+        thead
+            tr
+                 td
+                     b #
+                 td
+                     b Component
+                 td
+                     b Description
+        tbody
+            tr
+                 td 1
+                 td
+                    img(src="/images/41.png" class="img-responsive" alt="I be graphics cat")
+                 td Enter appropriate Brand name information in this Text box
+            tr
+                 td 2
+                 td
+                    img(src="/images/42.png" class="img-responsive" alt="I be graphics cat")
+                 td Enter appropriate Product name information in this Text box
+           tr
+                 td 3
+                 td
+                    img(src="/images/43.png" class="img-responsive" alt="I be graphics cat")
+                 td Enter price for product in this Text box
+           tr
+                 td 4
+                 td
+                    img(src="/images/44.png" class="img-responsive" alt="I be graphics cat")
+                 td Enter size of product in this Text box
+           tr
+                 td 5
+                 td
+                    img(src="/images/45.png" class="img-responsive" alt="I be graphics cat")
+                 td Enter quantity of product in this Text box
+           tr
+                 td 6
+                 td
+                    img(src="/images/46.png" class="img-responsive" alt="I be graphics cat")
+                 td Product barcode is displayed in this Text box
+           tr
+                 td 7
+                 td
+                    img(src="/images/47.png" class="img-responsive" alt="I be graphics cat")
+                 td Enter appropriate supplier name information in this Text box
+           tr
+                 td 8
+                 td
+                    img(src="/images/48.png" class="img-responsive" alt="I be graphics cat")
+                 td Click ‘Add Product’ button to add new product details on the system.
+
+    br
+    h3(id="Stock-Update") Update Stock
+    br
+    img(src="/images/UpdateStock.png" class="img-responsive" alt="Order main screen")
+    br
+    table.table.table-responsive
+        thead
+            tr
+                 td
+                     b #
+                 td
+                     b Component
+                 td
+                     b Description
+        tbody
+            tr
+                 td 1
+                 td
+                    img(src="/images/41.png" class="img-responsive" alt="I be graphics cat")
+                 td Enter appropriate Brand name information in this Text box
+            tr
+                 td 2
+                 td
+                    img(src="/images/42.png" class="img-responsive" alt="I be graphics cat")
+                 td Enter appropriate Product name information in this Text box
+           tr
+                 td 3
+                 td
+                    img(src="/images/43.png" class="img-responsive" alt="I be graphics cat")
+                 td Enter price for product in this Text box
+           tr
+                 td 4
+                 td
+                    img(src="/images/44.png" class="img-responsive" alt="I be graphics cat")
+                 td Enter size of product in this Text box
+           tr
+                 td 5
+                 td
+                    img(src="/images/45.png" class="img-responsive" alt="I be graphics cat")
+                 td Enter quantity of product in this Text box
+           tr
+                 td 6
+                 td
+                    img(src="/images/46.png" class="img-responsive" alt="I be graphics cat")
+                 td Product barcode is displayed in this Text box
+           tr
+                 td 7
+                 td
+                    img(src="/images/47.png" class="img-responsive" alt="I be graphics cat")
+                 td Enter appropriate supplier name information in this Text box
+           tr
+                 td 8
+                 td
+                    img(src="/images/51.png" class="img-responsive" alt="I be graphics cat")
+                 td Click ‘Add Product’ button to add new product details on the system.
+
+    br
+    h3(id="Stock-Delete") Delete Stock
+    br
+    img(src="/images/DeleteStock.png" class="img-responsive" alt="Order main screen")
+    br
+    table.table.table-responsive
+        thead
+            tr
+                 td
+                     b #
+                 td
+                     b Component
+                 td
+                     b Description
+        tbody
+            tr
+                 td 1
+                 td
+                    img(src="/images/41.png" class="img-responsive" alt="I be graphics cat")
+                 td Enter appropriate Brand name information in this Text box
+            tr
+                 td 2
+                 td
+                    img(src="/images/42.png" class="img-responsive" alt="I be graphics cat")
+                 td Enter appropriate Product name information in this Text box
+           tr
+                 td 3
+                 td
+                    img(src="/images/43.png" class="img-responsive" alt="I be graphics cat")
+                 td Enter price for product in this Text box
+           tr
+                 td 4
+                 td
+                    img(src="/images/44.png" class="img-responsive" alt="I be graphics cat")
+                 td Enter size of product in this Text box
+           tr
+                 td 5
+                 td
+                    img(src="/images/45.png" class="img-responsive" alt="I be graphics cat")
+                 td Enter quantity of product in this Text box
+           tr
+                 td 6
+                 td
+                    img(src="/images/46.png" class="img-responsive" alt="I be graphics cat")
+                 td Product barcode is displayed in this Text box
+           tr
+                 td 7
+                 td
+                    img(src="/images/47.png" class="img-responsive" alt="I be graphics cat")
+                 td Enter appropriate supplier name information in this Text box
+           tr
+                 td 8
+                 td
+                    img(src="/images/51.png" class="img-responsive" alt="I be graphics cat")
+                 td Click ‘Update Product’ button to add new product details on the system.
+           tr
+                 td 9
+                 td
+                    img(src="/images/50.png" class="img-responsive" alt="I be graphics cat")
+                 td Click ‘Delete Product’ button to add new product details on the system.
+
+    br
+    h3(id="Stock-Search") Search Stock
+    br
+    img(src="/images/SearchStock.png" class="img-responsive" alt="Order main screen")
+    br
+    table.table.table-responsive
+        thead
+            tr
+                 td
+                     b #
+                 td
+                     b Component
+                 td
+                     b Description
+        tbody
+            tr
+                 td 1
+                 td
+                    img(src="/images/CP.png" class="img-responsive" alt="I be graphics cat")
+                 td The search component is used to capture search criteria from the user
+                    |and filter records according to the criteria provided.
+                    |Click Search button to start searching.
+
+            tr
+                 td 2
+                 td
+                    img(src="/images/CP1.png" class="img-responsive" alt="I be graphics cat")
+                 td This grid displays all the results from the provided by the above search criteria
+
+    br
+    //- #########################
+    //- ### Reports
+    //- #########################
+    h1(id="Reports") Reports
+    br
+    h3(id="Reports-Stock Trend") Stock Trend Report
+    br
+    img(src="/images/StockTrend.png" class="img-responsive" alt="Report main screen")
+    br
+    table.table.table-responsive
+        thead
+            tr
+                 td
+                     b #
+                 td
+                     b Component
+                 td
+                     b Description
+        tbody
+            tr
+                 td 1
+                 td
+                    img(src="/images/T1.png" class="img-responsive" alt="I be graphics cat")
+                 td Select Report Menu item on the main menu to view Stock Report.
+
+            tr
+                 td 2
+                 td
+                    img(src="/images/T2.png" class="img-responsive" alt="I be graphics cat")
+                 td The Search Trend Report is used to choose the product name, Date from and to stock trend criteria
+
+    br
+    h3(id="Reports-Expense Report") Expense Report
+    br
+    img(src="/images/ExpenseR.png" class="img-responsive" alt="Report main screen")
+    br
+    table.table.table-responsive
+        thead
+            tr
+                 td
+                     b #
+                 td
+                     b Component
+                 td
+                     b Description
+        tbody
+            tr
+                 td 1
+                 td
+                    img(src="/images/ER1.png" class="img-responsive" alt="I be graphics cat")
+                 td This allows the system user to select the date range on which
+                    |the expense report will be created on.
+
+            tr
+                 td 2
+                 td
+                    img(src="/images/ER2.png" class="img-responsive" alt="I be graphics cat")
+                 td This allows the user to choose the date for the report to be generated.
+
+            tr
+                 td 3
+                 td
+                    img(src="/images/ER3.png" class="img-responsive" alt="I be graphics cat")
+                 td The SAVE button saves the dates selected in order to create the report.
+                    |The CLEAR button erases the dates selected.
+
+            tr
+                 td 4
+                 td
+                    img(src="/images/ER4.png" class="img-responsive" alt="I be graphics cat")
+                 td This is the graph which will display the expenses for the
+                    |period selected on the calendar.
+
+    h3(id="Reports-Generate Employee Income") Employee Income Report
+    br
+    img(src="/images/EI.png" class="img-responsive" alt="Report main screen")
+    br
+    table.table.table-responsive
+        thead
+            tr
+                 td
+                     b #
+                 td
+                     b Component
+                 td
+                     b Description
+        tbody
+            tr
+                 td 1
+                 td
+                    img(src="/images/T1.png" class="img-responsive" alt="I be graphics cat")
+                 td Select Report Menu item on the main menu to view Employee Income Report.
+
+            tr
+                 td 2
+                 td
+                    img(src="/images/E2.png" class="img-responsive" alt="I be graphics cat")
+                 td The Search Trend Report is used to choose the product name, Date from and to stock trend.
+                    |The grid displays all the results from the provided by the above search criteria
+            tr
+                 td 3
+                 td
+                    img(src="/images/E3.png" class="img-responsive" alt="I be graphics cat")
+                 td This Grid shows the income generated per employee.
+    br
+    h3(id="Reports-Client Report") Client Report
+    br
+    img(src="/images/ClientR.png" class="img-responsive" alt="Report main screen")
+    br
+    table.table.table-responsive
+        thead
+            tr
+                 td
+                     b #
+                 td
+                     b Component
+                 td
+                     b Description
+        tbody
+            tr
+                 td 1
+                 td
+                    img(src="/images/T1.png" class="img-responsive" alt="I be graphics cat")
+                 td Select Report Menu item on the main menu to view Client Report.
+
+            tr
+                 td 2
+                 td
+                    img(src="/images/CR.png" class="img-responsive" alt="I be graphics cat")
+                 td The chat shows the number of returning clients and non-returning.
+                    |The system will load the chat automatically
+
+    br
+
+
+
