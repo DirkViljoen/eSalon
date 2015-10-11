@@ -692,6 +692,23 @@ Use esalon;
 -- Permissions
 
 	DELIMITER //
+	create procedure esalon.sp_getRolePermissions
+	(
+		IN rid INT
+	)
+	BEGIN 
+		SELECT 
+			p.Permission_ID as pid
+		FROM
+			Permission p, Role_Permission rp
+		WHERE
+			p.Permission_ID = rp.Permission_ID
+			AND
+			rp.Role_ID = rid;
+	END //
+	DELIMITER ;
+
+	DELIMITER //
 	create procedure esalon.sp_getPermissions
 	(
 
@@ -750,6 +767,71 @@ Use esalon;
 	INSERT INTO `Sub_Letter_Payment` 
 		(`DateTime`, `Amount`, `Sub_Letter_id`, `PaymentMethod_ID`)
 	VALUES(idate , iamount, isid, ipid);
+	END //
+	DELIMITER ;
+    
+-- Role
+
+	-- -- INSERT
+	DELIMITER //
+	create procedure sp_Insert_Role 
+	(
+		IN rname VARCHAR(50)
+	)
+	BEGIN 
+    DECLARE insertId INT;
+    
+	INSERT INTO `Role` 
+		(`Name`)
+	VALUES
+		(rname);
+        
+	SET insertId = LAST_INSERT_ID();
+			SELECT insertId;
+	END //
+	DELIMITER ;
+    
+    
+    
+    DELIMITER //
+	create procedure sp_Update_Role 
+	(
+		IN rid	INT,
+		IN iname VARCHAR(50)
+	)
+	BEGIN  
+
+	UPDATE `Role` SET 
+		`Name` = iname
+	WHERE Role_ID = rid;
+
+	END //
+	DELIMITER ;
+    
+    DELIMITER //
+	create procedure sp_Delete_RolePermissions
+	(
+		IN rid	INT
+	)
+	BEGIN  
+
+	DELETE FROM Role_Permission
+	WHERE Role_ID = rid;
+
+	END //
+	DELIMITER ;
+    
+	-- -- INSERT
+	DELIMITER //
+	create procedure sp_Insert_RolePermission 
+	(
+		IN rid INT,
+        IN pid INT
+	)
+	BEGIN 
+	INSERT INTO `Role_Permission`
+	VALUES
+		(rid,pid);
 	END //
 	DELIMITER ;
     

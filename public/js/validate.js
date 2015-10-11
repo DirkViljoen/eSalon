@@ -321,6 +321,47 @@ function addNGValidation(myForm) {
         };
     };
 
+// Roles
+
+    function role_add(usrResponse, callback) {
+        switch(usrResponse){
+            case 'save':
+                confirm_YesNoCancel('Add role', 'Are you sure you want to save the permissions as a new role?', function(res) {
+                    callback(res);
+                });
+                break;
+            default:
+                callback('none');
+                break;
+        };
+    };
+
+    function role_update(usrResponse, callback) {
+        switch(usrResponse){
+            case 'update':
+                confirm_YesNoCancel('Update role', 'Are you sure you want to update the role permissions?', function(res) {
+                    callback(res);
+                });
+                break;
+            default:
+                callback('none');
+                break;
+        };
+    };
+
+    function role_update_newName(usrResponse, callback) {
+        switch(usrResponse){
+            case 'update':
+                confirm_YesNoCancel('Update role', 'You have provided a new role name. Are you sure you want to save the role permissions with the new name?', function(res) {
+                    callback(res);
+                });
+                break;
+            default:
+                callback('none');
+                break;
+        };
+    };
+
 // Services
 
     function service_add(usrResponse, callback) {

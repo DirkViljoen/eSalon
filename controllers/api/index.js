@@ -1466,7 +1466,7 @@ String.prototype.hexEncode = function(){
 
 // roles
 
-router.get('/permissions', function (req, res) {
+    router.get('/permissions', function (req, res) {
         console.log('Permissions GET.')
 
         models.roles.permissions()
@@ -1481,6 +1481,145 @@ router.get('/permissions', function (req, res) {
                 }
             );
     });
+
+    router.get('/role/:id', function (req, res) {
+        console.log('Role GET. Params : ' + JSON.stringify(req.params));
+
+        models.roles.getRole(req.params.id)
+            .then(
+                function (result){
+                    if (result)
+                        res.send(result);
+                },
+                function (err){
+                    console.log(err);
+                    res.send(err);
+                }
+            );
+    });
+
+    router.post('/role', function (req, res) {
+       console.log('Supplier POST. Body: ' + JSON.stringify(req.body));
+
+       if (JSON.stringify(req.body) != '{}') {
+           var obj = {};
+           //post
+           obj.name = (req.body.name ? '"' + req.body.name + '"' : '"new role"');
+           // obj.permissions = req.body.permissions;
+
+            models.roles.create(obj)
+               .then(
+                    function (result){
+                        obj.roleId = result.SQLstats.insertId;
+                        obj.permissions = req.body.permissions;
+                        console.log('Role created');
+                        console.log(result);
+                        console.log('Creating ' + obj.permissions.length + ' permissions');
+
+                        console.log(obj.permissions);
+
+                        for (var i = 0; i < obj.permissions.length; i++) {
+                            console.log('Creating ' + i);
+                            models.roles.createPermission({'rid': obj.roleId, 'pid': obj.permissions[i]})
+                            .then(
+                                function (result){
+                                    return result
+                                },
+                                function (err){
+                                    res.send({'err': err})
+                                }
+                            );
+                        }
+
+
+
+
+                        res.send({"done":"done"});
+                    },
+                    function (err){
+                        console.error(err);
+                        res.send({'err': err});
+                    }
+               )
+         }
+         else
+         {
+             var err = 'No req.body on supplier POST';
+             console.error(new Error(err));
+             res.send({'err': err});
+         }
+     });
+
+    router.put('/role', function (req, res) {
+       console.log('Supplier POST. Body: ' + JSON.stringify(req.body));
+
+       if (JSON.stringify(req.body) != '{}') {
+           var obj = {};
+           //post
+           obj.id = req.body.roleId;
+           obj.name = (req.body.name ? '"' + req.body.name + '"' : '"new role"');
+           console.log(obj);
+           // obj.permissions = req.body.permissions;
+
+            models.roles.update(obj)
+                .then(
+                    function (result){
+                        console.log('Role updated, Deleting permissions');
+                            models.roles.deletePermission({'rid': obj.id})
+                            .then(
+                                function (result){
+                                    return result
+                                },
+                                function (err){
+                                    res.send({'err': err})
+                                }
+                            );
+                    },
+                    function (err){
+                        console.error(err);
+                        res.send({'err': err});
+                    }
+                )
+                .then(
+                    function (result){
+                        obj.permissions = req.body.permissions;
+                        console.log('Permissions Deleted, Creating new.');
+                        console.log(result);
+                        console.log('Creating ' + obj.permissions.length + ' permissions');
+
+                        console.log(obj.permissions);
+
+                        for (var i = 0; i < obj.permissions.length; i++) {
+                            console.log('Creating ' + i);
+                            models.roles.createPermission({'rid': obj.id, 'pid': obj.permissions[i]})
+                            .then(
+                                function (result){
+                                    return result
+                                },
+                                function (err){
+                                    res.send({'err': err})
+                                }
+                            );
+                        }
+
+
+
+
+                        res.send({"done":"done"});
+                    },
+                    function (err){
+                        console.error(err);
+                        res.send({'err': err});
+                    }
+                )
+         }
+         else
+         {
+             var err = 'No req.body on supplier POST';
+             console.error(new Error(err));
+             res.send({'err': err});
+         }
+     });
 
 // Services
 

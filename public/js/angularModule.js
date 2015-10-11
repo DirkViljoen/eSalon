@@ -2505,7 +2505,7 @@ myModule.controller('InvoiceController', function($scope, $http, $window, $q, au
         };
   });
 
-myModule.controller('RoleController', function($scope, $http, $window, $q) {
+myModule.controller('RoleController', function($scope, $http, $window, $q, audit) {
     // objects
         $scope.loading = true;
         $scope.error = '';
@@ -2517,13 +2517,57 @@ myModule.controller('RoleController', function($scope, $http, $window, $q) {
         $scope.class = "";
 
         $scope.role = {};
+        $scope.role.permissions = [];
 
-        $scope.originalData = [
-            { id : 'ajson1', parent : '#', text : 'Simple root node', state: { opened: true} },
-            { id : 'ajson2', parent : '#', text : 'Root node 2', state: { opened: true} },
-            { id : 'ajson3', parent : 'ajson2', text : 'Child 1', state: { opened: true} },
-            { id : 'ajson4', parent : 'ajson2', text : 'Child 2' , state: { opened: true}}
-        ];
+    // functionality
+
+        $scope.selectRole = function() {
+            // alert('role selected:' + $scope.role.roleId);
+            $scope.getRolePermissions();
+            for (i = 0; i < $scope.roles.length; i++){
+                if ($scope.roles[i].Role_ID == $scope.role.roleId){
+                    $scope.role.name = $scope.roles[i].Name
+                }
+            }
+        };
+
+        $scope.selectMajor = function () {
+            // If any entity is not checked, then uncheck the "allItemsSelected" checkbox
+
+            for (i = 0; i < $scope.majors.length; i++){
+                for (j = 0; j < $scope.permissions.length; j++){
+                    if ($scope.permissions[j].mjid == $scope.majors[i].mjid){
+                        $scope.permissions[j].isChecked = $scope.majors[i].isChecked
+                    }
+                }
+            }
+        };
+
+        $scope.selectMinor = function () {
+            for (i = 0; i < $scope.majors.length; i++){
+                $scope.majors[i].isChecked = true;
+                for (j = 0; j < $scope.permissions.length; j++){
+                    if ($scope.permissions[j].mjid == $scope.majors[i].mjid){
+                        if ($scope.permissions[j].isChecked == false){
+                            $scope.majors[i].isChecked = false;
+                        }
+                    }
+                }
+            }
+        };
+
+        $scope.toggleMajor = function(i){
+            $scope.major[i].status = "+" ? "-" : "+";
+        }
+
+        $scope.populateRole = function(){
+            $scope.role.permissions = [];
+            for (j = 0; j < $scope.permissions.length; j++){
+                if ($scope.permissions[j].isChecked){
+                    $scope.role.permissions.push($scope.permissions[j].pid)
+                }
+            }
+        }
 
     // core tables
         $scope.getRoles = function() {
@@ -2548,6 +2592,7 @@ myModule.controller('RoleController', function($scope, $http, $window, $q) {
                     $scope.permissions = response.data.rows;
 
                     for (i = 0; i < $scope.permissions.length; i++){
+                        $scope.permissions[i].isChecked = false;
                         var found = false;
                         for (j = 0; j < $scope.majors.length; j++){
                             if ($scope.permissions[i].mjid == $scope.majors[j].mjid){
@@ -2556,7 +2601,7 @@ myModule.controller('RoleController', function($scope, $http, $window, $q) {
                         }
 
                         if (found == false){
-                            $scope.majors.push({"mjid":$scope.permissions[i].mjid, "Major":$scope.permissions[i].Major});
+                            $scope.majors.push({"mjid":$scope.permissions[i].mjid, "Major":$scope.permissions[i].Major, "isChecked":false});
                         }
 
                         if (i + 1 == $scope.permissions.length){
@@ -2570,8 +2615,160 @@ myModule.controller('RoleController', function($scope, $http, $window, $q) {
             });
          };
 
+        $scope.getRolePermissions = function(){
+            $http.get('/api/role/' + $scope.role.roleId).then(function(response) {
+                $scope.loading = false;
+                console.log(response.data);
+                if (response.data.rows) {
+                    $scope.rolePermissions = response.data.rows;
+                    for (j = 0; j < $scope.permissions.length; j++){
+                        $scope.permissions[j].isChecked = false;
+                    };
+
+                    for (i = 0; i < $scope.rolePermissions.length; i++){
+                        for (j = 0; j < $scope.permissions.length; j++){
+                            if ($scope.rolePermissions[i].pid == $scope.permissions[j].pid){
+                                $scope.permissions[j].isChecked = true;
+                            }
+                        }
+                    }
+
+                    $scope.selectMinor();
+                }
+            }, function(err) {
+                $scope.loading = false;
+                $scope.error = err.data;
+            });
+        };
+
+    // database
+
+        $scope.postRole = function() {
+            $scope.populateRole();
+
+            if($scope.role.newName.length > 0){
+            role_add('save', function(res) {
+                console.log(res);
+                switch (res){
+                    case 'yes':
+                        $scope.role.name = $scope.role.newName;
+
+                        $http.post('/api/role', $scope.role)
+                            .then(function(response) {
+                                if (response.data.err) {
+                                    audit.log($scope.user, 'Error', 'Add new role ' + $scope.role.name);
+                                    error_Ok('Role add error', 'An error occured while saving the new role details. Please contact suport with the following details: ' + JSON.stringify(response.data.err), function() {return {}});
+                                    $scope.error = response.data.err;
+                                }
+                                else {
+                                    audit.log($scope.user, 'Create', 'Add new role ' + $scope.role.name);
+                                    success_Ok('Role successfully added', 'The details for ' + $scope.role.name + ' has been saved successfully.', function(res) {
+                                        $window.location.href = '/booking';
+                                    });
+                                }
+                            });
+                        break;
+                    case 'no':
+                        break;
+                    case 'cancel':
+                        $window.location.href = '/booking';
+                        break;
+                    default:
+                        error_Ok('Response error', 'Sorry, we missed that. Please only use a provided button.');
+                        break;
+                    }
+                })
+            }
+            else {
+                error_Ok('You have indicated to save permissions as a new role but have not provided a new role name. Please provide a name and click the add new role button again.');
+            }
+        };
+
+        $scope.updateRole = function(){
+            if($scope.role.newName.length > 0){
+                putRoleNew();
+            }
+            else {
+                putRole();
+            }
+        };
+
+        putRole = function() {
+            $scope.populateRole();
+
+            role_update('update', function(res) {
+                console.log(res);
+                switch (res){
+                    case 'yes':
+
+                        $http.put('/api/role', $scope.role)
+                            .then(function(response) {
+                                if (response.data.err) {
+                                    audit.log($scope.user, 'Error', 'Update role ' + $scope.role.name);
+                                    error_Ok('Role update error', 'An error occured while updating role details. Please contact suport with the following details: ' + JSON.stringify(response.data.err), function() {return {}});
+                                    $scope.error = response.data.err;
+                                }
+                                else {
+                                    audit.log($scope.user, 'Update', 'Update role ' + $scope.role.name);
+                                    success_Ok('Role successfully updated', 'The details for ' + $scope.role.name + ' has been saved successfully.', function(res) {
+                                        $window.location.href = '/booking';
+                                    });
+                                }
+                            });
+                        break;
+                    case 'no':
+                        break;
+                    case 'cancel':
+                        $window.location.href = '/booking';
+                        break;
+                    default:
+                        error_Ok('Response error', 'Sorry, we missed that. Please only use a provided button.');
+                        break;
+                    }
+                })
+        };
+
+        putRoleNew = function() {
+            $scope.populateRole();
+
+            role_update_newName('update', function(res) {
+                console.log(res);
+                switch (res){
+                    case 'yes':
+                        $scope.role.name = $scope.role.newName;
+
+                        $http.put('/api/role', $scope.role)
+                            .then(function(response) {
+                                if (response.data.err) {
+                                    audit.log($scope.user, 'Error', 'Update role ' + $scope.role.name);
+                                    error_Ok('Role update error', 'An error occured while updating role details. Please contact suport with the following details: ' + JSON.stringify(response.data.err), function() {return {}});
+                                    $scope.error = response.data.err;
+                                }
+                                else {
+                                    audit.log($scope.user, 'Update', 'Update role ' + $scope.role.name);
+                                    success_Ok('Role successfully updated', 'The details for ' + $scope.role.name + ' has been saved successfully.', function(res) {
+                                        $window.location.href = '/booking';
+                                    });
+                                }
+                            });
+                        break;
+                    case 'no':
+                        break;
+                    case 'cancel':
+                        $window.location.href = '/booking';
+                        break;
+                    default:
+                        error_Ok('Response error', 'Sorry, we missed that. Please only use a provided button.');
+                        break;
+                    }
+                })
+        };
+
     // initiating
-        $scope.initManage = function() {
+        $scope.initManage = function(user) {
+            $scope.user = user
+
+            $scope.role.newName = "";
             $scope.getRoles();
             $scope.getPermissions();
          };

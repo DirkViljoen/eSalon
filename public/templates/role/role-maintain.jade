@@ -8,7 +8,7 @@ block loggedIn
     a(href='#', class='navbar-link') Signed in as Mark Otto
 
 block content
-    form.row.col-xs-12.workarea.form-validate(id="roleManage", ng-controller="RoleController", ng-init="initManage()")
+    form.row.col-xs-12.workarea.form-validate(id="roleManage", ng-controller="RoleController", ng-init="initManage("+user.uid+")")
         .row
             .col-sm-1
             .col-sm-11
@@ -17,36 +17,59 @@ block content
         .row
             .col-md-1
             .col-md-10.form-horizontal
-                //- +form-combobox('roleName', 'Role Name:', roleNames, roleName)
-                +ng-input-combobox('role', 'Role:', 'role.roleId', 'Select a role', 'role.Role_ID as role.Name for role in roles', false, false)
+                .grouphead
+                    +form-group('Role name')
+                .groupbox
+                    .row
+                        +ng-input-combobox('role', 'Select an existing role:', 'role.roleId', 'Select a role', 'role.Role_ID as role.Name for role in roles', false, false, 'selectRole()')
+                        +ng-input-text('title', 'New role name:', 'role.newName', 'Change the name of the existing role, or for a new role.', false, false, '1', '50')
+                br
+                //- div(js-tree="treeConfig" ng-model="treeData")
 
-                div(ng-model="originalData")
+                .grouphead
+                    +form-group('Role permissions')
+                .groupbox
+                    .row
+                        .col-xs-12
+                            table.table-hover(id="majorTable", st-table='majors', cellpadding="10")
+                                col(width="20")
+                                col(width="150")
+                                tbody
+                                    tr(ng-repeat="maj in majors")
+                                        //- td(valign="top", ng-model="maj.status", ng-click="toggleMajor($index)") {{maj.status}}
+                                        td(valign="top")
+                                            input(type="checkbox" ng-model="maj.isChecked" ng-change="selectMajor()")
+                                        td(valign="top") {{maj.Major}}
+                                        td
+                                            table(id="permissionsTable", st-table='permissions', cellpadding="10")
+                                                col(width="20")
+                                                col(width="150")
+                                                tbody
+                                                    tr
+                                                        td &nbsp;
+                                                    tr(ng-repeat="mn in permissions | filter:maj.Major")
+                                                        td
+                                                            input(type="checkbox" ng-model="mn.isChecked" ng-change="selectMinor()")
+                                                        td {{mn.Minor}}
 
-                .form-group
-                    label.control-label.col-sm-2(for='roleTree') Role permissions:
-                    .col-sm-10
-                        div(id='roleTree', ng-class='class')
-                            ul
-                                li System
-                                    ul
-                                        li(ng-repeat="maj in majors") {{maj.Major}}
-                                            ul
-                                                li(ng-repeat="mn in permissions | filter:maj.Major") {{mn.Minor}}
 
-        +workbreak()
+        br
         .row
-            .col-sm-1
-            .col-sm-10.form-group.workarea
+            .col-md-1
+            .col-md-10.form-group.workarea
                 ul.nav.nav-pills.pull-right
                     li(role='presentation')
-                        a.btn-primary(href='/booking') Save as new role
+                        input.btn.btn-primary(type="button", value="Save", ng-click='updateRole()')
                     li(role='presentation')
-                        a.btn-primary(href='/booking') Save
+                        input.btn.btn-default(type="button", value="Save as new role", ng-click='postRole()')
                     li(role='presentation')
-                        a.btn-primary(href='/booking') Cancel
+                        input.btn.btn-default(type="button", value='Cancel', ng-click='cancel()')
                         br
 
+        //- p treeData: {{treeData}}
         p roles: {{roles}}
-        p permissions: {{permissions}}
-        p majors: {{majors}}
+        p rolePermissions: {{rolePermissions}}
+        p role: {{role}}
+        //- p permissions: {{permissions}}
+        //- p majors: {{majors}}
 

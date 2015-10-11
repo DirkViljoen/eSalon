@@ -26,47 +26,6 @@ DELIMITER ;
         WHERE `Name` = rName;
     END //
     DELIMITER ;  
-    
--- -- UPDATE
-DELIMITER //
-create procedure sp_Update_Role 
-(
-	IN rRole_ID 	INT,
-	IN rName		VARCHAR(50)
-)
-BEGIN  UPDATE `Role` SET 
-	`Name` = rName
-    
-WHERE Role_ID = rRole_ID
-
-; END //
-DELIMITER ;
-
--- -- INSERT
-DELIMITER //
-create procedure sp_Insert_Role 
-(
-	IN rName		VARCHAR(50)
-)
-BEGIN 
-INSERT INTO `Role` (`Name`)
-VALUES(rName)
-; END //
-DELIMITER ;
-
--- -- DELETE
-DELIMITER //
-create procedure sp_Delete_Role
-(
-	IN rRole_ID 	INT
-)
-BEGIN  Update `Role`
-	SET 
-		`Active` = false
-	WHERE 
-		Role_ID = rRole_ID;
-END //
-DELIMITER ;
 
 -- ---- ---- ----- SUPPLIER -- ---- ---- ---- ---- ---
 -- --READ
