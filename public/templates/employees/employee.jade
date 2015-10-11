@@ -8,7 +8,7 @@ block loggedIn
   a(href='#', class='navbar-link') Signed in as Mark Otto
 
 block content
-    form.row.col-xs-12.workarea.form-validate(id="employeeManage", ng-controller="EmployeeController", ng-init='initManage()')
+    form.row.col-xs-12.workarea.form-validate(id="employeeManage", ng-controller="EmployeeController", ng-init='initManage('+user.uid+')')
         .row
             .col-sm-1
             .col-sm-11

@@ -4,11 +4,8 @@ include ../../mixins/mixins
 block header
     label Manage sub-letter
 
-block loggedIn
-    a(href='#', class='navbar-link') Signed in as Mark Otto
-
 block content
-    form.workarea(id="sub-letterManage",  ng-controller="SubLetterController", ng-init="initManage()")
+    form.workarea(id="sub-letterManage",  ng-controller="SubLetterController", ng-init="initManage("+user.uid+")")
         .row
             .col-sm-1
             .col-sm-10
@@ -61,8 +58,8 @@ block content
             .col-sm-1
 
         //- Pure functionality objects
-        //- div
-        //-     p(ng-if="loading") Loading&hellip;
+        div
+            p user: {{user}}
         //-     p searchCriteria: {{searchCriteria}}
         //-     p paymentMethods: {{paymentMethods}}
         //-     p subLetters: {{subLetters}}

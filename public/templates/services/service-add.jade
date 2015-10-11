@@ -9,7 +9,7 @@ block loggedIn
 
 block content
 
-    form.row.col-xs-12.workarea.form-validate(id="serviceAdd", ng-controller="ServiceController")
+    form.row.col-xs-12.workarea.form-validate(id="serviceAdd", ng-controller="ServiceController", ng-init="initAdd("+user.uid+")")
         .row
             .col-sm-1
             .col-sm-11

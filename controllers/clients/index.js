@@ -7,14 +7,18 @@ module.exports = function (router) {
 // Navigation
 
     router.get('/', function (req, res) {
-        var u = {};
+        var m = {};
+        m.p = req.params;
+        m.q = req.query;
+        m.user = {};
+        m.h = '/help#clients';
 
         auth.grantAccess(req.session.passport, 1, 4, req.header('Referer'))
         .then(function (result){
-            u = result.user;
+            m.user = result.user;
 
             if (result.granted){
-                res.render('clients/client', {"user": u})
+                res.render('clients/client', m)
             }
             else
             {
@@ -28,14 +32,18 @@ module.exports = function (router) {
     });
 
     router.get('/add', function (req, res) {
-        var u = {};
+        var m = {};
+        m.p = req.params;
+        m.q = req.query;
+        m.user = {};
+        m.h = '/help#clients-add';
 
         auth.grantAccess(req.session.passport, 1, 1, req.header('Referer'))
         .then(function (result){
-            u = result.user;
+            m.user = result.user;
 
             if (result.granted){
-                res.render('clients/client-add', {"user": u})
+                res.render('clients/client-add', m)
             }
             else
             {
@@ -50,14 +58,18 @@ module.exports = function (router) {
 
     router.get('/view/:id', function (req, res) {
         console.log('Client View Get')
-        var u = {};
+        var m = {};
+        m.p = req.params;
+        m.q = req.query;
+        m.user = {};
+        m.h = '/help#clients-view';
 
         auth.grantAccess(req.session.passport, 1, 4, req.header('Referer'))
         .then(function (result){
-            u = result.user;
+            m.user = result.user;
 
             if (result.granted){
-                res.render('clients/client-view', {"user": u, "id": req.params.id})
+                res.render('clients/client-view', m)
             }
             else
             {
@@ -72,14 +84,18 @@ module.exports = function (router) {
 
     router.get('/update/:id', function (req, res) {
         console.log('Client Update Get');
-        var u = {};
+        var m = {};
+        m.p = req.params;
+        m.q = req.query;
+        m.user = {};
+        m.h = '/help#clients-edit';
 
         auth.grantAccess(req.session.passport, 1, 2, req.header('Referer'))
         .then(function (result){
-            u = result.user;
+            m.user = result.user;
 
             if (result.granted){
-                res.render('clients/client-update', {"user": u, "id": req.params.id})
+                res.render('clients/client-update', m)
             }
             else
             {

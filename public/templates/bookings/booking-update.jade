@@ -10,7 +10,7 @@ block loggedIn
   a(href="#", class="navbar-link") Signed in as Mark Otto
 
 block content
-    form.row.col-xs-12.workarea.form-validate(id="bookingUpdate", ng-controller="BookingController", ng-init='initUpdate(' + id + ')')
+    form.row.col-xs-12.workarea.form-validate(id="bookingUpdate", ng-controller="BookingController", ng-init='initUpdate(' + id + ','+user.uid+')')
         .row
             .col-sm-1
             .col-sm-11

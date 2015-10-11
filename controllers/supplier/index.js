@@ -6,14 +6,18 @@ module.exports = function (router) {
 
     router.get('/', function (req, res) {
         // res.render('suppliers/supplier', {})
-        var u = {};
+        var m = {};
+        m.p = req.params;
+        m.q = req.query;
+        m.user = {};
+        m.h = '/help#suppliers';
 
         auth.grantAccess(req.session.passport, 5, 4, req.header('Referer'))
         .then(function (result){
-            u = result.user;
+            m.user = result.user;
 
             if (result.granted){
-                res.render('suppliers/supplier', {"user": u, "id": req.params.id})
+                res.render('suppliers/supplier', m)
             }
             else
             {
@@ -28,14 +32,18 @@ module.exports = function (router) {
 
     router.get('/view/:id', function (req, res) {
         // res.render('suppliers/supplier-view', req.params)
-        var u = {};
+        var m = {};
+        m.p = req.params;
+        m.q = req.query;
+        m.user = {};
+        m.h = '/help#suppliers-view';
 
         auth.grantAccess(req.session.passport, 5, 4, req.header('Referer'))
         .then(function (result){
-            u = result.user;
+            m.user = result.user;
 
             if (result.granted){
-                res.render('suppliers/supplier-view', {"user": u, "id": req.params.id})
+                res.render('suppliers/supplier-view', m
             }
             else
             {
@@ -50,14 +58,18 @@ module.exports = function (router) {
 
     router.get('/add', function (req, res) {
         // res.render('suppliers/supplier-add', {})
-        var u = {};
+        var m = {};
+        m.p = req.params;
+        m.q = req.query;
+        m.user = {};
+        m.h = '/help#suppliers-add';
 
         auth.grantAccess(req.session.passport, 5, 1, req.header('Referer'))
         .then(function (result){
-            u = result.user;
+            m.user = result.user;
 
             if (result.granted){
-                res.render('suppliers/supplier-add', {"user": u, "id": req.params.id})
+                res.render('suppliers/supplier-add', m)
             }
             else
             {
@@ -72,14 +84,18 @@ module.exports = function (router) {
 
     router.get('/update/:id', function (req, res) {
         // res.render('suppliers/supplier-update', req.params)
-        var u = {};
+        var m = {};
+        m.p = req.params;
+        m.q = req.query;
+        m.user = {};
+        m.h = '/help#suppliers-update';
 
         auth.grantAccess(req.session.passport, 5, 2, req.header('Referer'))
         .then(function (result){
-            u = result.user;
+            m.user = result.user;
 
             if (result.granted){
-                res.render('suppliers/supplier-update', {"user": u, "id": req.params.id})
+                res.render('suppliers/supplier-update', m)
             }
             else
             {

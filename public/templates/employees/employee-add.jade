@@ -8,7 +8,7 @@ block loggedIn
   a(href='#', class='navbar-link') Signed in as Mark Otto
 
 block content
-    form.row.col-xs-12.workarea.form-validate(id="employeeAdd", ng-controller="EmployeeController", ng-init="initAdd()")
+    form.row.col-xs-12.workarea.form-validate(id="employeeAdd", ng-controller="EmployeeController", ng-init="initAdd("+user.uid+")")
         .row
             .col-sm-1
             .col-sm-11
@@ -46,27 +46,27 @@ block content
                     +ng-input-text('line1', 'Line 1:', 'address.line1', '23 Some complex', false, false, '3', '50')
                 br
 
-                .grouphead
-                    +form-group('Upload a picture')
-                .groupbox
-                    div(flow-init="{target: '/api/upload'}"
-                     flow-files-submitted="$flow.upload()"
-                     flow-file-success="$file.msg = $message")
-                        .well.my-drop-zone(flow-drop flow-drag-enter="style={border:'4px solid green'}" flow-drag-leave="style={}" ng-style="style")
-                            img(flow-img="$flow.files[0]")
-                            p Base drop zone
+                //- .grouphead
+                //-     +form-group('Upload a picture')
+                //- .groupbox
+                //-     div(flow-init="{target: '/api/upload'}"
+                //-      flow-files-submitted="$flow.upload()"
+                //-      flow-file-success="$file.msg = $message")
+                //-         .well.my-drop-zone(flow-drop flow-drag-enter="style={border:'4px solid green'}" flow-drag-leave="style={}" ng-style="style")
+                //-             img(flow-img="$flow.files[0]")
+                //-             p Base drop zone
 
-                        table
-                            tr(ng-repeat="file in $flow.files")
-                                td {{$index+1}}
-                                td {{file.name}}
-                                td {{file.msg}}
+                //-         table
+                //-             tr(ng-repeat="file in $flow.files")
+                //-                 td {{$index+1}}
+                //-                 td {{file.name}}
+                //-                 td {{file.msg}}
 
-                        span(flow-btn) Upload file
+                //-         span(flow-btn) Upload file
 
-                    form(id="uploadForm" enctype="multipart/form-data" action="/api/upload" method="post")
-                        input(type="file" name="image" fileread="employee.f")
-                        input(type="button", value='Submit', ng-click='savefile()')
+                //-     form(id="uploadForm" enctype="multipart/form-data" action="/api/upload" method="post")
+                //-         input(type="file" name="image" fileread="employee.f")
+                //-         input(type="button", value='Submit', ng-click='savefile()')
 
         br
         .row
@@ -79,6 +79,6 @@ block content
                         input.btn.btn-default(type="button", value='Cancel', ng-click='cancel()')
                         br
 
-        //- p employee: {{employee}}
-        //- p user: {{user}}
-        //- p address: {{address}}
+        p employee: {{employee}}
+        p user: {{user}}
+        p address: {{address}}

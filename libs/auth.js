@@ -13,15 +13,26 @@ exports.config = function (settings) {
 
 };
 
+String.prototype.hexDecode = function(){
+    var j;
+    var hexes = this.match(/.{1,4}/g) || [];
+    var back = "";
+    for(j = 0; j<hexes.length; j++) {
+        back += String.fromCharCode(parseInt(hexes[j], 16));
+    }
+
+    return back;
+};
+
 exports.localStrategy = function () {
 
     return new LocalStrategy(function (username, password, done) {
         console.log('auth.js - localStrategy');
         console.log(username);
-        console.log(password);
+        console.log(password.hexEncode());
         var user = {};
 
-        usermodel.findOne(username, password)
+        usermodel.findOne(username, password.hexEncode())
             .then(
                 function (result){
                     if (result.rows.length > 0) {

@@ -8,6 +8,8 @@ var
     ExpenseModel    = require('../../models/expenses'),
     InvoiceModel    = require('../../models/invoice'),
     OrdersModel     = require('../../models/orders'),
+    OtherModel      = require('../../models/other'),
+    RoleModel       = require('../../models/role'),
     ServiceModel    = require('../../models/service'),
     StockModel      = require('../../models/stock'),
     SupplierModel   = require('../../models/supplier'),
@@ -39,6 +41,8 @@ module.exports = function (router) {
     models.invoice  = new InvoiceModel();
     models.lookup   = new LookupsModel();
     models.orders   = new OrdersModel();
+    models.other    = new OtherModel();
+    models.roles    = new RoleModel();
     models.reports  = new ReportsModel();
     models.services = new ServiceModel();
     // models.specials = new SpecialsModel();
@@ -46,6 +50,18 @@ module.exports = function (router) {
     models.supplier = new SupplierModel();
     models.vouchers = new VouchersModel();
     models.user     = new UserModel();
+
+String.prototype.hexEncode = function(){
+    var hex, i;
+
+    var result = "";
+    for (i=0; i<this.length; i++) {
+        hex = this.charCodeAt(i).toString(16);
+        result += ("000"+hex).slice(-4);
+    }
+
+    return result
+};
 
 // Address
 
@@ -65,6 +81,62 @@ module.exports = function (router) {
                 }
             );
      });
+
+// Audit
+
+    router.get('/audit', function (req, res) {
+        console.log('Audit POST. Query: ' + JSON.stringify(req.query));
+
+        if (JSON.stringify(req.query) != '{}') {
+            var obj = {};
+            obj.id = req.query.id ? req.query.id : null;
+            obj.action = req.query.a ? req.query.a : "None";
+            obj.description = req.query.d ? req.query.d : "None";
+
+            models.other.log(obj)
+                .then(
+                    function (result){
+                        res.send(result);
+                    },
+                    function (err){
+                        res.send({'err': err});
+                    }
+                );
+        }
+        else
+        {
+            var err = 'No req.body on audit POST';
+            console.error(new Error(err));
+            res.send({'err': err});
+        }
+    });
+
+    router.post('/audit', function (req, res) {
+        console.log('Audit POST. Body: ' + JSON.stringify(req.body));
+
+        if (JSON.stringify(req.body) != '{}') {
+            var obj = {};
+            obj.id = req.body.id ? req.body.id : null;
+            obj.action = req.body.action;
+            obj.description = req.body.description;
+
+            models.other.log(obj)
+                .then(
+                    function (result){
+                        res.send(result);
+                    },
+                    function (err){
+                        res.send({'err': err});
+                    }
+                );
+        }
+        else
+        {
+            var err = 'No req.body on audit POST';
+            console.error(new Error(err));
+            res.send({'err': err});
+        }
+    });
 
 // Bookings
 
@@ -521,7 +593,7 @@ module.exports = function (router) {
             obj.employee.addressId = null;
 
             obj.user.name = (obj.user.name ? '"' + obj.user.name + '"' : null);
-            obj.user.password = (obj.user.password ? '"' + obj.user.password + '"' : null);
+            obj.user.password = (obj.user.password ? '"' + obj.user.password.hexEncode() + '"' : null);
             obj.user.roleId = (obj.user.roleId ? obj.user.roleId : null);
 
             var deferred = q.defer();
@@ -624,7 +696,7 @@ module.exports = function (router) {
             obj.employee.addressId = (obj.employee.addressId ? obj.employee.addressId : null);
 
             obj.user.name = (obj.user.name ? '"' + obj.user.name + '"' : null);
-            obj.user.password = (obj.user.password ? '"' + obj.user.password + '"' : null);
+            obj.user.password = (obj.user.password ? '"' + obj.user.password.hexEncode() + '"' : null);
             obj.user.roleId = (obj.user.roleId ? obj.user.roleId : null);
             obj.user.employeeId = (obj.employee.employeeId ? obj.employee.employeeId : null);
             obj.user.userId = (obj.user.userId ? obj.user.userId : null);
@@ -795,7 +867,7 @@ module.exports = function (router) {
             //booking
             var booking = {};
             booking.bid = (req.body.booking.bid ? req.body.booking.bid : req.params.id);
-            booking.datetime = '"' + moment(req.body.datetime).format('YYYY-MM-DD HH:mm:ss') + '"';
+            booking.datetime = '"' + moment(req.body.booking.datetime).format('YYYY-MM-DD HH:mm:ss') + '"';
 
             booking.duration = (req.body.booking.duration ? '"' + req.body.booking.duration + '"' : 60);
             booking.completed = 1;
@@ -1392,6 +1464,24 @@ module.exports = function (router) {
         }
     });
 
+// roles
+
+router.get('/permissions', function (req, res) {
+        console.log('Permissions GET.')
+
+        models.roles.permissions()
+            .then(
+                function (result){
+                    if (result)
+                        res.send(result);
+                },
+                function (err){
+                    console.log(err);
+                    res.send(err);
+                }
+            );
+    });
+
 // Services
 
     router.get('/services', function (req, res) {
@@ -1974,7 +2064,7 @@ module.exports = function (router) {
 
         var obj = req.body;
 
-        obj.password = '"' + obj.password + '"';
+        obj.password = '"' + obj.password.hexEncode() + '"';
 
         models.user.changePassword(obj)
             .then(
@@ -2404,6 +2494,7 @@ module.exports = function (router) {
                 }
             );
     });
+
 // Uploading files
 
     router.post('/uploadImage',function(req,res){

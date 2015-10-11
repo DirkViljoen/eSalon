@@ -1,7 +1,20 @@
 var myModule = angular.module('app', ['smart-table', 'ui.calendar', 'angularMoment', 'ui.bootstrap', 'flow', 'chart.js']);
 
+// Audit
+    myModule.factory('audit', function($http) {
+        return {
+            log: function(user, action, description) {
+                var audit = {};
+                audit.id = user;
+                audit.action = action;
+                audit.description = description;
+                $http.post('/api/audit', audit).then(function(response) {});
+            }
+        };
+    });
+
 //Angular app
-myModule.controller('SubLetterController', function($scope, $http, $window) {
+myModule.controller('SubLetterController', function($scope, $http, $window, audit) {
     $scope.loading = true;
     $scope.error = '';
 
@@ -17,7 +30,7 @@ myModule.controller('SubLetterController', function($scope, $http, $window) {
     // Lookup tables
     $scope.getPaymentMethods = function() {
         $scope.loading = true;
-        $http.get('/lookups/paymentMethods').then(function(response) {
+        $http.get('/api/lookups/paymentMethods').then(function(response) {
             $scope.loading = false;
             console.log(response.data);
             if (response.data.rows) {
@@ -91,8 +104,10 @@ myModule.controller('SubLetterController', function($scope, $http, $window) {
                 console.log(res);
                 switch (res){
                     case 'yes':
+                        console.log($scope.payment);
                         $http.post('/sub-letters/payment', $scope.payment)
                             .then(function(response) {
+                                audit.log($scope.user, 'Create', 'Add sub-letter payment of ' + $scope.payment.amount + '  from ' + $scope.subLetter.businessName);
                                 success_Ok('Payment successfull', 'Payment captured successfully', function(res) {
                                     $window.location.href = $scope.home;
                                 });
@@ -127,6 +142,7 @@ myModule.controller('SubLetterController', function($scope, $http, $window) {
                     case 'yes':
                         $http.post('/sub-letters/', $scope.subLetter)
                             .then(function(response) {
+                                audit.log($scope.user, 'Create', 'Add sub-letter ' + $scope.subLetter.businessName);
                                 success_Ok('Sub-letter successfully added', 'The details for ' + $scope.subLetter.businessName + ' has been saved successfully.', function(res) {
                                     $window.location.href = $scope.home;
                                 });
@@ -161,6 +177,7 @@ myModule.controller('SubLetterController', function($scope, $http, $window) {
                     case 'yes':
                         $http.put('/sub-letters/' + $scope.subLetter.id, $scope.subLetter)
                             .then(function(response) {
+                                audit.log($scope.user, 'Update', 'Update sub-letter ' + $scope.subLetter.businessName);
                                 success_Ok('Sub-letter updated successfully', 'The new details for ' + $scope.subLetter.businessName + ' has been saved successfully.', function(res) {
                                     $window.location.href = $scope.home;
                                 });
@@ -196,6 +213,7 @@ myModule.controller('SubLetterController', function($scope, $http, $window) {
                     case 'yes':
                         $http.delete('/sub-letters/' + $scope.subLetter.id, $scope.subLetter)
                             .then(function(response) {
+                                audit.log($scope.user, 'Delete', 'Delete sub-letter ' + $scope.subLetter.businessName);
                                 success_Ok('Sub-letter deleted', 'The sub-letter has been deleted successfully.', function(res) {
                                     $window.location.href = $scope.home;
                                 });
@@ -272,12 +290,14 @@ myModule.controller('SubLetterController', function($scope, $http, $window) {
     }
 
     //Initializing
-    $scope.initPayment = function(subLetter) {
+    $scope.initPayment = function(subLetter, user) {
+        $scope.user = user;
         $scope.getPaymentMethods();
         $scope.getSubLetter(subLetter);
     }
 
-    $scope.initAdd = function() {
+    $scope.initAdd = function(user) {
+        $scope.user = user;
 
         $scope.subLetter.businessName = '';
         $scope.subLetter.contactFName = '';
@@ -291,23 +311,26 @@ myModule.controller('SubLetterController', function($scope, $http, $window) {
         $scope.loading = false;
     }
 
-    $scope.initView = function(subLetter) {
+    $scope.initView = function(subLetter, user) {
+        $scope.user = user;
         $scope.getSubLetter(subLetter);
         $scope.getSubLetterPayments(subLetter);
     }
 
-    $scope.initUpdate = function(subLetter) {
+    $scope.initUpdate = function(subLetter, user) {
+        $scope.user = user;
         $scope.getSubLetter(subLetter);
     }
 
-    $scope.initManage = function(subLetter) {
+    $scope.initManage = function(iuser) {
+        $scope.user = iuser;
         $scope.getSubLetters();
     }
 
 
   });
 
-myModule.controller('ClientController', function($scope, $http, $window) {
+myModule.controller('ClientController', function($scope, $http, $window, audit) {
     $scope.loading = true;
     $scope.error = '';
 
@@ -492,10 +515,12 @@ myModule.controller('ClientController', function($scope, $http, $window) {
                         $http.post('/api/clients', $scope.client)
                             .then(function(response) {
                                 if (response.data.err) {
+                                    audit.log($scope.user, 'Error', 'Add new client ' + $scope.client.contactFName + ' ' + $scope.client.contactLName);
                                     error_Ok('Client add error', 'An error occured while saving the new client details. Please contact suport with the following details: ' + JSON.stringify(response.data.err), function() {return {}});
                                     $scope.error = response.data.err;
                                 }
                                 else {
+                                    audit.log($scope.user, 'Create', 'Add new client ' + $scope.client.contactFName + ' ' + $scope.client.contactLName);
                                     success_Ok('Client successfully added', 'The details for ' + $scope.client.contactFName + ' ' + $scope.client.contactLName + ' has been saved successfully.', function(res) {
                                         $window.location.href = $scope.home;
                                     });
@@ -527,10 +552,12 @@ myModule.controller('ClientController', function($scope, $http, $window) {
                         $http.put('/api/clients/' + $scope.client.clientid, $scope.client)
                             .then(function(response) {
                                 if (response.data.err) {
+                                    audit.log($scope.user, 'Error', 'Update client ' + $scope.client.contactFName + ' ' + $scope.client.contactLName);
                                     error_Ok('Client update error', 'An error occured while saving the clients new details. Please contact suport with the following information: ' + JSON.stringify(response.data.err), function() {return {}});
                                     $scope.error = response.data.err;
                                 }
                                 else {
+                                    audit.log($scope.user, 'Update', 'Update client ' + $scope.client.contactFName + ' ' + $scope.client.contactLName);
                                     success_Ok('Client successfully updated', 'The details for ' + $scope.client.contactFName + ' ' + $scope.client.contactLName + ' has been updated successfully.', function(res) {
                                         $window.location.href = $scope.home;
                                     });
@@ -562,10 +589,12 @@ myModule.controller('ClientController', function($scope, $http, $window) {
                         $http.delete('/api/clients/' + $scope.client.clientid, $scope.client)
                             .then(function(response) {
                                 if (response.data.err) {
+                                    audit.log($scope.user, 'Error', 'Delete client ' + $scope.client.contactFName + ' ' + $scope.client.contactLName);
                                     error_Ok('Client delete error', 'An error occured while deleting the client. Please contact support with the following information: ' + JSON.stringify(response.data.err), function(res) {return {};});
                                     $scope.error = response.data.err;
                                 }
                                 else {
+                                    audit.log($scope.user, 'Delete', 'Delete client ' + $scope.client.contactFName + ' ' + $scope.client.contactLName);
                                     success_Ok('Client deleted', 'The client has been deleted successfully.', function(res) {
                                         $window.location.href = $scope.home;
                                     });
@@ -701,12 +730,14 @@ myModule.controller('ClientController', function($scope, $http, $window) {
     };
 
     //Initializing
-    $scope.initAdd = function() {
+    $scope.initAdd = function(user) {
+        $scope.user = user;
         $scope.getNotificationMethods();
         $scope.getProvinces();
     }
 
-    $scope.initView = function(client) {
+    $scope.initView = function(client, user) {
+        $scope.user = user;
         $scope.getNotificationMethods();
         $scope.getProvinces();
         $scope.getClient(client);
@@ -714,13 +745,15 @@ myModule.controller('ClientController', function($scope, $http, $window) {
         $scope.getProductHistory(client);
     }
 
-    $scope.initUpdate = function(client) {
+    $scope.initUpdate = function(client, user) {
+        $scope.user = user;
         $scope.getNotificationMethods();
         $scope.getProvinces();
         $scope.getClient(client);
     }
 
-    $scope.initManage = function() {
+    $scope.initManage = function(user) {
+        $scope.user = user;
         $scope.getClients();
         $scope.searchCriteria.contactFName = "";
         $scope.searchCriteria.contactLName = "";
@@ -728,7 +761,7 @@ myModule.controller('ClientController', function($scope, $http, $window) {
 
   });
 
-myModule.controller('BookingController', function($scope, $modal, $http, $window, $compile,uiCalendarConfig, $interval) {
+myModule.controller('BookingController', function($scope, $modal, $http, $window, $compile,uiCalendarConfig, $interval, audit) {
     $scope.alertMessage = {};
     $scope.settings = {};
 
@@ -1098,10 +1131,12 @@ myModule.controller('BookingController', function($scope, $modal, $http, $window
                                 $http.post('/api/bookings', $scope.booking)
                                     .then(function(response) {
                                         if (response.data.err) {
+                                            audit.log($scope.user, 'Error', 'Create new booking. reference: '+$scope.booking.reference+', date: '+$scope.booking.date+', time: '+$scope.booking.time);
                                             error_Ok('Booking add error', 'An error occured while saving the new booking details. Please contact suport with the following details: ' + JSON.stringify(response.data.err), function() {return {}});
                                             $scope.error = response.data.err;
                                         }
                                         else {
+                                            audit.log($scope.user, 'Create', 'Create new booking. reference: '+$scope.booking.reference+', date: '+$scope.booking.date+', time: '+$scope.booking.time);
                                             notifyClient($scope.booking.cid, 'Your booking has been confirmed for ' + $scope.booking.time + ' on ' + $scope.booking.date + ' at Salon Redesign. Your reference number is ' + $scope.booking.reference + '. ', 'Salon Redesign booking confirmation');
                                             success_Ok('Booking successfully added', 'The booking reference number is: ' + $scope.booking.reference, function(res) {
                                                 $window.location.href = $scope.home;
@@ -1141,10 +1176,12 @@ myModule.controller('BookingController', function($scope, $modal, $http, $window
                                     $http.put('/api/bookings/' + $scope.booking.bid, $scope.booking)
                                         .then(function(response) {
                                             if (response.data.err) {
+                                                audit.log($scope.user, 'Error', 'Update booking. reference: '+$scope.booking.reference+', date: '+$scope.booking.date+', time: '+$scope.booking.time);
                                                 error_Ok('Booking update error', 'An error occured while updating the booking details. Please contact suport with the following details: ' + JSON.stringify(response.data.err), function() {return {}});
                                                 $scope.error = response.data.err;
                                             }
                                             else {
+                                                audit.log($scope.user, 'Update', 'Update booking. reference: '+$scope.booking.reference+', date: '+$scope.booking.date+', time: '+$scope.booking.time);
                                                 notifyClient($scope.booking.cid, 'Your booking slot has been updated for ' + $scope.booking.time + ' on ' + $scope.booking.date + ' at Salon Redesign. Your reference number is ' + $scope.booking.reference + '. ', 'Salon Redesign booking change confirmation');
                                                 success_Ok('Booking successfully updated', 'The booking reference number is: ' + $scope.booking.reference, function(res) {
                                                     $window.location.href = $scope.home;
@@ -1187,10 +1224,12 @@ myModule.controller('BookingController', function($scope, $modal, $http, $window
                                 $http.delete('/api/bookings/' + $scope.booking.bid, $scope.booking)
                                     .then(function(response) {
                                         if (response.data.err) {
+                                            audit.log($scope.user, 'Error', 'Delete booking. reference: '+$scope.booking.reference+', date: '+$scope.booking.date+', time: '+$scope.booking.time);
                                             error_Ok('Booking cancel error', 'An error occured while cancelling the booking. Please contact support with the following information: ' + JSON.stringify(response.data.err), function(res) {return {};});
                                             $scope.error = response.data.err;
                                         }
                                         else {
+                                            audit.log($scope.user, 'Delete', 'Delete booking. reference: '+$scope.booking.reference+', date: '+$scope.booking.date+', time: '+$scope.booking.time);
                                             notifyClient($scope.booking.cid, 'Your booking has been CANCELLED for ' + $scope.booking.time + ' on ' + $scope.booking.date + ' at Salon Redesign. Your reference number is ' + $scope.booking.reference + '. ', 'Salon Redesign booking cancelation');
                                             success_Ok('Booking cancelled', 'The boooking has been cancelled successfully.', function(res) {
                                                 $window.location.href = $scope.home;
@@ -1223,10 +1262,12 @@ myModule.controller('BookingController', function($scope, $modal, $http, $window
             $http.put('/api/bookings/' + $scope.booking.Booking_id, $scope.booking)
                 .then(function(response) {
                     if (response.data.err) {
+                        audit.log($scope.user, 'Error', 'Update booking. reference: '+$scope.booking.reference+', date: '+$scope.booking.date+', time: '+$scope.booking.time);
                         error_Ok('Booking update error', 'An error occured while saving the booking details. Please contact suport with the following details: ' + JSON.stringify(response.data.err), function() {return {}});
                         $scope.error = response.data.err;
                     }
                     else{
+                        audit.log($scope.user, 'Update', 'Update booking. reference: '+$scope.booking.reference+', date: '+$scope.booking.date+', time: '+$scope.booking.time);
                         notifyClient($scope.booking.cid, 'Your booking slot has been moved to ' + $scope.booking.time + ' on ' + $scope.booking.date + ' at Salon Redesign. Your reference number is ' + $scope.booking.reference + '. ', 'Salon Redesign booking change confirmation');
                     };
                 });
@@ -1295,7 +1336,8 @@ myModule.controller('BookingController', function($scope, $modal, $http, $window
 
     // initiating
 
-        $scope.initManage = function(eid, view, date) {
+        $scope.initManage = function(eid, view, date, user) {
+            $scope.user = user;
             $scope.getclients();
             $scope.booking.eid = eid;
             $scope.getbookings(eid);
@@ -1309,7 +1351,8 @@ myModule.controller('BookingController', function($scope, $modal, $http, $window
             timer = $interval(function() {$scope.changeCalendar();}, 30000);
         };
 
-        $scope.initAdd = function(date,fullname,eid) {
+        $scope.initAdd = function(date,fullname,eid,user) {
+            $scope.user = user;
             $scope.getclients();
             $scope.getemployees();
             $scope.getservices();
@@ -1325,7 +1368,8 @@ myModule.controller('BookingController', function($scope, $modal, $http, $window
             console.log('initiated add');
         };
 
-        $scope.initUpdate = function(bid) {
+        $scope.initUpdate = function(bid,user) {
+            $scope.user = user;
             $scope.getclients();
             // $scope.getemployees();
             $scope.getservices();
@@ -1547,6 +1591,9 @@ myModule.controller('BookingController', function($scope, $modal, $http, $window
                 defaultDate: $scope.settings.date,
                 minTime: '06:00:00',
                 maxTime: '19:00:00',
+                // snapMinutes: 5,
+                // slotMinutes: 5,
+                allDaySlot: false,
                 height: 640,
                 editable: true,
                 eventLimit: true, // allow "more" link when too many events
@@ -1598,7 +1645,7 @@ myModule.controller('BookingController', function($scope, $modal, $http, $window
           };
   });
 
-myModule.controller('EmployeeController', function($scope, $http, $window) {
+myModule.controller('EmployeeController', function($scope, $http, $window, audit) {
     $scope.loading = true;
     $scope.error = '';
 
@@ -1787,10 +1834,12 @@ myModule.controller('EmployeeController', function($scope, $http, $window) {
                             $http.post('/api/employees', obj)
                                 .then(function(response) {
                                     if (response.data.err) {
+                                        audit.log($scope.user.id, 'Error', 'Add employee: '+$scope.employee.cfname+' '+$scope.employee.clname+'');
                                         error_Ok('Employee add error', 'An error occured while saving the new employee details. Please contact suport with the following details: ' + JSON.stringify(response.data.err), function() {return {}});
                                         $scope.error = response.data.err;
                                     }
                                     else {
+                                        audit.log($scope.user.id, 'Create', 'Add employee: '+$scope.employee.cfname+' '+$scope.employee.clname+'');
                                         success_Ok('Employee successfully added', 'The details for ' + $scope.employee.cfname + ' ' + $scope.employee.clname + ' has been saved successfully.', function(res) {
                                             $window.location.href = $scope.home;
                                         });
@@ -1827,10 +1876,12 @@ myModule.controller('EmployeeController', function($scope, $http, $window) {
                             $http.put('/api/employees/' + $scope.employee.employeeId, obj)
                                 .then(function(response) {
                                     if (response.data.err) {
+                                        audit.log($scope.user.id, 'Error', 'Update employee: '+$scope.employee.cfname+' '+$scope.employee.clname+'');
                                         error_Ok('Employee update error', 'An error occured while saving the employee details. Please contact suport with the following details: ' + JSON.stringify(response.data.err), function() {return {}});
                                         $scope.error = response.data.err;
                                     }
                                     else {
+                                        audit.log($scope.user.id, 'Update', 'Update employee: '+$scope.employee.cfname+' '+$scope.employee.clname+'');
                                         success_Ok('Employee successfully updated', 'The details for ' + $scope.employee.cfname + ' ' + $scope.employee.clname + ' has been updated successfully.', function(res) {
                                             $window.location.href = $scope.home;
                                         });
@@ -1866,10 +1917,12 @@ myModule.controller('EmployeeController', function($scope, $http, $window) {
                             $http.delete('/api/employees/' + $scope.employee.employeeId, $scope.employee)
                                 .then(function(response) {
                                     if (response.data.err) {
+                                        audit.log($scope.user.id, 'Error', 'Delete employee: '+$scope.employee.cfname+' '+$scope.employee.clname+'');
                                         error_Ok('Employee delete error', 'An error occured while deleting the employee. Please contact support with the following information: ' + JSON.stringify(response.data.err), function(res) {return {};});
                                         $scope.error = response.data.err;
                                     }
                                     else {
+                                        audit.log($scope.user.id, 'Delete', 'Delete employee: '+$scope.employee.cfname+' '+$scope.employee.clname+'');
                                         success_Ok('Employee deleted', 'The employee has been deleted successfully.', function(res) {
                                             $window.location.href = $scope.home;
                                         });
@@ -1919,6 +1972,7 @@ myModule.controller('EmployeeController', function($scope, $http, $window) {
 
         $scope.selectRow = function(eid) {
             $scope.employee.employeeId = eid;
+            // $scope.employee.
         };
 
         $scope.savefile = function(){
@@ -1982,10 +2036,12 @@ myModule.controller('EmployeeController', function($scope, $http, $window) {
                 $http.put('/api/users/' + obj.userId + '/password', obj)
                     .then(function(response) {
                         if (response.data.err) {
+                            audit.log($scope.user.id, 'Error', 'Update employee password: '+$scope.employee.cfname+' '+$scope.employee.clname+'');
                             error_Ok('Password change error', 'An error occured while changing the password. Please contact suport with the following details: ' + JSON.stringify(response.data.err), function() {return {}});
                             $scope.error = response.data.err;
                         }
                         else {
+                            audit.log($scope.user.id, 'Update', 'Update employee password: '+$scope.employee.cfname+' '+$scope.employee.clname+'');
                             success_Ok('Password changed successfully', 'The password for ' + $scope.employee.cfname + ' ' + $scope.employee.clname + ' has been changed successfully.', function(res) {
                                 return null;
                             });
@@ -2002,31 +2058,36 @@ myModule.controller('EmployeeController', function($scope, $http, $window) {
 
 
     //Initializing
-        $scope.initAdd = function() {
+        $scope.initAdd = function(user) {
+            $scope.user.id = user;
             $scope.getProvinces();
             $scope.getRoles();
+            console.log('Test');
         }
 
-        $scope.initView = function(employee) {
-            $scope.getProvinces();
-            $scope.getRoles();
-            $scope.getEmployee(employee);
-        }
-
-        $scope.initUpdate = function(employee) {
+        $scope.initView = function(employee,user) {
+            $scope.user.id = user;
             $scope.getProvinces();
             $scope.getRoles();
             $scope.getEmployee(employee);
         }
 
-        $scope.initManage = function() {
+        $scope.initUpdate = function(employee,user) {
+            $scope.user.id = user;
+            $scope.getProvinces();
+            $scope.getRoles();
+            $scope.getEmployee(employee);
+        }
+
+        $scope.initManage = function(user) {
+            $scope.user.id = user;
             $scope.searchClearEmployee();
             $scope.getRoles();
         }
 
       });
 
-myModule.controller('InvoiceController', function($scope, $http, $window, $q) {
+myModule.controller('InvoiceController', function($scope, $http, $window, $q, audit) {
     // objects
         $scope.loading = true;
         $scope.error = '';
@@ -2042,6 +2103,8 @@ myModule.controller('InvoiceController', function($scope, $http, $window, $q) {
         $scope.services = [];
         $scope.hairlengths = [];
         $scope.hairlengthservices = [];
+
+        $scope.paymentMethods = [];
 
         $scope.stock = [];
 
@@ -2205,6 +2268,20 @@ myModule.controller('InvoiceController', function($scope, $http, $window, $q) {
             $scope.updateTotal();
         };
 
+        $scope.getPaymentMethods = function() {
+            $scope.loading = true;
+            $http.get('/api/lookups/paymentMethods').then(function(response) {
+                $scope.loading = false;
+                console.log(response.data);
+                if (response.data.rows) {
+                    $scope.paymentMethods = response.data.rows;
+                }
+            }, function(err) {
+                $scope.loading = false;
+                $scope.error = err.data;
+            });
+        };
+
     // functionality
 
         $scope.addService = function(){
@@ -2306,10 +2383,12 @@ myModule.controller('InvoiceController', function($scope, $http, $window, $q) {
                             $http.post('/api/bookings/' + $scope.booking.bid + '/invoice', obj)
                                 .then(function(response) {
                                     if (response.data.err) {
+                                        audit.log($scope.user, 'Error', 'Finalise Invoice for booking - reference: '+$scope.booking.reference+', date: '+$scope.booking.date+', time: '+$scope.booking.time);
                                         error_Ok('Finalise invoice error', 'An error occured while saving the new invoice details. Please contact suport with the following details: ' + JSON.stringify(response.data.err), function() {return {}});
                                         $scope.error = response.data.err;
                                     }
                                     else {
+                                        audit.log($scope.user, 'Invoice', 'Finalise Invoice for booking - reference: '+$scope.booking.reference+', date: '+$scope.booking.date+', time: '+$scope.booking.time);
                                         success_Ok('Invoice successfully captured', 'The invoice has successfully been captured', function(res) {
                                             $window.location.href = $scope.home;
                                         });
@@ -2344,10 +2423,12 @@ myModule.controller('InvoiceController', function($scope, $http, $window, $q) {
                             $http.post('/api/makesale', obj)
                                 .then(function(response) {
                                     if (response.data.err) {
+                                        audit.log($scope.user, 'Error', 'Finalise Invoice for sale - date: ' + moment().format('YYYY-MM-DD HH:mm'));
                                         error_Ok('Finalise invoice error', 'An error occured while saving the new invoice details. Please contact suport with the following details: ' + JSON.stringify(response.data.err), function() {return {}});
                                         $scope.error = response.data.err;
                                     }
                                     else {
+                                        audit.log($scope.user, 'Invoice', 'Finalise Invoice for sale - date: ' + moment().format('YYYY-MM-DD HH:mm'));
                                         success_Ok('Invoice successfully captured', 'The invoice has successfully been captured', function(res) {
                                             $window.location.href = $scope.home;
                                         });
@@ -2372,7 +2453,8 @@ myModule.controller('InvoiceController', function($scope, $http, $window, $q) {
 
     // initiating
 
-        $scope.finalizeInvoice = function(bid) {
+        $scope.finalizeInvoice = function(bid,user) {
+            $scope.user = user;
             console.log(bid);
             $scope.invoice.vouchers = 0;
             $scope.invoice.stockprice = 0;
@@ -2395,10 +2477,13 @@ myModule.controller('InvoiceController', function($scope, $http, $window, $q) {
             $scope.gethairlengths();
             $scope.gethairlengthservices();
             $scope.getstock();
+            $scope.getPaymentMethods();
 
         };
 
-        $scope.makesale = function(bid) {
+        $scope.makesale = function(bid,user) {
+            $scope.user = user;
+            console.log("user id " + user)
             console.log(bid);
             $scope.invoice.vouchers = 0;
             $scope.invoice.stockprice = 0;
@@ -2416,10 +2501,83 @@ myModule.controller('InvoiceController', function($scope, $http, $window, $q) {
             $scope.invoice.vouchertotal = 0;
 
             $scope.getstock();
+            $scope.getPaymentMethods();
         };
   });
 
-myModule.controller('ServiceController', function($scope, $http, $window, $q) {
+myModule.controller('RoleController', function($scope, $http, $window, $q) {
+    // objects
+        $scope.loading = true;
+        $scope.error = '';
+
+        $scope.roles = [];
+        $scope.permissions = [];
+        $scope.majors = [];
+
+        $scope.class = "";
+
+        $scope.role = {};
+
+        $scope.originalData = [
+            { id : 'ajson1', parent : '#', text : 'Simple root node', state: { opened: true} },
+            { id : 'ajson2', parent : '#', text : 'Root node 2', state: { opened: true} },
+            { id : 'ajson3', parent : 'ajson2', text : 'Child 1', state: { opened: true} },
+            { id : 'ajson4', parent : 'ajson2', text : 'Child 2' , state: { opened: true}}
+        ];
+
+    // core tables
+        $scope.getRoles = function() {
+            $scope.loading = true;
+            $http.get('/api/lookups/roles').then(function(response) {
+                $scope.loading = false;
+                console.log(response.data);
+                if (response.data.rows) {
+                    $scope.roles = response.data.rows;
+                }
+            }, function(err) {
+                $scope.loading = false;
+                $scope.error = err.data;
+            });
+        };
+
+        $scope.getPermissions = function(){
+            $http.get('/api/permissions').then(function(response) {
+                $scope.loading = false;
+                console.log(response.data);
+                if (response.data.rows) {
+                    $scope.permissions = response.data.rows;
+
+                    for (i = 0; i < $scope.permissions.length; i++){
+                        var found = false;
+                        for (j = 0; j < $scope.majors.length; j++){
+                            if ($scope.permissions[i].mjid == $scope.majors[j].mjid){
+                                found = true;
+                            }
+                        }
+
+                        if (found == false){
+                            $scope.majors.push({"mjid":$scope.permissions[i].mjid, "Major":$scope.permissions[i].Major});
+                        }
+
+                        if (i + 1 == $scope.permissions.length){
+                            $scope.class = "treeview";
+                        }
+                    }
+                }
+            }, function(err) {
+                $scope.loading = false;
+                $scope.error = err.data;
+            });
+         };
+
+    // initiating
+        $scope.initManage = function() {
+            $scope.getRoles();
+            $scope.getPermissions();
+         };
+});
+
+myModule.controller('ServiceController', function($scope, $http, $window, $q, audit) {
     // objects
         $scope.loading = true;
         $scope.error = '';
@@ -2566,10 +2724,12 @@ myModule.controller('ServiceController', function($scope, $http, $window, $q) {
                             $http.post('/api/services/', $scope.service)
                                 .then(function(response) {
                                     if (response.data.err) {
+                                        audit.log($scope.user, 'Error', 'Create service : ' + $scope.service.name);
                                         error_Ok('Add service error', 'An error occured while saving the new service details. Please contact suport with the following details: ' + JSON.stringify(response.data.err), function() {return {}});
                                         $scope.error = response.data.err;
                                     }
                                     else {
+                                        audit.log($scope.user, 'Create', 'Create service : ' + $scope.service.name);
                                         success_Ok('Service successfully added', 'The service has successfully been captured', function(res) {
                                             $window.location.href = $scope.home;
                                         });
@@ -2601,10 +2761,12 @@ myModule.controller('ServiceController', function($scope, $http, $window, $q) {
                             $http.put('/api/services/' + $scope.service.serviceId, $scope.service)
                                 .then(function(response) {
                                     if (response.data.err) {
+                                        audit.log($scope.user, 'Error', 'Update service : ' + $scope.service.name);
                                         error_Ok('Update service error', 'An error occured while updating the services details. Please contact suport with the following details: ' + JSON.stringify(response.data.err), function() {return {}});
                                         $scope.error = response.data.err;
                                     }
                                     else {
+                                        audit.log($scope.user, 'Update', 'Update service : ' + $scope.service.name);
                                         success_Ok('Service successfully updated', 'The service has successfully been updated', function(res) {
                                             $window.location.href = $scope.home;
                                         });
@@ -2636,10 +2798,12 @@ myModule.controller('ServiceController', function($scope, $http, $window, $q) {
                             $http.delete('/api/services/' + $scope.service.serviceId, $scope.service)
                                 .then(function(response) {
                                     if (response.data.err) {
+                                        audit.log($scope.user, 'Error', 'Delete service : ' + $scope.service.name);
                                         error_Ok('Delete service error', 'An error occured while deleting the service. Please contact suport with the following details: ' + JSON.stringify(response.data.err), function() {return {}});
                                         $scope.error = response.data.err;
                                     }
                                     else {
+                                        audit.log($scope.user, 'Delete', 'Delete service : ' + $scope.service.name);
                                         success_Ok('Service successfully deleted', 'The service has successfully been deleted', function(res) {
                                             $window.location.href = $scope.home;
                                         });
@@ -2664,22 +2828,29 @@ myModule.controller('ServiceController', function($scope, $http, $window, $q) {
 
     // initiating
 
-        $scope.initManage = function() {
+        $scope.initManage = function(user) {
+            $scope.user = user;
             $scope.searchCriteria.name = "";
             $scope.getServices();
          };
 
-        $scope.initUpdate = function(id) {
+        $scope.initUpdate = function(id, user) {
+        $scope.user = user;
             $scope.getService(id);
          };
 
-        $scope.initView = function(id) {
+        $scope.initAdd = function(user) {
+            $scope.user = user;
+         };
+
+        $scope.initView = function(id, user) {
+        $scope.user = user;
             $scope.getService(id);
          };
 
   });
 
-myModule.controller('SupplierController', function($scope, $http, $window, $q) {
+myModule.controller('SupplierController', function($scope, $http, $window, $q, audit) {
     // objects
         $scope.loading = true;
         $scope.error = '';
@@ -2777,10 +2948,12 @@ myModule.controller('SupplierController', function($scope, $http, $window, $q) {
                             $http.post('/api/supplier/', $scope.supplier)
                                 .then(function(response) {
                                     if (response.data.err) {
+                                        audit.log($scope.user, 'Error', 'Create supplier : ' + $scope.supplier.name);
                                         error_Ok('Add supplier error', 'An error occured while saving the new supplier details. Please contact suport with the following details: ' + JSON.stringify(response.data.err), function() {return {}});
                                         $scope.error = response.data.err;
                                     }
                                     else {
+                                        audit.log($scope.user, 'Create', 'Create supplier : ' + $scope.supplier.name);
                                         success_Ok('Supplier successfully added', 'The supplier has successfully been captured', function(res) {
                                             $window.location.href = $scope.home;
                                         });
@@ -2812,10 +2985,12 @@ myModule.controller('SupplierController', function($scope, $http, $window, $q) {
                             $http.put('/api/supplier/' + $scope.supplier.supplierid, $scope.supplier)
                                 .then(function(response) {
                                     if (response.data.err) {
+                                        audit.log($scope.user, 'Error', 'Update supplier : ' + $scope.supplier.name);
                                         error_Ok('Update supplier error', 'An error occured while updating the supplier details. Please contact suport with the following details: ' + JSON.stringify(response.data.err), function() {return {}});
                                         $scope.error = response.data.err;
                                     }
                                     else {
+                                        audit.log($scope.user, 'Update', 'Update supplier : ' + $scope.supplier.name);
                                         success_Ok('Supplier successfully updated', 'The supplier has successfully been updated', function(res) {
                                             $window.location.href = $scope.home;
                                         });
@@ -2840,15 +3015,18 @@ myModule.controller('SupplierController', function($scope, $http, $window, $q) {
 
     // initiating
 
-        $scope.initManage = function() {
+        $scope.initManage = function(user) {
+            $scope.user = user;
             $scope.getSuppliers();
         };
 
-        $scope.initAdd = function() {
+        $scope.initAdd = function(user) {
+            $scope.user = user;
             $scope.supplier = {};
         };
 
-        $scope.initUpdate = function(id) {
+        $scope.initUpdate = function(id,user) {
+            $scope.user = user;
             $http.get('/api/supplier/' + id).then(function(response) {
                 $scope.loading = false;
                 console.log(response.data);
@@ -2864,7 +3042,8 @@ myModule.controller('SupplierController', function($scope, $http, $window, $q) {
             });
         };
 
-        $scope.initView = function(id) {
+        $scope.initView = function(id,user) {
+            $scope.user = user;
             $http.get('/api/supplier/' + id).then(function(response) {
                 $scope.loading = false;
                 console.log(response.data);
@@ -2940,7 +3119,7 @@ myModule.controller('ReportController', function($scope, $http, $window, $q) {
 
         $scope.getAudit = function(){
             $scope.loading = true;
-            var criteria = '?action=' + $scope.searchCriteria.action + '&name=' + $scope.searchCriteria.uname + '&date=' + $scope.searchCriteria.date
+            var criteria = '?date=' + $scope.searchCriteria.date
 
             $http.get('/api/reports/audit' + criteria).then(function(response) {
                 $scope.loading = false;
@@ -3591,9 +3770,8 @@ myModule.controller('ReportController', function($scope, $http, $window, $q) {
     // initiating
 
         $scope.initAudit = function() {
-            $scope.searchCriteria.action = '';
-            $scope.searchCriteria.uname = '';
-            $scope.searchCriteria.date = '';
+            $scope.searchCriteria = {};
+            $scope.searchCriteria.date = "";
             $scope.getAudit();
         };
 

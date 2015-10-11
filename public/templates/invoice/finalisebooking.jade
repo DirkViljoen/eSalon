@@ -8,7 +8,7 @@ block loggedIn
     a(href="#", class="navbar-link") Signed in as Mark Otto
 
 block content
-    form.row.col-xs-12.workarea.form-validate(id="finaliseBooking", ng-controller="InvoiceController", ng-init='finalizeInvoice(' + id + ')')
+    form.row.col-xs-12.workarea.form-validate(id="finaliseBooking", ng-controller="InvoiceController", ng-init='finalizeInvoice(' + id + ','+user.uid+')')
         .row
             .col-sm-1
             .col-sm-11
@@ -87,20 +87,22 @@ block content
 
                 .grouphead
                     +form-group('Vouchers')
-                .groupbox
+                .groupbox.form-horizontal
                     .row
-                        .col-sm-2
+                        .col-sm-6
                             h4 Redeem voucher:
-                        .col-sm-4
+                    .row
+                        .col-sm-6
                             +ng-input-text('barcode', 'Barcode:', 'invoice.voucher.redeem.Barcode', 'barcode#', false, false, '0', '50', 'redeemvoucher()')
                         .col-sm-4
                             p Voucher amount: {{invoice.voucher.redeem.Amount | currency : "R " : 2}}
                     .row
-                        .col-sm-2
+                        .col-sm-6
                             h4 Buy voucher:
-                        .col-sm-4
+                    .row
+                        .col-sm-6
                             +ng-input-text('barcode', 'Barcode:', 'invoice.voucher.buy.Barcode', 'barcode#', false, false, '0', '50', 'buyvoucher()', 'buyvoucher()')
-                        .col-sm-4
+                        .col-sm-6
                             +ng-input-text('amount', 'Amount:', 'invoice.voucher.buy.Amount', 'Amount', false, false, '0', '50', 'buyvoucher()', 'buyvoucher()')
 
                 br
@@ -122,6 +124,13 @@ block content
                             .row
                                 h3.col-sm-6.text-right Invoice total:
                                 h2.col-sm-6 {{invoice.total | currency : "R " : 2}}
+                br
+                .grouphead
+                    +form-group('Payment details')
+                .groupbox
+                    .row
+                        .col-md-12
+                            +ng-input-combobox('paymentMethod', 'Payment method:', 'invoice.paymentMethod', 'Select a payment method', 'method.PaymentMethod_ID as method.Name for method in paymentMethods', true, false)
 
         br
         .row
@@ -129,7 +138,7 @@ block content
             .col-md-10.form-group.workarea
                 ul.nav.nav-pills.pull-right
                     li(role='presentation')
-                        input.btn.btn-primary(type="button", value="Save", ng-click='postInvoice()')
+                        input.btn.btn-primary(type="button", value="Capture transaction", ng-click='postInvoice()')
                     li(role='presentation')
                         input.btn.btn-default(type="button", value='Cancel', ng-click='cancel()')
                         br

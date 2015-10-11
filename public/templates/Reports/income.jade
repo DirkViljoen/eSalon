@@ -27,11 +27,11 @@ block content
                         li(role='presentation')
                             input.btn.btn-default(type="button", value='Clear', ng-click='searchClearInvoice()')
 
-        br
-        .row
-            .col-xs-1.col-sm-3
-            .col-xs-8.col-sm-6
-                canvas.chart.chart-bar(id="bar" chart-data="data" chart-labels="labels")
+        //- br
+        //- .row
+        //-     .col-xs-1.col-sm-3
+        //-     .col-xs-8.col-sm-6
+        //-         canvas.chart.chart-bar(id="bar" chart-data="data" chart-labels="labels")
 
         br
         .row
@@ -40,7 +40,7 @@ block content
                 table.table(id="StockTable")
                     thead
                         tr
-                            
+
                     tbody
                         tr
                             td Used
@@ -58,7 +58,7 @@ block content
                                             td {{row.Quantity}}
                         tr
                             td Bought
-                            td 
+                            td
                                 table.table(id="stockDetails2Table" st-table='stockBought')
                                     thead
                                         tr
@@ -70,14 +70,14 @@ block content
                                             td {{row.DateTime}}
                                             td {{row.ProductName}}
                                             td {{row.Quantity}}
-      
+
         //- Pure functionality objects
-        div
-            p invoice: {{invoice}}
-            p invoice.iservice: {{invoice.iservice}}
-            p incomeList.Service: {{incomeList.Service}}
-            p incomeList.Stock: {{incomeList.Stock}}
-            p incomeList.Subletter: {{incomeList.Subletter}}
-            p labels: {{labels}}
-            p data: {{data}}
-            p series: {{series}}
+        //- div
+        //-     p invoice: {{invoice}}
+        //-     p invoice.iservice: {{invoice.iservice}}
+        //-     p incomeList.Service: {{incomeList.Service}}
+        //-     p incomeList.Stock: {{incomeList.Stock}}
+        //-     p incomeList.Subletter: {{incomeList.Subletter}}
+        //-     p labels: {{labels}}
+        //-     p data: {{data}}
+        //-     p series: {{series}}

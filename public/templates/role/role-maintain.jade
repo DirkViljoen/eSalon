@@ -2,82 +2,51 @@ extends ../layouts/master
 include ../../mixins/mixins
 
 block header
-    label Maintain role permisions
+    label Maintain role permissions
 
 block loggedIn
     a(href='#', class='navbar-link') Signed in as Mark Otto
 
 block content
-    .row
-        .col-sm-1
-        .col-sm-10.workarea
-            h3 Roles
-            form.form-horizontal
-                +form-combobox('roleName', 'Role Name:', roleNames, roleName)
+    form.row.col-xs-12.workarea.form-validate(id="roleManage", ng-controller="RoleController", ng-init="initManage()")
+        .row
+            .col-sm-1
+            .col-sm-11
+                h3 Roles
+        br
+        .row
+            .col-md-1
+            .col-md-10.form-horizontal
+                //- +form-combobox('roleName', 'Role Name:', roleNames, roleName)
+                +ng-input-combobox('role', 'Role:', 'role.roleId', 'Select a role', 'role.Role_ID as role.Name for role in roles', false, false)
+
+                div(ng-model="originalData")
+
                 .form-group
-                    label.control-label.col-sm-2(for='roleTree') Role permisions:
+                    label.control-label.col-sm-2(for='roleTree') Role permissions:
                     .col-sm-10
-                        div.treeview(id='roleTree')
+                        div(id='roleTree', ng-class='class')
                             ul
                                 li System
                                     ul
-                                        li Clients
+                                        li(ng-repeat="maj in majors") {{maj.Major}}
                                             ul
-                                                li Add
-                                                li Update
-                                                li Delete
-                                                li Update schedule
-                                        li Bookings
-                                            ul
-                                                li Add
-                                                li Update
-                                                li Delete
-                                        li Sales
-                                            ul
-                                                li finalise Bookings
-                                                li product sales
-                                        li Services
-                                            ul
-                                                li Add
-                                                li Update
-                                                li Delete
-                                        li Suppliers
-                                            ul
-                                                li Add
-                                                li Update
-                                                li Delete
-                                        li Employees
-                                            ul
-                                                li Add
-                                                li Update
-                                                li Delete
-                                        li Sub-letters
-                                            ul
-                                                li Add
-                                                li Update
-                                                li Delete
-                                                li capture payments
-                                        li Administration
-                                            ul
-                                                li Add Roles
-                                                li Maintain Roles
-                                                li Update birthday messages
-                                                li Delete
-                                                li Import expenses
-                                        li Reports
-                                            ul
-                                                li Run reports
+                                                li(ng-repeat="mn in permissions | filter:maj.Major") {{mn.Minor}}
 
-    +workbreak()
-    .row
-        .col-sm-1
-        .col-sm-10.form-group.workarea
-            ul.nav.nav-pills.pull-right
-                li(role='presentation')
-                    a.btn-primary(href='/booking') Save as new role
-                li(role='presentation')
-                    a.btn-primary(href='/booking') Save
-                li(role='presentation')
-                    a.btn-primary(href='/booking') Cancel
-                    br
+        +workbreak()
+        .row
+            .col-sm-1
+            .col-sm-10.form-group.workarea
+                ul.nav.nav-pills.pull-right
+                    li(role='presentation')
+                        a.btn-primary(href='/booking') Save as new role
+                    li(role='presentation')
+                        a.btn-primary(href='/booking') Save
+                    li(role='presentation')
+                        a.btn-primary(href='/booking') Cancel
+                        br
+
+        p roles: {{roles}}
+        p permissions: {{permissions}}
+        p majors: {{majors}}
 

@@ -11,14 +11,18 @@ module.exports = function (router) {
     router.get('/expenses', function (req, res) {
 
         // res.render("Import/ImportExpenses", {});
-        var u = {};
+        var m = {};
+        m.p = req.params;
+        m.q = req.query;
+        m.user = {};
+        m.h = '/help#expenses-import';
 
         auth.grantAccess(req.session.passport, 8, 5, req.header('Referer'))
         .then(function (result){
-            u = result.user;
+            m.user = result.user;
 
             if (result.granted){
-                res.render('Import/ImportExpenses', {"user": u, "id": req.params.id})
+                res.render('Import/ImportExpenses', m)
             }
             else
             {

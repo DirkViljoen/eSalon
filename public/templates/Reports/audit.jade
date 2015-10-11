@@ -15,8 +15,9 @@ block content
                 .grouphead
                     +form-group('Search audit log')
                 .groupbox
-                    +ng-input-text('action', 'Action:', 'searchCriteria.action', 'Search on action', false, false, '0', '50')
-                    +ng-input-text('user', 'Username:', 'searchCriteria.uname', 'Search on username', false, false, '0', '50')
+                    +ng-input-text('action', 'Action:', 'searchCriteria.Action', 'Search on action', false, false, '0', '50')
+                    +ng-input-text('user', 'Username:', 'searchCriteria.Username', 'Search on username', false, false, '0', '50')
+                    +ng-input-text('desc', 'Description:', 'searchCriteria.Description', 'Search on desciption', false, false, '0', '50')
                     +ng-input-calendar('date', 'Action date:', 'searchCriteria.date', '1991-08-23', false, false)
                     .nav.nav-pills.pull-right
                         li(role='presentation')
@@ -36,7 +37,7 @@ block content
                             th Action
                             th Details
                     tbody
-                        tr(ng-repeat="row in audit")
+                        tr(ng-repeat="row in audit | filter:Username=searchCriteria.Username | filter:Description=searchCriteria.Description | filter:Action=searchCriteria.Action")
                             td {{row.Username}}
                             td {{row.DateTime | date: 'yyyy-MM-dd HH:mm:ss'}}
                             td {{row.Action}}

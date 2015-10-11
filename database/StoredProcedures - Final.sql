@@ -689,4 +689,71 @@ Use esalon;
 	END //
 	DELIMITER ;
     
+-- Permissions
+
+	DELIMITER //
+	create procedure esalon.sp_getPermissions
+	(
+
+	)
+	BEGIN 
+		SELECT 
+			p.Permission_ID as pid, 
+			mj.`Name` as Major, 
+			mj.Major_ID as mjid, 
+			mn.`Name` as Minor, 
+			mn.Minor_ID as mnid
+		FROM
+			Permission p, Major mj, Minor mn
+		WHERE
+			p.Major_ID = mj.Major_ID
+			AND
+			p.Minor_ID = mn.Minor_ID
+		ORDER BY 
+			mj.Major_ID, mn.Minor_ID;
+
+	END //
+	DELIMITER ;
+    
+	DELIMITER //
+	create procedure esalon.sp_getRoles
+	(
+
+	)
+	BEGIN 
+		SELECT 
+			r.Role_ID as rid, r.`Name` as Role, p.Permission_ID as pid
+		FROM
+			Role r, Role_Permission rp, Permission p, Major mj, Minor mn
+		WHERE
+			r.Role_ID = rp.Role_ID
+			AND
+			rp.Permission_ID = p.Permission_ID
+			AND
+			p.Major_ID = mj.Major_ID
+			AND
+			p.Minor_ID = mn.Minor_ID;
+
+	END //
+	DELIMITER ;
+    
+    -- -- INSERT
+	DELIMITER //
+	create procedure spSub_Letter_Payments_Create 
+	(
+		IN isid	INT,
+		IN idate	DATETIME,
+		IN iamount DECIMAL(8,2),
+		IN ipid INT
+	)
+	BEGIN 
+	INSERT INTO `Sub_Letter_Payment` 
+		(`DateTime`, `Amount`, `Sub_Letter_id`, `PaymentMethod_ID`)
+	VALUES(idate , iamount, isid, ipid);
+	END //
+	DELIMITER ;
+    
+
+
+    
     

@@ -1,24 +1,29 @@
 'use strict';
 
+var q = require('q');
+var db = require('../libs/db');
 
 module.exports = function RoleModel() {
-    return {
-        name: 'role',
-        roleName: '1',
-        roleNames:
-          [
-            {
-              'id': '',
-              'value': 'choose a role'
+
+    function getPermissions(obj) {
+        console.log('Module - Other - Audit');
+
+        var deferred = q.defer();
+
+        db.query('CALL sp_getPermissions();')
+        .then(
+            function (result){
+                deferred.resolve(result);
             },
-            {
-              'id': '1',
-              'value': 'Manager'
-            },
-            {
-              'id': '2',
-              'value': 'stylist'
+            function (err){
+                deferred.reject(new Error(err));
             }
-          ]
+        );
+
+        return deferred.promise;
+    };
+
+    return {
+        permissions: getPermissions
     };
 };

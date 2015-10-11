@@ -27,11 +27,11 @@ block content
                         li(role='presentation')
                             input.btn.btn-default(type="button", value='Clear', ng-click='searchClearExpense()')
 
-        br
-        .row
-            .col-xs-1.col-sm-3
-            .col-xs-8.col-sm-6
-                canvas.chart.chart-bar(id="bar" chart-data="data" chart-labels="labels")
+        //- br
+        //- .row
+        //-     .col-xs-1.col-sm-3
+        //-     .col-xs-8.col-sm-6
+        //-         canvas.chart.chart-bar(id="bar" chart-data="data" chart-labels="labels")
 
         br
         .row
@@ -44,7 +44,7 @@ block content
                     tbody
                         tr(ng-repeat="catrow in expenseCategories")
                             td {{catrow.Category}}
-                            td 
+                            td
                                 table.table(id="expenseTable" st-table='expense')
                                     thead
                                         tr
@@ -58,9 +58,9 @@ block content
                                             td {{row.Quantity}}
 
         //- Pure functionality objects
-        div
-            p expense: {{expense}}
-            p expenseCategories: {{expenseCategories}}
-            p labels: {{labels}}
-            p data: {{data}}
-            p series: {{series}}
+        //- div
+        //-     p expense: {{expense}}
+        //-     p expenseCategories: {{expenseCategories}}
+        //-     p labels: {{labels}}
+        //-     p data: {{data}}
+        //-     p series: {{series}}

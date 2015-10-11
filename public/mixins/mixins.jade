@@ -294,3 +294,14 @@ mixin ng-input-calendar(name, label, model, placeholder, required, readonly)
             if (required)
                 span.input-group-addon
                     span(style="color:red").glyphicon.glyphicon-asterisk
+
+mixin ng-input-time(name, label, model, placeholder, required, readonly)
+    .form-group
+        label.control-label.col-md-3.col-sm-4(for=id)= label
+        div.input-group
+            span.input-group-addon
+                span.glyphicon.glyphicon-calendar
+            input.form-control.tmpicker(type='text', name=name, ng-model=model, placeholder=placeholder, data-value=myValue, required=required, readonly=readonly)
+            if (required)
+                span.input-group-addon
+                    span(style="color:red").glyphicon.glyphicon-asterisk

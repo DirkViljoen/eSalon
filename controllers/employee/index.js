@@ -12,15 +12,19 @@ module.exports = function (router) {
 
 
     router.get('/', function (req, res) {
-        var u = {};
+        var m = {};
+        m.p = req.params;
+        m.q = req.query;
+        m.user = {};
+        m.h = '/help#employees';
 
         auth.grantAccess(req.session.passport, 6, 4, req.header('Referer'))
         .then(function (result){
-            u = result.user;
+            m.user = result.user;
             console.log(result);
 
             if (result.granted){
-                res.render('employees/employee', {"user": u})
+                res.render('employees/employee', m)
             }
             else
             {
@@ -35,7 +39,11 @@ module.exports = function (router) {
     });
 
     router.get('/add', function (req, res) {
-        var u = {};
+        var m = {};
+        m.p = req.params;
+        m.q = req.query;
+        m.user = {};
+        m.h = '/help#employees-add';
 
         auth.grantAccess(req.session.passport, 6, 1, req.header('Referer'))
         .then(function (result){
@@ -43,7 +51,7 @@ module.exports = function (router) {
             console.log(result);
 
             if (result.granted){
-                res.render('employees/employee-add', {"user": u})
+                res.render('employees/employee-add', m)
             }
             else
             {
@@ -57,14 +65,18 @@ module.exports = function (router) {
     });
 
     router.get('/view/:id', function (req, res) {
-        var u = {};
+        var m = {};
+        m.p = req.params;
+        m.q = req.query;
+        m.user = {};
+        m.h = '/help#employees-view';
 
         auth.grantAccess(req.session.passport, 6, 4, req.header('Referer'))
         .then(function (result){
-            u = result.user;
+            m.user = result.user;
 
             if (result.granted){
-                res.render('employees/employee-view', {"user": u, "id": req.params.id})
+                res.render('employees/employee-view', m)
             }
             else
             {
@@ -78,14 +90,18 @@ module.exports = function (router) {
     });
 
     router.get('/update/:id', function (req, res) {
-        var u = {};
+        var m = {};
+        m.p = req.params;
+        m.q = req.query;
+        m.user = {};
+        m.h = '/help#employees-update';
 
         auth.grantAccess(req.session.passport, 6, 2, req.header('Referer'))
         .then(function (result){
-            u = result.user;
+            m.user = result.user;
 
             if (result.granted){
-                res.render('employees/employee-update', {"user": u, "id": req.params.id})
+                res.render('employees/employee-update', m)
             }
             else
             {
@@ -103,14 +119,18 @@ module.exports = function (router) {
     });
 
     router.get('/schedule', function (req, res) {
-        var u = {};
+        var m = {};
+        m.p = req.params;
+        m.q = req.query;
+        m.user = {};
+        m.h = '/help#employees-schedule';
 
         auth.grantAccess(req.session.passport, 6, 4, req.header('Referer'))
         .then(function (result){
-            u = result.user;
+            m.user = result.user;
 
             if (result.granted){
-                res.render('employees/employee-schedule', {"user": u, "id": req.params.id})
+                res.render('employees/employee-schedule', m)
             }
             else
             {
@@ -124,14 +144,18 @@ module.exports = function (router) {
     });
 
     router.get('/schedule-edit', function (req, res) {
-        var u = {};
+        var m = {};
+        m.p = req.params;
+        m.q = req.query;
+        m.user = {};
+        m.h = '/help#employees-schedule-edit';
 
         auth.grantAccess(req.session.passport, 6, 2, req.header('Referer'))
         .then(function (result){
-            u = result.user;
+            m.user = result.user;
 
             if (result.granted){
-                res.render('employees/employee-schedule-edit', {"user": u, "id": req.params.id})
+                res.render('employees/employee-schedule-edit', m)
             }
             else
             {

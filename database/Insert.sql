@@ -51,9 +51,9 @@ INSERT INTO `Employee_Leave` VALUES(1,"2015-10-01 08:00",null,"2015-10-10 17:00"
 INSERT INTO `Role` VALUES (1, "Admin");
 INSERT INTO `Role` VALUES (2, "Stylist");
 
-INSERT INTO `User` VALUES (1, "Admin", "Admin", 1, 1, TRUE);
-INSERT INTO `User` VALUES (2, "Dirk", "$2a$10$fSZu39e9m2dylGKGr.GifeGTfb6duchRT.Ekq12nsPz6QBOfM5JFW", 2, 2, TRUE);
-INSERT INTO `User` VALUES (3, "Johan", "Johan", 3, 2, TRUE);
+INSERT INTO `User` VALUES (1, "Admin", "00410064006d0069006e", 1, 1, TRUE);
+INSERT INTO `User` VALUES (2, "Dirk", "004400690072006b", 2, 2, TRUE);
+INSERT INTO `User` VALUES (3, "Johan", "004a006f00680061006e", 3, 2, TRUE);
 
 INSERT INTO `Supplier` VALUES (1, "John", 08001235674, "maybelline@cosmetics.com", True);
 INSERT INTO `Supplier` VALUES (2, "Lizzy" , 0834567653, "tresemme@webmail.co.za", True);
