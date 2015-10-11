@@ -3210,6 +3210,14 @@ myModule.controller('SupplierController', function($scope, $http, $window, $q, a
             }
         }
 
+        $scope.deleteSupplier = function() {
+            supplier_delete('delete', function(res) {
+                success_Ok('Supplier successfully deleted', 'The selected supplier had been successfully deleted.', function(res) {
+                                            $window.location.href = $scope.home;
+                                        });
+            })
+        }
+
     // initiating
 
         $scope.initManage = function(user) {
