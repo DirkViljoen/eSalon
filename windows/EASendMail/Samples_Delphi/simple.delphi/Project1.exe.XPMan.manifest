@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<assembly xmlns="urn:schemas-microsoft-com:asm.v1" manifestVersion="1.0">
+  <file name="EASendMailObj.dll" hashalg="SHA1">
+    <comClass clsid="{DF8A4FE2-221A-4504-987A-3FD4720DB929}" tlbid="{8B5A2BD0-5638-4CCA-A7FF-91B9E6768AC4}" description="Mail Class"></comClass>
+    <comClass clsid="{FF80631D-E750-4C67-AFC3-5170AB72518B}" tlbid="{8B5A2BD0-5638-4CCA-A7FF-91B9E6768AC4}" description="FastSender Class"></comClass>
+    <comClass clsid="{EAFC4EAA-9390-492A-8E53-E179527780F6}" tlbid="{8B5A2BD0-5638-4CCA-A7FF-91B9E6768AC4}" description="Certificate Class"></comClass>
+    <comClass clsid="{036C2F8C-8D3C-4F4B-9B36-3B6F1D29C0B4}" tlbid="{8B5A2BD0-5638-4CCA-A7FF-91B9E6768AC4}" description="CertificateCollection Class"></comClass>
+    <typelib tlbid="{8B5A2BD0-5638-4CCA-A7FF-91B9E6768AC4}" version="1.0" helpdir="" flags="HASDISKIMAGE"></typelib>
+  </file>
+  <trustInfo xmlns="urn:schemas-microsoft-com:asm.v3">
+    <security>
+      <requestedPrivileges>
+        <requestedExecutionLevel level="asInvoker" uiAccess="false"></requestedExecutionLevel>
+      </requestedPrivileges>
+    </security>
+  </trustInfo>
+  <comInterfaceExternalProxyStub name="IMail" iid="{1AD28FC9-0C71-4E89-85C9-CAECDE8BE3AB}" tlbid="{8B5A2BD0-5638-4CCA-A7FF-91B9E6768AC4}" proxyStubClsid32="{00020424-0000-0000-C000-000000000046}"></comInterfaceExternalProxyStub>
+  <comInterfaceExternalProxyStub name="ICertificate" iid="{A2809780-C98E-4C6D-A552-DAB146D4AD12}" tlbid="{8B5A2BD0-5638-4CCA-A7FF-91B9E6768AC4}" proxyStubClsid32="{00020424-0000-0000-C000-000000000046}"></comInterfaceExternalProxyStub>
+  <comInterfaceExternalProxyStub name="ICertificateCollection" iid="{DC8D5635-B8E7-441E-B550-CE1BF3BA5C55}" tlbid="{8B5A2BD0-5638-4CCA-A7FF-91B9E6768AC4}" proxyStubClsid32="{00020424-0000-0000-C000-000000000046}"></comInterfaceExternalProxyStub>
+  <comInterfaceExternalProxyStub name="IFastSender" iid="{92298BE3-ADEC-438F-800C-CF6311A7DF1D}" tlbid="{8B5A2BD0-5638-4CCA-A7FF-91B9E6768AC4}" proxyStubClsid32="{00020424-0000-0000-C000-000000000046}"></comInterfaceExternalProxyStub>
+  <dependency>
+    <dependentAssembly>
+      <assemblyIdentity
+        type="win32"
+        name="Microsoft.Windows.Common-Controls"
+        version="6.0.0.0"
+        publicKeyToken="6595b64144ccf1df"
+        language="*"
+        processorArchitecture="*"/>
+    </dependentAssembly>
+  </dependency>
+</assembly>

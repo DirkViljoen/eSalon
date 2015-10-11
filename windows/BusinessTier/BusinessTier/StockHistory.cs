@@ -6,41 +6,50 @@ using Newtonsoft.Json;
 
 namespace BusinessTier
 {
-    public class JsonResponseStockHistory
-    {
-        [JsonProperty(PropertyName = "rows")]
-        public List<StockHistory> Rows { get; set; }
-
-        /*[JsonProperty(PropertyName = "SQLstats")]
-        public Stats sqlstats { get; set; }
-    */
-    }
+    
 
     public class StockHistory
     {
-        [JsonProperty(PropertyName = "StockHistory_id")]
-        public int StockHistoryID { get; set; }
+        private int mStockHistory_id;
+        private double mPrice;
+        private DateTime mpFrom;
+        private DateTime mpTo;
+        private int mStockID;
 
-        [JsonProperty(PropertyName = "Price")]
-        public double Price { get; set; }
+        public int StockHistory_id
+        {
+            get { return mStockHistory_id; }
+            set { mStockHistory_id = value; }
+        }
+        public double Price
+        {
+            get { return mPrice; }
+            set { mPrice = value; }
+        }
+        public DateTime pFrom
+        {
+            get { return mpFrom; }
+            set { mpFrom = value; }
+        }
+        public DateTime pTo
+        {
+            get { return mpTo; }
+            set { mpTo = value; }
+        }
+        public int StockID
+        {
+            get { return mStockID; }
+            set { mStockID = value; }
+        }
 
-        [JsonProperty(PropertyName = "PriceDateFrom")]
-        public DateTime PriceDFrom { get; set; }
 
-        [JsonProperty(PropertyName = "PriceDateTo")]
-        public DateTime PriceDTo { get; set; }
-
-        [JsonProperty(PropertyName = "Stock_ID")]
-        public int StockID { get; set; }
-
-
-
+        public StockHistory() { }
         public StockHistory(int oID, double p, DateTime from, DateTime to, int i)
         {
-            StockHistoryID = oID;
+            StockHistory_id = oID;
             Price = p;
-            PriceDFrom = from;
-            PriceDTo = to;
+            pFrom = from;
+            pTo = to;
             StockID = i;
         }
     }

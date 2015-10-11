@@ -5,55 +5,52 @@ using System.Text;
 using Newtonsoft.Json;
 using System.ComponentModel;
 using System.Collections;
+using MySql.Data.MySqlClient;
 
 namespace BusinessTier
 {
-    public class JsonResponseOrder
+
+    public class Order
     {
-        [JsonProperty(PropertyName = "rows")]
-        public List<Order> Rows { get; set; }
+        private int mOrder_id;
+        private string mDatePlaced;
+        private string mDateReceived;
+        private int mSupplier_ID;
 
-        /*[JsonProperty(PropertyName = "SQLstats")]
-        public Stats sqlstats { get; set; }*/
-    }
-
-    
-
-    public class Order : OrderLine
-    {
-        [JsonProperty(PropertyName = "Order_id")]
-        public int OrderID { get; set; }
-
-        [JsonProperty(PropertyName = "DatePlaced")]
-        public DateTime dPlaced { get; set; }
-
-        [JsonProperty(PropertyName = "DateReceived")]
-        public DateTime dReceived { get; set; }
-
-        [JsonProperty(PropertyName = "Supplier_ID")]
-        public int SupplierID { get; set; }
-
-        OrderLineList ol = new OrderLineList();
-
-        public Order(int oID, DateTime oPlace, DateTime oRec, int oSuppID)
+        public int OrderID
         {
-            OrderID = oID;
-            dPlaced = oPlace;
-            dReceived = oRec;
-            SupplierID = oSuppID;
-            
-            OrderLine obj = new OrderLine(OrderLineLID, Quantity, StockID, OrderID);
-            ol.Add(obj);
+            get { return mOrder_id; }
+            set { mOrder_id = value; }
         }
 
-        //public Order(int oID, DateTime oPlace, DateTime oRec, int olid, int oquan)
-        //{
-        //    OrderID = oID;
-        //    dPlaced = oPlace;
-        //    dReceived = oRec;
-        //    OrderLineLID = olid;
-        //    Quantity = oquan;
-        //}
+        public string DatePlaced
+        {
+            get { return mDatePlaced; }
+            set { mDatePlaced = value; }
+        }
+
+        public string DateReceived
+        {
+            get { return mDateReceived; }
+            set { mDateReceived = value; }
+        }
+
+        public int Supplier_ID
+        {
+            get { return mSupplier_ID; }
+            set { mSupplier_ID = value; }
+        }
+
+        public Order() { }
+        public Order(int oID, string oPlace, string oRec, int oSuppID)
+        {
+            OrderID = oID;
+            DatePlaced = oPlace;
+            DateReceived = oRec;
+            Supplier_ID = oSuppID;
+        }
+
+        
     }
 
 }

@@ -36,9 +36,13 @@
             this.viewMantainToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.addStockToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.webProgramToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.feelingABitLostToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.dATABASEToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.backUpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.restoreToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.lookupListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.label1 = new System.Windows.Forms.Label();
             this.textBox1 = new System.Windows.Forms.TextBox();
-            this.feelingABitLostToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -51,18 +55,19 @@
             this.mainMenuToolStripMenuItem,
             this.stockToolStripMenuItem1,
             this.webProgramToolStripMenuItem,
-            this.feelingABitLostToolStripMenuItem});
+            this.feelingABitLostToolStripMenuItem,
+            this.dATABASEToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(14, 46);
             this.menuStrip1.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(27, 27, 14, 39);
-            this.menuStrip1.Size = new System.Drawing.Size(653, 107);
+            this.menuStrip1.Size = new System.Drawing.Size(757, 118);
             this.menuStrip1.TabIndex = 2;
             this.menuStrip1.Text = "menuStrip1";
             // 
             // mainMenuToolStripMenuItem
             // 
-            this.mainMenuToolStripMenuItem.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(104)))), ((int)(((byte)(133)))));
+            this.mainMenuToolStripMenuItem.BackColor = System.Drawing.Color.White;
             this.mainMenuToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ordersToolStripMenuItem,
             this.addOrderToolStripMenuItem});
@@ -71,7 +76,7 @@
             this.mainMenuToolStripMenuItem.Margin = new System.Windows.Forms.Padding(0, 0, 0, 5);
             this.mainMenuToolStripMenuItem.Name = "mainMenuToolStripMenuItem";
             this.mainMenuToolStripMenuItem.Padding = new System.Windows.Forms.Padding(25, 7, 25, 7);
-            this.mainMenuToolStripMenuItem.Size = new System.Drawing.Size(117, 36);
+            this.mainMenuToolStripMenuItem.Size = new System.Drawing.Size(117, 47);
             this.mainMenuToolStripMenuItem.Text = "Orders";
             // 
             // ordersToolStripMenuItem
@@ -94,14 +99,14 @@
             // 
             // stockToolStripMenuItem1
             // 
-            this.stockToolStripMenuItem1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(104)))), ((int)(((byte)(100)))));
+            this.stockToolStripMenuItem1.BackColor = System.Drawing.Color.White;
             this.stockToolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.viewMantainToolStripMenuItem,
             this.addStockToolStripMenuItem});
             this.stockToolStripMenuItem1.Font = new System.Drawing.Font("Lucida Fax", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.stockToolStripMenuItem1.Name = "stockToolStripMenuItem1";
             this.stockToolStripMenuItem1.Padding = new System.Windows.Forms.Padding(25, 7, 25, 7);
-            this.stockToolStripMenuItem1.Size = new System.Drawing.Size(106, 41);
+            this.stockToolStripMenuItem1.Size = new System.Drawing.Size(106, 52);
             this.stockToolStripMenuItem1.Text = "Stock";
             this.stockToolStripMenuItem1.Click += new System.EventHandler(this.stockToolStripMenuItem1_Click);
             // 
@@ -124,20 +129,69 @@
             // 
             // webProgramToolStripMenuItem
             // 
-            this.webProgramToolStripMenuItem.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(104)))), ((int)(((byte)(133)))));
+            this.webProgramToolStripMenuItem.BackColor = System.Drawing.Color.White;
             this.webProgramToolStripMenuItem.Font = new System.Drawing.Font("Lucida Fax", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.webProgramToolStripMenuItem.Name = "webProgramToolStripMenuItem";
             this.webProgramToolStripMenuItem.Padding = new System.Windows.Forms.Padding(5, 7, 5, 7);
-            this.webProgramToolStripMenuItem.Size = new System.Drawing.Size(129, 41);
+            this.webProgramToolStripMenuItem.Size = new System.Drawing.Size(129, 52);
             this.webProgramToolStripMenuItem.Text = "Web Program";
             this.webProgramToolStripMenuItem.Click += new System.EventHandler(this.webProgramToolStripMenuItem_Click);
+            // 
+            // feelingABitLostToolStripMenuItem
+            // 
+            this.feelingABitLostToolStripMenuItem.BackColor = System.Drawing.Color.White;
+            this.feelingABitLostToolStripMenuItem.Font = new System.Drawing.Font("Lucida Fax", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.feelingABitLostToolStripMenuItem.Name = "feelingABitLostToolStripMenuItem";
+            this.feelingABitLostToolStripMenuItem.Size = new System.Drawing.Size(166, 52);
+            this.feelingABitLostToolStripMenuItem.Text = "Feeling A Bit Lost?";
+            this.feelingABitLostToolStripMenuItem.Click += new System.EventHandler(this.feelingABitLostToolStripMenuItem_Click);
+            // 
+            // dATABASEToolStripMenuItem
+            // 
+            this.dATABASEToolStripMenuItem.BackColor = System.Drawing.Color.White;
+            this.dATABASEToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.backUpToolStripMenuItem,
+            this.restoreToolStripMenuItem,
+            this.lookupListToolStripMenuItem});
+            this.dATABASEToolStripMenuItem.Font = new System.Drawing.Font("Lucida Fax", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dATABASEToolStripMenuItem.Name = "dATABASEToolStripMenuItem";
+            this.dATABASEToolStripMenuItem.Padding = new System.Windows.Forms.Padding(10, 15, 10, 15);
+            this.dATABASEToolStripMenuItem.Size = new System.Drawing.Size(104, 52);
+            this.dATABASEToolStripMenuItem.Text = "Database";
+            this.dATABASEToolStripMenuItem.Click += new System.EventHandler(this.dATABASEToolStripMenuItem_Click);
+            // 
+            // backUpToolStripMenuItem
+            // 
+            this.backUpToolStripMenuItem.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(152)))), ((int)(((byte)(179)))), ((int)(((byte)(174)))));
+            this.backUpToolStripMenuItem.Name = "backUpToolStripMenuItem";
+            this.backUpToolStripMenuItem.Padding = new System.Windows.Forms.Padding(10, 15, 10, 15);
+            this.backUpToolStripMenuItem.Size = new System.Drawing.Size(190, 50);
+            this.backUpToolStripMenuItem.Text = "Back Up";
+            this.backUpToolStripMenuItem.Click += new System.EventHandler(this.backUpToolStripMenuItem_Click);
+            // 
+            // restoreToolStripMenuItem
+            // 
+            this.restoreToolStripMenuItem.Name = "restoreToolStripMenuItem";
+            this.restoreToolStripMenuItem.Padding = new System.Windows.Forms.Padding(10, 15, 10, 15);
+            this.restoreToolStripMenuItem.Size = new System.Drawing.Size(190, 50);
+            this.restoreToolStripMenuItem.Text = "Restore";
+            this.restoreToolStripMenuItem.Click += new System.EventHandler(this.restoreToolStripMenuItem_Click);
+            // 
+            // lookupListToolStripMenuItem
+            // 
+            this.lookupListToolStripMenuItem.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(152)))), ((int)(((byte)(179)))), ((int)(((byte)(174)))));
+            this.lookupListToolStripMenuItem.Name = "lookupListToolStripMenuItem";
+            this.lookupListToolStripMenuItem.Padding = new System.Windows.Forms.Padding(10, 15, 10, 15);
+            this.lookupListToolStripMenuItem.Size = new System.Drawing.Size(190, 50);
+            this.lookupListToolStripMenuItem.Text = "Lookup List";
+            this.lookupListToolStripMenuItem.Click += new System.EventHandler(this.lookupListToolStripMenuItem_Click);
             // 
             // label1
             // 
             this.label1.AutoSize = true;
             this.label1.BackColor = System.Drawing.Color.Transparent;
             this.label1.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.label1.Location = new System.Drawing.Point(337, 19);
+            this.label1.Location = new System.Drawing.Point(466, 19);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(89, 18);
             this.label1.TabIndex = 2;
@@ -145,20 +199,12 @@
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(441, 16);
+            this.textBox1.Location = new System.Drawing.Point(561, 16);
             this.textBox1.Name = "textBox1";
             this.textBox1.ReadOnly = true;
             this.textBox1.Size = new System.Drawing.Size(116, 26);
             this.textBox1.TabIndex = 3;
             this.textBox1.Text = "Admin";
-            // 
-            // feelingABitLostToolStripMenuItem
-            // 
-            this.feelingABitLostToolStripMenuItem.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(104)))), ((int)(((byte)(100)))));
-            this.feelingABitLostToolStripMenuItem.Font = new System.Drawing.Font("Lucida Fax", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.feelingABitLostToolStripMenuItem.Name = "feelingABitLostToolStripMenuItem";
-            this.feelingABitLostToolStripMenuItem.Size = new System.Drawing.Size(166, 41);
-            this.feelingABitLostToolStripMenuItem.Text = "Feeling A Bit Lost?";
             // 
             // Form1
             // 
@@ -166,7 +212,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(198)))), ((int)(((byte)(214)))), ((int)(((byte)(204)))));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ClientSize = new System.Drawing.Size(584, 249);
+            this.ClientSize = new System.Drawing.Size(726, 307);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.menuStrip1);
@@ -198,6 +244,10 @@
         private System.Windows.Forms.ToolStripMenuItem webProgramToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem addOrderToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem feelingABitLostToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem dATABASEToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem backUpToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem restoreToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem lookupListToolStripMenuItem;
     }
 }
 

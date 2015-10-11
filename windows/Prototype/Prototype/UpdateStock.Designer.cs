@@ -48,10 +48,11 @@
             // button1
             // 
             this.button1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(84)))), ((int)(((byte)(51)))), ((int)(((byte)(104)))));
+            this.button1.ForeColor = System.Drawing.SystemColors.ButtonFace;
             this.button1.Location = new System.Drawing.Point(204, 224);
             this.button1.Margin = new System.Windows.Forms.Padding(4);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(149, 31);
+            this.button1.Size = new System.Drawing.Size(149, 40);
             this.button1.TabIndex = 15;
             this.button1.Text = "Update Product";
             this.button1.UseVisualStyleBackColor = false;

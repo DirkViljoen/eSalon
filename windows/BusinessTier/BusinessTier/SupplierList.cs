@@ -8,43 +8,31 @@ using System.Net;
 using System.IO;
 using RestSharp;
 using Newtonsoft.Json;
+using MySql.Data.MySqlClient;
+using System.Configuration;
 
 namespace BusinessTier
 {
     public class SupplierList : List<Supplier>
     {
-        RestRequest request = new RestRequest();
-        RestClient Supplier = new RestClient();
-        
-        public SupplierList()
-        {
+        string myConnectionString;
+        MySqlDataReader rdr = null;
+        MySqlDataAdapter mysqla = null;
+        MySql.Data.MySqlClient.MySqlConnection conn;
 
-            Supplier.BaseUrl = new Uri("http://localhost:8000");
-            request.Resource = "/api/supplier";
-            IRestResponse response = Supplier.Execute(request);
-            string temp = response.Content.Replace("\"", "'");
-            JsonResponseSupplier test = JsonConvert.DeserializeObject<JsonResponseSupplier>(temp);
-
-            for (int k = 0; k < test.Rows.Count; k++)
-            {
-                this.Add(test.Rows[k]);
-            }
-
+        public SupplierList() {
+            this.ViewAllSupplier();
         }
 
-        public SupplierList(int SupplierID)
-        {
-
-            //Create an object for each Supplier in dataset and add to list
-            foreach (Supplier SupplierRow in GetSupplier(SupplierID))
+        public SupplierList(int SupplierID) {
+            foreach (Supplier o in ViewSupplier(SupplierID))
             {
-                if (SupplierID == SupplierRow.SupplierID)
+                if (SupplierID == o.Supplier_id)
                 {
                     Supplier Supplier =
-                        new Supplier(SupplierRow.SupplierID,
-                                    SupplierRow.Name,
-                                    SupplierRow.Contact,
-                                    SupplierRow.Email);
+                        new Supplier   (o.Supplier_id,
+                                        o.Name, 
+                                        o.Email);
                     this.Add(Supplier);
                     break;
                 }
@@ -52,42 +40,135 @@ namespace BusinessTier
             }
         }
 
-        public SupplierList GetSupplier()
+        public SupplierList ViewSupplier(int inID)
         {
+            myConnectionString = "server=localhost;uid=root;" +
+                                "pwd=root;database=esalon;";
 
-            // GET
-            //RestClient Supplier = new RestClient();
-            Supplier.BaseUrl = new Uri("http://localhost:8000");
+            try
+            {
+                conn = new MySql.Data.MySqlClient.MySqlConnection();
+                conn.ConnectionString = myConnectionString;
+                conn.Open();
 
-            //var request = new RestRequest();
-            request.Resource = "/api/supplier";
+                string stm = "call spSupplier_Read(" + inID + ")";
+                MySqlCommand cmd = new MySqlCommand(stm, conn);
+                rdr = cmd.ExecuteReader();
+                while (rdr.Read())
+                {
+                    Supplier s = new Supplier(rdr.GetInt32(0), rdr.GetString(1), rdr.GetString(3));
 
-            IRestResponse response = Supplier.Execute(request);
+                    this.Add(s);
+                }
 
-            string temp = response.Content.Replace("\"", "'");
-            //List<Client> list = JsonConvert.DeserializeObject<List<Client>>(temp);
-            Supplier test = JsonConvert.DeserializeObject<Supplier>(temp);
-           
+            }
+            catch (MySql.Data.MySqlClient.MySqlException ex)
+            {
+                //return ex.Message;
+            }
+            finally
+            {
+                if (rdr != null)
+                {
+                    rdr.Close();
+                }
+
+                if (conn != null)
+                {
+                    conn.Close();
+                }
+
+            }
+
             return this;
-        }
+        } 
 
-        public SupplierList GetSupplier(int inID)
+        public Supplier ViewASupplier(int inID)
         {
-            SupplierList temp = new SupplierList(inID);
+            myConnectionString = "server=localhost;uid=root;" +
+                                "pwd=root;database=esalon;";
+            Supplier s = new Supplier();
 
-            // GET
-            Supplier.BaseUrl = new Uri("http://localhost:8000");
+            try
+            {
+                conn = new MySql.Data.MySqlClient.MySqlConnection();
+                conn.ConnectionString = myConnectionString;
+                conn.Open();
 
-            request.Resource = "/api/Supplier/:id";
+                string stm = "call spSupplier_Read(" + inID + ")";
+                MySqlCommand cmd = new MySqlCommand(stm, conn);
+                rdr = cmd.ExecuteReader();
+                while (rdr.Read())
+                {
+                    s = new Supplier(rdr.GetInt32(0), rdr.GetString(1), rdr.GetString(3));
 
-            IRestResponse response = Supplier.Execute(request);
+                }
 
-            string temp2 = response.Content.Replace("\"", "'");
+            }
+            catch (MySql.Data.MySqlClient.MySqlException ex)
+            {
+                //return ex.Message;
+            }
+            finally
+            {
+                if (rdr != null)
+                {
+                    rdr.Close();
+                }
 
-            Supplier test = JsonConvert.DeserializeObject<Supplier>(temp2);
+                if (conn != null)
+                {
+                    conn.Close();
+                }
 
-            return temp;
-        }
+            }
+
+            return s;
+        } 
+
+        public SupplierList ViewAllSupplier()
+        {
+            myConnectionString = "server=localhost;uid=root;" +
+                                "pwd=root;database=esalon;";
+
+            try
+            {
+                conn = new MySql.Data.MySqlClient.MySqlConnection();
+                conn.ConnectionString = myConnectionString;
+                conn.Open();
+
+                string stm = "SELECT * FROM Supplier";
+                MySqlCommand cmd = new MySqlCommand(stm, conn);
+                rdr = cmd.ExecuteReader();
+                while (rdr.Read())
+                {
+                    Supplier s = new Supplier(rdr.GetInt32(0), rdr.GetString(1), rdr.GetString(3));
+
+                    this.Add(s);
+                }
+
+            }
+            catch (MySql.Data.MySqlClient.MySqlException ex)
+            {
+                //return ex.Message;
+            }
+            finally
+            {
+                if (rdr != null)
+                {
+                    rdr.Close();
+                }
+
+                if (conn != null)
+                {
+                    conn.Close();
+                }
+
+            }
+
+            return this;
+        } 
+
 
     }
 }

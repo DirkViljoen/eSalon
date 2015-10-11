@@ -13,19 +13,30 @@ namespace Prototype
     public partial class UpdateOrder : Form
     {
         OrderList ol = new OrderList();
-        Order o;
+        Order o = new Order();
+        OrderLine p;
+        OrderLineList pl = new OrderLineList();
         int id;
+        SupplierList sl = new SupplierList();
 
         public UpdateOrder(int _id)
         {
             InitializeComponent();
             id = _id;
+            string s = "";
+            pl = new OrderLineList(id, s);
+            o = ol.ViewAOrder(id);
 
-            o = ol[id];
+            dataGridView1.DataSource = pl;
 
-            List<Order> nol = new List<Order>();
-            nol.Add(o);
-            dataGridView1.DataSource = nol;
+            foreach (Supplier u in sl)
+            {
+                if (o.Supplier_ID == u.Supplier_id)
+                {
+                    textBox1.Text = u.Name;
+                }
+            }
+            dateTimePicker1.Value = Convert.ToDateTime( o.DatePlaced);
         }
 
         private void listBox2_SelectedIndexChanged(object sender, EventArgs e)
@@ -38,28 +49,28 @@ namespace Prototype
 
             try
             {
-                string str = "Are you sure you want to update this order?";
+                string str = "Are you sure you want\nto update this order? \nYes to confirm,\nNo to edit details,\nCancel to exit";
                 string form = "UpdateOrder";
 
                 OrderLineList oll = new OrderLineList();
                 oll.Clear();
 
-                MessageBox.Show(Convert.ToString(dataGridView1.Rows[0].Cells[5].Value));
-                for (int i = 0; i < dataGridView1.RowCount; i++)
+                DateTime todayDate = new DateTime(DateTime.Today.Year, DateTime.Today.Month, DateTime.Today.Day);
+                //string bob = "";
+                //Order o = new Order
+                //    (1, bob, dateTimePicker1.Value.ToString("yyyy-MM-dd"), 1);
+
+                //ol.UpdateOrder(o);
+
+                for (int i = 0; i < dataGridView1.RowCount - 1; i++)
                 {
-                    oll.Add(new OrderLine(
-                        Convert.ToInt32(dataGridView1.Rows[0].Cells[4].Value),
-                        Convert.ToInt32(dataGridView1.Rows[0].Cells[5].Value),
-                        Convert.ToInt32(dataGridView1.Rows[0].Cells[6].Value),
-                        Convert.ToInt32(dataGridView1.Rows[0].Cells[0].Value)
+                    oll.UpdateOrderLine(new OrderLine(
+                        Convert.ToInt32(dataGridView1.Rows[0].Cells[0].Value),
+                        Convert.ToInt32(dataGridView1.Rows[0].Cells[1].Value),
+                        Convert.ToInt32(dataGridView1.Rows[0].Cells[2].Value),
+                        Convert.ToInt32(dataGridView1.Rows[0].Cells[3].Value)
                         ));
                 }
-
-                    ol.UpdateOrder(new Order(Convert.ToInt32(dataGridView1.Rows[0].Cells[0].Value),
-                                            Convert.ToDateTime(dataGridView1.Rows[0].Cells[1].Value),
-                                            dateTimePicker1.Value,
-                                            Convert.ToInt32(dataGridView1.Rows[0].Cells[3].Value)
-                                            ), oll);
 
                 ConfirmationMessage a = new ConfirmationMessage(str, form);
                 a.ShowDialog();

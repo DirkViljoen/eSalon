@@ -1,0 +1,134 @@
+﻿<Page
+    x:Class="mass.csharp.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:mass.csharp"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d" FontFamily="Segoe UI" FontSize="14" Loaded="Page_Loaded_1"
+    Width="2422">
+
+    <Grid Background="#FF1D1D1D"  Width="auto">
+        <Grid x:Name="gridCompose">
+        <TextBlock HorizontalAlignment="Left" Height="auto" Margin="55,27,0,0" TextWrapping="Wrap" Text="EASendMail Sample for Windows 8.1 (Multiple-Threads)" VerticalAlignment="Top" Width="681" FontSize="22"/>
+        <TextBlock HorizontalAlignment="Left"  Margin="55,110,0,0" TextWrapping="Wrap" Text="From:" VerticalAlignment="Top" Width="55" />
+        <TextBox x:Name="textFrom" HorizontalAlignment="Left" Height="28" Margin="129,103,0,0" TextWrapping="Wrap"  Text="" VerticalAlignment="Top" Width="677" Grid.ColumnSpan="2"/>
+
+        <TextBlock HorizontalAlignment="Left" Margin="129,146,0,0" TextWrapping="Wrap" Text="Please separate multiple recipients by line-break" VerticalAlignment="Top"/>
+        <TextBlock HorizontalAlignment="Left" Height="auto" Margin="55,163,0,0" TextWrapping="Wrap" Text="To:" VerticalAlignment="Top" Width="48"/>
+        <TextBox x:Name="textTo" HorizontalAlignment="Left" Height="122" Margin="129,170,0,0" TextWrapping="Wrap" ScrollViewer.VerticalScrollBarVisibility="Auto" Text="" VerticalAlignment="Top" Width="677" AcceptsReturn="True"/>
+
+        <TextBlock HorizontalAlignment="Left" Height="auto" Margin="55,304,0,0" TextWrapping="Wrap" Text="Subject" VerticalAlignment="Top" Width="59"/>
+        <TextBox x:Name="textSubject" HorizontalAlignment="Left" Margin="129,297,0,0" TextWrapping="Wrap" Text="Test email sent by c# from Windows 8.1 with multiple threads" VerticalAlignment="Top" Width="677" Grid.ColumnSpan="2"/>
+
+        <Grid  Margin="849,0,0,0" >
+            <TextBlock HorizontalAlignment="Left" Height="auto" Margin="0,15,0,0" TextWrapping="Wrap" Text="If your server doesn't use 25 port, you can input [server] [port] in server. For example, you can input: smtp.gmail.com 587 in server, that means server address is smtp.gmail.com and port is 587." VerticalAlignment="Top" Width="454" Grid.Column="1" Grid.ColumnSpan="2"/>
+
+            <TextBlock HorizontalAlignment="Left" Height="auto" Margin="0,109,0,0" TextWrapping="Wrap" Text="Server: " VerticalAlignment="Top" Width="86" Grid.Column="1" Grid.ColumnSpan="2"/>
+            <TextBox x:Name="textServer" HorizontalAlignment="Left" Height="32" Margin="90,103,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="375" Grid.Column="2"/>
+
+            <TextBlock HorizontalAlignment="Left" Height="auto" Margin="0,229,0,0" TextWrapping="Wrap" Text="User:" VerticalAlignment="Top" Width="86" Grid.Column="1" Grid.ColumnSpan="2"/>
+            <TextBox x:Name="textUser" IsEnabled="False" HorizontalAlignment="Left" Height="32" Margin="90,221,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="375" Grid.Column="2"/>
+
+            <TextBlock HorizontalAlignment="Left" Height="auto" Margin="0,281,0,0" TextWrapping="Wrap" Text="Password:" VerticalAlignment="Top" Width="75" Grid.Column="1" Grid.ColumnSpan="2"/>
+            <PasswordBox x:Name="textPassword" IsEnabled="False" HorizontalAlignment="Left" Height="32" Margin="90,274,0,0" VerticalAlignment="Top" Width="375" Grid.Column="2"/>
+            <CheckBox x:Name="chkSSL" Content="My server requires SSL connection" HorizontalAlignment="Left" Height="32" Margin="90,146,0,0" VerticalAlignment="Top" Width="360" RenderTransformOrigin="0.864,-3.911" Grid.Column="2"/>
+            <CheckBox x:Name="chkAuth"  IsChecked="False"  Content="My sever requires user authentication" HorizontalAlignment="Left" Height="21" Margin="90,182,0,0" VerticalAlignment="Top" Width="333" Click="chkAuth_Click" Grid.Column="2" />
+            <TextBlock HorizontalAlignment="Left" Height="33" Margin="0,328,0,0" TextWrapping="Wrap" Text="Protocol:" VerticalAlignment="Top" Width="65" RenderTransformOrigin="1.174,0.764" Grid.Column="1"/>
+
+            <ComboBox x:Name="lstProtocols" HorizontalAlignment="Left" Height="32" Margin="90,323,0,0" VerticalAlignment="Top" Width="375" Grid.Column="2"/>
+        </Grid>
+        <Button x:Name="btnAtts" Content="Attach File" HorizontalAlignment="Left" Margin="53,342,0,0" VerticalAlignment="Top" Width="150" Height="38" Tapped="btnAtts_Tapped" />
+        <Button x:Name="btnClear" Content="Clear" HorizontalAlignment="Left" Margin="218,342,0,0" VerticalAlignment="Top" Width="150"  Tapped="btnClear_Tapped"/>
+        <TextBox x:Name="textAtts" HorizontalAlignment="Left" Margin="55,385,0,0" Text="" VerticalAlignment="Top" Width="1261" IsReadOnly="True" IsTabStop="False" Grid.ColumnSpan="3"/>
+
+        <ComboBox x:Name="lstFormat" HorizontalAlignment="Left" Height="32" Margin="394,345,0,0" VerticalAlignment="Top" Width="412" SelectionChanged="lstFormat_SelectionChanged" Grid.ColumnSpan="2"/>
+
+        <TextBox x:Name="textBody" AcceptsReturn="True"  ScrollViewer.VerticalScrollBarVisibility="Auto"  HorizontalAlignment="Left" Height="233" Margin="55,426,0,0" TextWrapping="Wrap" Text="This is simple test." VerticalAlignment="Top" Width="1261" Grid.ColumnSpan="3"/>
+        <Grid x:Name="htmlFrame" HorizontalAlignment="Left" Height="233" Margin="1388,426,0,0" VerticalAlignment="Top" Width="1261" Grid.Column="2">
+            <Grid x:Name="editorMenu">
+                <ComboBox x:Name="imgFont" ItemsSource="{Binding String}" HorizontalAlignment="Left" Margin="0,0,0,201" Width="195" Height="32"  SelectionChanged="imgFont_SelectionChanged">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="1" Margin="10,0,0,0" Text="{Binding}" Foreground="Black" FontFamily="{Binding}"/>
+                            </Grid>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                    <ComboBoxItem>
+                        <TextBlock Grid.Column="1" Margin="10,0,0,0" Text="Font Family" Foreground="Black" FontFamily="Segoe UI"/>
+                    </ComboBoxItem>
+                </ComboBox>
+                <ComboBox x:Name="imgSize" HorizontalAlignment="Left" Margin="200,0,0,201" Width="108" Height="32" SelectionChanged="imgSize_SelectionChanged"/>
+                <Image x:Name="imgBold" Height="32" Margin="313,0,924,201" Source="htmlEditor/tool_bold.gif" Width="auto" RenderTransformOrigin="0.25,0.125" Stretch="Fill" Tapped="btnBold_Tapped" ToolTipService.ToolTip="Bold" />
+                <Image x:Name="imgItalic" Height="32" Margin="340,0,897,201" Source="htmlEditor/tool_italic.gif" Width="auto" RenderTransformOrigin="0.25,0.125" Stretch="Fill" ToolTipService.ToolTip="Italic" Tapped="imgItalic_Tapped"/>
+                <Image x:Name="imgUnderline" Height="32" Margin="367,0,870,201" Source="htmlEditor/tool_underline.gif" Width="auto" RenderTransformOrigin="0.25,0.125" Stretch="Fill" ToolTipService.ToolTip="Underline" Tapped="imgUnderline_Tapped"/>
+                <Image x:Name="imgColor" Height="32" Margin="397,0,840,201" Source="htmlEditor/tool_forecolor.gif" Width="auto" RenderTransformOrigin="0.25,0.125" Stretch="Fill" ToolTipService.ToolTip="Color" Tapped="imgColor_Tapped" />
+                <ComboBox x:Name="lstColor" Height="32" ItemsSource="{Binding Colors}" SelectedItem="{Binding SelectedColorName, Mode=TwoWay}"   Margin="887,0,143,201"  DropDownClosed="lstColor_DropDownClosed"  SelectionChanged="lstColor_SelectionChanged" Canvas.ZIndex="2" IsDropDownOpen="False" >
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Rectangle Width="32" Height="24" Fill="{Binding Name}" Margin="5,0" />
+                                <TextBlock Grid.Column="1" Margin="10,0,0,0" Text="{Binding Name}" Foreground="Black"/>
+                            </Grid>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+                <Image x:Name="imgOrderedList" Height="32" Margin="427,0,810,201" Source="htmlEditor/tool_orderedlist.gif" Width="auto" RenderTransformOrigin="0.25,0.125" Stretch="Fill" ToolTipService.ToolTip="Formatting Numbers" Tapped="imgOrderedList_Tapped"/>
+                <Image x:Name="imgUnorderedList" Height="32" Margin="454,0,783,201" Source="htmlEditor/tool_unorderedlist.gif" Width="auto" RenderTransformOrigin="0.25,0.125" Stretch="Fill" ToolTipService.ToolTip="Formatting Bullets" Tapped="imgUnorderedList_Tapped"/>
+                <Image x:Name="imgOutdent" Height="32" Margin="508,0,729,201" Source="htmlEditor/tool_outdent.gif" Width="auto" RenderTransformOrigin="0.25,0.125" Stretch="Fill" ToolTipService.ToolTip="Decrease Indentation" Tapped="imgOutdent_Tapped"/>
+                <Image x:Name="imgIndent" Height="32" Margin="481,0,756,201" Source="htmlEditor/tool_indent.gif" Width="auto" RenderTransformOrigin="0.25,0.125" Stretch="Fill" ToolTipService.ToolTip="Increase Indentation" Tapped="imgIndent_Tapped"/>
+                <Image x:Name="imgLeft" Height="32" Margin="535,0,702,201" Source="htmlEditor/tool_justifyleft.gif" Width="auto" RenderTransformOrigin="0.25,0.125" Stretch="Fill" ToolTipService.ToolTip="Align Left" Tapped="imgLeft_Tapped"/>
+                <Image x:Name="imgCenter" Height="32" Margin="562,0,675,201" Source="htmlEditor/tool_justifycenter.gif" Width="auto" RenderTransformOrigin="0.25,0.125" Stretch="Fill" ToolTipService.ToolTip="Center" Tapped="imgCenter_Tapped"/>
+                <Image x:Name="imgRight" Height="32" Margin="589,0,648,201" Source="htmlEditor/tool_justifyright.gif" Width="auto" RenderTransformOrigin="0.25,0.125" Stretch="Fill" ToolTipService.ToolTip="Align Right" Tapped="imgRight_Tapped"/>
+
+                <Image x:Name="imgHr" Height="32" Margin="616,0,621,201" Source="htmlEditor/tool_hr.gif" Width="auto" RenderTransformOrigin="0.25,0.125" Stretch="Fill" ToolTipService.ToolTip="Insert Horizontal Line" Tapped="imgHr_Tapped"/>
+                <Image x:Name="imgLink" Height="32" Margin="643,0,594,201" Source="htmlEditor/tool_link.gif" Width="auto" RenderTransformOrigin="0.25,0.125" Stretch="Fill" ToolTipService.ToolTip="Create a Hyperlink" Tapped="imgLink_Tapped"/>
+                <Image x:Name="imgImage" Height="32" Margin="671,0,566,201" Source="htmlEditor/attachment.gif" Width="auto" RenderTransformOrigin="0.25,0.125" Stretch="Fill" ToolTipService.ToolTip="Insert Picture" Tapped="imgImage_Tapped"/>
+            </Grid>
+            <Grid Margin="0,37,0,0">
+                <WebView x:Name="htmlEditor" HorizontalAlignment="Left" Height="196" Margin="0,0,0,0" VerticalAlignment="Top" Width="1261" ScrollViewer.VerticalScrollBarVisibility="Auto" NavigationCompleted="htmlEditor_NavigationCompleted" />
+                <Rectangle x:Name="rectEditor" HorizontalAlignment="Left" Height="196" Width="1261" Margin="0,0,0,0" />
+            </Grid>
+            <CheckBox x:Name="chkHtml" Content="HTML Source" HorizontalAlignment="Left" Height="27" Margin="702,0,0,0" VerticalAlignment="Top" Width="138" Tapped="chkHtml_Tapped"/>
+        </Grid>
+           
+        </Grid>
+        <Grid x:Name="gridStatus"  HorizontalAlignment="Left"  Width="1000" VerticalAlignment="Top" Visibility="Collapsed" Margin="0,0,0,0" >
+            <StackPanel Orientation="Vertical"  HorizontalAlignment="Left"   >
+                <ListView x:Name="lstRecipients" Background="White" Width="auto" Margin="0" Height="600" ItemsSource="{Binding RecipientData}" >
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                        <ListViewItem Background="White"  Margin="0"  Height="auto" Width="{Binding Width}" FontFamily="Arial" FontSize="12">
+                            <StackPanel Orientation="Horizontal" Margin="0" HorizontalAlignment="Left" >
+                                    <TextBox Text="{Binding Index}" Width="50" IsEnabled="False" TextWrapping="NoWrap"/>
+                                    <TextBox Text="{Binding Address}" Width="300" IsEnabled="False" TextWrapping="NoWrap"/>
+                                <TextBox Text="{Binding Status}"  Width="1000" TextWrapping="Wrap" IsEnabled="False"  />
+                            </StackPanel>
+                        </ListViewItem>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                   
+                </ListView>
+                <Button x:Name="btnClose" Content="Close" IsEnabled="True" Background="Black" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="181" Height="46" Tapped="btnClose_Tapped" />
+
+            </StackPanel>
+            
+        </Grid>
+        <Grid Margin="55,668,0,0" HorizontalAlignment="Left" VerticalAlignment="Top">
+            <TextBlock HorizontalAlignment="Left" Height="auto" Margin="0,14,0,0" TextWrapping="Wrap" Text="Work Threads:" VerticalAlignment="Top" Width="auto"  />
+            <TextBlock HorizontalAlignment="Left" Height="auto" Margin="100,14,0,0" TextWrapping="Wrap" Text="{Binding ElementName=sdThreads,Path=Value}" VerticalAlignment="Top" Width="auto"  />
+            <Slider x:Name="sdThreads" Margin="127,2,513,58" Minimum="1" Maximum="128" Value="5" />
+            <TextBlock x:Name="textStatus" HorizontalAlignment="Left" Height="38" Margin="0,45,0,0" TextWrapping="Wrap" Text="Ready" VerticalAlignment="Top" Width="877"  />
+            <Button x:Name="btnSend" Content="Send" HorizontalAlignment="Left" Height="46" Margin="902,0,0,0" VerticalAlignment="Top" Width="181" Tapped="btnSend_Tapped" />
+            <Button x:Name="btnCancel" Content="Cancel" IsEnabled="False"  HorizontalAlignment="Left" Margin="1089,0,0,0" VerticalAlignment="Top" Width="181" Height="46" Tapped="btnCancel_Tapped" />
+        </Grid>
+    </Grid>
+</Page>

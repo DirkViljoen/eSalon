@@ -8,45 +8,34 @@ using System.Net;
 using System.IO;
 using RestSharp;
 using Newtonsoft.Json;
+using MySql.Data.MySqlClient;
+using System.Configuration;
 
 namespace BusinessTier
 {
     public class StockHistoryList : System.ComponentModel.BindingList<StockHistory>
     {
- RestRequest request = new RestRequest();
-        RestClient StockHistory = new RestClient();
-        
+        string myConnectionString;
+        MySqlDataReader rdr = null;
+        MySqlDataAdapter mysqla = null;
+        MySql.Data.MySqlClient.MySqlConnection conn;
+
         public StockHistoryList()
         {
-            //Create an object for each StockHistory in the dataset and add to list
-
-            foreach (StockHistory StockHistoryRow in GetStockHistory())
-            {
-                StockHistory StockHistory = new StockHistory(
-                                    StockHistoryRow.StockHistoryID,
-                                    StockHistoryRow.Price,
-                                    StockHistoryRow.PriceDFrom,
-                                    StockHistoryRow.PriceDTo,
-                                    StockHistoryRow.StockID);
-
-                this.Add(StockHistory);
-            }
-
+            
         }
 
         public StockHistoryList(int StockHistoryID)
         {
-
-            //Create an object for each StockHistory in dataset and add to list
             foreach (StockHistory StockHistoryRow in GetStockHistory(StockHistoryID))
             {
-                if (StockHistoryID == StockHistoryRow.StockHistoryID)
+                if (StockHistoryID == StockHistoryRow.StockHistory_id)
                 {
                     StockHistory StockHistory =
-                        new StockHistory(StockHistoryRow.StockHistoryID,
+                        new StockHistory(StockHistoryRow.StockHistory_id,
                                     StockHistoryRow.Price,
-                                    StockHistoryRow.PriceDFrom,
-                                    StockHistoryRow.PriceDTo,
+                                    StockHistoryRow.pFrom,
+                                    StockHistoryRow.pTo,
                                     StockHistoryRow.StockID);
                     this.Add(StockHistory);
                     break;
@@ -55,90 +44,128 @@ namespace BusinessTier
             }
         }
 
-        public StockHistoryList GetStockHistory()
+        public void InsertStockHistory(StockHistory o)
         {
+            myConnectionString = "server=localhost;uid=root;" +
+                                    "pwd=root;database=esalon;";
 
-            // GET
-            //RestClient StockHistory = new RestClient();
-            StockHistory.BaseUrl = new Uri("http://localhost:8000");
+            try
+            {
+                conn = new MySql.Data.MySqlClient.MySqlConnection();
+                MySqlCommand cmd;
+                conn.ConnectionString = myConnectionString;
+                conn.Open();
 
-            //var request = new RestRequest();
-            request.Resource = "/api/stock";
+                cmd = new MySqlCommand("sp_Insert_Stock_History", conn); //passing procedure name and connection object
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("hPrice", o.Price);
+                cmd.Parameters.AddWithValue("hPriceDateFrom", o.pFrom);
+                cmd.Parameters.AddWithValue("hPriceDateTo", o.pTo);
+                cmd.Parameters.AddWithValue("sStock_id", o.StockID);
 
-            IRestResponse response = StockHistory.Execute(request);
+                int res = cmd.ExecuteNonQuery();
+            }
+            catch (MySql.Data.MySqlClient.MySqlException ex)
+            {
+                //return ex.Message;
+            }
+            finally
+            {
+                if (rdr != null)
+                {
+                    rdr.Close();
+                }
 
-            string temp = response.Content.Replace("\"", "'");
-            //List<Client> list = JsonConvert.DeserializeObject<List<Client>>(temp);
-            StockHistory test = JsonConvert.DeserializeObject<StockHistory>(temp);
-           
-            return this;
+                if (conn != null)
+                {
+                    conn.Close();
+                }
+
+            }
         }
 
         public StockHistoryList GetStockHistory(int inID)
         {
-            StockHistoryList temp = new StockHistoryList(inID);
+            myConnectionString = "server=localhost;uid=root;" +
+                                "pwd=root;database=esalon;";
 
-            // GET
-            StockHistory.BaseUrl = new Uri("http://localhost:8000");
+            try
+            {
+                conn = new MySql.Data.MySqlClient.MySqlConnection();
+                conn.ConnectionString = myConnectionString;
+                conn.Open();
 
-            request.Resource = "/api/stock/:id";
+                string stm = "call spStockHistory_Read(" + inID + ")";
+                MySqlCommand cmd = new MySqlCommand(stm, conn);
+                rdr = cmd.ExecuteReader();
+                while (rdr.Read())
+                {
+                    StockHistory s = new StockHistory(rdr.GetInt32(0), rdr.GetDouble(1),
+                                                        rdr.GetDateTime(2), rdr.GetDateTime(3), rdr.GetInt32(4));
 
-            IRestResponse response = StockHistory.Execute(request);
+                    this.Add(s);
+                }
 
-            string temp2 = response.Content.Replace("\"", "'");
+            }
+            catch (MySql.Data.MySqlClient.MySqlException ex)
+            {
+                //return ex.Message;
+            }
+            finally
+            {
+                if (rdr != null)
+                {
+                    rdr.Close();
+                }
 
-            StockHistory test = JsonConvert.DeserializeObject<StockHistory>(temp2);
+                if (conn != null)
+                {
+                    conn.Close();
+                }
 
-            return temp;
+            }
+
+            return this;
         }
 
-        public void InsertStockHistory(StockHistory s)
+        public void UpdateStockHistory(StockHistory o)
         {
-            // POST
+            myConnectionString = "server=localhost;uid=root;" +
+                                    "pwd=root;database=esalon;";
 
-            IRestResponse response = StockHistory.Execute(request);
-            request = new RestRequest(Method.POST);
-            request.Resource = "/api/stock";
+            try
+            {
+                conn = new MySql.Data.MySqlClient.MySqlConnection();
+                MySqlCommand cmd;
+                conn.ConnectionString = myConnectionString;
+                conn.Open();
 
-            request.AddParameter("price", s.Price);
-            request.AddParameter("startdate", s.PriceDFrom);
-            request.AddParameter("enddate", s.PriceDTo);
-            request.AddParameter("id", s.StockID);
+                cmd = new MySqlCommand("sp_Update_Stock_History", conn); //passing procedure name and connection object
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("hStockHistory_id", o.StockHistory_id);
+                cmd.Parameters.AddWithValue("hPrice", o.Price);
+                cmd.Parameters.AddWithValue("hPriceDateFrom", o.pFrom);
+                cmd.Parameters.AddWithValue("hPriceDateTo", o.pTo);
+                cmd.Parameters.AddWithValue("sStock_id", o.StockID);
+                int res = cmd.ExecuteNonQuery();
+            }
+            catch (MySql.Data.MySqlClient.MySqlException ex)
+            {
+                //return ex.Message;
+            }
+            finally
+            {
+                if (rdr != null)
+                {
+                    rdr.Close();
+                }
 
-            response = StockHistory.Execute(request);
-        }
+                if (conn != null)
+                {
+                    conn.Close();
+                }
 
-        public void DeleteStockHistory(StockHistory s)
-        {
-            IRestResponse response = StockHistory.Execute(request);
-
-            request = new RestRequest(Method.PUT);
-            request.Resource = "/api/stock/:id";
-
-            request.AddParameter("stockHistoryId", s.StockHistoryID);
-            request.AddParameter("price", s.Price);
-            request.AddParameter("startdate", s.PriceDFrom);
-            request.AddParameter("enddate", s.PriceDTo);
-            request.AddParameter("id", s.StockID);
-
-            response = StockHistory.Execute(request);
-        }
-
-        public void UpdateStockHistory(StockHistory s)
-        {
-            IRestResponse response = StockHistory.Execute(request);
-
-            request = new RestRequest(Method.PUT);
-            request.Resource = "/api/stock";
-
-            request.AddParameter("stockHistoryId", s.StockHistoryID);
-            request.AddParameter("price", s.Price);
-            request.AddParameter("startdate", s.PriceDFrom);
-            request.AddParameter("enddate", s.PriceDTo);
-            request.AddParameter("id", s.StockID);
-
-            response = StockHistory.Execute(request);
-
+            }
         }
     }
 }

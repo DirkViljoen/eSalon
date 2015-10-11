@@ -12,16 +12,17 @@ namespace Prototype
 {
     public partial class viewStock : Form
     {
-        StockList sl = new StockList();
-        Stock s;
+        StockList sl;
+        Stock s = new Stock();
         int id;
 
         public viewStock(int _id)
         {
             InitializeComponent();
             id = _id;
+            sl = new StockList(id);
 
-            s = sl[id];
+            s = sl.ViewAStock(sl[0].StockID);
 
             txtBrand.Text = s.Brand;
             txtProduct.Text = s.Product;
@@ -45,6 +46,7 @@ namespace Prototype
             try
             {
                 sl.DeleteStock(s);
+                MessageBox.Show("Deleted");
             }
             catch (Exception d)
             {
@@ -55,6 +57,12 @@ namespace Prototype
         private void viewStock_Load(object sender, EventArgs e)
         {
 
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            ReconcileStock a = new ReconcileStock(id);
+            a.ShowDialog();
         }
     }
 }

@@ -3,41 +3,38 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Newtonsoft.Json;
+using MySql.Data.MySqlClient;
 
 namespace BusinessTier
 {
-    public class JsonResponseSupplier
-    {
-        [JsonProperty(PropertyName = "rows")]
-        public List<Supplier> Rows { get; set; }
-
-        /*[JsonProperty(PropertyName = "SQLstats")]
-        public Stats sqlstats { get; set; }
-    */
-    }
-
     public class Supplier
     {
-        [JsonProperty(PropertyName = "Supplier_id")]
-        public int SupplierID { get; set; }
+        private int mSupplier_id;
+        private string mName;
+        private string mEmail;
 
-        [JsonProperty(PropertyName = "Name")]
-        public string Name { get; set; }
-
-        [JsonProperty(PropertyName = "ContactNumber")]
-        public string Contact { get; set; }
-
-        [JsonProperty(PropertyName = "Email")]
-        public string Email { get; set; }
-
-        [JsonProperty(PropertyName = "Active")]
-        public bool active { get; set; }
-
-        public Supplier(int sID, string sName, string sNum, string sEm)
+        public int Supplier_id
         {
-            SupplierID = sID;
+            get { return mSupplier_id; }
+            set { mSupplier_id = value; }
+        }
+        public string Name
+        {
+            get { return mName; }
+            set { mName = value; }
+        }
+        public string Email
+        {
+            get { return mEmail; }
+            set { mEmail = value; }
+        }
+
+        public Supplier() { }
+
+        public Supplier(int sID, string sName, string sEm)
+        {
+            Supplier_id = sID;
             Name = sName;
-            Contact = sNum;
             Email = sEm;
         }
     }

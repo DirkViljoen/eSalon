@@ -13,51 +13,51 @@ namespace Prototype
     public partial class ReceiveStock : Form
     {
         OrderList ol = new OrderList();
-        Order o;
+        Order o = new Order();
+        OrderLine p;
+        OrderLineList pl = new OrderLineList();
         int id;
+        SupplierList sl = new SupplierList();
 
         public ReceiveStock(int _id)
         {
             InitializeComponent();
             id = _id;
+            string s = "";
+            pl = new OrderLineList(id, s);
+            o = ol.ViewAOrder(id);
 
-            o = ol[id];
+            dataGridView1.DataSource = pl;
 
-            //txtBrand.Text = s.Brand;
-            //txtProduct.Text = s.Product;
-            //txtPrice.Text = Convert.ToString(s.Price);
-            //txtSize.Text = Convert.ToString(s.Size);
-            //txtQuantity.Text = Convert.ToString(s.Quantity);
-            //txtBarcode.Text = s.Barcode;
-            //txtSupplier.Text = Convert.ToString(s.SupplierID);
+            foreach (Supplier u in sl)
+            {
+                if (o.Supplier_ID == u.Supplier_id)
+                {
+                    textBox1.Text = u.Name;
+                }
+            }
+            dateTimePicker1.Value = Convert.ToDateTime(o.DatePlaced);
+
+
         }
 
         private void ReceiveStock_Load(object sender, EventArgs e)
         {
-            try
-            {
-                string str = "Are you sure you want to update this order?";
-                string form = "UpdateOrder";
+            
+        }
 
-                //ol.UpdateOrder(new Stock(0, 
-                //                txtBrand.Text, 
-                //                txtProduct.Text, 
-                //                Convert.ToDouble(txtPrice.Text),
-                //                Convert.ToInt32(txtSize.Text), 
-                //                true, 
-                //                Convert.ToInt32(txtQuantity.Text), 
-                //                txtBarcode.Text, 
-                //                0,
-                //                Convert.ToInt32(txtSupplier.Text)));
+        private void button1_Click(object sender, EventArgs e)
+        {
+            OrderLineList oll = new OrderLineList();
+            oll.Clear();
 
-                ConfirmationMessage a = new ConfirmationMessage(str, form);
-                a.ShowDialog();
-                MessageBox.Show("Your Order has been updated");
-            }
-            catch (Exception d)
-            {
-                MessageBox.Show("ERROR: " + d);
-            }
+            DateTime todayDate = new DateTime(DateTime.Today.Year, DateTime.Today.Month, DateTime.Today.Day);
+            string bob = "";
+            Order o = new Order
+                (1, bob, dateTimePicker1.Value.ToString("yyyy-MM-dd"), 1);
+
+            ol.UpdateOrder(o);
+            MessageBox.Show("Stock Received");
         }
     }
 }

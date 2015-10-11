@@ -6,43 +6,44 @@ using Newtonsoft.Json;
 
 namespace BusinessTier
 {
-        public class JsonResponseUser
-        {
-            [JsonProperty(PropertyName = "rows")]
-            public List<User> Rows { get; set; }
 
-            /*[JsonProperty(PropertyName = "SQLstats")]
-            public Stats sqlstats { get; set; }
-        */
-        }
 
         public class User
         {
-            [JsonProperty(PropertyName = "User_ID")]
-            public int UserID { get; set; }
 
-            [JsonProperty(PropertyName = "Username")]
-            public string name { get; set; }
+            private int mUser_ID;
+            private string mUsername;
+            private string mPassword;
+            private string mLogin;
 
-            [JsonProperty(PropertyName = "Password")]
-            public string pass { get; set; }
-
-            [JsonProperty(PropertyName = "Employee_ID")]
-            public int empID { get; set; }
-
-            [JsonProperty(PropertyName = "Role_ID")]
-            public int roleID { get; set; }
-
-            [JsonProperty(PropertyName = "Active")]
-            public bool active { get; set; }
-
-            public User(int oID, string n, string p, int e, int r)
+            public int User_ID
             {
-                UserID = oID;
-                name = n;
-                pass = p;
-                empID = e;
-                roleID = r;
+                get { return mUser_ID; }
+                set { mUser_ID = value; }
+            }
+            public string Username
+            {
+                get { return mUsername; }
+                set { mUsername = value; }
+            }
+            public string Password
+            {
+                get { return mPassword; }
+                set { mPassword = value; }
+            }
+            public string Login
+            {
+                get { return mLogin; }
+                set { mLogin = value; }
+            }
+
+            public User() { }
+            public User(int oID, string n, string p, string e)
+            {
+                User_ID = oID;
+                Username = n;
+                Password = p;
+                Login = e;
             }
         }
 
