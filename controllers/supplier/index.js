@@ -43,7 +43,7 @@ module.exports = function (router) {
             m.user = result.user;
 
             if (result.granted){
-                res.render('suppliers/supplier-view', m
+                res.render('suppliers/supplier-view', m)
             }
             else
             {
