@@ -2637,14 +2637,42 @@ String.prototype.hexEncode = function(){
 // Uploading files
 
     router.post('/uploadImage',function(req,res){
-        console.log('uploading - file:');
+        // console.log('uploading - file:');
+        // console.log('body: ' + JSON.stringify(req.body));
+        // upload(req,res,function(err) {
+        //     if(err) {
+        //         return res.send("Error uploading file.");
+        //     }
+        //     res.send("File is uploaded");
+        // });
+
+        console.log('uploading - image:');
+        console.log('files: ' + JSON.stringify(req.files));
         console.log('body: ' + JSON.stringify(req.body));
-        upload(req,res,function(err) {
-            if(err) {
-                return res.send("Error uploading file.");
-            }
-            res.send("File is uploaded");
+        console.log('params: ' + JSON.stringify(req.params));
+
+
+        var files = util.isArray(req.files.file) ? req.files.file : [req.files.file];
+
+        console.log(files);
+
+        files.forEach(function (file) {
+            fs.rename(file.path, path.resolve(uploadPath, file.name), function(err) {
+                if (err) throw err;
+                fs.unlink(file.path, function() {
+                    if (err) throw err;
+                });
+            });
         });
+
+        // Force response type to text/html otherwise IE will try to open the returned json response.
+        res.contentType('text/html');
+
+        // Really should return json when all files have been saved, but we are simplifying things a bit here.
+        // We also delay it a bit, so we can see the nice loader
+        setTimeout((function() {
+            res.json({files: files.map(function (file) { return file.name; }) });
+        }), 2000);
     });
 
     router.post('/uploadCSV',function(req,res){

@@ -1,4 +1,4 @@
-var myModule = angular.module('app', ['smart-table', 'ui.calendar', 'angularMoment', 'ui.bootstrap', 'flow', 'chart.js']);
+var myModule = angular.module('app', ['smart-table', 'ui.calendar', 'angularMoment', 'ui.bootstrap', 'flow', 'chart.js', 'lr.upload']);
 
 // Audit
     myModule.factory('audit', function($http) {
@@ -1645,7 +1645,7 @@ myModule.controller('BookingController', function($scope, $modal, $http, $window
           };
   });
 
-myModule.controller('EmployeeController', function($scope, $http, $window, audit) {
+myModule.controller('EmployeeController', function($scope, $http, $window, audit, upload) {
     $scope.loading = true;
     $scope.error = '';
 
@@ -1663,8 +1663,26 @@ myModule.controller('EmployeeController', function($scope, $http, $window, audit
 
     $scope.home = '/employee';
 
+    $scope.image;
+
     // Image
 
+    $scope.doUpload = function () {
+        upload({
+            url: '/api/uploadImage',
+            method: 'POST',
+            data: {
+                aFile: $scope.image, // a jqLite type="file" element, upload() will extract all the files from the input and put them into the FormData object before sending.
+            }
+        }).then(
+            function (response) {
+                console.log(response.data); // will output whatever you choose to return from the server on a successful upload
+            },
+            function (response) {
+                console.error(response); //  Will return if status code is above 200 and lower than 300, same as $http
+            }
+        );
+    }
 
     // Lookup tables
 

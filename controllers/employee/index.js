@@ -47,7 +47,7 @@ module.exports = function (router) {
 
         auth.grantAccess(req.session.passport, 6, 1, req.header('Referer'))
         .then(function (result){
-            u = result.user;
+            m.user = result.user;
             console.log(result);
 
             if (result.granted){

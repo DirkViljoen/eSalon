@@ -46,9 +46,16 @@ block content
                     +ng-input-text('line1', 'Line 1:', 'address.line1', '23 Some complex', false, false, '3', '50')
                 br
 
-                //- .grouphead
-                //-     +form-group('Upload a picture')
-                //- .groupbox
+                .grouphead
+                    +form-group('Upload a picture')
+                .groupbox
+                    input(name="myFile", type="file", ng-model="image")
+                    input.btn.btn-default(type="button", value='Cancel', ng-click='doUpload()')
+
+                    upload-button.btn.btn-primary.btn-upload(url="/api/uploadimage"
+                        on-success="onGlobalSuccess(response)"
+                    ) Fileupload
+
                 //-     div(flow-init="{target: '/api/upload'}"
                 //-      flow-files-submitted="$flow.upload()"
                 //-      flow-file-success="$file.msg = $message")
