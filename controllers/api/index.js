@@ -28,6 +28,8 @@ var
     fs              = require('fs'),
     parse           = require('csv-parse'),
     nodemailer      = require('nodemailer');
+    var path = require('path');
+    var util = require('util');
 
 module.exports = function (router) {
 
@@ -588,7 +590,7 @@ String.prototype.hexEncode = function(){
             obj.employee.clname = (obj.employee.clname ? '"' + obj.employee.clname + '"' : null);
             obj.employee.cnumber = (obj.employee.cnumber ? '"' + obj.employee.cnumber + '"' : null);
             obj.employee.cemail = (obj.employee.cemail ? '"' + obj.employee.cemail + '"' : null);
-            obj.employee.image = (obj.employee.image ? obj.employee.image : null);
+            obj.employee.image = (obj.employee.image ? '"' + obj.employee.image + '"' : null);
             obj.employee.salary = (obj.employee.salary ? obj.employee.salary : null);
             obj.employee.addressId = null;
 
@@ -691,7 +693,7 @@ String.prototype.hexEncode = function(){
             obj.employee.clname = (obj.employee.clname ? '"' + obj.employee.clname + '"' : null);
             obj.employee.cnumber = (obj.employee.cnumber ? '"' + obj.employee.cnumber + '"' : null);
             obj.employee.cemail = (obj.employee.cemail ? '"' + obj.employee.cemail + '"' : null);
-            obj.employee.image = (obj.employee.image ? obj.employee.image : null);
+            obj.employee.image = (obj.employee.image ? '"' + obj.employee.image + '"' : null);
             obj.employee.salary = (obj.employee.salary ? obj.employee.salary : null);
             obj.employee.addressId = (obj.employee.addressId ? obj.employee.addressId : null);
 
@@ -2655,6 +2657,8 @@ String.prototype.hexEncode = function(){
         var files = util.isArray(req.files.file) ? req.files.file : [req.files.file];
 
         console.log(files);
+
+        var uploadPath = process.cwd() + "/public/images"
 
         files.forEach(function (file) {
             fs.rename(file.path, path.resolve(uploadPath, file.name), function(err) {

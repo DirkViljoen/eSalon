@@ -1068,6 +1068,7 @@ myModule.controller('BookingController', function($scope, $modal, $http, $window
 
         $scope.searchBooking = function() {
             $scope.loading = true;
+            timer = undefined;
             var criteria = '?search=' + $scope.searchCriteria.booking;
 
             $http.get('/api/bookings' + criteria).then(function(response) {
@@ -1319,6 +1320,11 @@ myModule.controller('BookingController', function($scope, $modal, $http, $window
             $window.location.href = '/clients/add';
         }
 
+        $scope.selectRow = function(bid) {
+            $window.location.href = '/booking/update/' + bid;
+            // $scope.employee.
+        };
+
     // Timer
 
         $scope.updateCalendar = function() {
@@ -1334,6 +1340,10 @@ myModule.controller('BookingController', function($scope, $modal, $http, $window
             timer = undefined;
         });
 
+        $scope.restartTimer = function() {
+            timer = $interval(function() {$scope.changeCalendar();}, 60000);
+        }
+
     // initiating
 
         $scope.initManage = function(eid, view, date, user) {
@@ -1348,7 +1358,7 @@ myModule.controller('BookingController', function($scope, $modal, $http, $window
             $scope.settings.view = view;
             $scope.settings.date = moment(date);
 
-            timer = $interval(function() {$scope.changeCalendar();}, 30000);
+            timer = $interval(function() {$scope.changeCalendar();}, 60000);
         };
 
         $scope.initAdd = function(date,fullname,eid,user) {
@@ -1682,6 +1692,11 @@ myModule.controller('EmployeeController', function($scope, $http, $window, audit
                 console.error(response); //  Will return if status code is above 200 and lower than 300, same as $http
             }
         );
+    }
+
+    $scope.onGlobalSuccess = function(response){
+        // alert(JSON.stringify(response.data.files[0]));
+        $scope.employee.image = response.data.files[0];
     }
 
     // Lookup tables
@@ -2362,7 +2377,8 @@ myModule.controller('InvoiceController', function($scope, $http, $window, $q, au
                         }
                         console.log($scope.stock[i].Quantity - $scope.invoice.stock[index].quantity);
                         if (($scope.stock[i].Quantity - $scope.invoice.stock[index].quantity) < 0){
-                            alert('Not enough stock left. Please do a stock reconcilliation if this is not the case.')
+                            warning_Ok('Not enough stock', 'There are only ' + $scope.stock[i].Quantity + ' item(s) left. Please do a stock reconcilliation if this is not the case.', function() {return {}});
+                            $scope.invoice.stock[index].quantity = $scope.stock[i].Quantity;
                         }
                     };
                 };

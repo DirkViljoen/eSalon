@@ -21,17 +21,14 @@ html(lang="en", ng-app="app")
                 .navbar-header
                     .navbar-brand
                         block header
-                .collapse.navbar-collapse.pull-right
-                    ul.nav.navbar-nav
-                        li.active
-                            block loggedIn
-                                a(href="/login") Log in
-                        li
-                            a(href="/login") Log out
         .row
             .col-sm-3.hidden-xs
 
                 #accordion.panel-group.affix(role='tablist', aria-multiselectable='true')
+                    .panel
+                        .panel-heading(role='tab')
+                            input(type="text" id="helpSearch" value="")
+                            button(onclick="window.find(document.getElementById('helpSearch').value)") Search
                     .panel.panel-default
                         #headingBooking.panel-heading(role='tab')
                             h4.panel-title(role='button', data-toggle='collapse', data-parent='#accordion', href='#collapseBooking', aria-expanded='false', aria-controls='collapseBooking')
@@ -41,29 +38,142 @@ html(lang="en", ng-app="app")
                                 li
                                     a(href='#bookings-add') Creating bookings
                                 li
-                                    a(href='#bookings-edit') Editing bookings
-                                li
-                                    a(href='#bookings-cancel') Cancelling bookings
+                                    a(href='#bookings-edit/Cancel') Edit/Cancel bookings
                                 li
                                     a(href='#bookings-finalise') Completing bookings
+                                li
+                                    a(href='#bookings-View/Search Booking') View/Search bookings
+                                li
+                                    a(href='#bookings-MakeSale') Make Sale
+
                     .panel.panel-default
-                        #headingThree.panel-heading(role='tab')
-                            h4.panel-title.collapsed(role='button', data-toggle='collapse', data-parent='#accordion', href='#collapseThree', aria-expanded='false', aria-controls='collapseThree')
-                                    | Employees
-                        #collapseThree.panel-collapse.collapse(role='tabpanel', aria-labelledby='headingThree')
+                        #headingService.panel-heading(role='tab')
+                            h4.panel-title(role='button', data-toggle='collapse', data-parent='#accordion', href='#collapseService', aria-expanded='false', aria-controls='collapseService')
+                                    | Service
+                        #collapseService.panel-collapse.collapse(role='tabpanel', aria-labelledby='headingFour')
                             ul.list-group
                                 li
-                                    a(href='#employees-add') Adding employees
+                                    a(href='#services-Add') Add Service
                                 li
-                                    a(href='#employees-edit') Editing employees
+                                    a(href='#services-Update') Update Service
                                 li
-                                    a(href='#employees-delete') Removing employees
+                                    a(href='#services-Delete') Delete Service
                                 li
-                                    a(href='#employees-schedule') Managing an employees leave
+                                    a(href='#services-Search') Search Service
+
+                    .panel.panel-default
+                        #headingSupplier.panel-heading(role='tab')
+                            h4.panel-title(role='button', data-toggle='collapse', data-parent='#accordion', href='#collapseSupplier', aria-expanded='false', aria-controls='collapseSupplier')
+                                    | Supplier
+                        #collapseSupplier.panel-collapse.collapse(role='tabpanel', aria-labelledby='headingFive')
+                            ul.list-group
+                                li
+                                    a(href='#Supplier-Add') Add Supplier
+                                li
+                                    a(href='#Supplier-Update') Update Supplier
+                                li
+                                    a(href='#Supplier-Delete') Delete Supplier
+                                li
+                                    a(href='#Supplier-Search') Search Supplier
+
+                    .panel.panel-default
+                         #headingReports.panel-heading(role='tab')
+                             h4.panel-title(role='button', data-toggle='collapse', data-parent='#accordion', href='#collapseReports', aria-expanded='false', aria-controls='collapseReports')
+                                    | Reports
+                         #collapseReports.panel-collapse.collapse(role='tabpanel', aria-labelledby='headingSix')
+                             ul.list-group
+                                 li
+                                     a(href='#Reports-Stock Trend') Stock Trend
+                                 li
+                                     a(href='#Reports-Expense Report') Expense Report
+                                 li
+                                     a(href='#Reports-Generate Employee Income')  Employee Income Report
+                                 li
+                                     a(href='#Reports-Client Report') Client Report
+
+                    .panel.panel-default
+                         #headingStock.panel-heading(role='tab')
+                             h4.panel-title(role='button', data-toggle='collapse', data-parent='#accordion', href='#collapseStock', aria-expanded='false', aria-controls='collapseStock')
+                                    | Stock
+                         #collapseStock.panel-collapse.collapse(role='tabpanel', aria-labelledby='headingSeven')
+                             ul.list-group
+                                 li
+                                     a(href='#Stock-Add') Add Stock
+                                 li
+                                     a(href='#Stock-Update') Update Stock
+                                 li
+                                     a(href='Stock-Delete') Delete Stock
+                                 li
+                                     a(href='#Stock-Search') Search Stock
+
+                    .panel.panel-default
+                          #headingOrders.panel-heading(role='tab')
+                              h4.panel-title(role='button', data-toggle='collapse', data-parent='#accordion', href='#collapseOrders', aria-expanded='false', aria-controls='collapseOrders')
+                                     | Orders
+                          #collapseOrders.panel-collapse.collapse(role='tabpanel', aria-labelledby='headingEight')
+                              ul.list-group
+                                  li
+                                      a(href='#Orders-Add') Add Order
+                                  li
+                                      a(href='#Orders-Update') Update Order
+                                  li
+                                      a(href='Orders-Search') Delete Order
+                                  li
+                                      a(href='#Orders-Search') Search Order
+
+                    .panel.panel-default
+                          #headingSubLetter.panel-heading(role='tab')
+                              h4.panel-title(role='button', data-toggle='collapse', data-parent='#accordion', href='#collapseSubLetter', aria-expanded='false', aria-controls='collapseSubLetter')
+                                     | SubLetter
+                          #collapseSubLetter.panel-collapse.collapse(role='tabpanel', aria-labelledby='headingNine')
+                              ul.list-group
+                                  li
+                                      a(href='#sub-letter-Add') Add SubLetter
+                                  li
+                                      a(href='#sub-letter-Update') Update SubLetter
+                                  li
+                                      a(href='#sub-letter-Delete') Delete SubLetter
+                                  li
+                                      a(href='#sub-letter-Search') Search SubLetter
+
+                    .panel.panel-default
+                          #headingClients.panel-heading(role='tab')
+                              h4.panel-title(role='button', data-toggle='collapse', data-parent='#accordion', href='#collapseClients', aria-expanded='false', aria-controls='collapseClients')
+                                     | Clients
+                          #collapseClients.panel-collapse.collapse(role='tabpanel', aria-labelledby='headingTen')
+                              ul.list-group
+                                  li
+                                      a(href='#clients-Add') Add Client
+                                  li
+                                      a(href='#clients-Update') Update Client
+                                  li
+                                      a(href='#clients-Delete') Delete Client
+                                  li
+                                      a(href='#clients-Search') Search Client
+                                  li
+                                      a(href='#clients-SendSpecialMessage') SendSpecialMessage
+                                  li
+                                      a(href='#clients-SendBirthdayMessage') SendBirthdayMessage
+                    .panel.panel-default
+                          #headingClients.panel-heading(role='tab')
+                              h4.panel-title.collapsed(role='button', data-toggle='collapse', data-parent='#accordion', href='#collapseThree', aria-expanded='false', aria-controls='collapseThree')
+                                     | Employees
+                          #collapseThree.panel-collapse.collapse(role='tabpanel', aria-labelledby='headingThree')
+                              ul.list-group
+                                  li
+                                      a(href='#employees-add') Adding employees
+                                  li
+                                      a(href='#employees-edit') Editing employees
+                                  li
+                                      a(href='#employees-delete') Removing employees
+                                  li
+                                      a(href='#employees-schedule') Managing an employees leave
+                                  li
+                                      a(href='#employees-Login') Login
                     .panel.panel-success
                         .panel-heading(role='tab')
                             a.h4.panel-title(role='button', href='/booking')
-                                    | Go back to the system
+                                | Go back to the system
 
 
             .col-md-7.col-sm-8
@@ -72,10 +182,3 @@ html(lang="en", ng-app="app")
         script(src="/bower_components/jquery/dist/jquery.min.js")
         script(src="/bower_components/bootstrap/dist/js/bootstrap.min.js")
         script(src='/bower_components/angular/angular.min.js')
-
-
-
-
-
-
-

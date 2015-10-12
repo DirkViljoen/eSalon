@@ -10,7 +10,7 @@ module.exports = function (router) {
         m.p = req.params;
         m.q = req.query;
         m.user = {};
-        m.h = '/help#suppliers';
+        m.h = '/help#Supplier-Search';
 
         auth.grantAccess(req.session.passport, 5, 4, req.header('Referer'))
         .then(function (result){
@@ -36,7 +36,7 @@ module.exports = function (router) {
         m.p = req.params;
         m.q = req.query;
         m.user = {};
-        m.h = '/help#suppliers-view';
+        m.h = '/help#Supplier';
 
         auth.grantAccess(req.session.passport, 5, 4, req.header('Referer'))
         .then(function (result){
@@ -62,7 +62,7 @@ module.exports = function (router) {
         m.p = req.params;
         m.q = req.query;
         m.user = {};
-        m.h = '/help#suppliers-add';
+        m.h = '/help#Supplier-Add';
 
         auth.grantAccess(req.session.passport, 5, 1, req.header('Referer'))
         .then(function (result){
@@ -88,7 +88,7 @@ module.exports = function (router) {
         m.p = req.params;
         m.q = req.query;
         m.user = {};
-        m.h = '/help#suppliers-update';
+        m.h = '/help#Supplier-Update';
 
         auth.grantAccess(req.session.passport, 5, 2, req.header('Referer'))
         .then(function (result){

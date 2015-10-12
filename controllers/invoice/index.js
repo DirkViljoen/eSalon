@@ -19,7 +19,7 @@ module.exports = function (router) {
         m.p = req.params;
         m.q = req.query;
         m.user = {};
-        m.h = '/help#makesale';
+        m.h = '/help#bookings-MakeSale';
 
         auth.grantAccess(req.session.passport, 3, 1, req.header('Referer'))
         .then(function (result){
