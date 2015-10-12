@@ -89,3 +89,4 @@ $(function getCurrentDate() {
     today = yyyy+'-'+mm+'-'+dd;
     return today;
 });
+

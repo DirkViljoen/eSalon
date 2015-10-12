@@ -21,12 +21,14 @@ html(lang="en", ng-app="app")
                 .navbar-header
                     .navbar-brand
                         block header
-                .collapse.navbar-collapse.pull-right
-                    input(type="text")
         .row
             .col-sm-3.hidden-xs
 
                 #accordion.panel-group.affix(role='tablist', aria-multiselectable='true')
+                    .panel
+                        .panel-heading(role='tab')
+                            input(type="text" id="helpSearch" value="")
+                            button(onclick="window.find(document.getElementById('helpSearch').value)") Search
                     .panel.panel-default
                         #headingBooking.panel-heading(role='tab')
                             h4.panel-title(role='button', data-toggle='collapse', data-parent='#accordion', href='#collapseBooking', aria-expanded='false', aria-controls='collapseBooking')

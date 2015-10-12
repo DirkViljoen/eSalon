@@ -89,3 +89,11 @@ $(function getCurrentDate() {
     today = yyyy+'-'+mm+'-'+dd;
     return today;
 });
+
+$(function searchpage() {
+    window.find('test');
+})
+
+$("#btnSearchPage").click(function(){
+    alert('clicked!');
+});
