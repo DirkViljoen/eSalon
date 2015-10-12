@@ -41,8 +41,6 @@
             this.backUpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.restoreToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.lookupListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.label1 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -57,11 +55,11 @@
             this.webProgramToolStripMenuItem,
             this.feelingABitLostToolStripMenuItem,
             this.dATABASEToolStripMenuItem});
-            this.menuStrip1.Location = new System.Drawing.Point(14, 46);
+            this.menuStrip1.Location = new System.Drawing.Point(14, 17);
             this.menuStrip1.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(27, 27, 14, 39);
-            this.menuStrip1.Size = new System.Drawing.Size(757, 118);
+            this.menuStrip1.Size = new System.Drawing.Size(665, 118);
             this.menuStrip1.TabIndex = 2;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -186,26 +184,6 @@
             this.lookupListToolStripMenuItem.Text = "Lookup List";
             this.lookupListToolStripMenuItem.Click += new System.EventHandler(this.lookupListToolStripMenuItem_Click);
             // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.BackColor = System.Drawing.Color.Transparent;
-            this.label1.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.label1.Location = new System.Drawing.Point(466, 19);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(89, 18);
-            this.label1.TabIndex = 2;
-            this.label1.Text = "Logged In";
-            // 
-            // textBox1
-            // 
-            this.textBox1.Location = new System.Drawing.Point(561, 16);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.ReadOnly = true;
-            this.textBox1.Size = new System.Drawing.Size(116, 26);
-            this.textBox1.TabIndex = 3;
-            this.textBox1.Text = "Admin";
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 18F);
@@ -213,8 +191,6 @@
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(198)))), ((int)(((byte)(214)))), ((int)(((byte)(204)))));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(726, 307);
-            this.Controls.Add(this.textBox1);
-            this.Controls.Add(this.label1);
             this.Controls.Add(this.menuStrip1);
             this.Font = new System.Drawing.Font("Lucida Fax", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.MainMenuStrip = this.menuStrip1;
@@ -236,8 +212,6 @@
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem mainMenuToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem ordersToolStripMenuItem;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.ToolStripMenuItem stockToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem viewMantainToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem addStockToolStripMenuItem;

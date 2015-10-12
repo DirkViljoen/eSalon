@@ -136,3 +136,4 @@ C:\Users\Fatima\Documents\Sites\eSalon\windows\Prototype\Prototype\bin\Debug\MyS
 C:\Users\Fatima\Documents\Sites\eSalon\windows\Prototype\Prototype\bin\Debug\Microsoft.Office.Project.Schema.dll
 C:\Users\Fatima\Documents\Sites\eSalon\windows\Prototype\Prototype\obj\x86\Debug\Prototype.ReconcileStock.resources
 C:\Users\Fatima\Documents\Sites\eSalon\windows\Prototype\Prototype\obj\x86\Debug\Prototype.Lookups.resources
+C:\Users\Fatima\Documents\Sites\eSalon\windows\Prototype\Prototype\bin\Debug\EASendMail40.dll

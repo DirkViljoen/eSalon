@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet type='text/xsl' href='_UpgradeReport_Files/UpgradeReport.xslt'?><UpgradeLog>
+<Properties><Property Name="Solution" Value="htmlmail.vb">
+</Property><Property Name="Solution File" Value="D:\adminsystem\Development\EASendMail\sdk\Samples_VS2003\htmlmail.vb\htmlmail.vb.sln">
+</Property><Property Name="Date" Value="2010年12月7日">
+</Property><Property Name="Time" Value="17:49">
+</Property></Properties><Event ErrorLevel="0" Project="" Source="htmlmail.vb.sln" Description="File successfully backed up as D:\adminsystem\Development\EASendMail\sdk\Samples_VS2003\htmlmail.vb\Backup\htmlmail.vb.sln">
+</Event><Event ErrorLevel="0" Project="htmlmail.vb" Source="htmlmail.vb.vbproj" Description="Project file successfully backed up as D:\adminsystem\Development\EASendMail\sdk\Samples_VS2003\htmlmail.vb\Backup\htmlmail.vb.vbproj">
+</Event><Event ErrorLevel="0" Project="htmlmail.vb" Source="htmlmail.vb.vbproj.user" Description="Project user file successfully backed up as D:\adminsystem\Development\EASendMail\sdk\Samples_VS2003\htmlmail.vb\Backup\htmlmail.vb.vbproj.user">
+</Event><Event ErrorLevel="0" Project="htmlmail.vb" Source="AssemblyInfo.vb" Description="File successfully backed up as D:\adminsystem\Development\EASendMail\sdk\Samples_VS2003\htmlmail.vb\Backup\AssemblyInfo.vb">
+</Event><Event ErrorLevel="0" Project="htmlmail.vb" Source="Form1.vb" Description="File successfully backed up as D:\adminsystem\Development\EASendMail\sdk\Samples_VS2003\htmlmail.vb\Backup\Form1.vb">
+</Event><Event ErrorLevel="0" Project="htmlmail.vb" Source="Form1.resx" Description="File successfully backed up as D:\adminsystem\Development\EASendMail\sdk\Samples_VS2003\htmlmail.vb\Backup\Form1.resx">
+</Event><Event ErrorLevel="0" Project="htmlmail.vb" Source="htmlmail.vb.vbproj" Description="Project converted successfully">
+</Event><Event ErrorLevel="3" Project="htmlmail.vb" Source="htmlmail.vb.vbproj" Description="Converted">
+</Event><Event ErrorLevel="0" Project="" Source="htmlmail.vb.sln" Description="Solution converted successfully">
+</Event><Event ErrorLevel="3" Project="" Source="htmlmail.vb.sln" Description="Converted">
+</Event><Event ErrorLevel="0" Project="htmlmail.vb" Source="htmlmail.vb.vbproj" Description="Scan complete: Upgrade not required for project files.">
+</Event></UpgradeLog>

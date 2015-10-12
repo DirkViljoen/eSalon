@@ -22,32 +22,21 @@ namespace Prototype
 
         private void button1_Click(object sender, EventArgs e)
         {
-            //if (textBox1.Text != "" && textBox2.Text != "")
-            //{
-            //    User i = new User();
-            //    UserList l = new UserList();
-
-            //    byte[] ba = Encoding.Default.GetBytes(textBox2.Text);
-            //    var hexString = BitConverter.ToString(ba);
-            //    hexString = hexString.Replace("-", "");
-
-            //    i.User_ID = 1;
-            //    i.Username = textBox1.Text;
-            //    i.Password = hexString;
-            //    i.Login = "";
-
-            //    l.stuff(i);
-            //    if (l.Count > 3)
-            //    {
+            if (textBox1.Text != "" && textBox2.Text != "")
+            {
+                if (textBox1.Text == "Admin" && textBox2.Text == "Admin")
+                {
                     Form1 a = new Form1();
                     a.ShowDialog();
                     this.Close();
-            //    }
-            //}
-            //else
-            //{
-            //    MessageBox.Show("Invalid Login Details");
-            //}
+                }
+
+            }
+            else
+            {
+                MessageBox.Show("Please Enter Login Details (Admin: Admin)");
+                
+            }
             
         }
 

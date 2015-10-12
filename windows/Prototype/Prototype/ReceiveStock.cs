@@ -58,6 +58,7 @@ namespace Prototype
 
             ol.UpdateOrder(o);
             MessageBox.Show("Stock Received");
+            this.Close();
         }
     }
 }

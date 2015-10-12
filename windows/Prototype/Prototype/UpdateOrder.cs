@@ -75,6 +75,7 @@ namespace Prototype
                 ConfirmationMessage a = new ConfirmationMessage(str, form);
                 a.ShowDialog();
                 MessageBox.Show("Your Order has been updated");
+                this.Close();
             }
             catch (Exception d)
             {

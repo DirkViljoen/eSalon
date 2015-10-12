@@ -141,7 +141,7 @@ namespace Prototype
 
         private void feelingABitLostToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            string filePath = "C:\\Users\\Fatima\\Documents\\Doc1.docx";
+            string filePath = "C:\\esalon\\User.docx";
            
             ProcessStartInfo startInfo = new ProcessStartInfo();
             startInfo.FileName = "WINWORD.EXE";

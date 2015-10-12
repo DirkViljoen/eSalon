@@ -1,0 +1,239 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>mass.js</title>
+
+    <!-- WinJS references -->
+    <link href="//Microsoft.WinJS.2.0/css/ui-dark.css" rel="stylesheet" />
+    <script src="//Microsoft.WinJS.2.0/js/base.js"></script>
+    <script src="//Microsoft.WinJS.2.0/js/ui.js"></script>
+
+    <!-- simple.js references -->
+    <link href="/css/default.css" rel="stylesheet" />
+    <link href="/css/editor.css" rel="stylesheet" />
+    <script src="/js/default.js"></script>
+      <script src="/js/sendmail.js"></script>
+</head>
+<body>
+    <div style="padding: 20px" id="mailpage">
+        <div style="float: left; width: 700px;">
+            <h2>EASendMail Sample for Windows 8.1</h2>
+            <table style="margin-top: 50px; width: 100%">
+                <tr>
+                    <td style="width: 100px;">From:</td>
+                    <td>
+                        <input type="text" id="textFrom" style="width: 550px;" /></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>Please separate multiple recipients by line-break</td>
+                </tr>
+                <tr>
+                    <td style="vertical-align:top;">To:</td>
+                    <td>
+                        <textarea id="textTo" style="width:525px;height:100px;"></textarea></td>
+                </tr>
+                
+                <tr>
+                    <td>Subject:</td>
+                    <td>
+                        <input type="text" id="textSubject" style="width: 550px;" value="Test email from JScript HTML5 Windows 8.1 with multiple threads" /></td>
+                </tr>
+
+            </table>
+            <div style="margin-top: 20px;">
+
+                <input type="button" id="btnAtts" value="Attach File" style="width: 120px;" />
+                <input type="button" id="btnClear" value="Clear" style="width: 120px;" />
+                <select id="lstFormat" style="width: 400px; margin-left: 15px;">
+                    <option value="0" selected="selected">Body Format - Text/Plain</option>
+                    <option value="1">Body Format - Text/Html</option>
+
+                </select>
+            </div>
+        </div>
+        <div style="float: left; width: 500px;">
+            <div>If your server doesn't use 25 port, you can input [server] [port] in server. For example, you can input: smtp.gmail.com 587 in server, that means server address is smtp.gmail.com and port is 587.</div>
+            <table style="width: 100%; margin-top: 20px;">
+                <tr>
+                    <td style="width: 100px;">Server:</td>
+                    <td>
+                        <input type="text" id="textServer" style="width: 400px;" /></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>
+                        <input type="checkbox" id="chkSSL" />
+                        My server requires SSL connection</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>
+                        <input type="checkbox" id="chkAuth" />
+                        My sever requires user authentication</td>
+                </tr>
+                <tr>
+                    <td>User:</td>
+                    <td>
+                        <input type="text" id="textUser" style="width: 400px;" /></td>
+                </tr>
+                <tr>
+                    <td>Password:</td>
+                    <td>
+                        <input type="password" id="textPassword" style="width: 400px;" /></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>
+                        <select id="lstProtocol" style="width: 400px;">
+                            <option value="0" selected="selected">SMTP Protocol - Recommended</option>
+                            <option value="1">Exchange Web Service - 2007/2010/2013</option>
+                            <option value="2">Exchange WebDAV - 2000/2003</option>
+                        </select></td>
+                </tr>
+            </table>
+        </div>
+        <div style="clear: both">
+            <input type="text" id="textAtts" style="width: 1200px;" readonly="readonly" />
+            <div id="textComposer">
+            <textarea style="width: 1175px; height: 200px;" id="text_c">This is a simple test.</textarea>
+                </div>
+
+                <div id="htmlComposer" style="display:none;" >
+                    <div id="MenuParent">
+                <ul id="editormenu" style="width:1205px;">
+                <li><a href="#" id="e_font" style="padding:8px;">Font Style ... </a>
+                    <ul style="display:none" id="fontpicker">
+                        <li><a href="#">Arial</a></li>
+                        <li><a href="#">Calibri</a></li>
+                        <li><a href="#">Comic Sans MS</a></li>
+                        <li><a href="#">Courier New</a></li>
+                        <li><a href="#">Times New Roman</a></li>
+                        <li><a href="#">Tahoma</a></li>
+                        <li><a href="#">Verdana</a></li>
+                        <li><a href="#">Segoe UI</a></li>
+                    </ul>
+                </li>
+                <li><a href="#" id="e_size" style="padding:8px;">Size</a>
+                    <ul style="display:none" id="sizepicker">
+                        <li><a href="#">1</a></li>
+                        <li><a href="#">2</a></li>
+                        <li><a href="#">3</a></li>
+                        <li><a href="#">4</a></li>
+                        <li><a href="#">5</a></li>
+                        <li><a href="#">6</a></li>
+                        <li><a href="#">7</a></li>
+                    </ul>
+                </li>
+                <li><a href="#" title="Bold" id="e_bold">
+                    <img src="ms-appx-web:///images/tool_bold.png" /></a></li>
+                <li><a href="#" title="Italic" id="e_italic">
+                    <img src="ms-appx-web:///images/tool_italic.png" /></a></li>
+                <li><a href="#" title="Underline" id="e_underline">
+                    <img src="ms-appx-web:///images/tool_underline.png" /></a></li>
+                <li><a href="#" title="Text Color" id="e_color">
+                    <img src="ms-appx-web:///images/tool_forecolor.png" id="img_color" /></a>
+                    <div id="colorpicker" style="display:none;">
+                        <div>
+                            <a href="#" title="#FFFFFF">&nbsp;</a><a href="#" title="#000000">&nbsp;</a><a href="#"
+                                title="#EEECE1">&nbsp;</a><a href="#" title="#1F497D">&nbsp;</a><a href="#" title="#4F81BD">&nbsp;</a><a
+                                    href="#" title="#C0504D">&nbsp;</a><a href="#" title="#9BBB59">&nbsp;</a><a href="#"
+                                        title="#8064A2">&nbsp;</a><a href="#" title="#4BACC6">&nbsp;</a><a href="#" title="#F79646">&nbsp;</a><a
+                                            href="#" title="#F2F2F2">&nbsp;</a><a href="#" title="#7F7F7F">&nbsp;</a><a href="#"
+                                                title="#DDD9C3">&nbsp;</a><a href="#" title="#C6D9F0">&nbsp;</a><a href="#" title="#DBE5F1">&nbsp;</a><a
+                                                    href="#" title="#F2DCDB">&nbsp;</a><a href="#" title="#EBF1DD">&nbsp;</a><a href="#"
+                                                        title="#E5E0EC">&nbsp;</a><a href="#" title="#DBEEF3">&nbsp;</a><a href="#" title="#FDEADA">&nbsp;</a><a
+                                                            href="#" title="#D8D8D8">&nbsp;</a><a href="#" title="#595959">&nbsp;</a><a href="#"
+                                                                title="#C4BD97">&nbsp;</a><a href="#" title="#8DB3E2">&nbsp;</a><a href="#" title="#B8CCE4">&nbsp;</a><a
+                                                                    href="#" title="#E5B9B7">&nbsp;</a><a href="#" title="#D7E3BC">&nbsp;</a><a href="#"
+                                                                        title="#CCC1D9">&nbsp;</a><a href="#" title="#B7DDE8">&nbsp;</a><a href="#" title="#FBD5B5">&nbsp;</a><a
+                                                                            href="#" title="#BFBFBF">&nbsp;</a><a href="#" title="#3F3F3F">&nbsp;</a><a href="#"
+                                                                                title="#938953">&nbsp;</a><a href="#" title="#548DD4">&nbsp;</a><a href="#" title="#95B3D7">&nbsp;</a><a
+                                                                                    href="#" title="#D99694">&nbsp;</a><a href="#" title="#C3D69B">&nbsp;</a><a href="#"
+                                                                                        title="#B2A2C7">&nbsp;</a><a href="#" title="#92CDDC">&nbsp;</a><a href="#" title="#FAC08F">&nbsp;</a><a
+                                                                                            href="#" title="#A5A5A5">&nbsp;</a><a href="#" title="#262626">&nbsp;</a><a href="#"
+                                                                                                title="#494429">&nbsp;</a><a href="#" title="#17365D">&nbsp;</a><a href="#" title="#366092">&nbsp;</a><a
+                                                                                                    href="#" title="#953734">&nbsp;</a><a href="#" title="#76923C">&nbsp;</a><a href="#"
+                                                                                                        title="#5F497A">&nbsp;</a><a href="#" title="#31859B">&nbsp;</a><a href="#" title="#E36C09">&nbsp;</a><a
+                                                                                                            href="#" title="#808080">&nbsp;</a><a href="#" title="#0C0C0C">&nbsp;</a><a href="#"
+                                                                                                                title="#1D1B10">&nbsp;</a><a href="#" title="#0F243E">&nbsp;</a><a href="#" title="#244061">&nbsp;</a><a
+                                                                                                                    href="#" title="#632423">&nbsp;</a><a href="#" title="#4F6128">&nbsp;</a><a href="#"
+                                                                                                                        title="#3F3151">&nbsp;</a><a href="#" title="#205867">&nbsp;</a><a href="#" title="#974806">&nbsp;</a>
+                        </div>
+                        <div>
+                            <a href="#" title="#C00000">&nbsp;</a><a href="#" title="#FF0000">&nbsp;</a><a href="#"
+                                title="#FFC000">&nbsp;</a><a href="#" title="#FFFF00">&nbsp;</a><a href="#" title="#92D050">&nbsp;</a><a
+                                    href="#" title="#00B050">&nbsp;</a><a href="#" title="#00B0F0">&nbsp;</a><a href="#"
+                                        title="#0070C0">&nbsp;</a><a href="#" title="#002060">&nbsp;</a><a href="#" title="#7030A0">&nbsp;</a></div>
+                    </div>
+                </li>
+                <li><a href="#" title="Formatting Numbers" id="e_insertorderedlist">
+                    <img src="ms-appx-web:///images/tool_orderedlist.png" /></a></li>
+                <li><a href="#" title="Formatting Bullets" id="e_insertunorderedlist">
+                    <img src="ms-appx-web:///images/tool_unorderedlist.png"></a></li>
+                <li><a href="#" title="Decrease Indentation" id="e_outdent">
+                    <img src="ms-appx-web:///images/tool_outdent.png"></a></li>
+                <li><a href="#" title="Increase Indentation" id="e_indent">
+                    <img src="ms-appx-web:///images/tool_indent.png" /></a></li>
+                <li><a href="#" title="Align Left" id="e_justifyleft">
+                    <img src="ms-appx-web:///images/tool_justifyleft.png" /></a></li>
+                <li><a href="#" title="Center" id="e_justifycenter">
+                    <img src="ms-appx-web:///images/tool_justifycenter.png" /></a></li>
+                <li><a href="#" title="Align Right" id="e_justifyright">
+                    <img src="ms-appx-web:///images/tool_justifyright.png" /></a></li>
+                <li><a href="#" title="Create a Hyperlink" id="e_link">
+                    <img src="ms-appx-web:///images/tool_link.png" id="img_link" /></a>
+                    <div id="linkPanel" style="display:none;">
+                        <input type="text" name="linksource" id="linksource" style="width: 100%;" value="http://"  />
+                        <br />
+                        <br />
+                        <input type="button" class="button" id="create_link"  value="OK"/>
+                        <input type="button" class="button" id="cancel_link"  value="Cancel" />
+                    </div>
+                </li>
+                <li><a href="#" title="Insert Horizontal Line" id="e_hr">
+                    <img src="ms-appx-web:///images/tool_hr.png" /></a></li>
+                      <li><a href="#" title="Insert Image" id="e_image">
+                    <img src="ms-appx-web:///images/attachment.png" /></a></li>
+                 <li style="padding:6px;"><input type="checkbox" id="chkHTML"  />View HTML Source</li>
+            </ul>
+
+                    </div>
+                    <iframe style="width: 1205px; height: 180px; background-color: #fff;" id="html_c"  contentEditable="true"  ></iframe>
+                </div>
+        </div>
+
+        <div>
+            <table style="width: 1200px">
+
+                <tr>
+                    <td style="width: 800px;">
+                        Threads: <span id="displaythreads" style="width:30px;display:inline-block;"></span><input type="range" id="rThreads" min="1" max="128" value="5" style="margin:0px; padding:10px;"/>
+                        <div id="textStatus" ">Ready</div>
+                    </td>
+                    <td style="text-align: right;">
+                        <input type="button" id="btnSend" value="Send" style="width: 120px;" />
+                        <input type="button" id="btnCancel" value="Cancel" style="width: 120px;" /></td>
+                </tr>
+            </table>
+        </div>
+        <div id="divResult" style="display:none">
+            <div>
+            <table >
+                <thead>
+                    <tr>
+                        <td style="width: 100px;">Sequence</td>
+                        <td style="width: 400px;">Email</td>
+                        <td>Status</td>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+                </div>
+            <input type="button" value="Close" style="background:#000;" id="btnClose"/>
+        </div>
+    </div>
+</body>
+</html>

@@ -347,7 +347,7 @@ create procedure esalon.sp_Reconcile_Stock
 )
 BEGIN  
 	UPDATE `Stock` SET 
-		`Quantity` = sSum
+		`Quantity` = (`Quantity` - sSum)
 	WHERE `Stock_id` = sStock_id;
 
 END //

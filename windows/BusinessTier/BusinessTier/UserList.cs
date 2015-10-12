@@ -130,18 +130,20 @@ namespace BusinessTier
 
             try
             {
+
                 conn = new MySql.Data.MySqlClient.MySqlConnection();
-                MySqlCommand cmd;
                 conn.ConnectionString = myConnectionString;
                 conn.Open();
 
-                cmd = new MySqlCommand("sp_login_compare", conn); //passing procedure name and connection object
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("usrName", u.Username);
-                cmd.Parameters.AddWithValue("pwd", u.Password);
+                string stm = "call sp_login_compare(" + u.Username + "," + u.Password + ")";
+                MySqlCommand cmd = new MySqlCommand(stm, conn);
+                rdr = cmd.ExecuteReader();
+                while (rdr.Read())
+                {
+                    u = new User(rdr.GetInt32(0), rdr.GetString(1),
+                                        rdr.GetString(2), rdr.GetString(3));
 
-                int res = cmd.ExecuteNonQuery();
-                this.Add(u);
+                }
 
             }
             catch (MySql.Data.MySqlClient.MySqlException ex)

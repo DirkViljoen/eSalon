@@ -149,9 +149,9 @@
             this.label5.Location = new System.Drawing.Point(14, 105);
             this.label5.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(41, 18);
+            this.label5.Size = new System.Drawing.Size(72, 18);
             this.label5.TabIndex = 9;
-            this.label5.Text = "Size";
+            this.label5.Text = "Size(ml)";
             // 
             // txtPrice
             // 
@@ -168,9 +168,9 @@
             this.label6.Location = new System.Drawing.Point(14, 74);
             this.label6.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(47, 18);
+            this.label6.Size = new System.Drawing.Size(107, 18);
             this.label6.TabIndex = 11;
-            this.label6.Text = "Price";
+            this.label6.Text = "Price(Rands)";
             // 
             // txtProduct
             // 

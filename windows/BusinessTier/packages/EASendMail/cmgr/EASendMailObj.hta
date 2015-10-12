@@ -1,0 +1,552 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>EASendMail Component Manager</title>
+    <hta:application id="oHTA" applicationname="EASendMail Component Manager" border="thick" borderstyle="normal"
+        caption="yes" icon="" maximizebutton="yes" minimizebutton="yes" showintaskbar="yes"
+        singleinstance="no" sysmenu="yes" version="1.0" windowstate="maximize" />
+
+    <meta content="text/html; charset=utf-8" http-equiv="content-type" />
+    <link href="mgr.css" rel="stylesheet" type="text/css" />
+    <script src="jquery-1.7.1.min.js" type="text/javascript"></script>
+    <script src="mgr.js" type="text/javascript"></script>
+</head>
+<body>
+    <div id="header">
+        <h1 id="header_title">Welcome to EASendMail SMTP Component <span id="displayinst"></span></h1>
+        <span id="header_desc">Sending email with this powerful SMTP Component ...</span>
+    </div>
+    <div id="page">
+        <div id="menu">
+            <ul>
+                <li><a href="#" id="menu_1" class="menu_selected">Getting Started</a></li>
+                <li><a href="#" id="menu_2" class="link_menu">SDK Documentation</a></li>
+                <li><a href="#" id="menu_3" class="link_menu">Samples</a></li>
+                <li><a href="#" id="menu_4" class="link_menu">EASendMail Service</a></li>
+                <li><a href="#" id="menu_5" class="link_menu">Appendix</a></li>
+                <li><a href="#" id="menu_6" class="link_menu">Uninstall</a></li>
+            </ul>
+        </div>
+        <div id="content">
+            <div id="content_1">
+                <div class="content_header">
+                    Getting Started
+                </div>
+                <div class="content_desc">
+                    <div style="padding: 10px;">
+                        <p>
+                            EASendMail SMTP component allows developers to deliver required reliability and functionality 
+                            email applications in VB6, ASP, C++, C#, VB.NET, JScript.NET, ASP.NET or other .NET framework/COM 
+                            programming languages more easily. Many advanced features are supported including S/MIME, DNS MX 
+                            record lookup to send email without specified SMTP server.
+                        </p>
+                        <p>
+                            <a href="http://www.emailarchitect.net/easendmail" target="_blank">EASendMail SMTP Component
+                                (ActiveX Object/.NET//Windows Store App)</a><br />
+                            Send email in ASP, VB, VBA, C#, VB.NET, VC++, Managed C++, JScript, ASP.NET, Delphi
+                            or other COM/.NET environment applications with SMTP component based on SMTP RFC.
+                            SSL, S/MIME, HTML and Embedded Images are supported.
+                        </p>
+                        <div id="startmenu">
+                            <ul>
+                                <li><a href="#" id="sub_menu1">SDK Documentation</a></li>
+                                <li><a href="#" id="sub_menu2">Samples</a></li>
+                                <li><a href="#" id="sub_menu3">EASendMail Service</a></li>
+                                <li><a href="#" id="sub_menu4">Appendix</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="content_2" style="display: none">
+                <div class="content_header">
+                    SDK Documentation
+                </div>
+                <div class="content_desc">
+                    <div style="padding: 10px;">
+                        <div><b>Sep 2014 - EASendMail 7.2</b></div>
+                        <div id="com_news">
+                            <ul>
+                                    <li>Send email to remote EASendMail Service queue (.NET/ActiveX/Windows Store Application).</li>
+                                    <li>View and cancel scheduled email in EASendMail Service Manager.</li>
+                            </ul>
+                        </div>
+                        <div><b>Dec 2013 - EASendMail 7.1</b></div>
+                        <div id="com_news">
+                            <ul>
+                                <li>Windows 8.1 Runtime Component - Supports Windows Store App 8.1 (Metro Style)</li>
+                                <li>New Samples for Windows Store App 8.1 (C#, VB, JavaScript)</li>
+                                <li>Improved "Queue Control" in EASendMail SMTP Service</li>
+                            </ul>
+                        </div>
+                        <div><b>May 2013 - EASendMail 7.0</b></div>
+                        <div id="com_news">
+                            <ul>
+                                <li>Windows 8 Runtime Component - Supports Windows Store App (Metro Style)</li>
+                                <li>.NET 4.5 Framework Runtime Assembly</li>
+                                <li>New Sender property to implement "Send email on behalf of client".</li>
+                                <li>New Samples for Windows Store App (C#, VB, JavaScript)</li>
+                                <li>Registration-free/Isolated COM for EASendMail ActiveX Object</li>
+                            </ul>
+                        </div>
+                        <p>
+                            EASendMail SMTP Component Documentation in CHM format<br />
+                            <a href="#" id="showDoc">SDK Documentation</a>
+                        </p>
+                        <p>
+                            EASendMail SMTP Component Online Documentation<br />
+                            <a href="http://www.emailarchitect.net/easendmail/sdk/" target="_blank">http://www.emailarchitect.net/easendmail/sdk
+                            </a>
+                        </p>
+                        <p>
+                            EASendMail SMTP Component Developer Center (Tutorials, Example Codes)
+                           <a href="http://www.emailarchitect.net/easendmail/kb/" target="_blank">http://www.emailarchitect.net/easendmail/kb/</a>
+                        </p>
+                        <p>
+                            Server Online Forum
+                            <br />
+                            <a href="http://www.emailarchitect.net/forum/" target="_blank">http://www.emailarchitect.net/forum/
+                            </a>
+                        </p>
+                    </div>
+
+                </div>
+            </div>
+            <div id="content_3" style="display: none">
+                <div class="content_header">
+                    Samples
+                </div>
+                <div class="content_desc">
+                    <div style="padding: 10px;">
+                        <div style="margin-bottom: 20px;">
+                            All the samples locate at "installation folder. They all demonstrate <b>User authentication</b>, <b>SSL connection</b>
+                            and <b>Dns Lookup</b>. Please click <a href="../" id="openinstall" target="_blank">here</a> to open installation folder.
+                        </div>
+                        <div style="margin-bottom: 20px;">
+                            <b>.NET Framework Sample Projects:</b><br />
+                            Samples_VS2003 requires .NET 1.1 or later version.<br />
+                            Samples_VS2008 requires .NET 2.0 or later version.<br />
+                            Samples_VS2010 requires .NET 4.0 or later version.<br />
+                            Samples_VS2012 requires .NET 4.5 or later version.<br />
+                            <p>
+                                <b>Project Version</b>
+                            </p>
+                            <p>
+                                All the samples are built with Visual Studio 2003/2008/2010/2012. If you use different
+            (elder) version of Visual Studio, those projects may not be openned properly. In
+            this case, you need to create a new project in your Visual Studio and copy the code
+            in the sample to overwrite your code. For example, if you can't open simple.vb project
+            with your Visual Studio, create a project with your Visual Studio, then copy form1.vb
+            to overwrite the form1.vb in your project. Re-open your project, and finally add
+            the reference of EASendMail.dll to your project.
+                            </p>
+                        </div>
+                        <table width="100%" bgcolor="#cccccc" cellpadding="8" cellspacing="1">
+
+                            <tr bgcolor="#ffffff">
+                                <td width="30%">
+                                    <b>asp_net</b>
+                                </td>
+                                <td>Send email from ASP.NET. (C#, VB, JScript.NET)
+                                </td>
+                            </tr>
+                            <tr bgcolor="#ffffff">
+                                <td width="30%">
+                                    <b>asp_net_batch</b>
+                                </td>
+                                <td>Send bulk emails with multiple threads from ASP.NET. (C#, VB)
+                                </td>
+                            </tr>
+                            <tr bgcolor="#ffffff">
+                                <td width="30%">
+                                    <b>asp_net_queue</b>
+                                </td>
+                                <td>Send email from ASP.NET to EASendMail Service. (C#, VB, JScript.NET)
+                                </td>
+                            </tr>
+                            <tr bgcolor="#ffffff">
+                                <td width="30%">
+                                    <b>asp_net_queue_database</b>
+                                </td>
+                                <td>Send email from ASP.NET to EASendMail Service, EASendMail service will select recipients
+                    from database. (C#, VB, JScript.NET)
+                                </td>
+                            </tr>
+                            <tr bgcolor="#ffffff">
+                                <td width="30%">
+                                    <b>simple.vb</b>
+                                </td>
+                                <td>Send text/plain email from Visual Basic.NET. This sample also demonstrates digital
+                    signature, email encryption.
+                                </td>
+                            </tr>
+
+                            <tr bgcolor="#ffffff">
+                                <td width="30%">
+                                    <b>simple.csharp</b>
+                                </td>
+                                <td>Send text/plain email from C#. This sample also demonstrates digital signature,
+                    email encryption.
+                                </td>
+                            </tr>
+                            <tr bgcolor="#ffffff">
+                                <td width="30%">
+                                    <b>simple.vc</b>
+                                </td>
+                                <td>Send text/plain email from managed c++. This sample also demonstrates digital signature,
+                    email encryption.
+                                </td>
+                            </tr>
+                            <tr bgcolor="#ffffff">
+                                <td width="30%">
+                                    <b>htmlmail.vb</b>
+                                </td>
+                                <td>Send text/html email from Visual Basic.NET. This sample also demonstrates embedded
+                    pictures, digital signature, email encryption.
+                                </td>
+                            </tr>
+                            <tr bgcolor="#ffffff">
+                                <td width="30%">
+                                    <b>htmlmail.csharp</b>
+                                </td>
+                                <td>Send text/html email from C#. This sample also demonstrates embedded pictures, digital
+                    signature, email encryption.
+                                </td>
+
+                            </tr>
+                            <tr bgcolor="#ffffff">
+                                <td width="30%">
+                                    <b>mass.vb</b>
+                                </td>
+                                <td>Send email by BeginSendMail with multiple threadings. This sample also demonstrates
+                    email address validating.
+                                </td>
+
+                            </tr>
+                            <tr bgcolor="#ffffff">
+                                <td width="30%">
+                                    <b>mass.csharp</b>
+                                </td>
+                                <td>Send email by BeginSendMail with multiple threadings. This sample also demonstrates
+                    email address testing.
+                                </td>
+                            </tr>
+                            <tr bgcolor="#ffffff">
+                                <td width="30%">
+                                    <b>Samples_vs2008\pocketpc.mobile.cs</b>
+                                </td>
+                                <td>Send email from PocketPC/Windows Mobile System.
+                                </td>
+                            </tr>
+
+                            <tr bgcolor="#ffffff">
+                                <td width="30%">
+                                    <b>Samples_vs2008\pocketpc.mobile.vb</b>
+                                </td>
+                                <td>Send email from PocketPC/Windows Mobile System.
+                                </td>
+                            </tr>
+
+                        </table>
+
+                        <div style="margin-bottom: 20px; margin-top: 20px;">
+                            <b>Windows Store App Projects (Windows 8 Metro Style):</b><br />
+                            Samples_Windows8 requires Windows 8 + Visual Studio 2012 or later version.<br />
+                            Samples_Windows81 requires Windows 8.1 + Visual Studio 2013 or later version.<br />
+                        </div>
+                        <table width="100%" bgcolor="#cccccc" cellpadding="8" cellspacing="1">
+
+                            <tr bgcolor="#ffffff">
+                                <td width="30%">
+                                    <b>simple.vb</b>
+                                </td>
+                                <td>Send text/plain or html email from Visual Basic.NET. This sample also demonstrates file attachments, embedded images. (VB, XAML, WPF, Windows 8 Store App Runtime)
+                                </td>
+                            </tr>
+
+                            <tr bgcolor="#ffffff">
+                                <td width="30%">
+                                    <b>simple.csharp</b>
+                                </td>
+                                <td>Send text/plain or html email from C#. This sample also demonstrates file attachments, embedded images.
+                                    (C#, XAML, WPF, Windows 8 Store App Runtime)
+                                </td>
+                            </tr>
+                            <tr bgcolor="#ffffff">
+                                <td width="30%">
+                                    <b>simple.js</b>
+                                </td>
+                                <td>Send text/plain or html email from Javascript. This sample also demonstrates file attachments, embedded images.
+                                    (Javascript, HTML5, Windows 8 Store App Runtime)
+                                </td>
+                            </tr>
+
+                            <tr bgcolor="#ffffff">
+                                <td width="30%">
+                                    <b>mass.vb</b>
+                                </td>
+                                <td>Send text/plain or html email from VB.NET with multiple threadings. This sample also demonstrates file attachments, embedded images. (VB, XAML, WPF, Windows 8 Store App Runtime)
+                                </td>
+
+                            </tr>
+                            <tr bgcolor="#ffffff">
+                                <td width="30%">
+                                    <b>mass.csharp</b>
+                                </td>
+                                <td>Send text/plain or html email from C#  with multiple threadings. This sample also demonstrates file attachments, embedded images. (C#, XAML, WPF, Windows 8 Store App Runtime)
+                                </td>
+                            </tr>
+                            <tr bgcolor="#ffffff">
+                                <td width="30%">
+                                    <b>mass.js</b>
+                                </td>
+                                <td>Send text/plain or html email from Javascript with multiple threadings. This sample also demonstrates file attachments, embedded images. (Javascript, HTML5, Windows 8 Store App Runtime)
+                                </td>
+                            </tr>
+
+                        </table>
+
+                        <div style="margin-bottom: 20px; margin-top: 20px;">
+                            <b>.ActiveX Object/COM Sample Projects:</b><br />
+                            Samples_VB6 requires Visual Basic 6.0.<br />
+                            Samples_Delphi requires Delphi 7.0 or later version.<br />
+                            Samples_VC requires Visual Studio 2008 (C++) or later version.<br />
+                            Samples_ASP requires IIS.<br />
+                            Samples_Script - VBScript/Javascript.<br />
+                            Samples_MSSQL - Microsoft SQL Server.<br />
+                        </div>
+                        <table width="100%" bgcolor="#cccccc" cellpadding="8" cellspacing="1">
+                            <tr bgcolor="#ffffff">
+                                <td width="30%">
+                                    <b>asp</b>
+                                </td>
+                                <td>Send email from ASP (VBScript, JScript) - ActiveX/COM
+                                </td>
+                            </tr>
+                            <tr bgcolor="#ffffff">
+                                <td width="30%">
+                                    <b>asp_queue</b>
+                                </td>
+                                <td>Send email from ASP to EASendMail Service. (VBScript, JScript) - ActiveX/COM
+                                </td>
+                            </tr>
+                            <tr bgcolor="#ffffff">
+                                <td width="30%">
+                                    <b>asp_queue_database</b>
+                                </td>
+                                <td>Send email from ASP to EASendMail Service, EASendMail service will select recipients
+                    from database. (VBScript, JScript) - ActiveX/COM
+                                </td>
+                            </tr>
+
+                            <tr bgcolor="#ffffff">
+                                <td width="30%">
+                                    <b>simple.vb6</b>
+                                </td>
+                                <td>Send text/plain email from Visual Basic 6.0. This sample also demonstrates digital
+                    signature, email encryption.  (VB6) - ActiveX/COM
+                                </td>
+                            </tr>
+                            <tr bgcolor="#ffffff">
+                                <td width="30%">
+                                    <b>simple.delphi</b>
+                                </td>
+                                <td>Send text/plain email from Delphi. This sample also demonstrates digital
+                    signature, email encryption.  (Delphi) - ActiveX/COM
+                                </td>
+                            </tr>
+                            <tr bgcolor="#ffffff">
+                                <td width="30%">
+                                    <b>simple.vcNative</b>
+                                </td>
+                                <td>Send text/plain email from Visual C++. This sample also demonstrates digital
+                    signature, email encryption. (Visual C++) - ActiveX/COM
+                                </td>
+                            </tr>
+                            <tr bgcolor="#ffffff">
+                                <td width="30%">
+                                    <b>htmlmail.vb6</b>
+                                </td>
+                                <td>Send text/html email from Visual Basic 6.0. This sample also demonstrates embedded
+                    pictures, digital signature, email encryption. (VB6) - ActiveX/COM
+                                </td>
+                            </tr>
+                            <tr bgcolor="#ffffff">
+                                <td width="30%">
+                                    <b>htmlmail.vcNative</b>
+                                </td>
+                                <td>Send text/html email from Visual C++. This sample also demonstrates embedded
+                    pictures, digital signature, email encryption. (Visual C++) - ActiveX/COM
+                                </td>
+                            </tr>
+
+                            <tr bgcolor="#ffffff">
+                                <td width="30%">
+                                    <b>html.delphi</b>
+                                </td>
+                                <td>Send text/html email from Delphi. This sample also demonstrates embedded
+                    pictures, digital signature, email encryption.
+                                </td>
+                            </tr>
+                            <tr bgcolor="#ffffff">
+                                <td width="30%">
+                                    <b>mass.vb6</b>
+                                </td>
+                                <td>Send email by FastSender with multiple threadings. This sample also demonstrates
+                    email address validating. (VB6) - ActiveX/COM
+                                </td>
+
+                            </tr>
+                            <tr bgcolor="#ffffff">
+                                <td width="30%">
+                                    <b>mass.vcNative</b>
+                                </td>
+                                <td>Send email by FastSender with multiple threadings. This sample also demonstrates
+                    email address validating. (Visual C++) - ActiveX/COM
+                                </td>
+
+                            </tr>
+                            <tr bgcolor="#ffffff">
+                                <td width="30%">
+                                    <b>mass.delphi</b>
+                                </td>
+                                <td>Send email by FastSender with multiple threadings. This sample also demonstrates
+                    email address validating. (Delphi) - ActiveX/COM
+                                </td>
+                            </tr>
+                            <tr bgcolor="#ffffff">
+                                <td width="30%">
+                                    <b>Samples_MSSQL</b>
+                                </td>
+                                <td>Send email from MS SQL Server stored procedure.
+                                </td>
+                            </tr>
+                        </table>
+
+                    </div>
+                </div>
+
+            </div>
+            <div id="content_4" style="display: none">
+                <div class="content_header">
+                    EASendMail Service
+                </div>
+                <div class="content_desc">
+                    <div style="padding: 15px; padding-bottom: 0px;">
+                        EASendMail SMTP Service is a light and fast email delivery service which works with EASendMail
+        SMTP .Net Component / ANSMTP SMTP Component to enable your application to send mass
+        emails in background service. Along with its ability to picking recipients from
+        database in background and sending email in specified datetime, it eases your task
+        in developing featured email application such as newsletter application. We strongly
+        recommend you to use EASendMail Service with your ASP.NET/Web Application.
+                    </div>
+                    <div style="padding: 15px; padding-bottom: 0px;">
+                        To work with EASendMail Service, please download <a href="http://www.emailarchitect.net/webapp/download/easendmailservice.exe"
+                            target="_blank">EASendMail Service</a> and install it on your server. If you
+        are using web hosting service and you don't have permission to install service on
+        that server, EASendMail service is not suitable for you.
+                    </div>
+                    <div style="padding: 15px;">
+                        In most newsletter application, body text usually begins with "Dear [name] ... To
+        unsubscribe this newsletter, please ... [email address]". To approach this body
+        text, email application has to send email to every recipient one by one. EASendMail
+        service provides an advanced technology (variables replacing) to process those emails.
+        To learn more about the variables in EASendMail service, please click <a href="#" id="doc_svc_variables">here</a>.
+                    </div>
+                </div>
+            </div>
+            <div id="content_5" style="display: none">
+                <div class="content_header">
+                    Appendix
+                </div>
+                <div class="content_desc">
+                    <div style="padding: 10px;">
+                        <p>
+                            <a href="http://www.emailarchitect.net/easendmail" target="_blank">EASendMail SMTP Component</a><br />
+                            Send email in ASP, VB, VBA, C#, VB.NET, VC++, Managed C++, JScript, ASP.NET, Delphi
+                            or other COM/.NET environment applications with SMTP component based on SMTP RFC.
+                            SSL, S/MIME, HTML and Embedded Images are supported.
+                        </p>
+                        <p>
+                            <a href="http://www.emailarchitect.net/eagetmail" target="_blank">EAGetMail POP3/IMAP4
+                                Component</a>
+                            <br />
+                            Receive email from POP3 server or IMAP4 server and parse email in ASP, VB, VBA,
+                            VC++, Managed C++, C#, VB.NET, JScript, ASP.NET, Delphi or other COM/.NET environment
+                            applications.
+                        </p>
+                        <p>
+                            <a href="http://www.emailarchitect.net/domainkeys" target="_blank">DKIM and DomainKeys
+                                for Exchange Server and IIS SMTP Service</a>
+                            <br />
+                            Add DKIM/DomainKeys signature to outgoing emails in Exchange Server and IIS SMTP
+                            Service.
+                        </p>
+                        <p>
+                            <a href="http://www.emailarchitect.net/smime" target="_blank">Disclaimer and S/MIME
+                                for Exchange Server and IIS SMTP Service</a>
+                            <br />
+                            Add disclaimer and digital signature to outgoing emails in Exchange Server and IIS
+                            SMTP Service.
+                        </p>
+                        <p>
+                            <a href="http://www.emailarchitect.net/emailserver" target="_blank">EmailArchitect Email
+                                Server</a>
+                            <br />
+                            A full featured Windows Email Server which supports SMTP, POP3, IMAP4, LIST, SSL,
+                            HTTP, Ajax Webmail, RBLS, Anti-Spam, Anti-Virus, Greylisting, DomainKeys, DKIM,
+                            Archive and Plus Addressing.
+                        </p>
+                    </div>
+
+                </div>
+            </div>
+
+
+            <div id="content_6" style="display: none">
+                <div class="content_header">
+                    Uninstall EASendMail SMTP Component
+                </div>
+                <div class="content_desc">
+                    <div style="padding: 10px;">
+                        <p>
+                            Click  <a href="#" id="uninstall">here</a> to uninstall EASendMail SMTP Component from your machine.
+                            <br />
+
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+            <div style="padding: 5px; padding-top: 20px; padding-bottom: 20px;">
+                <a href="http://www.emailarchitect.net" target="_blank">Copyright © 2004-2015 AdminSystem
+                    Software Limited. All rights reserved </a>
+            </div>
+        </div>
+    </div>
+    <div id="dg_mask">
+    </div>
+    <div id="update_mask">
+    </div>
+    <div id="loading">
+        <img src="loading.gif" alt="loading" />
+    </div>
+    <div id="s_dg">
+        <div id="close_dg">
+            <a href="#">
+                <img src="x.gif" alt="Close" /></a>
+        </div>
+        <div id="dg_c">
+        </div>
+    </div>
+    <div id="sysinfo">
+        <div id="sysloading">
+            <span id="loading_tips">Loading ...</span><span id="update_tips">Update ...</span>
+        </div>
+        <div id="sysretry">
+            <span class="alert-icon"></span><span id="syserror">Failed to connect service, please
+                make sure EASendMail Service is running!</span>
+        </div>
+    </div>
+</body>
+</html>

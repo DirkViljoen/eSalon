@@ -35,7 +35,8 @@ namespace Prototype
         {
             try
             {
-                int sum = Convert.ToInt32(numericUpDown1.Value + 
+                int sum = s.Quantity;
+                sum = Convert.ToInt32(numericUpDown1.Value + 
                                             numericUpDown2.Value + 
                                             numericUpDown3.Value + 
                                             numericUpDown4.Value);

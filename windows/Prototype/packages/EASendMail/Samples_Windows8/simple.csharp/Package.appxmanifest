@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Package xmlns="http://schemas.microsoft.com/appx/2010/manifest">
+  <Identity Name="397706ac-d699-4b78-bfc6-dee34acd6b5d" Publisher="CN=ivan" Version="1.0.0.0" />
+  <Properties>
+    <DisplayName>simple.csharp</DisplayName>
+    <PublisherDisplayName>ivan</PublisherDisplayName>
+    <Logo>Assets\StoreLogo.png</Logo>
+  </Properties>
+  <Prerequisites>
+    <OSMinVersion>6.2.1</OSMinVersion>
+    <OSMaxVersionTested>6.2.1</OSMaxVersionTested>
+  </Prerequisites>
+  <Resources>
+    <Resource Language="x-generate" />
+  </Resources>
+  <Applications>
+    <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="simple.csharp.App">
+      <VisualElements DisplayName="simple.csharp" Logo="Assets\Logo.png" SmallLogo="Assets\SmallLogo.png" Description="simple.csharp" ForegroundText="light" BackgroundColor="#464646">
+        <DefaultTile ShowName="allLogos" />
+        <SplashScreen Image="Assets\SplashScreen.png" />
+      </VisualElements>
+      <Extensions>
+        <Extension Category="windows.fileTypeAssociation">
+          <FileTypeAssociation Name="mailatt">
+            <EditFlags OpenIsSafe="true" />
+            <SupportedFileTypes>
+              <FileType ContentType="text/plain">.txt</FileType>
+              <FileType ContentType="application/pdf">.pdf</FileType>
+              <FileType ContentType="text/html">.htm</FileType>
+              <FileType>.doc</FileType>
+              <FileType>.docx</FileType>
+              <FileType>.zip</FileType>
+              <FileType>.rtf</FileType>
+            </SupportedFileTypes>
+          </FileTypeAssociation>
+        </Extension>
+      </Extensions>
+    </Application>
+  </Applications>
+  <Capabilities>
+    <Capability Name="documentsLibrary" />
+    <Capability Name="privateNetworkClientServer" />
+    <Capability Name="removableStorage" />
+    <Capability Name="picturesLibrary" />
+    <Capability Name="internetClient" />
+  </Capabilities>
+</Package>

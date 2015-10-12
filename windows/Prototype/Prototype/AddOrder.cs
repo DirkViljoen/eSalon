@@ -55,6 +55,7 @@ namespace Prototype
                 }
 
                 MessageBox.Show("Your order has been added");
+                this.Close();
             }
             catch(Exception d){
                 MessageBox.Show("INSERT ERROR: " + d);
@@ -68,13 +69,13 @@ namespace Prototype
             int bob;
             bob = cmbSupplier.SelectedIndex;
 
-            string value = "Brand\t\tProduct\t\tQuantity";
+            string value = "Brand\t\t\tProduct\t\t\tQuantity\r\n";
 
                 for (int i = 0; i < dataGridView1.RowCount - 1; i++)
                 {
                     value += dataGridView1.Rows[i].Cells[0].Value + "\t\t" +
                             dataGridView1.Rows[i].Cells[1].Value + "\t\t" +
-                            dataGridView1.Rows[i].Cells[2].Value + "\r\n";
+                            dataGridView1.Rows[i].Cells[2].Value + "";
                 }
 
 
@@ -86,7 +87,7 @@ namespace Prototype
                 SmtpClient oSmtp = new SmtpClient();
 
                 oMail.From = "salonRedesigneSalon@gmail.com";
-                oMail.To = spl[bob].Email; 
+                oMail.To = //spl[bob].Email; 
                 oMail.Subject = "Order Placed";
                 oMail.TextBody = value;
 
