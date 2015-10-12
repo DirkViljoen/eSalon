@@ -1,12 +1,12 @@
 {
-    "sms": {
+    "sms2": {
         "mode": "Testing",
         "from": "+15005550006",
         "accountSid": "AC420d4ff63ebad3de86e2f5ecba75f155",
         "authToken": "b280c2d1299389d535b3404d5f480469"
     },
 
-    "sms2": {
+    "sms": {
         "mode": "Live",
         "from": "+12012663036",
         "accountSid": "ACf29b433ae86c9c293a17ce0bc0fef5bd",

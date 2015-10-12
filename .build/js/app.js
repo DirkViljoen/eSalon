@@ -90,10 +90,3 @@ $(function getCurrentDate() {
     return today;
 });
 
-$(function searchpage() {
-    window.find('test');
-})
-
-$("#btnSearchPage").click(function(){
-    alert('clicked!');
-});
