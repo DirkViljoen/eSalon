@@ -69,7 +69,7 @@ module.exports = function (router) {
         m.p = req.params;
         m.q = req.query;
         m.user = {};
-        m.h = '/help#employees-view';
+        m.h = '/help#employees';
 
         auth.grantAccess(req.session.passport, 6, 4, req.header('Referer'))
         .then(function (result){
@@ -94,7 +94,7 @@ module.exports = function (router) {
         m.p = req.params;
         m.q = req.query;
         m.user = {};
-        m.h = '/help#employees-update';
+        m.h = '/help#employees-edit';
 
         auth.grantAccess(req.session.passport, 6, 2, req.header('Referer'))
         .then(function (result){
@@ -148,7 +148,7 @@ module.exports = function (router) {
         m.p = req.params;
         m.q = req.query;
         m.user = {};
-        m.h = '/help#employees-schedule-edit';
+        m.h = '/help#employees-schedule';
 
         auth.grantAccess(req.session.passport, 6, 2, req.header('Referer'))
         .then(function (result){

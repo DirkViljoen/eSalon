@@ -18,7 +18,7 @@ module.exports = function (router) {
         m.p = req.params;
         m.q = req.query;
         m.user = {};
-        m.h = '/help#reports';
+        m.h = '/help#Reports';
 
         auth.grantAccess(req.session.passport, 9, 5, req.header('Referer'))
         .then(function (result){
@@ -44,7 +44,7 @@ module.exports = function (router) {
         m.p = req.params;
         m.q = req.query;
         m.user = {};
-        m.h = '/help#reports';
+        m.h = '/help#Reports';
 
         auth.grantAccess(req.session.passport, 9, 5, req.header('Referer'))
         .then(function (result){
@@ -70,7 +70,7 @@ module.exports = function (router) {
         m.p = req.params;
         m.q = req.query;
         m.user = {};
-        m.h = '/help#reports';
+        m.h = '/help#Reports-Expense Report';
 
         auth.grantAccess(req.session.passport, 9, 5, req.header('Referer'))
         .then(function (result){
@@ -96,7 +96,7 @@ module.exports = function (router) {
         m.p = req.params;
         m.q = req.query;
         m.user = {};
-        m.h = '/help#reports';
+        m.h = '/help#Reports-Generate Employee Income';
 
         auth.grantAccess(req.session.passport, 9, 5, req.header('Referer'))
         .then(function (result){
@@ -148,7 +148,7 @@ module.exports = function (router) {
         m.p = req.params;
         m.q = req.query;
         m.user = {};
-        m.h = '/help#reports';
+        m.h = '/help#Reports-Stock Trend';
 
         auth.grantAccess(req.session.passport, 9, 5, req.header('Referer'))
         .then(function (result){
@@ -174,7 +174,7 @@ module.exports = function (router) {
         m.p = req.params;
         m.q = req.query;
         m.user = {};
-        m.h = '/help#reports';
+        m.h = '/help#Reports-Client Report';
 
         auth.grantAccess(req.session.passport, 9, 5, req.header('Referer'))
         .then(function (result){

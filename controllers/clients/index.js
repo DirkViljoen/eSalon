@@ -11,7 +11,7 @@ module.exports = function (router) {
         m.p = req.params;
         m.q = req.query;
         m.user = {};
-        m.h = '/help#clients';
+        m.h = '/help#clients-Search';
 
         auth.grantAccess(req.session.passport, 1, 4, req.header('Referer'))
         .then(function (result){

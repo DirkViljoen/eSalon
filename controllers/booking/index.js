@@ -23,7 +23,7 @@ module.exports = function (router) {
         m.p = req.params;
         m.q = obj;
         m.user = {};
-        m.h = '/help#bookings';
+        m.h = '/help#bookings-View/Search Booking';
 
         console.log(m);
 

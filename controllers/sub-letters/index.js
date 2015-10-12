@@ -99,7 +99,7 @@ module.exports = function (router) {
         m.p = req.params;
         m.q = req.query;
         m.user = {};
-        m.h = '/help#subletters';
+        m.h = '/help#Subletter-Search';
 
         console.log(m);
 
@@ -130,7 +130,7 @@ module.exports = function (router) {
         m.p = req.params;
         m.q = req.query;
         m.user = {};
-        m.h = '/help#subletters-add';
+        m.h = '/help#sub-letter-Add';
 
         console.log(m);
 
@@ -161,7 +161,7 @@ module.exports = function (router) {
         m.p = req.params;
         m.q = req.query;
         m.user = {};
-        m.h = '/help#subletters-view';
+        m.h = '/help#SubLetter';
 
         console.log(m);
 
@@ -192,7 +192,7 @@ module.exports = function (router) {
         m.p = req.params;
         m.q = req.query;
         m.user = {};
-        m.h = '/help#subletters-update';
+        m.h = '/help#sub-letter-Update';
 
         console.log(m);
 
@@ -222,7 +222,7 @@ module.exports = function (router) {
         m.p = req.params;
         m.q = req.query;
         m.user = {};
-        m.h = '/help#subletters-payment';
+        m.h = '/help#Subletter-CapturePayment';
 
         console.log(m);
 

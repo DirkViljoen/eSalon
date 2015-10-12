@@ -22,12 +22,7 @@ html(lang="en", ng-app="app")
                     .navbar-brand
                         block header
                 .collapse.navbar-collapse.pull-right
-                    ul.nav.navbar-nav
-                        li.active
-                            block loggedIn
-                                a(href="/login") Log in
-                        li
-                            a(href="/login") Log out
+                    input(type="text")
         .row
             .col-sm-3.hidden-xs
 
@@ -128,7 +123,7 @@ html(lang="en", ng-app="app")
                           #headingSubLetter.panel-heading(role='tab')
                               h4.panel-title(role='button', data-toggle='collapse', data-parent='#accordion', href='#collapseSubLetter', aria-expanded='false', aria-controls='collapseSubLetter')
                                      | SubLetter
-                          #collapseOrders.panel-collapse.collapse(role='tabpanel', aria-labelledby='headingNine')
+                          #collapseSubLetter.panel-collapse.collapse(role='tabpanel', aria-labelledby='headingNine')
                               ul.list-group
                                   li
                                       a(href='#sub-letter-Add') Add SubLetter

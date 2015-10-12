@@ -18,57 +18,46 @@ block content
                         .col-md-5
                             +ng-input-combobox-alt('employee', 'View calendar for:', 'settings.eid', 'Select an employee', 'employee.Employee_ID as employee.fullname for employee in employees', false, false, 'refresh()')
                         .col-md-5
-                            +ng-input-text-alt('bookingSearch', 'Search for booking:', 'searchCriteria.clientFName', 'name, surname or reference', false, false, '0', '50')
+                            +ng-input-text-alt('bookingSearch', 'Search for booking:', 'searchCriteria.booking', 'name, surname or reference', false, false, '0', '50')
                         .col-md-2
                             .nav.nav-pills.pull-right
-                                li(role='presentation')
-                                    input.btn.btn-primary(type="button", value="Search", ng-click='searchBooking()')
+                                ul.nav.nav-pills
+                                    li(role='presentation')
+                                        input.btn.btn-primary(type="button", value="Search", data-toggle="modal" data-target="#BookingSearch", ng-click='searchBooking()')
         br
         .row
             .col-sm-12
                 .calendar(ui-calendar="uiConfig.calendar", ng-model="eventSources", calendar="myCalendar")
 
-        script(type='text/ng-template', id='searchBooking.html').
-            <div class="modal-header">
-                <h3 class="modal-title">Booking Search</h3>
-            </div>
-            <div class="modal-body table-responsive">
-                <table class="table table-hover" id="booking-search" st-table='bookings'>
-                    <thead>
-                        <tr>
-                            <th></th>
-                            <th> Business name </th>
-                            <th> Contact number </th>
-                            <th> Email </th>
+        .modal.fade#BookingSearch
+            .modal-dialog
+                .modal-content.form-group.form-horizontal
+                    .modal-header
+                        h4.modal-title Search results
+                    .modal-body
+                        table.table.table-hover(id="employee-search" st-table='searchResult')
+                            thead
+                                tr
+                                    th
+                                    th Date
+                                    th Time
+                                    th Client
+                                    th Stylist
+                                    th Reference
+                            tbody
+                                tr(ng-repeat="row in searchResult" ng-click="selectRow(row.Booking_id)")
+                                    td
+                                        input(type="radio" name="Booking_id" ng-model="booking.bid" value='{{row.Booking_id}}')
+                                    td {{row.DateTime | date:"yyyy-MM-dd"}}
+                                    td {{row.DateTime | date:"HH:mm"}}
+                                    td {{row.clientFName}} {{row.clientLName}}
+                                    td {{row.employeeFName}} {{row.employeeLName}}
+                                    td {{row.ReferenceNumber}}
+                                    td
+                    .modal-footer
+                        ul.nav.nav-pills.pull-right
+                            li(role='presentation')
+                                input.btn.btn-default(type="button", value="Cancel", data-dismiss="modal", ng-click="restartTimer()")
 
-                    <tbody>
-                        <tr class='ng-repeat="row in bookings' ng-click='selectRow(row.Booking_id)'>
-                            <td>
-                                <input type="radio" name="Booking_id" ng-model="booking.bookingid" value='{{row.Booking_id}}'>
-                            </td>
-                            <td> {{row.Client_id}}</td>
-                            <td> {{row.Employee_id}}</td>
-                            <td> {{row.DateTime}}</td>
-            </div>
-            <p>bookings: {{bookings}}</p>
-        //- button.btn.btn-default(type='button', ng-click='open()') Open me!
-        //- button.btn.btn-default(type='button', ng-click="open('lg')") Large modal
-        //- button.btn.btn-default(type='button', ng-click="open('sm')") Small modal
-        //- button.btn.btn-default(type='button', ng-click='toggleAnimation()') Toggle Animation ({{ animationsEnabled }})
-        //- div(ng-show='selected') Selection from a modal: {{ selected }}
-
-        //- Pure functionality objects
-        //- div
-        //-     p(ng-if="loading") Loading&hellip;
-        //-     p settings: {{settings}}
-        //-     p booking:
-        //-         span {{booking}}
-        //-     p bookings:
-        //-         span {{bookings}}
-        //-     p employee leave: {{employeeLeave}}
-        //-     p searchCriteria: {{searchCriteria}}
-        //-     p searchResult:
-        //-         span {{searchResult}}
-        //-     p employees:
-        //-         span {{employees}}
+        p searchResult: {{searchResult}}
 
