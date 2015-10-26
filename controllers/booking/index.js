@@ -27,7 +27,7 @@ module.exports = function (router) {
 
         console.log(m);
 
-        auth.grantAccess(req.session.passport, 2, 1, req.header('Referer'))
+        auth.grantAccess(req.session.passport, 2, 4, req.header('Referer'))
         .then(function (result){
             m.user = result.user;
 
@@ -55,7 +55,7 @@ module.exports = function (router) {
 
         console.log(m);
 
-        auth.grantAccess(req.session.passport, 2, 1, req.header('Referer'))
+        auth.grantAccess(req.session.passport, 2, 1, req.header('Referer'), "You are not allowed to add new bookings")
         .then(function (result){
             m.user = result.user;
 
@@ -81,7 +81,7 @@ module.exports = function (router) {
         m.user = {};
         m.h = '/help#bookings-edit/Cancel';
 
-        auth.grantAccess(req.session.passport, 2, 2, req.header('Referer'))
+        auth.grantAccess(req.session.passport, 2, 2, req.header('Referer'), "You are not allowed to update booking information")
         .then(function (result){
             m.user = result.user;
 

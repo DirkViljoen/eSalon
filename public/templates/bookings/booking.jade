@@ -35,29 +35,26 @@ block content
                     .modal-header
                         h4.modal-title Search results
                     .modal-body
+                        p
+                            input(type="checkbox" ng-model="searchoptions.Completed")
+                            | &nbsp; Show completed bookings
                         table.table.table-hover(id="employee-search" st-table='searchResult')
                             thead
                                 tr
-                                    th
                                     th Date
                                     th Time
                                     th Client
                                     th Stylist
                                     th Reference
                             tbody
-                                tr(ng-repeat="row in searchResult" ng-click="selectRow(row.Booking_id)")
-                                    td
-                                        input(type="radio" name="Booking_id" ng-model="booking.bid" value='{{row.Booking_id}}')
+                                tr(ng-repeat="row in searchResult | filter:searchoptions" ng-click="selectRow(row.Booking_id)")
                                     td {{row.DateTime | date:"yyyy-MM-dd"}}
                                     td {{row.DateTime | date:"HH:mm"}}
                                     td {{row.clientFName}} {{row.clientLName}}
                                     td {{row.employeeFName}} {{row.employeeLName}}
                                     td {{row.ReferenceNumber}}
-                                    td
                     .modal-footer
                         ul.nav.nav-pills.pull-right
                             li(role='presentation')
                                 input.btn.btn-default(type="button", value="Cancel", data-dismiss="modal", ng-click="restartTimer()")
-
-        //- p searchResult: {{searchResult}}
 

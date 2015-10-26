@@ -35,7 +35,7 @@ module.exports = function StockModel() {
 
         var deferred = q.defer();
 
-        db.query('CALL spStock_Search("%' + sname + '%","%' + bname + '%","%' + pname + '%");')
+        db.query('CALL spStock_Search_web("%' + sname + '%","%' + bname + '%","%' + pname + '%");')
             .then(
                 function (result){
                     deferred.resolve(result);

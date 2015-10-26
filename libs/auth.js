@@ -151,7 +151,7 @@ function determineAccess(rid, major, minor){
     return deferred.promise;
 }
 
-exports.grantAccess = function(user, major, minor, source){
+exports.grantAccess = function(user, major, minor, source, customMessage){
     var r = {};
     r.granted = false;
     r.user = {};
@@ -178,7 +178,7 @@ exports.grantAccess = function(user, major, minor, source){
                             }
                             else {
                                 r.header = "Access denied";
-                                r.message = "You do not have permission to access this page";
+                                r.message = customMessage ? customMessage : "You do not have permission to access this page";
                                 r.button = "Back";
                                 r.destination = source;
                                 deferred.resolve(r);

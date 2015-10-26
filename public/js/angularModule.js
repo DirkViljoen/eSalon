@@ -1076,6 +1076,14 @@ myModule.controller('BookingController', function($scope, $modal, $http, $window
                 console.log(response.data);
                 if (response.data.rows) {
                     $scope.searchResult = response.data.rows;
+                    for (i = 0; i < $scope.searchResult.length; i++) {
+                        if ($scope.searchResult[i].Completed == 1){
+                            $scope.searchResult[i].Completed = true;
+                        }
+                        else{
+                            $scope.searchResult[i].Completed = false;
+                        }
+                    }
                 }
             }, function(err) {
                 $scope.loading = false;
@@ -1341,12 +1349,13 @@ myModule.controller('BookingController', function($scope, $modal, $http, $window
         });
 
         $scope.restartTimer = function() {
-            timer = $interval(function() {$scope.changeCalendar();}, 60000);
+            timer = $interval(function() {$scope.changeCalendar();}, 300000);
         }
 
     // initiating
 
         $scope.initManage = function(eid, view, date, user) {
+            $scope.searchoptions = {Completed:false};
             $scope.user = user;
             $scope.getclients();
             $scope.booking.eid = eid;
@@ -1358,7 +1367,7 @@ myModule.controller('BookingController', function($scope, $modal, $http, $window
             $scope.settings.view = view;
             $scope.settings.date = moment(date);
 
-            timer = $interval(function() {$scope.changeCalendar();}, 60000);
+            timer = $interval(function() {$scope.changeCalendar();}, 300000);
         };
 
         $scope.initAdd = function(date,fullname,eid,user) {

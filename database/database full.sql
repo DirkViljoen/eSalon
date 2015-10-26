@@ -626,9 +626,6 @@ INSERT INTO `Category` (`Category_id`, `Name`) VALUES (3, "Wash");
 INSERT INTO `Stock` VALUES (1, "Maybelline", "Shampoo", 150.00 , 150, True, 100, "10581643", 1, 1);
 INSERT INTO `Stock` VALUES (2, "Tresemme", "Conditioner", 275.00 , 150, True, 40, "90492853", 2, 1);
 INSERT INTO `Stock` VALUES (3, "Wella", "Hair Dye", 100.00 , 100, False, 10, "6053422344", 3, 2);  
-INSERT INTO `Stock` VALUES (4, "Maybelline", "Shampoo", 150.00 , 150, True, 100, "10581643", 1, 1);
-INSERT INTO `Stock` VALUES (5, "Tresemme", "Conditioner", 275.00 , 150, True, 40, "90492853", 2, 1);
-INSERT INTO `Stock` VALUES (6, "Wella", "Hair Dye", 100.00 , 100, False, 10, "6053422344", 3, 2);  
 
 INSERT INTO `Stock_History` VALUES (1,100,"2014-01-01","2014-06-01",1);
 INSERT INTO `Stock_History` VALUES (2,150,"2014-06-01",null,1);
@@ -652,16 +649,6 @@ INSERT INTO `Hair_Length_Service` VALUES (6, 20, 3, 2);
 INSERT INTO `Hair_Length_Service` VALUES (7, 60, 1, 3);
 INSERT INTO `Hair_Length_Service` VALUES (8, 70, 2, 3);
 INSERT INTO `Hair_Length_Service` VALUES (9, 80, 3, 3); 
-
-INSERT INTO `Invoice` VALUES (1,"2015-08-20",50,false,300,3,1,1);
-
-INSERT INTO `Invoice_Service_Line` VALUES (1,160,1,1,null,1);
-
-INSERT INTO `Invoice_Stock_Line` VALUES (1,35,4,1,null,1);
-
-INSERT INTO `Booking` VALUES (1,"2015-07-22 08:00:00",30,true,1,"booking1",1,1,1);
-INSERT INTO `Booking` VALUES (2,"2015-08-22 08:00:00",30,false,1,"booking2",1,1,null);
-INSERT INTO `Booking` VALUES (3,"2015-09-04 08:30:00",60,false,1,"booking3",2,1,null);
 
 INSERT INTO `Order` VALUES (1, "2015-01-01", "2012-01-01", 1);
 
@@ -1826,6 +1813,21 @@ DELIMITER //
         WHERE (`Supplier_ID` = sname
         OR `BrandName` = bname
         OR `ProductName` = pname)
+        AND `Active` = true;
+    END //
+    DELIMITER ;
+    
+DELIMITER //
+    CREATE PROCEDURE spStock_Search_web
+    (
+		in sname varchar(50),
+        in bname varchar(50),
+        in pname varchar(50)
+    )
+    BEGIN
+        SELECT * FROM `Stock`
+        WHERE (`BrandName` LIKE bname
+        OR `ProductName` LIKE pname)
         AND `Active` = true;
     END //
     DELIMITER ;
