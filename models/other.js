@@ -6,7 +6,7 @@ var db = require('../libs/db');
 module.exports = function OtherModel() {
 
     function audit(obj) {
-        console.log('Module - Other - Audit');
+        console.log('Module - Other - Auditing');
 
         var deferred = q.defer();
 
